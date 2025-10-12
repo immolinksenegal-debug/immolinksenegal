@@ -8,35 +8,62 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Backgrounds - Gradient marron terre vers subtil */
+    --background: 30 20% 96%;
+    --foreground: 25 45% 15%;
 
+    /* Cards avec glassmorphism */
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 25 45% 15%;
 
+    /* Popover */
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 25 45% 15%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary - Marron terre africaine */
+    --primary: 25 45% 25%;
+    --primary-foreground: 0 0% 98%;
+    --primary-glow: 25 50% 35%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary - Vert émeraude nature */
+    --secondary: 160 65% 45%;
+    --secondary-foreground: 0 0% 100%;
+    --secondary-glow: 160 70% 55%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Accent - Or élégant */
+    --accent: 40 75% 60%;
+    --accent-foreground: 25 45% 15%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Muted tones */
+    --muted: 30 15% 90%;
+    --muted-foreground: 25 25% 45%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Destructive */
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* Borders & Inputs avec légère teinte marron */
+    --border: 30 15% 85%;
+    --input: 30 15% 88%;
+    --ring: 160 65% 45%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
+    
+    /* Custom gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(25 45% 25%) 0%, hsl(160 65% 45%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(30 20% 98%) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(30 20% 96%) 0%, hsl(160 20% 96%) 100%);
+    
+    /* Shadows élégantes */
+    --shadow-soft: 0 4px 20px -4px hsl(25 45% 25% / 0.1);
+    --shadow-card: 0 8px 30px -6px hsl(25 45% 25% / 0.12);
+    --shadow-elevated: 0 12px 40px -8px hsl(25 45% 25% / 0.15);
+    --shadow-glow-primary: 0 0 30px hsl(25 50% 35% / 0.3);
+    --shadow-glow-secondary: 0 0 30px hsl(160 70% 55% / 0.3);
+    
+    /* Transitions fluides */
+    --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-smooth: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
     --sidebar-background: 0 0% 98%;
 
@@ -56,33 +83,45 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 25 35% 12%;
+    --foreground: 30 20% 96%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 25 30% 15%;
+    --card-foreground: 30 20% 96%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 25 30% 15%;
+    --popover-foreground: 30 20% 96%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 25 50% 35%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 25 55% 45%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 160 60% 40%;
+    --secondary-foreground: 0 0% 100%;
+    --secondary-glow: 160 65% 50%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 40 70% 55%;
+    --accent-foreground: 25 45% 15%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --muted: 25 20% 20%;
+    --muted-foreground: 30 15% 60%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 62% 45%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --border: 25 20% 25%;
+    --input: 25 20% 22%;
+    --ring: 160 60% 40%;
+    
+    --gradient-hero: linear-gradient(135deg, hsl(25 45% 20%) 0%, hsl(160 60% 35%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(25 30% 15%) 0%, hsl(25 25% 18%) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(25 35% 12%) 0%, hsl(160 30% 14%) 100%);
+    
+    --shadow-soft: 0 4px 20px -4px hsl(0 0% 0% / 0.3);
+    --shadow-card: 0 8px 30px -6px hsl(0 0% 0% / 0.4);
+    --shadow-elevated: 0 12px 40px -8px hsl(0 0% 0% / 0.5);
+    --shadow-glow-primary: 0 0 30px hsl(25 55% 45% / 0.4);
+    --shadow-glow-secondary: 0 0 30px hsl(160 65% 50% / 0.4);
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -100,6 +139,67 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: linear-gradient(180deg, hsl(var(--background)) 0%, hsl(30 15% 94%) 100%);
+    background-attachment: fixed;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold;
+  }
+}
+
+@layer utilities {
+  .gradient-hero {
+    background: var(--gradient-hero);
+  }
+  
+  .gradient-card {
+    background: var(--gradient-card);
+  }
+  
+  .gradient-subtle {
+    background: var(--gradient-subtle);
+  }
+  
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+  
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+  
+  .shadow-elevated {
+    box-shadow: var(--shadow-elevated);
+  }
+  
+  .shadow-glow-primary {
+    box-shadow: var(--shadow-glow-primary);
+  }
+  
+  .shadow-glow-secondary {
+    box-shadow: var(--shadow-glow-secondary);
+  }
+  
+  .transition-base {
+    transition: var(--transition-base);
+  }
+  
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+  
+  .hover-lift {
+    @apply transition-smooth;
+  }
+  
+  .hover-lift:hover {
+    @apply -translate-y-1 shadow-elevated;
+  }
+  
+  .glass-effect {
+    @apply bg-white/80 backdrop-blur-md border border-white/20;
   }
 }
