@@ -42,19 +42,19 @@ const Dashboard = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
-      <main className="flex-1 pt-20 pb-12 bg-gradient-subtle">
-        <div className="container mx-auto px-4">
-          <div className="mb-8 animate-fade-in-up">
-            <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
+      <main className="flex-1 pt-16 xs:pt-20 pb-8 xs:pb-12 bg-gradient-subtle">
+        <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-8">
+          <div className="mb-6 xs:mb-8 animate-fade-in-up">
+            <h1 className="text-2xl xs:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-2">
               Tableau de bord
             </h1>
-            <p className="text-muted-foreground">
+            <p className="text-sm xs:text-base text-muted-foreground">
               Gérez vos annonces et suivez vos statistiques
             </p>
           </div>
 
           {/* Stats Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-3 xs:gap-4 md:gap-6 mb-6 xs:mb-8">
             {stats.map((stat, index) => {
               const Icon = stat.icon;
               return (
@@ -63,18 +63,18 @@ const Dashboard = () => {
                   className="hover-lift shadow-card border-border/50 animate-scale-in"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  <CardContent className="pt-6">
+                  <CardContent className="pt-4 xs:pt-6 pb-4 xs:pb-6 px-3 xs:px-6">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm text-muted-foreground mb-1">
+                        <p className="text-xs xs:text-sm text-muted-foreground mb-1">
                           {stat.label}
                         </p>
-                        <p className="text-3xl font-bold text-foreground">
+                        <p className="text-xl xs:text-2xl md:text-3xl font-bold text-foreground">
                           {stat.value}
                         </p>
                       </div>
-                      <div className="w-14 h-14 bg-secondary/10 rounded-xl flex items-center justify-center">
-                        <Icon className="h-7 w-7 text-secondary" />
+                      <div className="w-10 h-10 xs:w-12 xs:h-12 md:w-14 md:h-14 bg-secondary/10 rounded-xl flex items-center justify-center">
+                        <Icon className="h-5 w-5 xs:h-6 xs:w-6 md:h-7 md:w-7 text-secondary" />
                       </div>
                     </div>
                   </CardContent>
@@ -85,66 +85,67 @@ const Dashboard = () => {
 
           {/* Main Content */}
           <Tabs defaultValue="properties" className="animate-fade-in">
-            <TabsList className="mb-6 bg-card shadow-soft">
+            <TabsList className="mb-4 xs:mb-6 bg-card shadow-soft flex-wrap h-auto p-1 gap-1">
               <TabsTrigger
                 value="properties"
-                className="data-[state=active]:bg-secondary data-[state=active]:text-white transition-smooth"
+                className="data-[state=active]:bg-secondary data-[state=active]:text-white transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
               >
-                <Home className="h-4 w-4 mr-2" />
-                Mes annonces
+                <Home className="h-3 w-3 xs:h-4 xs:w-4 mr-1 xs:mr-2" />
+                <span className="hidden xs:inline">Mes annonces</span>
+                <span className="xs:hidden">Annonces</span>
               </TabsTrigger>
               <TabsTrigger
                 value="favorites"
-                className="data-[state=active]:bg-secondary data-[state=active]:text-white transition-smooth"
+                className="data-[state=active]:bg-secondary data-[state=active]:text-white transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
               >
-                <Heart className="h-4 w-4 mr-2" />
+                <Heart className="h-3 w-3 xs:h-4 xs:w-4 mr-1 xs:mr-2" />
                 Favoris
               </TabsTrigger>
               <TabsTrigger
                 value="messages"
-                className="data-[state=active]:bg-secondary data-[state=active]:text-white transition-smooth"
+                className="data-[state=active]:bg-secondary data-[state=active]:text-white transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
               >
-                <MessageSquare className="h-4 w-4 mr-2" />
+                <MessageSquare className="h-3 w-3 xs:h-4 xs:w-4 mr-1 xs:mr-2" />
                 Messages
               </TabsTrigger>
               <TabsTrigger
                 value="settings"
-                className="data-[state=active]:bg-secondary data-[state=active]:text-white transition-smooth"
+                className="data-[state=active]:bg-secondary data-[state=active]:text-white transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
               >
-                <Settings className="h-4 w-4 mr-2" />
+                <Settings className="h-3 w-3 xs:h-4 xs:w-4 mr-1 xs:mr-2" />
                 Paramètres
               </TabsTrigger>
             </TabsList>
 
             <TabsContent value="properties">
               <Card className="shadow-card border-border/50">
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-2xl">Mes annonces</CardTitle>
-                    <Button className="bg-secondary hover:bg-secondary-glow text-white shadow-glow-secondary transition-smooth rounded-xl">
-                      <PlusCircle className="h-4 w-4 mr-2" />
+                <CardHeader className="px-3 xs:px-6 py-4 xs:py-6">
+                  <div className="flex flex-col xs:flex-row items-start xs:items-center justify-between gap-3">
+                    <CardTitle className="text-lg xs:text-xl md:text-2xl">Mes annonces</CardTitle>
+                    <Button className="bg-secondary hover:bg-secondary-glow text-white shadow-glow-secondary transition-smooth rounded-xl text-xs xs:text-sm px-3 xs:px-4 py-2 w-full xs:w-auto">
+                      <PlusCircle className="h-3 w-3 xs:h-4 xs:w-4 mr-1 xs:mr-2" />
                       Nouvelle annonce
                     </Button>
                   </div>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="px-3 xs:px-6">
                   {userProperties.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-6">
                       {userProperties.map((property) => (
                         <PropertyCard key={property.id} {...property} />
                       ))}
                     </div>
                   ) : (
-                    <div className="text-center py-12">
-                      <Home className="h-16 w-16 text-muted-foreground/50 mx-auto mb-4" />
-                      <h3 className="text-xl font-semibold text-foreground mb-2">
+                    <div className="text-center py-8 xs:py-12">
+                      <Home className="h-12 w-12 xs:h-16 xs:w-16 text-muted-foreground/50 mx-auto mb-3 xs:mb-4" />
+                      <h3 className="text-lg xs:text-xl font-semibold text-foreground mb-2">
                         Aucune annonce
                       </h3>
-                      <p className="text-muted-foreground mb-6">
+                      <p className="text-sm xs:text-base text-muted-foreground mb-4 xs:mb-6 px-4">
                         Commencez par publier votre première annonce
                       </p>
-                      <Button className="bg-secondary hover:bg-secondary-glow text-white shadow-glow-secondary transition-smooth rounded-xl">
-                        <PlusCircle className="h-4 w-4 mr-2" />
+                      <Button className="bg-secondary hover:bg-secondary-glow text-white shadow-glow-secondary transition-smooth rounded-xl text-xs xs:text-sm px-3 xs:px-4 py-2">
+                        <PlusCircle className="h-3 w-3 xs:h-4 xs:w-4 mr-1 xs:mr-2" />
                         Créer une annonce
                       </Button>
                     </div>
