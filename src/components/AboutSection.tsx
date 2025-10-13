@@ -74,23 +74,26 @@ const AboutSection = () => {
             })}
           </div>
 
-          <div className="text-center glass-effect rounded-2xl p-8 md:p-12 shadow-elevated">
-            <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
+          <div className="text-center glass-effect rounded-2xl p-6 xs:p-8 md:p-12 shadow-elevated">
+            <h3 className="text-xl xs:text-2xl md:text-3xl font-bold text-foreground mb-3 xs:mb-4">
               Prêt à publier votre bien ?
             </h3>
-            <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
+            <p className="text-sm xs:text-base text-muted-foreground mb-6 max-w-2xl mx-auto px-2">
               Rejoignez des centaines de propriétaires qui ont déjà fait confiance à notre plateforme 
               pour vendre ou louer leurs biens rapidement et efficacement.
             </p>
-            <Link to="/dashboard">
-              <Button
-                size="lg"
-                className="bg-secondary hover:bg-secondary-glow text-white shadow-glow-secondary transition-smooth rounded-xl font-semibold text-lg px-8"
-              >
-                <Sparkles className="mr-2 h-5 w-5" />
-                Publier une annonce maintenant
-              </Button>
-            </Link>
+            <div className="flex justify-center">
+              <Link to="/dashboard" className="w-full xs:w-auto">
+                <Button
+                  size="lg"
+                  className="w-full xs:w-auto bg-secondary hover:bg-secondary-glow text-white shadow-glow-secondary transition-smooth rounded-xl font-semibold text-sm xs:text-base md:text-lg px-4 xs:px-6 md:px-8 py-3 xs:py-4"
+                >
+                  <Sparkles className="mr-2 h-4 w-4 xs:h-5 xs:w-5" />
+                  <span className="hidden xs:inline">Publier une annonce maintenant</span>
+                  <span className="xs:hidden">Publier maintenant</span>
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
