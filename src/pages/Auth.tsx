@@ -1,42 +1,175 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Home, Mail, Lock, User } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { z } from "zod";
+
+const loginSchema = z.object({
+  email: z.string().trim().email({ message: "Email invalide" }),
+  password: z.string().min(6, { message: "Le mot de passe doit contenir au moins 6 caractères" }),
+});
+
+const signupSchema = z.object({
+  name: z.string().trim().min(2, { message: "Le nom doit contenir au moins 2 caractères" }).max(100),
+  email: z.string().trim().email({ message: "Email invalide" }),
+  password: z.string().min(6, { message: "Le mot de passe doit contenir au moins 6 caractères" }),
+});
 
 const Auth = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [loginData, setLoginData] = useState({ email: "", password: "" });
+  const [signupData, setSignupData] = useState({ name: "", email: "", password: "" });
+
+  // Vérifier si l'utilisateur est déjà connecté
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        navigate("/dashboard");
+      }
+    };
+    checkSession();
+
+    // Écouter les changements d'authentification
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN' && session) {
+        navigate("/dashboard");
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [navigate]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     
-    // Simulation d'authentification
-    setTimeout(() => {
-      setIsLoading(false);
-      toast({
-        title: "Connexion réussie",
-        description: "Bienvenue sur Immo Link Sénégal !",
+    try {
+      // Validation
+      const validatedData = loginSchema.parse(loginData);
+      
+      // Connexion avec Supabase
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: validatedData.email,
+        password: validatedData.password,
       });
-    }, 1500);
+
+      if (error) {
+        if (error.message.includes("Invalid login credentials")) {
+          toast({
+            variant: "destructive",
+            title: "Erreur de connexion",
+            description: "Email ou mot de passe incorrect",
+          });
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Erreur de connexion",
+            description: error.message,
+          });
+        }
+        return;
+      }
+
+      if (data.session) {
+        toast({
+          title: "Connexion réussie",
+          description: "Bienvenue sur Immo Link Sénégal !",
+        });
+        // La redirection sera gérée par onAuthStateChange
+      }
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        toast({
+          variant: "destructive",
+          title: "Erreur de validation",
+          description: error.errors[0].message,
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Erreur",
+          description: "Une erreur est survenue lors de la connexion",
+        });
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     
-    // Simulation d'inscription
-    setTimeout(() => {
-      setIsLoading(false);
-      toast({
-        title: "Inscription réussie",
-        description: "Votre compte a été créé avec succès !",
+    try {
+      // Validation
+      const validatedData = signupSchema.parse(signupData);
+      
+      // Inscription avec Supabase
+      const { data, error } = await supabase.auth.signUp({
+        email: validatedData.email,
+        password: validatedData.password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/dashboard`,
+          data: {
+            name: validatedData.name,
+          }
+        }
       });
-    }, 1500);
+
+      if (error) {
+        if (error.message.includes("User already registered")) {
+          toast({
+            variant: "destructive",
+            title: "Erreur d'inscription",
+            description: "Cet email est déjà utilisé",
+          });
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Erreur d'inscription",
+            description: error.message,
+          });
+        }
+        return;
+      }
+
+      if (data.session) {
+        toast({
+          title: "Inscription réussie",
+          description: "Votre compte a été créé avec succès !",
+        });
+        // La redirection sera gérée par onAuthStateChange
+      } else {
+        toast({
+          title: "Vérifiez votre email",
+          description: "Un email de confirmation a été envoyé à votre adresse",
+        });
+      }
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        toast({
+          variant: "destructive",
+          title: "Erreur de validation",
+          description: error.errors[0].message,
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Erreur",
+          description: "Une erreur est survenue lors de l'inscription",
+        });
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -87,6 +220,8 @@ const Auth = () => {
                       type="email"
                       placeholder="votre@email.com"
                       className="pl-10 bg-white/90 border-white/30 h-12 rounded-xl"
+                      value={loginData.email}
+                      onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
                       required
                     />
                   </div>
@@ -103,6 +238,8 @@ const Auth = () => {
                       type="password"
                       placeholder="••••••••"
                       className="pl-10 bg-white/90 border-white/30 h-12 rounded-xl"
+                      value={loginData.password}
+                      onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
                       required
                     />
                   </div>
@@ -141,6 +278,8 @@ const Auth = () => {
                       type="text"
                       placeholder="Votre nom"
                       className="pl-10 bg-white/90 border-white/30 h-12 rounded-xl"
+                      value={signupData.name}
+                      onChange={(e) => setSignupData({ ...signupData, name: e.target.value })}
                       required
                     />
                   </div>
@@ -157,6 +296,8 @@ const Auth = () => {
                       type="email"
                       placeholder="votre@email.com"
                       className="pl-10 bg-white/90 border-white/30 h-12 rounded-xl"
+                      value={signupData.email}
+                      onChange={(e) => setSignupData({ ...signupData, email: e.target.value })}
                       required
                     />
                   </div>
@@ -173,6 +314,8 @@ const Auth = () => {
                       type="password"
                       placeholder="••••••••"
                       className="pl-10 bg-white/90 border-white/30 h-12 rounded-xl"
+                      value={signupData.password}
+                      onChange={(e) => setSignupData({ ...signupData, password: e.target.value })}
                       required
                     />
                   </div>

@@ -1,20 +1,54 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Home, PlusCircle, User, Menu } from "lucide-react";
-import { useState } from "react";
+import { Home, PlusCircle, User, Menu, LogOut } from "lucide-react";
+import { useState, useEffect } from "react";
 import {
   Sheet,
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const navigate = useNavigate();
+  const { toast } = useToast();
 
-  const navLinks = [
-    { to: "/", label: "Accueil", icon: Home },
-    { to: "/auth", label: "Connexion", icon: User },
-  ];
+  useEffect(() => {
+    // Vérifier la session au chargement
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    // Écouter les changements d'authentification
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    toast({
+      title: "Déconnexion réussie",
+      description: "À bientôt !",
+    });
+    navigate("/");
+    setIsOpen(false);
+  };
+
+  const navLinks = user
+    ? [
+        { to: "/", label: "Accueil", icon: Home },
+        { to: "/dashboard", label: "Dashboard", icon: PlusCircle },
+      ]
+    : [
+        { to: "/", label: "Accueil", icon: Home },
+        { to: "/auth", label: "Connexion", icon: User },
+      ];
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 glass-effect shadow-soft">
@@ -43,13 +77,25 @@ const Navbar = () => {
                 </Button>
               </Link>
             ))}
-            <Link to="/dashboard">
-              <Button className="bg-secondary hover:bg-secondary-glow text-white shadow-glow-secondary transition-smooth text-xs lg:text-sm px-2 lg:px-4">
-                <PlusCircle className="h-3 w-3 lg:h-4 lg:w-4 mr-1 lg:mr-2" />
-                <span className="hidden xl:inline">Publier une annonce</span>
-                <span className="xl:hidden">Publier</span>
+            {user ? (
+              <Button 
+                onClick={handleLogout}
+                variant="ghost" 
+                className="transition-base hover:text-secondary text-xs lg:text-sm"
+              >
+                <LogOut className="h-3 w-3 lg:h-4 lg:w-4 mr-1 lg:mr-2" />
+                <span className="hidden lg:inline">Déconnexion</span>
+                <span className="lg:hidden">Sortir</span>
               </Button>
-            </Link>
+            ) : (
+              <Link to="/dashboard">
+                <Button className="bg-secondary hover:bg-secondary-glow text-white shadow-glow-secondary transition-smooth text-xs lg:text-sm px-2 lg:px-4">
+                  <PlusCircle className="h-3 w-3 lg:h-4 lg:w-4 mr-1 lg:mr-2" />
+                  <span className="hidden xl:inline">Publier une annonce</span>
+                  <span className="xl:hidden">Publier</span>
+                </Button>
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu */}
@@ -73,12 +119,23 @@ const Navbar = () => {
                     </Button>
                   </Link>
                 ))}
-                <Link to="/dashboard" onClick={() => setIsOpen(false)}>
-                  <Button className="w-full bg-secondary hover:bg-secondary-glow text-white transition-smooth text-sm xs:text-base">
-                    <PlusCircle className="h-4 w-4 mr-2" />
-                    Publier une annonce
+                {user ? (
+                  <Button 
+                    onClick={handleLogout}
+                    variant="ghost" 
+                    className="w-full justify-start transition-base hover:text-secondary text-sm xs:text-base"
+                  >
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Déconnexion
                   </Button>
-                </Link>
+                ) : (
+                  <Link to="/dashboard" onClick={() => setIsOpen(false)}>
+                    <Button className="w-full bg-secondary hover:bg-secondary-glow text-white transition-smooth text-sm xs:text-base">
+                      <PlusCircle className="h-4 w-4 mr-2" />
+                      Publier une annonce
+                    </Button>
+                  </Link>
+                )}
               </div>
             </SheetContent>
           </Sheet>
