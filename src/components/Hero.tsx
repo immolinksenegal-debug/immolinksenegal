@@ -25,22 +25,22 @@ const Hero = () => {
       </div>
 
       {/* Content */}
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-4xl mx-auto text-center animate-fade-in-up">
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
+      <div className="container mx-auto px-2 xs:px-4 relative z-10">
+        <div className="max-w-4xl mx-auto text-center animate-fade-in-up flex flex-col items-center">
+          <h1 className="text-3xl xs:text-4xl md:text-6xl font-bold text-white mb-4 xs:mb-6 leading-tight px-2">
             Trouvez votre bien immobilier idéal au{" "}
             <span className="text-secondary-glow">Sénégal</span>
           </h1>
-          <p className="text-lg md:text-xl text-white/90 mb-10 max-w-2xl mx-auto">
+          <p className="text-base xs:text-lg md:text-xl text-white/90 mb-8 xs:mb-10 max-w-2xl mx-auto px-4">
             La plateforme moderne et intuitive pour acheter, vendre ou louer votre propriété
           </p>
 
           {/* Search Bar */}
-          <div className="glass-effect rounded-2xl p-6 shadow-elevated max-w-3xl mx-auto animate-scale-in">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div className="md:col-span-1">
+          <div className="glass-effect rounded-2xl p-4 xs:p-6 shadow-elevated w-full max-w-3xl mx-auto animate-scale-in">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 xs:gap-4">
+              <div className="sm:col-span-1">
                 <Select>
-                  <SelectTrigger className="w-full bg-white/90 border-white/30 h-12 rounded-xl">
+                  <SelectTrigger className="w-full bg-white/90 border-white/30 h-11 xs:h-12 rounded-xl text-sm xs:text-base">
                     <Home className="h-4 w-4 mr-2 text-primary" />
                     <SelectValue placeholder="Type" />
                   </SelectTrigger>
@@ -54,29 +54,29 @@ const Hero = () => {
                 </Select>
               </div>
 
-              <div className="md:col-span-1">
+              <div className="sm:col-span-1">
                 <div className="relative">
                   <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-primary" />
                   <Input
                     placeholder="Ville"
-                    className="pl-10 bg-white/90 border-white/30 h-12 rounded-xl"
+                    className="pl-10 bg-white/90 border-white/30 h-11 xs:h-12 rounded-xl text-sm xs:text-base"
                   />
                 </div>
               </div>
 
-              <div className="md:col-span-1">
+              <div className="sm:col-span-1">
                 <div className="relative">
                   <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-primary" />
                   <Input
                     placeholder="Prix max"
                     type="number"
-                    className="pl-10 bg-white/90 border-white/30 h-12 rounded-xl"
+                    className="pl-10 bg-white/90 border-white/30 h-11 xs:h-12 rounded-xl text-sm xs:text-base"
                   />
                 </div>
               </div>
 
-              <div className="md:col-span-1">
-                <Button className="w-full h-12 bg-secondary hover:bg-secondary-glow text-white shadow-glow-secondary transition-smooth rounded-xl font-semibold">
+              <div className="sm:col-span-2 lg:col-span-1">
+                <Button className="w-full h-11 xs:h-12 bg-secondary hover:bg-secondary-glow text-white shadow-glow-secondary transition-smooth rounded-xl font-semibold text-sm xs:text-base">
                   <Search className="h-4 w-4 mr-2" />
                   Rechercher
                 </Button>
@@ -85,7 +85,7 @@ const Hero = () => {
           </div>
 
           {/* Quick Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12 max-w-3xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 xs:gap-4 md:gap-6 mt-8 xs:mt-12 w-full max-w-3xl mx-auto px-2">
             {[
               { label: "Biens disponibles", value: "500+" },
               { label: "Villes couvertes", value: "15+" },
@@ -94,12 +94,12 @@ const Hero = () => {
             ].map((stat, index) => (
               <div
                 key={index}
-                className="glass-effect rounded-xl p-4 hover-lift"
+                className="glass-effect rounded-xl p-3 xs:p-4 hover-lift text-center flex flex-col items-center justify-center"
               >
-                <div className="text-2xl md:text-3xl font-bold text-white mb-1">
+                <div className="text-xl xs:text-2xl md:text-3xl font-bold text-white mb-1">
                   {stat.value}
                 </div>
-                <div className="text-sm text-white/80">{stat.label}</div>
+                <div className="text-xs xs:text-sm text-white/80">{stat.label}</div>
               </div>
             ))}
           </div>

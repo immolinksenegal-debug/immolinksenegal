@@ -27,44 +27,44 @@ const AboutSection = () => {
   ];
 
   return (
-    <section className="py-20 bg-background">
-      <div className="container mx-auto px-4">
+    <section className="py-12 xs:py-16 md:py-20 bg-background">
+      <div className="container mx-auto px-2 xs:px-4">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16 animate-fade-in-up">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+          <div className="text-center mb-10 xs:mb-16 animate-fade-in-up flex flex-col items-center">
+            <h2 className="text-2xl xs:text-3xl md:text-4xl font-bold text-foreground mb-3 xs:mb-4 px-2">
               À propos d'{" "}
               <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
                 Immo Link Sénégal
               </span>
             </h2>
-            <p className="text-muted-foreground text-lg max-w-3xl mx-auto leading-relaxed">
+            <p className="text-sm xs:text-base md:text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed px-4">
               La plateforme immobilière nouvelle génération qui révolutionne la façon dont 
               les Sénégalais trouvent, achètent et vendent leurs biens immobiliers. 
               Une fusion parfaite entre technologie moderne et connaissance locale.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xs:gap-6 md:gap-8 mb-8 xs:mb-12">
             {features.map((feature, index) => {
               const Icon = feature.icon;
               return (
                 <div
                   key={index}
-                  className="group p-6 rounded-2xl gradient-card shadow-card hover-lift border border-border/50 animate-scale-in"
+                  className="group p-4 xs:p-6 rounded-2xl gradient-card shadow-card hover-lift border border-border/50 animate-scale-in flex flex-col items-center text-center md:text-left md:items-start"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  <div className="flex items-start gap-4">
-                    <div className="relative">
+                  <div className="flex flex-col md:flex-row items-center md:items-start gap-4 w-full">
+                    <div className="relative flex-shrink-0">
                       <div className="absolute inset-0 bg-secondary rounded-xl blur-sm opacity-30 group-hover:opacity-60 transition-smooth"></div>
-                      <div className="relative w-14 h-14 bg-secondary/10 rounded-xl flex items-center justify-center">
-                        <Icon className="h-7 w-7 text-secondary" />
+                      <div className="relative w-12 h-12 xs:w-14 xs:h-14 bg-secondary/10 rounded-xl flex items-center justify-center">
+                        <Icon className="h-6 w-6 xs:h-7 xs:w-7 text-secondary" />
                       </div>
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-xl font-semibold text-foreground mb-2 group-hover:text-secondary transition-base">
+                      <h3 className="text-lg xs:text-xl font-semibold text-foreground mb-2 group-hover:text-secondary transition-base">
                         {feature.title}
                       </h3>
-                      <p className="text-muted-foreground leading-relaxed">
+                      <p className="text-sm xs:text-base text-muted-foreground leading-relaxed">
                         {feature.description}
                       </p>
                     </div>

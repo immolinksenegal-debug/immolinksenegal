@@ -47,19 +47,19 @@ const FeaturedProperties = () => {
   ];
 
   return (
-    <section className="py-20 bg-gradient-subtle">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12 animate-fade-in-up">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+    <section className="py-12 xs:py-16 md:py-20 bg-gradient-subtle">
+      <div className="container mx-auto px-2 xs:px-4">
+        <div className="text-center mb-8 xs:mb-12 animate-fade-in-up flex flex-col items-center">
+          <h2 className="text-2xl xs:text-3xl md:text-4xl font-bold text-foreground mb-3 xs:mb-4 px-2">
             Biens immobiliers{" "}
             <span className="text-secondary">populaires</span>
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+          <p className="text-sm xs:text-base md:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
             Découvrez notre sélection de biens d'exception au Sénégal
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-6 md:gap-8 mb-8 xs:mb-12">
           {properties.map((property, index) => (
             <div
               key={property.id}
@@ -71,15 +71,15 @@ const FeaturedProperties = () => {
           ))}
         </div>
 
-        <div className="text-center">
-          <Link to="/">
+        <div className="flex justify-center px-4">
+          <Link to="/" className="w-full xs:w-auto flex justify-center">
             <Button
               size="lg"
               variant="outline"
-              className="border-2 border-secondary text-secondary hover:bg-secondary hover:text-white transition-smooth rounded-xl font-semibold shadow-soft"
+              className="w-full xs:w-auto border-2 border-secondary text-secondary hover:bg-secondary hover:text-white transition-smooth rounded-xl font-semibold shadow-soft text-sm xs:text-base px-4 xs:px-6 py-3"
             >
               Voir tous les biens
-              <ArrowRight className="ml-2 h-5 w-5" />
+              <ArrowRight className="ml-2 h-4 w-4 xs:h-5 xs:w-5" />
             </Button>
           </Link>
         </div>
