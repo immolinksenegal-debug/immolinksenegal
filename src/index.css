@@ -8,58 +8,58 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Backgrounds - Gradient marron terre vers subtil */
-    --background: 30 20% 96%;
-    --foreground: 25 45% 15%;
+    /* Backgrounds - Tons clairs du logo */
+    --background: 30 15% 96%;
+    --foreground: 150 45% 20%;
 
     /* Cards avec glassmorphism */
     --card: 0 0% 100%;
-    --card-foreground: 25 45% 15%;
+    --card-foreground: 150 45% 20%;
 
     /* Popover */
     --popover: 0 0% 100%;
-    --popover-foreground: 25 45% 15%;
+    --popover-foreground: 150 45% 20%;
 
-    /* Primary - Marron terre africaine */
-    --primary: 25 45% 25%;
+    /* Primary - Vert foncé du logo (IMMO LINK) */
+    --primary: 150 60% 25%;
     --primary-foreground: 0 0% 98%;
-    --primary-glow: 25 50% 35%;
+    --primary-glow: 150 65% 35%;
 
-    /* Secondary - Vert émeraude nature */
-    --secondary: 160 65% 45%;
-    --secondary-foreground: 0 0% 100%;
-    --secondary-glow: 160 70% 55%;
+    /* Secondary - Or/Doré du logo (SÉNÉGAL et lien) */
+    --secondary: 40 50% 55%;
+    --secondary-foreground: 150 45% 20%;
+    --secondary-glow: 40 60% 65%;
 
-    /* Accent - Or élégant */
-    --accent: 40 75% 60%;
-    --accent-foreground: 25 45% 15%;
+    /* Accent - Bleu foncé du bâtiment */
+    --accent: 200 60% 35%;
+    --accent-foreground: 0 0% 98%;
 
     /* Muted tones */
     --muted: 30 15% 90%;
-    --muted-foreground: 25 25% 45%;
+    --muted-foreground: 150 25% 40%;
 
     /* Destructive */
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 98%;
 
-    /* Borders & Inputs avec légère teinte marron */
+    /* Borders & Inputs avec légère teinte */
     --border: 30 15% 85%;
     --input: 30 15% 88%;
-    --ring: 160 65% 45%;
+    --ring: 150 60% 25%;
 
     --radius: 0.75rem;
     
-    /* Custom gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(25 45% 25%) 0%, hsl(160 65% 45%) 100%);
+    /* Custom gradients - Couleurs du logo */
+    --gradient-hero: linear-gradient(135deg, hsl(150 60% 25%) 0%, hsl(40 50% 55%) 100%);
     --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(30 20% 98%) 100%);
-    --gradient-subtle: linear-gradient(180deg, hsl(30 20% 96%) 0%, hsl(160 20% 96%) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(30 15% 96%) 0%, hsl(150 20% 94%) 100%);
     
-    /* Shadows élégantes */
-    --shadow-soft: 0 4px 20px -4px hsl(25 45% 25% / 0.1);
-    --shadow-card: 0 8px 30px -6px hsl(25 45% 25% / 0.12);
-    --shadow-elevated: 0 12px 40px -8px hsl(25 45% 25% / 0.15);
-    --shadow-glow-primary: 0 0 30px hsl(25 50% 35% / 0.3);
-    --shadow-glow-secondary: 0 0 30px hsl(160 70% 55% / 0.3);
+    /* Shadows élégantes avec les couleurs du logo */
+    --shadow-soft: 0 4px 20px -4px hsl(150 60% 25% / 0.1);
+    --shadow-card: 0 8px 30px -6px hsl(150 60% 25% / 0.12);
+    --shadow-elevated: 0 12px 40px -8px hsl(150 60% 25% / 0.15);
+    --shadow-glow-primary: 0 0 30px hsl(150 65% 35% / 0.3);
+    --shadow-glow-secondary: 0 0 30px hsl(40 60% 65% / 0.3);
     
     /* Transitions fluides */
     --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -83,45 +83,45 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 25 35% 12%;
+    --background: 150 30% 12%;
     --foreground: 30 20% 96%;
 
-    --card: 25 30% 15%;
+    --card: 150 25% 15%;
     --card-foreground: 30 20% 96%;
 
-    --popover: 25 30% 15%;
+    --popover: 150 25% 15%;
     --popover-foreground: 30 20% 96%;
 
-    --primary: 25 50% 35%;
+    --primary: 150 55% 30%;
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 25 55% 45%;
+    --primary-glow: 150 60% 40%;
 
-    --secondary: 160 60% 40%;
-    --secondary-foreground: 0 0% 100%;
-    --secondary-glow: 160 65% 50%;
+    --secondary: 40 55% 50%;
+    --secondary-foreground: 150 45% 20%;
+    --secondary-glow: 40 65% 60%;
 
-    --accent: 40 70% 55%;
-    --accent-foreground: 25 45% 15%;
+    --accent: 200 55% 40%;
+    --accent-foreground: 0 0% 100%;
 
-    --muted: 25 20% 20%;
+    --muted: 150 20% 20%;
     --muted-foreground: 30 15% 60%;
 
     --destructive: 0 62% 45%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 25 20% 25%;
-    --input: 25 20% 22%;
-    --ring: 160 60% 40%;
+    --border: 150 20% 25%;
+    --input: 150 20% 22%;
+    --ring: 150 55% 30%;
     
-    --gradient-hero: linear-gradient(135deg, hsl(25 45% 20%) 0%, hsl(160 60% 35%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(25 30% 15%) 0%, hsl(25 25% 18%) 100%);
-    --gradient-subtle: linear-gradient(180deg, hsl(25 35% 12%) 0%, hsl(160 30% 14%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(150 55% 20%) 0%, hsl(40 55% 45%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(150 25% 15%) 0%, hsl(150 20% 18%) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(150 30% 12%) 0%, hsl(150 25% 14%) 100%);
     
     --shadow-soft: 0 4px 20px -4px hsl(0 0% 0% / 0.3);
     --shadow-card: 0 8px 30px -6px hsl(0 0% 0% / 0.4);
     --shadow-elevated: 0 12px 40px -8px hsl(0 0% 0% / 0.5);
-    --shadow-glow-primary: 0 0 30px hsl(25 55% 45% / 0.4);
-    --shadow-glow-secondary: 0 0 30px hsl(160 65% 50% / 0.4);
+    --shadow-glow-primary: 0 0 30px hsl(150 60% 40% / 0.4);
+    --shadow-glow-secondary: 0 0 30px hsl(40 65% 60% / 0.4);
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
