@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import {
   Home,
   PlusCircle,
@@ -16,19 +17,18 @@ import PropertyCard from "@/components/PropertyCard";
 import PropertyForm from "@/components/PropertyForm";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { Skeleton } from "@/components/ui/skeleton";
 
 const Dashboard = () => {
   const { toast } = useToast();
-  const [showForm, setShowForm] = useState(false);
-  const [properties, setProperties] = useState<any[]>([]);
+  const [showPropertyForm, setShowPropertyForm] = useState(false);
+  const [userProperties, setUserProperties] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [stats, setStats] = useState({
-    activeAds: 0,
-    totalViews: 0,
-    messages: 0,
-    favorites: 0,
-  });
+  const [stats, setStats] = useState([
+    { label: "Annonces actives", value: "0", icon: Home },
+    { label: "Vues totales", value: "0", icon: Eye },
+    { label: "Messages", value: "0", icon: MessageSquare },
+    { label: "Favoris", value: "0", icon: Heart },
+  ]);
 
   useEffect(() => {
     fetchUserProperties();
@@ -36,37 +36,39 @@ const Dashboard = () => {
 
   const fetchUserProperties = async () => {
     try {
-      setIsLoading(true);
       const { data: { user } } = await supabase.auth.getUser();
-      
-      if (!user) {
-        toast({
-          title: "Erreur",
-          description: "Vous devez être connecté",
-          variant: "destructive",
-        });
-        return;
-      }
+      if (!user) return;
 
       const { data, error } = await supabase
-        .from("properties")
-        .select("*")
-        .eq("user_id", user.id)
-        .order("created_at", { ascending: false });
+        .from('properties')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false });
 
       if (error) throw error;
 
-      setProperties(data || []);
-      
-      // Calculate stats
-      const totalViews = data?.reduce((sum, prop) => sum + (prop.views || 0), 0) || 0;
-      setStats({
-        activeAds: data?.filter(p => p.status === "active").length || 0,
-        totalViews,
-        messages: 0, // TODO: implement when messaging is added
-        favorites: 0, // TODO: implement when favorites is added
-      });
-    } catch (error: any) {
+      const formattedProperties = data.map((prop: any) => ({
+        id: prop.id,
+        title: prop.title,
+        location: `${prop.location}, ${prop.city}`,
+        price: prop.price.toLocaleString('fr-FR'),
+        bedrooms: prop.bedrooms,
+        bathrooms: prop.bathrooms,
+        surface: prop.surface,
+        image: prop.images && prop.images.length > 0 ? prop.images[0] : '',
+        type: prop.type,
+      }));
+
+      setUserProperties(formattedProperties);
+
+      const totalViews = data.reduce((sum: number, prop: any) => sum + (prop.views || 0), 0);
+      setStats([
+        { label: "Annonces actives", value: data.length.toString(), icon: Home },
+        { label: "Vues totales", value: totalViews.toString(), icon: Eye },
+        { label: "Messages", value: "0", icon: MessageSquare },
+        { label: "Favoris", value: "0", icon: Heart },
+      ]);
+    } catch (error) {
       console.error("Error fetching properties:", error);
       toast({
         title: "Erreur",
@@ -79,16 +81,9 @@ const Dashboard = () => {
   };
 
   const handleFormSuccess = () => {
-    setShowForm(false);
+    setShowPropertyForm(false);
     fetchUserProperties();
   };
-
-  const statsDisplay = [
-    { label: "Annonces actives", value: stats.activeAds.toString(), icon: Home },
-    { label: "Vues totales", value: stats.totalViews.toString(), icon: Eye },
-    { label: "Messages", value: stats.messages.toString(), icon: MessageSquare },
-    { label: "Favoris", value: stats.favorites.toString(), icon: Heart },
-  ];
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -107,7 +102,7 @@ const Dashboard = () => {
 
           {/* Stats Grid */}
           <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-3 xs:gap-4 md:gap-6 mb-6 xs:mb-8">
-            {statsDisplay.map((stat, index) => {
+            {stats.map((stat, index) => {
               const Icon = stat.icon;
               return (
                 <Card
@@ -170,74 +165,50 @@ const Dashboard = () => {
             </TabsList>
 
             <TabsContent value="properties">
-              {showForm ? (
-                <PropertyForm 
-                  onSuccess={handleFormSuccess}
-                  onCancel={() => setShowForm(false)}
-                />
-              ) : (
-                <Card className="shadow-card border-border/50">
-                  <CardHeader className="px-3 xs:px-6 py-4 xs:py-6">
-                    <div className="flex flex-col xs:flex-row items-start xs:items-center justify-between gap-3">
-                      <CardTitle className="text-lg xs:text-xl md:text-2xl">Mes annonces</CardTitle>
+              <Card className="shadow-card border-border/50">
+                <CardHeader className="px-3 xs:px-6 py-4 xs:py-6">
+                  <div className="flex flex-col xs:flex-row items-start xs:items-center justify-between gap-3">
+                    <CardTitle className="text-lg xs:text-xl md:text-2xl">Mes annonces</CardTitle>
+                    <Button 
+                      onClick={() => setShowPropertyForm(true)}
+                      className="bg-secondary hover:bg-secondary-glow text-white shadow-glow-secondary transition-smooth rounded-xl text-xs xs:text-sm px-3 xs:px-4 py-2 w-full xs:w-auto"
+                    >
+                      <PlusCircle className="h-3 w-3 xs:h-4 xs:w-4 mr-1 xs:mr-2" />
+                      Nouvelle annonce
+                    </Button>
+                  </div>
+                </CardHeader>
+                <CardContent className="px-3 xs:px-6">
+                  {isLoading ? (
+                    <div className="text-center py-12">
+                      <p className="text-muted-foreground">Chargement...</p>
+                    </div>
+                  ) : userProperties.length > 0 ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-6">
+                      {userProperties.map((property) => (
+                        <PropertyCard key={property.id} {...property} />
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8 xs:py-12">
+                      <Home className="h-12 w-12 xs:h-16 xs:w-16 text-muted-foreground/50 mx-auto mb-3 xs:mb-4" />
+                      <h3 className="text-lg xs:text-xl font-semibold text-foreground mb-2">
+                        Aucune annonce
+                      </h3>
+                      <p className="text-sm xs:text-base text-muted-foreground mb-4 xs:mb-6 px-4">
+                        Commencez par publier votre première annonce
+                      </p>
                       <Button 
-                        onClick={() => setShowForm(true)}
-                        className="bg-secondary hover:bg-secondary-glow text-white shadow-glow-secondary transition-smooth rounded-xl text-xs xs:text-sm px-3 xs:px-4 py-2 w-full xs:w-auto"
+                        onClick={() => setShowPropertyForm(true)}
+                        className="bg-secondary hover:bg-secondary-glow text-white shadow-glow-secondary transition-smooth rounded-xl text-xs xs:text-sm px-3 xs:px-4 py-2"
                       >
                         <PlusCircle className="h-3 w-3 xs:h-4 xs:w-4 mr-1 xs:mr-2" />
-                        Nouvelle annonce
+                        Créer une annonce
                       </Button>
                     </div>
-                  </CardHeader>
-                  <CardContent className="px-3 xs:px-6">
-                    {isLoading ? (
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-6">
-                        {[1, 2, 3].map((i) => (
-                          <div key={i} className="space-y-3">
-                            <Skeleton className="h-48 w-full rounded-xl" />
-                            <Skeleton className="h-4 w-3/4" />
-                            <Skeleton className="h-4 w-1/2" />
-                          </div>
-                        ))}
-                      </div>
-                    ) : properties.length > 0 ? (
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-6">
-                        {properties.map((property) => (
-                          <PropertyCard 
-                            key={property.id} 
-                            id={property.id}
-                            title={property.title}
-                            location={`${property.location}, ${property.city}`}
-                            price={property.price.toLocaleString('fr-FR')}
-                            bedrooms={property.bedrooms}
-                            bathrooms={property.bathrooms}
-                            surface={property.surface}
-                            image={property.images?.[0] || ""}
-                            type={property.type}
-                          />
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="text-center py-8 xs:py-12">
-                        <Home className="h-12 w-12 xs:h-16 xs:w-16 text-muted-foreground/50 mx-auto mb-3 xs:mb-4" />
-                        <h3 className="text-lg xs:text-xl font-semibold text-foreground mb-2">
-                          Aucune annonce
-                        </h3>
-                        <p className="text-sm xs:text-base text-muted-foreground mb-4 xs:mb-6 px-4">
-                          Commencez par publier votre première annonce
-                        </p>
-                        <Button 
-                          onClick={() => setShowForm(true)}
-                          className="bg-secondary hover:bg-secondary-glow text-white shadow-glow-secondary transition-smooth rounded-xl text-xs xs:text-sm px-3 xs:px-4 py-2"
-                        >
-                          <PlusCircle className="h-3 w-3 xs:h-4 xs:w-4 mr-1 xs:mr-2" />
-                          Créer une annonce
-                        </Button>
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
-              )}
+                  )}
+                </CardContent>
+              </Card>
             </TabsContent>
 
             <TabsContent value="favorites">
@@ -313,6 +284,12 @@ const Dashboard = () => {
           </Tabs>
         </div>
       </main>
+
+      <Dialog open={showPropertyForm} onOpenChange={setShowPropertyForm}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          <PropertyForm onSuccess={handleFormSuccess} />
+        </DialogContent>
+      </Dialog>
 
       <Footer />
     </div>

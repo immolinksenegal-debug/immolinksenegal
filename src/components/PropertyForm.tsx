@@ -1,96 +1,77 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader2, Upload, X } from "lucide-react";
-import { z } from "zod";
+import { Upload, X, Loader2 } from "lucide-react";
 
 const propertySchema = z.object({
   title: z.string().min(5, "Le titre doit contenir au moins 5 caractères").max(100),
   description: z.string().min(20, "La description doit contenir au moins 20 caractères").max(2000),
-  type: z.string().min(1, "Veuillez sélectionner un type"),
-  price: z.number().min(1, "Le prix doit être supérieur à 0"),
-  location: z.string().min(3, "L'emplacement est requis").max(200),
-  city: z.string().min(2, "La ville est requise").max(100),
-  bedrooms: z.number().min(0).optional(),
-  bathrooms: z.number().min(0).optional(),
-  surface: z.number().min(1, "La surface doit être supérieure à 0").optional(),
+  type: z.string().min(1, "Veuillez sélectionner un type de bien"),
+  price: z.string().min(1, "Le prix est requis"),
+  location: z.string().min(3, "L'adresse est requise"),
+  city: z.string().min(2, "La ville est requise"),
+  bedrooms: z.string().optional(),
+  bathrooms: z.string().optional(),
+  surface: z.string().min(1, "La surface est requise"),
 });
+
+type PropertyFormData = z.infer<typeof propertySchema>;
 
 interface PropertyFormProps {
   onSuccess?: () => void;
-  onCancel?: () => void;
 }
 
-const PropertyForm = ({ onSuccess, onCancel }: PropertyFormProps) => {
+const PropertyForm = ({ onSuccess }: PropertyFormProps) => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [images, setImages] = useState<File[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
 
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    type: "",
-    price: "",
-    location: "",
-    city: "",
-    bedrooms: "",
-    bathrooms: "",
-    surface: "",
+  const { register, handleSubmit, formState: { errors }, setValue } = useForm<PropertyFormData>({
+    resolver: zodResolver(propertySchema),
   });
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
-    
-    if (images.length + files.length > 5) {
+    if (files.length + images.length > 5) {
       toast({
-        title: "Erreur",
-        description: "Vous ne pouvez télécharger que 5 images maximum",
+        title: "Trop d'images",
+        description: "Vous pouvez télécharger jusqu'à 5 images maximum",
         variant: "destructive",
       });
       return;
     }
 
-    const newImages = [...images, ...files];
-    setImages(newImages);
-
-    // Create previews
-    const newPreviews = [...imagePreviews];
+    setImages((prev) => [...prev, ...files]);
     files.forEach((file) => {
       const reader = new FileReader();
       reader.onloadend = () => {
-        newPreviews.push(reader.result as string);
-        setImagePreviews([...newPreviews]);
+        setImagePreviews((prev) => [...prev, reader.result as string]);
       };
       reader.readAsDataURL(file);
     });
   };
 
   const removeImage = (index: number) => {
-    setImages(images.filter((_, i) => i !== index));
-    setImagePreviews(imagePreviews.filter((_, i) => i !== index));
+    setImages((prev) => prev.filter((_, i) => i !== index));
+    setImagePreviews((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit = async (data: PropertyFormData) => {
     setIsLoading(true);
 
     try {
-      // Get current user
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
         toast({
@@ -102,54 +83,40 @@ const PropertyForm = ({ onSuccess, onCancel }: PropertyFormProps) => {
         return;
       }
 
-      // Validate form
-      const validatedData = propertySchema.parse({
-        title: formData.title,
-        description: formData.description,
-        type: formData.type,
-        price: parseFloat(formData.price),
-        location: formData.location,
-        city: formData.city,
-        bedrooms: formData.bedrooms ? parseInt(formData.bedrooms) : undefined,
-        bathrooms: formData.bathrooms ? parseInt(formData.bathrooms) : undefined,
-        surface: formData.surface ? parseFloat(formData.surface) : undefined,
-      });
-
-      // Upload images
       const imageUrls: string[] = [];
       for (const image of images) {
-        const fileExt = image.name.split(".").pop();
-        const fileName = `${user.id}/${Date.now()}.${fileExt}`;
+        const fileExt = image.name.split('.').pop();
+        const fileName = `${user.id}/${Math.random()}.${fileExt}`;
         
-        const { error: uploadError, data } = await supabase.storage
-          .from("property-images")
+        const { error: uploadError } = await supabase.storage
+          .from('property-images')
           .upload(fileName, image);
 
         if (uploadError) throw uploadError;
 
         const { data: { publicUrl } } = supabase.storage
-          .from("property-images")
+          .from('property-images')
           .getPublicUrl(fileName);
-        
+
         imageUrls.push(publicUrl);
       }
 
-      // Create property
       const { error: insertError } = await supabase
-        .from("properties")
-        .insert([{
-          title: validatedData.title,
-          description: validatedData.description,
-          type: validatedData.type,
-          price: validatedData.price,
-          location: validatedData.location,
-          city: validatedData.city,
-          bedrooms: validatedData.bedrooms,
-          bathrooms: validatedData.bathrooms,
-          surface: validatedData.surface,
+        .from('properties')
+        .insert({
           user_id: user.id,
+          title: data.title,
+          description: data.description,
+          type: data.type,
+          price: parseFloat(data.price),
+          location: data.location,
+          city: data.city,
+          bedrooms: data.bedrooms ? parseInt(data.bedrooms) : null,
+          bathrooms: data.bathrooms ? parseInt(data.bathrooms) : null,
+          surface: parseFloat(data.surface),
           images: imageUrls,
-        }]);
+          status: 'active',
+        });
 
       if (insertError) throw insertError;
 
@@ -163,11 +130,11 @@ const PropertyForm = ({ onSuccess, onCancel }: PropertyFormProps) => {
       } else {
         navigate("/dashboard");
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error("Error creating property:", error);
       toast({
         title: "Erreur",
-        description: error.message || "Une erreur est survenue lors de la création de l'annonce",
+        description: "Une erreur est survenue lors de la création de l'annonce",
         variant: "destructive",
       });
     } finally {
@@ -181,43 +148,39 @@ const PropertyForm = ({ onSuccess, onCancel }: PropertyFormProps) => {
         <CardTitle className="text-2xl">Créer une nouvelle annonce</CardTitle>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Title */}
-          <div className="space-y-2">
-            <Label htmlFor="title">Titre *</Label>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <div>
+            <Label htmlFor="title">Titre de l'annonce *</Label>
             <Input
               id="title"
-              value={formData.title}
-              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              placeholder="Ex: Magnifique villa avec piscine"
-              required
+              {...register("title")}
+              placeholder="Ex: Appartement moderne 3 pièces au Plateau"
+              className="mt-1"
             />
+            {errors.title && (
+              <p className="text-sm text-destructive mt-1">{errors.title.message}</p>
+            )}
           </div>
 
-          {/* Description */}
-          <div className="space-y-2">
+          <div>
             <Label htmlFor="description">Description *</Label>
             <Textarea
               id="description"
-              value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              placeholder="Décrivez votre bien immobilier en détail..."
-              rows={6}
-              required
+              {...register("description")}
+              placeholder="Décrivez votre bien en détail..."
+              className="mt-1 min-h-[120px]"
             />
+            {errors.description && (
+              <p className="text-sm text-destructive mt-1">{errors.description.message}</p>
+            )}
           </div>
 
-          {/* Type and Price */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="type">Type *</Label>
-              <Select
-                value={formData.type}
-                onValueChange={(value) => setFormData({ ...formData, type: value })}
-                required
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Sélectionner un type" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <Label htmlFor="type">Type de bien *</Label>
+              <Select onValueChange={(value) => setValue("type", value)}>
+                <SelectTrigger className="mt-1">
+                  <SelectValue placeholder="Sélectionner" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="Appartement">Appartement</SelectItem>
@@ -228,159 +191,151 @@ const PropertyForm = ({ onSuccess, onCancel }: PropertyFormProps) => {
                   <SelectItem value="Commerce">Commerce</SelectItem>
                 </SelectContent>
               </Select>
+              {errors.type && (
+                <p className="text-sm text-destructive mt-1">{errors.type.message}</p>
+              )}
             </div>
 
-            <div className="space-y-2">
+            <div>
               <Label htmlFor="price">Prix (FCFA) *</Label>
               <Input
                 id="price"
                 type="number"
-                value={formData.price}
-                onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                {...register("price")}
                 placeholder="Ex: 45000000"
-                required
+                className="mt-1"
               />
+              {errors.price && (
+                <p className="text-sm text-destructive mt-1">{errors.price.message}</p>
+              )}
             </div>
           </div>
 
-          {/* Location and City */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="location">Quartier/Zone *</Label>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <Label htmlFor="location">Adresse *</Label>
               <Input
                 id="location"
-                value={formData.location}
-                onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                placeholder="Ex: Almadies"
-                required
+                {...register("location")}
+                placeholder="Ex: Avenue Léopold Sédar Senghor"
+                className="mt-1"
               />
+              {errors.location && (
+                <p className="text-sm text-destructive mt-1">{errors.location.message}</p>
+              )}
             </div>
 
-            <div className="space-y-2">
+            <div>
               <Label htmlFor="city">Ville *</Label>
               <Input
                 id="city"
-                value={formData.city}
-                onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                {...register("city")}
                 placeholder="Ex: Dakar"
-                required
+                className="mt-1"
               />
+              {errors.city && (
+                <p className="text-sm text-destructive mt-1">{errors.city.message}</p>
+              )}
             </div>
           </div>
 
-          {/* Bedrooms, Bathrooms, Surface */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="space-y-2">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
               <Label htmlFor="bedrooms">Chambres</Label>
               <Input
                 id="bedrooms"
                 type="number"
-                value={formData.bedrooms}
-                onChange={(e) => setFormData({ ...formData, bedrooms: e.target.value })}
+                {...register("bedrooms")}
                 placeholder="Ex: 3"
+                className="mt-1"
               />
             </div>
 
-            <div className="space-y-2">
+            <div>
               <Label htmlFor="bathrooms">Salles de bain</Label>
               <Input
                 id="bathrooms"
                 type="number"
-                value={formData.bathrooms}
-                onChange={(e) => setFormData({ ...formData, bathrooms: e.target.value })}
+                {...register("bathrooms")}
                 placeholder="Ex: 2"
+                className="mt-1"
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="surface">Surface (m²)</Label>
+            <div>
+              <Label htmlFor="surface">Surface (m²) *</Label>
               <Input
                 id="surface"
                 type="number"
-                value={formData.surface}
-                onChange={(e) => setFormData({ ...formData, surface: e.target.value })}
-                placeholder="Ex: 150"
+                {...register("surface")}
+                placeholder="Ex: 120"
+                className="mt-1"
               />
+              {errors.surface && (
+                <p className="text-sm text-destructive mt-1">{errors.surface.message}</p>
+              )}
             </div>
           </div>
 
-          {/* Images */}
-          <div className="space-y-2">
-            <Label htmlFor="images">Images (Max 5)</Label>
-            <div className="space-y-4">
-              <div className="flex items-center gap-2">
-                <Input
+          <div>
+            <Label>Photos (Maximum 5)</Label>
+            <div className="mt-2">
+              <label
+                htmlFor="images"
+                className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-border rounded-lg cursor-pointer hover:bg-accent/50 transition-colors"
+              >
+                <Upload className="h-8 w-8 text-muted-foreground mb-2" />
+                <span className="text-sm text-muted-foreground">
+                  Cliquez pour télécharger des images
+                </span>
+                <input
                   id="images"
                   type="file"
                   accept="image/*"
                   multiple
                   onChange={handleImageChange}
-                  disabled={images.length >= 5}
                   className="hidden"
                 />
-                <Label
-                  htmlFor="images"
-                  className={`flex items-center gap-2 px-4 py-2 border-2 border-dashed rounded-lg cursor-pointer hover:bg-accent transition-colors ${
-                    images.length >= 5 ? "opacity-50 cursor-not-allowed" : ""
-                  }`}
-                >
-                  <Upload className="h-5 w-5" />
-                  <span>Télécharger des images</span>
-                </Label>
-                <span className="text-sm text-muted-foreground">
-                  {images.length}/5 images
-                </span>
-              </div>
-
-              {imagePreviews.length > 0 && (
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                  {imagePreviews.map((preview, index) => (
-                    <div key={index} className="relative group">
-                      <img
-                        src={preview}
-                        alt={`Preview ${index + 1}`}
-                        className="w-full h-32 object-cover rounded-lg"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => removeImage(index)}
-                        className="absolute top-2 right-2 p-1 bg-destructive text-destructive-foreground rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                      >
-                        <X className="h-4 w-4" />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
+              </label>
             </div>
+
+            {imagePreviews.length > 0 && (
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mt-4">
+                {imagePreviews.map((preview, index) => (
+                  <div key={index} className="relative group">
+                    <img
+                      src={preview}
+                      alt={`Preview ${index + 1}`}
+                      className="w-full h-24 object-cover rounded-lg"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeImage(index)}
+                      className="absolute top-1 right-1 bg-destructive text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* Actions */}
-          <div className="flex gap-4 pt-4">
+          <div className="flex gap-4">
             <Button
               type="submit"
               disabled={isLoading}
-              className="bg-secondary hover:bg-secondary-glow text-white shadow-glow-secondary flex-1"
+              className="flex-1 bg-secondary hover:bg-secondary-glow text-white"
             >
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Création en cours...
+                  Création...
                 </>
               ) : (
-                "Publier l'annonce"
+                "Créer l'annonce"
               )}
             </Button>
-            {onCancel && (
-              <Button
-                type="button"
-                variant="outline"
-                onClick={onCancel}
-                disabled={isLoading}
-              >
-                Annuler
-              </Button>
-            )}
           </div>
         </form>
       </CardContent>
