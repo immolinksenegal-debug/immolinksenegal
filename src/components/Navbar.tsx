@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Home, PlusCircle, User, Menu, LogOut } from "lucide-react";
+import logo from "@/assets/immo-link-logo.png";
 import { useState, useEffect } from "react";
 import {
   Sheet,
@@ -56,14 +57,11 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-14 xs:h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-1 xs:space-x-2 group">
-            <div className="relative">
-              <div className="absolute inset-0 bg-secondary rounded-lg blur-sm opacity-50 group-hover:opacity-75 transition-smooth"></div>
-              <Home className="h-6 w-6 xs:h-7 xs:w-7 md:h-8 md:w-8 text-secondary relative z-10" />
-            </div>
-            <span className="text-sm xs:text-base md:text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              <span className="hidden sm:inline">Immo Link Sénégal</span>
-              <span className="sm:hidden">Immo Link</span>
-            </span>
+            <img 
+              src={logo} 
+              alt="Immo Link Sénégal" 
+              className="h-10 w-10 xs:h-12 xs:w-12 md:h-14 md:w-14 object-contain transition-smooth group-hover:scale-105" 
+            />
           </Link>
 
           {/* Desktop Navigation */}
