@@ -57,6 +57,10 @@ const Dashboard = () => {
         surface: prop.surface,
         image: prop.images && prop.images.length > 0 ? prop.images[0] : '',
         type: prop.type,
+        description: prop.description,
+        status: prop.status,
+        views: prop.views,
+        createdAt: prop.created_at,
       }));
 
       setUserProperties(formattedProperties);

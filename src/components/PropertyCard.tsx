@@ -1,7 +1,7 @@
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Bed, Bath, Square, Heart } from "lucide-react";
+import { MapPin, Bed, Bath, Square, Heart, Eye, Calendar } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
@@ -16,6 +16,10 @@ interface PropertyCardProps {
   image: string;
   type: string;
   featured?: boolean;
+  description?: string;
+  status?: string;
+  views?: number;
+  createdAt?: string;
 }
 
 const PropertyCard = ({
@@ -29,6 +33,10 @@ const PropertyCard = ({
   image,
   type,
   featured = false,
+  description,
+  status = 'active',
+  views = 0,
+  createdAt,
 }: PropertyCardProps) => {
   const [isFavorite, setIsFavorite] = useState(false);
 
@@ -43,13 +51,18 @@ const PropertyCard = ({
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-smooth"></div>
         
         {/* Badges */}
-        <div className="absolute top-4 left-4 flex gap-2">
+        <div className="absolute top-4 left-4 flex gap-2 flex-wrap">
           <Badge className="bg-primary text-primary-foreground font-semibold shadow-soft">
             {type}
           </Badge>
           {featured && (
             <Badge className="bg-accent text-accent-foreground font-semibold shadow-soft">
               ⭐ À la une
+            </Badge>
+          )}
+          {status && status !== 'active' && (
+            <Badge variant={status === 'sold' ? 'destructive' : 'secondary'} className="font-semibold shadow-soft">
+              {status === 'sold' ? 'Vendu' : status === 'pending' ? 'En attente' : 'Inactif'}
             </Badge>
           )}
         </div>
@@ -74,12 +87,18 @@ const PropertyCard = ({
           {title}
         </h3>
         
-        <div className="flex items-center text-muted-foreground mb-4">
+        <div className="flex items-center text-muted-foreground mb-3">
           <MapPin className="h-4 w-4 mr-1 text-secondary" />
           <span className="text-sm line-clamp-1">{location}</span>
         </div>
 
-        <div className="flex items-center gap-4 mb-4 text-sm text-muted-foreground">
+        {description && (
+          <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
+            {description}
+          </p>
+        )}
+
+        <div className="flex items-center gap-4 mb-3 text-sm text-muted-foreground">
           {bedrooms && (
             <div className="flex items-center gap-1">
               <Bed className="h-4 w-4 text-primary" />
@@ -98,7 +117,22 @@ const PropertyCard = ({
           </div>
         </div>
 
-        <div className="text-2xl font-bold text-secondary mb-4">
+        <div className="flex items-center gap-4 mb-3 text-xs text-muted-foreground">
+          {views > 0 && (
+            <div className="flex items-center gap-1">
+              <Eye className="h-3 w-3" />
+              <span>{views} vues</span>
+            </div>
+          )}
+          {createdAt && (
+            <div className="flex items-center gap-1">
+              <Calendar className="h-3 w-3" />
+              <span>{new Date(createdAt).toLocaleDateString('fr-FR')}</span>
+            </div>
+          )}
+        </div>
+
+        <div className="text-2xl font-bold text-secondary">
           {price} <span className="text-lg font-normal text-muted-foreground">FCFA</span>
         </div>
       </CardContent>
