@@ -72,7 +72,7 @@ const FeaturedProperties = () => {
         </div>
 
         <div className="flex justify-center px-4">
-          <Link to="/" className="w-full xs:w-auto flex justify-center">
+          <Link to="/properties" className="w-full xs:w-auto flex justify-center">
             <Button
               size="lg"
               variant="outline"

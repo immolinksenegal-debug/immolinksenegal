@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Home, PlusCircle, User, Menu, LogOut } from "lucide-react";
+import { Home, PlusCircle, User, Menu, LogOut, Building2 } from "lucide-react";
 import logo from "@/assets/immo-link-logo.png";
 import { useState, useEffect } from "react";
 import {
@@ -44,10 +44,12 @@ const Navbar = () => {
   const navLinks = user
     ? [
         { to: "/", label: "Accueil", icon: Home },
+        { to: "/properties", label: "Biens", icon: Building2 },
         { to: "/dashboard", label: "Dashboard", icon: PlusCircle },
       ]
     : [
         { to: "/", label: "Accueil", icon: Home },
+        { to: "/properties", label: "Biens", icon: Building2 },
         { to: "/auth", label: "Connexion", icon: User },
       ];
 
