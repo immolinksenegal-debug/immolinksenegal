@@ -149,24 +149,34 @@ const PropertyDetail = () => {
           {/* Gallery */}
           {images.length > 0 && (
             <div className="mb-4 xs:mb-6 md:mb-8 animate-fade-in">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 xs:gap-4 rounded-xl xs:rounded-2xl overflow-hidden">
-                <div className="md:col-span-2 aspect-video md:aspect-[21/9] overflow-hidden group">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 xs:gap-4 rounded-xl xs:rounded-2xl overflow-hidden shadow-elegant">
+                <div className="md:col-span-2 aspect-video md:aspect-[21/9] overflow-hidden group cursor-pointer">
                   <img
                     src={images[0]}
                     alt={property.title}
-                    className="w-full h-full object-cover transition-smooth group-hover:scale-105"
+                    className="w-full h-full object-cover transition-smooth group-hover:scale-110"
+                    loading="eager"
                   />
                 </div>
-                {images.slice(1).map((image, index) => (
-                  <div key={index} className="aspect-video overflow-hidden group">
+                {images.slice(1, 5).map((image, index) => (
+                  <div key={index} className="aspect-video overflow-hidden group cursor-pointer">
                     <img
                       src={image}
                       alt={`${property.title} ${index + 2}`}
-                      className="w-full h-full object-cover transition-smooth group-hover:scale-105"
+                      className="w-full h-full object-cover transition-smooth group-hover:scale-110"
+                      loading="lazy"
                     />
                   </div>
                 ))}
               </div>
+              {images.length > 5 && (
+                <div className="text-center mt-4">
+                  <Badge variant="secondary" className="text-xs xs:text-sm px-3 xs:px-4 py-2">
+                    <Eye className="h-3 w-3 xs:h-4 xs:w-4 mr-1" />
+                    +{images.length - 5} photos supplémentaires
+                  </Badge>
+                </div>
+              )}
             </div>
           )}
 
@@ -204,16 +214,49 @@ const PropertyDetail = () => {
                     <Button
                       size="icon"
                       variant="outline"
-                      className="rounded-xl h-8 w-8 xs:h-10 xs:w-10"
-                      onClick={() => setIsFavorite(!isFavorite)}
+                      className="rounded-xl h-8 w-8 xs:h-10 xs:w-10 hover-scale"
+                      onClick={() => {
+                        setIsFavorite(!isFavorite);
+                        toast({
+                          title: isFavorite ? "Retiré des favoris" : "Ajouté aux favoris",
+                          description: isFavorite 
+                            ? "Ce bien a été retiré de vos favoris" 
+                            : "Ce bien a été ajouté à vos favoris",
+                        });
+                      }}
                     >
                       <Heart
-                        className={`h-4 w-4 xs:h-5 xs:w-5 ${
-                          isFavorite ? "fill-destructive text-destructive" : ""
+                        className={`h-4 w-4 xs:h-5 xs:w-5 transition-all ${
+                          isFavorite ? "fill-destructive text-destructive scale-110" : ""
                         }`}
                       />
                     </Button>
-                    <Button size="icon" variant="outline" className="rounded-xl h-8 w-8 xs:h-10 xs:w-10">
+                    <Button
+                      size="icon"
+                      variant="outline"
+                      className="rounded-xl h-8 w-8 xs:h-10 xs:w-10 hover-scale"
+                      onClick={() => {
+                        if (navigator.share) {
+                          navigator.share({
+                            title: property.title,
+                            text: `Découvrez ce bien: ${property.title}`,
+                            url: window.location.href,
+                          }).catch(() => {
+                            navigator.clipboard.writeText(window.location.href);
+                            toast({
+                              title: "Lien copié!",
+                              description: "Le lien a été copié dans votre presse-papiers",
+                            });
+                          });
+                        } else {
+                          navigator.clipboard.writeText(window.location.href);
+                          toast({
+                            title: "Lien copié!",
+                            description: "Le lien a été copié dans votre presse-papiers",
+                          });
+                        }
+                      }}
+                    >
                       <Share2 className="h-4 w-4 xs:h-5 xs:w-5" />
                     </Button>
                   </div>
@@ -346,19 +389,27 @@ const PropertyDetail = () => {
                     </Button>
                   )}
 
-                  <Button
-                    variant="outline"
-                    className="w-full border-2 border-secondary text-secondary hover:bg-secondary hover:text-white transition-smooth rounded-xl font-semibold h-10 xs:h-12 text-sm xs:text-base"
-                    onClick={() => {
-                      toast({
-                        title: "Information",
-                        description: "Fonctionnalité de messagerie en développement",
-                      });
-                    }}
-                  >
-                    <Mail className="mr-2 h-4 w-4 xs:h-5 xs:w-5" />
-                    Envoyer un message
-                  </Button>
+                  {property.contact_email ? (
+                    <Button
+                      variant="outline"
+                      className="w-full border-2 border-secondary text-secondary hover:bg-secondary hover:text-white transition-smooth rounded-xl font-semibold h-10 xs:h-12 text-sm xs:text-base"
+                      asChild
+                    >
+                      <a href={`mailto:${property.contact_email}?subject=Intéressé par: ${encodeURIComponent(property.title)}&body=Bonjour,%0D%0A%0D%0AJe suis intéressé par votre bien situé à ${encodeURIComponent(property.location)}.%0D%0A%0D%0AMerci de me contacter.`}>
+                        <Mail className="mr-2 h-4 w-4 xs:h-5 xs:w-5" />
+                        Envoyer un message
+                      </a>
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="outline"
+                      className="w-full border-2 border-border text-muted-foreground rounded-xl font-semibold h-10 xs:h-12 text-sm xs:text-base"
+                      disabled
+                    >
+                      <Mail className="mr-2 h-4 w-4 xs:h-5 xs:w-5" />
+                      Email non disponible
+                    </Button>
+                  )}
                 </div>
 
                 <div className="pt-4 xs:pt-6 border-t border-border">
