@@ -21,6 +21,7 @@ export type Database = {
           city: string
           contact_email: string | null
           contact_phone: string | null
+          contact_whatsapp: string | null
           created_at: string
           description: string | null
           id: string
@@ -41,6 +42,7 @@ export type Database = {
           city: string
           contact_email?: string | null
           contact_phone?: string | null
+          contact_whatsapp?: string | null
           created_at?: string
           description?: string | null
           id?: string
@@ -61,6 +63,7 @@ export type Database = {
           city?: string
           contact_email?: string | null
           contact_phone?: string | null
+          contact_whatsapp?: string | null
           created_at?: string
           description?: string | null
           id?: string

@@ -23,6 +23,9 @@ const propertySchema = z.object({
   bedrooms: z.string().optional(),
   bathrooms: z.string().optional(),
   surface: z.string().min(1, "La surface est requise"),
+  contact_phone: z.string().optional(),
+  contact_email: z.string().email("Email invalide").optional().or(z.literal("")),
+  contact_whatsapp: z.string().optional(),
 });
 
 type PropertyFormData = z.infer<typeof propertySchema>;
@@ -116,6 +119,9 @@ const PropertyForm = ({ onSuccess }: PropertyFormProps) => {
           surface: parseFloat(data.surface),
           images: imageUrls,
           status: 'active',
+          contact_phone: data.contact_phone || null,
+          contact_email: data.contact_email || null,
+          contact_whatsapp: data.contact_whatsapp || null,
         });
 
       if (insertError) throw insertError;
@@ -274,6 +280,53 @@ const PropertyForm = ({ onSuccess }: PropertyFormProps) => {
               {errors.surface && (
                 <p className="text-sm text-destructive mt-1">{errors.surface.message}</p>
               )}
+            </div>
+          </div>
+
+          <div className="border-t border-border pt-6 mt-6">
+            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+              📞 Informations de contact
+            </h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              Renseignez vos coordonnées pour que les acheteurs puissent vous contacter
+            </p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div>
+                <Label htmlFor="contact_phone">Téléphone</Label>
+                <Input
+                  id="contact_phone"
+                  type="tel"
+                  {...register("contact_phone")}
+                  placeholder="Ex: +221 77 123 45 67"
+                  className="mt-1"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="contact_whatsapp">WhatsApp</Label>
+                <Input
+                  id="contact_whatsapp"
+                  type="tel"
+                  {...register("contact_whatsapp")}
+                  placeholder="Ex: +221 77 123 45 67"
+                  className="mt-1"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="contact_email">Email</Label>
+                <Input
+                  id="contact_email"
+                  type="email"
+                  {...register("contact_email")}
+                  placeholder="Ex: email@example.com"
+                  className="mt-1"
+                />
+                {errors.contact_email && (
+                  <p className="text-sm text-destructive mt-1">{errors.contact_email.message}</p>
+                )}
+              </div>
             </div>
           </div>
 
