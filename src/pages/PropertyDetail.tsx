@@ -326,18 +326,25 @@ const PropertyDetail = () => {
                     </div>
                   </div>
 
-                  <Button 
-                    className="w-full bg-secondary hover:bg-secondary-glow text-white shadow-glow-secondary transition-smooth rounded-xl font-semibold h-10 xs:h-12 text-sm xs:text-base"
-                    onClick={() => {
-                      toast({
-                        title: "Information",
-                        description: "Fonctionnalité de contact en développement",
-                      });
-                    }}
-                  >
-                    <Phone className="mr-2 h-4 w-4 xs:h-5 xs:w-5" />
-                    Appeler maintenant
-                  </Button>
+                  {property.contact_phone ? (
+                    <Button 
+                      className="w-full bg-secondary hover:bg-secondary-glow text-white shadow-glow-secondary transition-smooth rounded-xl font-semibold h-10 xs:h-12 text-sm xs:text-base"
+                      asChild
+                    >
+                      <a href={`tel:${property.contact_phone}`}>
+                        <Phone className="mr-2 h-4 w-4 xs:h-5 xs:w-5" />
+                        Appeler maintenant
+                      </a>
+                    </Button>
+                  ) : (
+                    <Button 
+                      className="w-full bg-secondary/50 text-white rounded-xl font-semibold h-10 xs:h-12 text-sm xs:text-base"
+                      disabled
+                    >
+                      <Phone className="mr-2 h-4 w-4 xs:h-5 xs:w-5" />
+                      Numéro non disponible
+                    </Button>
+                  )}
 
                   <Button
                     variant="outline"
