@@ -34,10 +34,30 @@ const PromotionDialog = ({
   const { toast } = useToast();
 
   const handlePayment = () => {
+    // Ensure the URL has the full protocol
+    const fullUrl = MONEYFUSION_PAYMENT_LINK.startsWith('http') 
+      ? MONEYFUSION_PAYMENT_LINK 
+      : `https://${MONEYFUSION_PAYMENT_LINK}`;
+    
     // Redirect to MoneyFusion payment page
-    window.open(MONEYFUSION_PAYMENT_LINK, '_blank');
+    const paymentWindow = window.open(fullUrl, '_blank', 'noopener,noreferrer');
+    
+    if (!paymentWindow) {
+      toast({
+        title: "Popup bloqué",
+        description: "Veuillez autoriser les popups pour ce site",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     // Show token input field after opening payment page
     setShowTokenInput(true);
+    
+    toast({
+      title: "Page de paiement ouverte",
+      description: "Complétez votre paiement et revenez entrer votre token",
+    });
   };
 
   const handleVerifyPayment = async () => {
