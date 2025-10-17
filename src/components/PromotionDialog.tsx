@@ -8,7 +8,11 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Check, Sparkles } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Check, Sparkles, Loader2 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 interface PromotionDialogProps {
   open: boolean;
@@ -24,10 +28,68 @@ const PromotionDialog = ({
   propertyTitle,
 }: PromotionDialogProps) => {
   const MONEYFUSION_PAYMENT_LINK = "https://www.pay.moneyfusion.net/Immo_Link_S_n_gal/885340d22564634f/pay/";
+  const [paymentToken, setPaymentToken] = useState("");
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [showTokenInput, setShowTokenInput] = useState(false);
+  const { toast } = useToast();
 
   const handlePayment = () => {
     // Redirect to MoneyFusion payment page
     window.open(MONEYFUSION_PAYMENT_LINK, '_blank');
+    // Show token input field after opening payment page
+    setShowTokenInput(true);
+  };
+
+  const handleVerifyPayment = async () => {
+    if (!paymentToken.trim()) {
+      toast({
+        title: "Token requis",
+        description: "Veuillez entrer votre token de paiement",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsVerifying(true);
+
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session) {
+        throw new Error("Vous devez être connecté");
+      }
+
+      const response = await supabase.functions.invoke('verify-moneyfusion-payment', {
+        body: { token: paymentToken.trim(), propertyId },
+      });
+
+      if (response.error) {
+        throw new Error(response.error.message || "Erreur lors de la vérification");
+      }
+
+      toast({
+        title: "✅ Paiement confirmé !",
+        description: response.data.message,
+      });
+
+      // Close dialog and reset
+      setPaymentToken("");
+      setShowTokenInput(false);
+      onOpenChange(false);
+      
+      // Reload page to show updated premium status
+      setTimeout(() => window.location.reload(), 1500);
+
+    } catch (error: any) {
+      console.error("Verification error:", error);
+      toast({
+        title: "Erreur de vérification",
+        description: error.message || "Impossible de vérifier le paiement",
+        variant: "destructive",
+      });
+    } finally {
+      setIsVerifying(false);
+    }
   };
 
   return (
@@ -103,17 +165,72 @@ const PromotionDialog = ({
                 </div>
               </div>
 
-              <Button
-                onClick={handlePayment}
-                className="w-full bg-secondary hover:bg-secondary-glow text-white shadow-glow-secondary transition-smooth rounded-xl font-semibold text-base py-6"
-              >
-                <Sparkles className="h-5 w-5 mr-2" />
-                Payer avec MoneyFusion
-              </Button>
+              {!showTokenInput ? (
+                <>
+                  <Button
+                    onClick={handlePayment}
+                    className="w-full bg-secondary hover:bg-secondary-glow text-white shadow-glow-secondary transition-smooth rounded-xl font-semibold text-base py-6"
+                  >
+                    <Sparkles className="h-5 w-5 mr-2" />
+                    Payer avec MoneyFusion
+                  </Button>
 
-              <p className="text-xs text-center text-muted-foreground mt-4">
-                Après le paiement, contactez-nous avec votre reçu pour activer votre promotion
-              </p>
+                  <p className="text-xs text-center text-muted-foreground mt-4">
+                    Après le paiement, revenez ici pour confirmer avec votre token
+                  </p>
+                </>
+              ) : (
+                <div className="space-y-4">
+                  <div className="p-4 bg-muted/50 rounded-lg">
+                    <p className="text-sm text-muted-foreground mb-3">
+                      Une fois votre paiement effectué, vous recevrez un <span className="font-semibold">token de transaction</span>. 
+                      Entrez-le ci-dessous pour activer votre promotion.
+                    </p>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="payment-token">Token de paiement</Label>
+                      <Input
+                        id="payment-token"
+                        placeholder="Ex: 0d1d8bc9b6d2819c"
+                        value={paymentToken}
+                        onChange={(e) => setPaymentToken(e.target.value)}
+                        disabled={isVerifying}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <Button
+                      variant="outline"
+                      onClick={() => {
+                        setShowTokenInput(false);
+                        setPaymentToken("");
+                      }}
+                      disabled={isVerifying}
+                      className="flex-1"
+                    >
+                      Retour
+                    </Button>
+                    <Button
+                      onClick={handleVerifyPayment}
+                      disabled={isVerifying || !paymentToken.trim()}
+                      className="flex-1 bg-secondary hover:bg-secondary-glow text-white"
+                    >
+                      {isVerifying ? (
+                        <>
+                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                          Vérification...
+                        </>
+                      ) : (
+                        <>
+                          <Check className="h-4 w-4 mr-2" />
+                          Confirmer le paiement
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                </div>
+              )}
             </CardContent>
           </Card>
         </div>
