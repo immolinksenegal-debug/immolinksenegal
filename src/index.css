@@ -202,4 +202,21 @@ All colors MUST be HSL.
   .glass-effect {
     @apply bg-white/80 backdrop-blur-md border border-white/20;
   }
+  
+  .gradient-primary {
+    background: linear-gradient(135deg, hsl(var(--secondary)) 0%, hsl(var(--secondary-glow)) 100%);
+  }
+  
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 0 20px hsl(var(--secondary-glow) / 0.5);
+    }
+    50% {
+      box-shadow: 0 0 40px hsl(var(--secondary-glow) / 0.8);
+    }
+  }
+  
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
 }

@@ -20,6 +20,7 @@ interface PropertyCardProps {
   status?: string;
   views?: number;
   createdAt?: string;
+  isPremium?: boolean;
 }
 
 const PropertyCard = ({
@@ -37,6 +38,7 @@ const PropertyCard = ({
   status = 'active',
   views = 0,
   createdAt,
+  isPremium = false,
 }: PropertyCardProps) => {
   const [isFavorite, setIsFavorite] = useState(false);
 
@@ -55,6 +57,11 @@ const PropertyCard = ({
           <Badge className="bg-primary text-primary-foreground font-semibold shadow-soft">
             {type}
           </Badge>
+          {isPremium && (
+            <Badge className="bg-gradient-primary text-white font-semibold shadow-glow-secondary animate-pulse-glow">
+              ⭐ Premium
+            </Badge>
+          )}
           {featured && (
             <Badge className="bg-accent text-accent-foreground font-semibold shadow-soft">
               ⭐ À la une

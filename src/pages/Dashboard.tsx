@@ -12,15 +12,19 @@ import {
   Heart,
   Settings,
   Eye,
+  Sparkles,
 } from "lucide-react";
 import PropertyCard from "@/components/PropertyCard";
 import PropertyForm from "@/components/PropertyForm";
+import PromotionDialog from "@/components/PromotionDialog";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
 const Dashboard = () => {
   const { toast } = useToast();
   const [showPropertyForm, setShowPropertyForm] = useState(false);
+  const [showPromotionDialog, setShowPromotionDialog] = useState(false);
+  const [selectedProperty, setSelectedProperty] = useState<{ id: string; title: string } | null>(null);
   const [userProperties, setUserProperties] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [stats, setStats] = useState([
@@ -61,6 +65,8 @@ const Dashboard = () => {
         status: prop.status,
         views: prop.views,
         createdAt: prop.created_at,
+        isPremium: prop.is_premium,
+        premiumExpiresAt: prop.premium_expires_at,
       }));
 
       setUserProperties(formattedProperties);
@@ -87,6 +93,11 @@ const Dashboard = () => {
   const handleFormSuccess = () => {
     setShowPropertyForm(false);
     fetchUserProperties();
+  };
+
+  const handlePromoteProperty = (propertyId: string, propertyTitle: string) => {
+    setSelectedProperty({ id: propertyId, title: propertyTitle });
+    setShowPromotionDialog(true);
   };
 
   return (
@@ -190,7 +201,26 @@ const Dashboard = () => {
                   ) : userProperties.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-6">
                       {userProperties.map((property) => (
-                        <PropertyCard key={property.id} {...property} />
+                        <div key={property.id} className="relative">
+                          <PropertyCard {...property} />
+                          {!property.isPremium && (
+                            <div className="absolute top-2 right-2 z-10">
+                              <Button
+                                size="sm"
+                                onClick={() => handlePromoteProperty(property.id, property.title)}
+                                className="bg-secondary hover:bg-secondary-glow text-white shadow-glow-secondary transition-smooth rounded-lg text-xs px-2 py-1"
+                              >
+                                <Sparkles className="h-3 w-3 mr-1" />
+                                Promouvoir
+                              </Button>
+                            </div>
+                          )}
+                          {property.isPremium && property.premiumExpiresAt && (
+                            <div className="mt-2 text-xs text-center text-muted-foreground">
+                              Premium jusqu'au {new Date(property.premiumExpiresAt).toLocaleDateString('fr-FR')}
+                            </div>
+                          )}
+                        </div>
                       ))}
                     </div>
                   ) : (
@@ -294,6 +324,15 @@ const Dashboard = () => {
           <PropertyForm onSuccess={handleFormSuccess} />
         </DialogContent>
       </Dialog>
+
+      {selectedProperty && (
+        <PromotionDialog
+          open={showPromotionDialog}
+          onOpenChange={setShowPromotionDialog}
+          propertyId={selectedProperty.id}
+          propertyTitle={selectedProperty.title}
+        />
+      )}
 
       <Footer />
     </div>

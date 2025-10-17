@@ -2,60 +2,81 @@ import PropertyCard from "./PropertyCard";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import appartementImage from "@/assets/appartement-moderne.jpg";
-import maisonImage from "@/assets/maison-contemporaine.jpg";
-import villaImage from "@/assets/villa-piscine.jpg";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 const FeaturedProperties = () => {
-  const properties = [
-    {
-      id: "1",
-      title: "Appartement moderne au Plateau",
-      location: "Plateau, Dakar",
-      price: "45.000.000",
-      bedrooms: 3,
-      bathrooms: 2,
-      surface: 120,
-      image: appartementImage,
-      type: "Appartement",
-      featured: true,
-    },
-    {
-      id: "2",
-      title: "Villa contemporaine avec piscine",
-      location: "Almadies, Dakar",
-      price: "125.000.000",
-      bedrooms: 5,
-      bathrooms: 4,
-      surface: 350,
-      image: villaImage,
-      type: "Villa",
-      featured: true,
-    },
-    {
-      id: "3",
-      title: "Maison familiale spacieuse",
-      location: "Mermoz, Dakar",
-      price: "75.000.000",
-      bedrooms: 4,
-      bathrooms: 3,
-      surface: 220,
-      image: maisonImage,
-      type: "Maison",
-      featured: true,
-    },
-  ];
+  const [properties, setProperties] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    fetchPremiumProperties();
+  }, []);
+
+  const fetchPremiumProperties = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('properties')
+        .select('*')
+        .eq('is_premium', true)
+        .eq('status', 'active')
+        .gte('premium_expires_at', new Date().toISOString())
+        .order('created_at', { ascending: false })
+        .limit(6);
+
+      if (error) throw error;
+
+      const formattedProperties = data?.map((prop: any) => ({
+        id: prop.id,
+        title: prop.title,
+        location: `${prop.location}, ${prop.city}`,
+        price: prop.price.toLocaleString('fr-FR'),
+        bedrooms: prop.bedrooms,
+        bathrooms: prop.bathrooms,
+        surface: prop.surface,
+        image: prop.images && prop.images.length > 0 ? prop.images[0] : '',
+        type: prop.type,
+        description: prop.description,
+        status: prop.status,
+        views: prop.views,
+        createdAt: prop.created_at,
+        isPremium: prop.is_premium,
+      })) || [];
+
+      setProperties(formattedProperties);
+    } catch (error) {
+      console.error("Error fetching premium properties:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <section className="py-12 xs:py-16 md:py-20 bg-gradient-subtle">
+        <div className="container mx-auto px-2 xs:px-4">
+          <div className="text-center">
+            <p className="text-muted-foreground">Chargement des annonces premium...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (properties.length === 0) {
+    return null;
+  }
 
   return (
     <section className="py-12 xs:py-16 md:py-20 bg-gradient-subtle">
       <div className="container mx-auto px-2 xs:px-4">
         <div className="text-center mb-8 xs:mb-12 animate-fade-in-up flex flex-col items-center">
           <h2 className="text-2xl xs:text-3xl md:text-4xl font-bold text-foreground mb-3 xs:mb-4 px-2">
-            Biens immobiliers{" "}
-            <span className="text-secondary">populaires</span>
+            Annonces{" "}
+            <span className="text-secondary">Premium</span>
           </h2>
           <p className="text-sm xs:text-base md:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
-            Découvrez notre sélection de biens d'exception au Sénégal
+            Découvrez les annonces mises en avant par nos annonceurs
           </p>
         </div>
 

@@ -26,7 +26,9 @@ export type Database = {
           description: string | null
           id: string
           images: string[] | null
+          is_premium: boolean | null
           location: string
+          premium_expires_at: string | null
           price: number
           status: string | null
           surface: number | null
@@ -47,7 +49,9 @@ export type Database = {
           description?: string | null
           id?: string
           images?: string[] | null
+          is_premium?: boolean | null
           location: string
+          premium_expires_at?: string | null
           price: number
           status?: string | null
           surface?: number | null
@@ -68,7 +72,9 @@ export type Database = {
           description?: string | null
           id?: string
           images?: string[] | null
+          is_premium?: boolean | null
           location?: string
+          premium_expires_at?: string | null
           price?: number
           status?: string | null
           surface?: number | null
