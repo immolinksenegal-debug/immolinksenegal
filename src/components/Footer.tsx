@@ -8,28 +8,28 @@ const Footer = () => {
     company: [
       { label: "À propos", to: "/" },
       { label: "Comment ça marche", to: "/" },
-      { label: "Carrières", to: "/" },
-      { label: "Blog", to: "/" },
+      { label: "Carrières", to: "/properties" },
+      { label: "Blog", to: "/properties" },
     ],
     support: [
-      { label: "Centre d'aide", to: "/" },
+      { label: "Centre d'aide", to: "/properties" },
       { label: "Conditions d'utilisation", to: "/" },
       { label: "Politique de confidentialité", to: "/" },
       { label: "Contact", to: "/" },
     ],
     services: [
-      { label: "Acheter", to: "/" },
-      { label: "Vendre", to: "/" },
-      { label: "Louer", to: "/" },
-      { label: "Estimation gratuite", to: "/" },
+      { label: "Acheter", to: "/properties" },
+      { label: "Vendre", to: "/dashboard" },
+      { label: "Louer", to: "/properties" },
+      { label: "Estimation gratuite", to: "/properties" },
     ],
   };
 
   const socialLinks = [
-    { icon: Facebook, href: "#", label: "Facebook" },
-    { icon: Twitter, href: "#", label: "Twitter" },
-    { icon: Instagram, href: "#", label: "Instagram" },
-    { icon: Linkedin, href: "#", label: "LinkedIn" },
+    { icon: Facebook, href: "https://facebook.com", label: "Facebook" },
+    { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
+    { icon: Instagram, href: "https://instagram.com", label: "Instagram" },
+    { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
   ];
 
   return (
