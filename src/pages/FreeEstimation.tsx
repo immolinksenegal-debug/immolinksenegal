@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -13,100 +15,87 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Calculator, CheckCircle2, Clock, Shield } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Calculator, CheckCircle, Home, MessageSquare } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
+
+const estimationSchema = z.object({
+  property_type: z.string().min(1, "Le type de bien est requis"),
+  location: z.string().min(3, "Le quartier doit contenir au moins 3 caractères"),
+  city: z.string().min(2, "La ville est requise"),
+  surface: z.string().optional(),
+  bedrooms: z.string().optional(),
+  bathrooms: z.string().optional(),
+  condition: z.string().optional(),
+  description: z.string().optional(),
+  contact_name: z.string().min(2, "Le nom doit contenir au moins 2 caractères"),
+  contact_email: z.string().email("Email invalide"),
+  contact_phone: z.string().min(8, "Le numéro de téléphone est invalide"),
+});
+
+type EstimationFormData = z.infer<typeof estimationSchema>;
 
 const FreeEstimation = () => {
-  const navigate = useNavigate();
-  const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({
-    propertyType: "",
-    location: "",
-    city: "",
-    surface: "",
-    bedrooms: "",
-    bathrooms: "",
-    condition: "",
-    description: "",
-    contactName: "",
-    contactEmail: "",
-    contactPhone: "",
+  const [isSuccess, setIsSuccess] = useState(false);
+  const { toast } = useToast();
+  const navigate = useNavigate();
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+    reset,
+  } = useForm<EstimationFormData>({
+    resolver: zodResolver(estimationSchema),
   });
 
-  const propertyTypes = ["Appartement", "Villa", "Maison", "Terrain", "Bureau", "Commerce"];
-  const cities = ["Dakar", "Thiès", "Mbour", "Saint-Louis", "Ziguinchor", "Kaolack", "Autre"];
-  const conditions = ["Excellent", "Bon", "Moyen", "À rénover"];
-
-  const handleChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!formData.propertyType || !formData.location || !formData.city || 
-        !formData.contactName || !formData.contactEmail || !formData.contactPhone) {
-      toast({
-        title: "Champs requis manquants",
-        description: "Veuillez remplir tous les champs obligatoires",
-        variant: "destructive",
-      });
-      return;
-    }
-
+  const onSubmit = async (data: EstimationFormData) => {
     setIsSubmitting(true);
 
     try {
       const { data: { session } } = await supabase.auth.getSession();
 
-      const { error } = await supabase.from("estimation_requests").insert([
-        {
-          user_id: session?.user?.id || null,
-          property_type: formData.propertyType,
-          location: formData.location,
-          city: formData.city,
-          surface: formData.surface ? parseFloat(formData.surface) : null,
-          bedrooms: formData.bedrooms ? parseInt(formData.bedrooms) : null,
-          bathrooms: formData.bathrooms ? parseInt(formData.bathrooms) : null,
-          condition: formData.condition || null,
-          description: formData.description || null,
-          contact_name: formData.contactName,
-          contact_email: formData.contactEmail,
-          contact_phone: formData.contactPhone,
-        },
-      ]);
+      const insertData = {
+        user_id: session?.user?.id || null,
+        property_type: data.property_type,
+        location: data.location,
+        city: data.city,
+        surface: data.surface ? parseFloat(data.surface) : null,
+        bedrooms: data.bedrooms ? parseInt(data.bedrooms) : null,
+        bathrooms: data.bathrooms ? parseInt(data.bathrooms) : null,
+        condition: data.condition || null,
+        description: data.description || null,
+        contact_name: data.contact_name,
+        contact_email: data.contact_email,
+        contact_phone: data.contact_phone,
+        status: "pending",
+      };
+
+      const { error } = await supabase
+        .from("estimation_requests")
+        .insert(insertData);
 
       if (error) throw error;
 
+      setIsSuccess(true);
+      reset();
       toast({
         title: "✅ Demande envoyée !",
-        description: "Nous vous contacterons dans les 24-48h avec une estimation détaillée.",
+        description: "Nous vous contacterons sous 24-48h avec votre estimation.",
       });
 
-      // Reset form
-      setFormData({
-        propertyType: "",
-        location: "",
-        city: "",
-        surface: "",
-        bedrooms: "",
-        bathrooms: "",
-        condition: "",
-        description: "",
-        contactName: "",
-        contactEmail: "",
-        contactPhone: "",
-      });
-
-      setTimeout(() => navigate("/"), 2000);
+      setTimeout(() => {
+        navigate("/");
+      }, 3000);
     } catch (error: any) {
-      console.error("Error submitting estimation request:", error);
+      console.error("Estimation submission error:", error);
       toast({
         title: "Erreur",
-        description: error.message || "Impossible de soumettre votre demande",
+        description: error.message || "Impossible d'envoyer votre demande",
         variant: "destructive",
       });
     } finally {
@@ -114,144 +103,198 @@ const FreeEstimation = () => {
     }
   };
 
+  const propertyTypes = [
+    "Appartement",
+    "Villa",
+    "Maison",
+    "Terrain",
+    "Duplex",
+    "Studio",
+    "Bureau",
+    "Commerce",
+  ];
+
+  const conditions = [
+    "Neuf",
+    "Excellent état",
+    "Bon état",
+    "À rénover",
+    "En construction",
+  ];
+
+  const cities = [
+    "DAKAR",
+    "MBOUR",
+    "THIES",
+    "SAINT-LOUIS",
+    "SALY",
+    "SOMONE",
+    "KAOLACK",
+    "ZIGUINCHOR",
+    "LOUGA",
+    "TOUBA",
+  ];
+
+  if (isSuccess) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
+        <main className="flex-1 flex items-center justify-center py-12 px-4">
+          <Card className="max-w-lg w-full text-center">
+            <CardHeader>
+              <div className="mx-auto w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mb-4">
+                <CheckCircle className="w-10 h-10 text-secondary" />
+              </div>
+              <CardTitle className="text-2xl">Demande reçue !</CardTitle>
+              <CardDescription className="text-base">
+                Nous avons bien reçu votre demande d'estimation. Notre équipe d'experts vous contactera sous 24-48h avec une estimation détaillée de votre bien.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button onClick={() => navigate("/")} className="w-full">
+                Retour à l'accueil
+              </Button>
+            </CardContent>
+          </Card>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
-      <main className="flex-1">
-        {/* Hero Section */}
-        <section className="bg-gradient-to-br from-primary via-primary-glow to-primary py-16 text-white">
-          <div className="container mx-auto px-4">
-            <div className="max-w-3xl mx-auto text-center">
-              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/10 backdrop-blur-sm mb-6">
-                <Calculator className="h-10 w-10" />
-              </div>
-              <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                Estimation Gratuite de Votre Bien
-              </h1>
-              <p className="text-xl text-white/90">
-                Obtenez une évaluation précise et professionnelle de votre propriété en quelques clics
-              </p>
+      <main className="flex-1 container mx-auto px-4 py-12">
+        <div className="max-w-4xl mx-auto">
+          {/* Hero Section */}
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-secondary/10 rounded-full mb-4">
+              <Calculator className="w-8 h-8 text-secondary" />
             </div>
+            <h1 className="text-4xl font-bold mb-4">Estimation Gratuite</h1>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Obtenez une estimation précise et gratuite de votre bien immobilier en moins de 24-48h
+            </p>
           </div>
-        </section>
 
-        {/* Benefits Section */}
-        <section className="py-12 bg-muted/30">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-              <Card className="text-center border-secondary/20">
-                <CardContent className="pt-6">
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-secondary/10 mb-4">
-                    <CheckCircle2 className="h-8 w-8 text-secondary" />
-                  </div>
-                  <h3 className="font-semibold text-lg mb-2">100% Gratuit</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Aucun frais, aucun engagement
-                  </p>
-                </CardContent>
-              </Card>
+          {/* Benefits */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <Card>
+              <CardContent className="pt-6 text-center">
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-secondary/10 rounded-full mb-3">
+                  <Calculator className="w-6 h-6 text-secondary" />
+                </div>
+                <h3 className="font-semibold mb-2">100% Gratuit</h3>
+                <p className="text-sm text-muted-foreground">
+                  Sans engagement et sans frais cachés
+                </p>
+              </CardContent>
+            </Card>
 
-              <Card className="text-center border-secondary/20">
-                <CardContent className="pt-6">
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-secondary/10 mb-4">
-                    <Clock className="h-8 w-8 text-secondary" />
-                  </div>
-                  <h3 className="font-semibold text-lg mb-2">Rapide</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Réponse sous 24-48h
-                  </p>
-                </CardContent>
-              </Card>
+            <Card>
+              <CardContent className="pt-6 text-center">
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-secondary/10 rounded-full mb-3">
+                  <Home className="w-6 h-6 text-secondary" />
+                </div>
+                <h3 className="font-semibold mb-2">Experts Certifiés</h3>
+                <p className="text-sm text-muted-foreground">
+                  Évaluation par des professionnels du secteur
+                </p>
+              </CardContent>
+            </Card>
 
-              <Card className="text-center border-secondary/20">
-                <CardContent className="pt-6">
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-secondary/10 mb-4">
-                    <Shield className="h-8 w-8 text-secondary" />
-                  </div>
-                  <h3 className="font-semibold text-lg mb-2">Professionnel</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Évaluation par des experts
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
+            <Card>
+              <CardContent className="pt-6 text-center">
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-secondary/10 rounded-full mb-3">
+                  <CheckCircle className="w-6 h-6 text-secondary" />
+                </div>
+                <h3 className="font-semibold mb-2">Réponse Rapide</h3>
+                <p className="text-sm text-muted-foreground">
+                  Estimation sous 24-48h maximum
+                </p>
+              </CardContent>
+            </Card>
           </div>
-        </section>
 
-        {/* Form Section */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
-            <Card className="max-w-3xl mx-auto shadow-glow-secondary">
-              <CardHeader>
-                <CardTitle className="text-2xl">Détails de votre propriété</CardTitle>
-                <CardDescription>
-                  Remplissez ce formulaire pour recevoir votre estimation gratuite
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  {/* Type de bien */}
-                  <div className="space-y-2">
-                    <Label htmlFor="propertyType">Type de bien *</Label>
-                    <Select
-                      value={formData.propertyType}
-                      onValueChange={(value) => handleChange("propertyType", value)}
-                    >
-                      <SelectTrigger id="propertyType">
-                        <SelectValue placeholder="Sélectionnez un type" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {propertyTypes.map((type) => (
-                          <SelectItem key={type} value={type}>
-                            {type}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+          {/* Form */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Remplissez le formulaire</CardTitle>
+              <CardDescription>
+                Plus vous nous donnez d'informations, plus notre estimation sera précise
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                {/* Property Information */}
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold flex items-center gap-2">
+                    <Home className="w-5 h-5 text-secondary" />
+                    Informations sur le bien
+                  </h3>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="property_type">Type de bien *</Label>
+                      <Select onValueChange={(value) => setValue("property_type", value)}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Sélectionnez le type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {propertyTypes.map((type) => (
+                            <SelectItem key={type} value={type}>
+                              {type}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      {errors.property_type && (
+                        <p className="text-sm text-destructive">{errors.property_type.message}</p>
+                      )}
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="city">Ville *</Label>
+                      <Select onValueChange={(value) => setValue("city", value)}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Sélectionnez la ville" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {cities.map((city) => (
+                            <SelectItem key={city} value={city}>
+                              {city}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      {errors.city && (
+                        <p className="text-sm text-destructive">{errors.city.message}</p>
+                      )}
+                    </div>
                   </div>
 
-                  {/* Ville */}
                   <div className="space-y-2">
-                    <Label htmlFor="city">Ville *</Label>
-                    <Select
-                      value={formData.city}
-                      onValueChange={(value) => handleChange("city", value)}
-                    >
-                      <SelectTrigger id="city">
-                        <SelectValue placeholder="Sélectionnez une ville" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {cities.map((city) => (
-                          <SelectItem key={city} value={city}>
-                            {city}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  {/* Localisation */}
-                  <div className="space-y-2">
-                    <Label htmlFor="location">Quartier / Localisation précise *</Label>
+                    <Label htmlFor="location">Quartier / Localisation *</Label>
                     <Input
                       id="location"
-                      placeholder="Ex: Almadies, Liberté 6, etc."
-                      value={formData.location}
-                      onChange={(e) => handleChange("location", e.target.value)}
+                      placeholder="Ex: Almadies, Ngor, Somone..."
+                      {...register("location")}
                     />
+                    {errors.location && (
+                      <p className="text-sm text-destructive">{errors.location.message}</p>
+                    )}
                   </div>
 
-                  {/* Surface, Chambres, Salles de bain */}
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="surface">Surface (m²)</Label>
                       <Input
                         id="surface"
                         type="number"
-                        placeholder="150"
-                        value={formData.surface}
-                        onChange={(e) => handleChange("surface", e.target.value)}
+                        placeholder="Ex: 150"
+                        {...register("surface")}
                       />
                     </div>
 
@@ -260,9 +303,8 @@ const FreeEstimation = () => {
                       <Input
                         id="bedrooms"
                         type="number"
-                        placeholder="3"
-                        value={formData.bedrooms}
-                        onChange={(e) => handleChange("bedrooms", e.target.value)}
+                        placeholder="Ex: 3"
+                        {...register("bedrooms")}
                       />
                     </div>
 
@@ -271,114 +313,112 @@ const FreeEstimation = () => {
                       <Input
                         id="bathrooms"
                         type="number"
-                        placeholder="2"
-                        value={formData.bathrooms}
-                        onChange={(e) => handleChange("bathrooms", e.target.value)}
+                        placeholder="Ex: 2"
+                        {...register("bathrooms")}
                       />
                     </div>
                   </div>
 
-                  {/* État du bien */}
                   <div className="space-y-2">
                     <Label htmlFor="condition">État du bien</Label>
-                    <Select
-                      value={formData.condition}
-                      onValueChange={(value) => handleChange("condition", value)}
-                    >
-                      <SelectTrigger id="condition">
+                    <Select onValueChange={(value) => setValue("condition", value)}>
+                      <SelectTrigger>
                         <SelectValue placeholder="Sélectionnez l'état" />
                       </SelectTrigger>
                       <SelectContent>
-                        {conditions.map((cond) => (
-                          <SelectItem key={cond} value={cond}>
-                            {cond}
+                        {conditions.map((condition) => (
+                          <SelectItem key={condition} value={condition}>
+                            {condition}
                           </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
                   </div>
 
-                  {/* Description */}
                   <div className="space-y-2">
-                    <Label htmlFor="description">
-                      Description additionnelle (optionnel)
-                    </Label>
+                    <Label htmlFor="description">Description (optionnel)</Label>
                     <Textarea
                       id="description"
-                      placeholder="Ajoutez des détails supplémentaires sur votre bien..."
+                      placeholder="Ajoutez des détails supplémentaires : vue, proximités, rénovations récentes..."
                       rows={4}
-                      value={formData.description}
-                      onChange={(e) => handleChange("description", e.target.value)}
+                      {...register("description")}
                     />
                   </div>
+                </div>
 
-                  {/* Coordonnées */}
-                  <div className="border-t pt-6">
-                    <h3 className="text-lg font-semibold mb-4">Vos coordonnées</h3>
-                    
-                    <div className="space-y-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="contactName">Nom complet *</Label>
-                        <Input
-                          id="contactName"
-                          placeholder="Votre nom"
-                          value={formData.contactName}
-                          onChange={(e) => handleChange("contactName", e.target.value)}
-                        />
-                      </div>
+                {/* Contact Information */}
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold flex items-center gap-2">
+                    <MessageSquare className="w-5 h-5 text-secondary" />
+                    Vos coordonnées
+                  </h3>
 
-                      <div className="space-y-2">
-                        <Label htmlFor="contactEmail">Email *</Label>
-                        <Input
-                          id="contactEmail"
-                          type="email"
-                          placeholder="votre@email.com"
-                          value={formData.contactEmail}
-                          onChange={(e) => handleChange("contactEmail", e.target.value)}
-                        />
-                      </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="contact_name">Nom complet *</Label>
+                    <Input
+                      id="contact_name"
+                      placeholder="Ex: Jean Dupont"
+                      {...register("contact_name")}
+                    />
+                    {errors.contact_name && (
+                      <p className="text-sm text-destructive">{errors.contact_name.message}</p>
+                    )}
+                  </div>
 
-                      <div className="space-y-2">
-                        <Label htmlFor="contactPhone">Téléphone *</Label>
-                        <Input
-                          id="contactPhone"
-                          type="tel"
-                          placeholder="+221 77 123 45 67"
-                          value={formData.contactPhone}
-                          onChange={(e) => handleChange("contactPhone", e.target.value)}
-                        />
-                      </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="contact_email">Email *</Label>
+                      <Input
+                        id="contact_email"
+                        type="email"
+                        placeholder="votre@email.com"
+                        {...register("contact_email")}
+                      />
+                      {errors.contact_email && (
+                        <p className="text-sm text-destructive">{errors.contact_email.message}</p>
+                      )}
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="contact_phone">Téléphone *</Label>
+                      <Input
+                        id="contact_phone"
+                        type="tel"
+                        placeholder="+221 77 XXX XX XX"
+                        {...register("contact_phone")}
+                      />
+                      {errors.contact_phone && (
+                        <p className="text-sm text-destructive">{errors.contact_phone.message}</p>
+                      )}
                     </div>
                   </div>
+                </div>
 
-                  {/* Submit Button */}
-                  <div className="pt-4">
-                    <Button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="w-full bg-secondary hover:bg-secondary-glow text-white py-6 text-lg font-semibold shadow-glow-secondary transition-smooth"
-                    >
-                      {isSubmitting ? (
-                        <>
-                          <Clock className="h-5 w-5 mr-2 animate-spin" />
-                          Envoi en cours...
-                        </>
-                      ) : (
-                        <>
-                          <Calculator className="h-5 w-5 mr-2" />
-                          Demander mon estimation gratuite
-                        </>
-                      )}
-                    </Button>
-                    <p className="text-xs text-center text-muted-foreground mt-3">
-                      * Champs obligatoires
-                    </p>
-                  </div>
-                </form>
-              </CardContent>
-            </Card>
-          </div>
-        </section>
+                <Button
+                  type="submit"
+                  className="w-full bg-secondary hover:bg-secondary-glow text-white py-6 text-lg"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Calculator className="w-5 h-5 mr-2 animate-spin" />
+                      Envoi en cours...
+                    </>
+                  ) : (
+                    <>
+                      <Calculator className="w-5 h-5 mr-2" />
+                      Obtenir mon estimation gratuite
+                    </>
+                  )}
+                </Button>
+
+                <p className="text-xs text-center text-muted-foreground">
+                  En soumettant ce formulaire, vous acceptez d'être contacté par nos experts
+                </p>
+              </form>
+            </CardContent>
+          </Card>
+        </div>
       </main>
 
       <Footer />
