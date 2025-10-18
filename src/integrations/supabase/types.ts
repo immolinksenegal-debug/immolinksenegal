@@ -14,6 +14,63 @@ export type Database = {
   }
   public: {
     Tables: {
+      estimation_requests: {
+        Row: {
+          bathrooms: number | null
+          bedrooms: number | null
+          city: string
+          condition: string | null
+          contact_email: string
+          contact_name: string
+          contact_phone: string
+          created_at: string
+          description: string | null
+          id: string
+          location: string
+          property_type: string
+          status: string | null
+          surface: number | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          bathrooms?: number | null
+          bedrooms?: number | null
+          city: string
+          condition?: string | null
+          contact_email: string
+          contact_name: string
+          contact_phone: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          location: string
+          property_type: string
+          status?: string | null
+          surface?: number | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          bathrooms?: number | null
+          bedrooms?: number | null
+          city?: string
+          condition?: string | null
+          contact_email?: string
+          contact_name?: string
+          contact_phone?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          location?: string
+          property_type?: string
+          status?: string | null
+          surface?: number | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       properties: {
         Row: {
           bathrooms: number | null

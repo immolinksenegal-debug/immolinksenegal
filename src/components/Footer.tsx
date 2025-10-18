@@ -21,7 +21,7 @@ const Footer = () => {
       { label: "Acheter", to: "/properties" },
       { label: "Vendre", to: "/dashboard" },
       { label: "Louer", to: "/properties" },
-      { label: "Estimation gratuite", to: "/properties" },
+      { label: "Estimation gratuite", to: "/estimation-gratuite" },
     ],
   };
 
