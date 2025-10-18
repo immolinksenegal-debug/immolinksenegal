@@ -27,7 +27,7 @@ const PromotionDialog = ({
   propertyId,
   propertyTitle,
 }: PromotionDialogProps) => {
-  const MONEYFUSION_PAYMENT_LINK = "https://www.pay.moneyfusion.net/Immo_Link_S_n_gal/885340d22564634f/pay/";
+  const MONEYFUSION_PAYMENT_LINK = "https://pay.moneyfusion.net/Immo_Link_S_n_gal/885340d22564634f/pay";
   const [paymentToken, setPaymentToken] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);
   const [showTokenInput, setShowTokenInput] = useState(false);
