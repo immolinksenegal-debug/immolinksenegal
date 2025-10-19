@@ -70,26 +70,49 @@ const PromotionDialog = ({
       return;
     }
 
+    // Validation du format du token (au moins 8 caractères alphanumériques)
+    const tokenPattern = /^[a-zA-Z0-9]{8,}$/;
+    if (!tokenPattern.test(paymentToken.trim())) {
+      toast({
+        title: "Format de token invalide",
+        description: "Le token doit contenir au moins 8 caractères alphanumériques",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsVerifying(true);
 
     try {
+      console.log('🔐 Getting user session...');
       const { data: { session } } = await supabase.auth.getSession();
       
       if (!session) {
-        throw new Error("Vous devez être connecté");
+        throw new Error("Vous devez être connecté pour effectuer cette action");
       }
 
+      console.log('📤 Sending payment verification request...');
       const response = await supabase.functions.invoke('verify-moneyfusion-payment', {
         body: { token: paymentToken.trim(), propertyId },
       });
 
+      console.log('📥 Response received:', response);
+
       if (response.error) {
-        throw new Error(response.error.message || "Erreur lors de la vérification");
+        console.error('❌ Verification failed:', response.error);
+        throw new Error(response.error.message || "Erreur lors de la vérification du paiement");
       }
+
+      if (!response.data?.success) {
+        throw new Error(response.data?.error || "La vérification du paiement a échoué");
+      }
+
+      console.log('✅ Payment verified successfully');
 
       toast({
         title: "✅ Paiement confirmé !",
-        description: response.data.message,
+        description: response.data.message || "Votre annonce est maintenant premium",
+        duration: 5000,
       });
 
       // Close dialog and reset
@@ -98,14 +121,25 @@ const PromotionDialog = ({
       onOpenChange(false);
       
       // Reload page to show updated premium status
-      setTimeout(() => window.location.reload(), 1500);
+      setTimeout(() => {
+        console.log('🔄 Reloading page to show premium status...');
+        window.location.reload();
+      }, 1500);
 
     } catch (error: any) {
-      console.error("Verification error:", error);
+      console.error("💥 Verification error:", error);
+      
+      let errorMessage = "Impossible de vérifier le paiement";
+      
+      if (error.message) {
+        errorMessage = error.message;
+      }
+      
       toast({
         title: "Erreur de vérification",
-        description: error.message || "Impossible de vérifier le paiement",
+        description: errorMessage,
         variant: "destructive",
+        duration: 7000,
       });
     } finally {
       setIsVerifying(false);
