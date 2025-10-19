@@ -9,6 +9,7 @@ import PropertyDetail from "./pages/PropertyDetail";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import FreeEstimation from "./pages/FreeEstimation";
+import EstimationManagement from "./pages/EstimationManagement";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/auth" element={<Auth />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/estimation-gratuite" element={<FreeEstimation />} />
+          <Route path="/admin/estimations" element={<EstimationManagement />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
