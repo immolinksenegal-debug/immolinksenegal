@@ -60,7 +60,7 @@ const Footer = () => {
               </div>
               <div className="flex items-center justify-center sm:justify-start gap-2 text-sm xs:text-base text-primary-foreground/80">
                 <Mail className="h-4 w-4 text-secondary" />
-                <span>contact@immolink.sn</span>
+                <span>immolinksenegal@gmail.com</span>
               </div>
               <div className="flex items-center justify-center sm:justify-start gap-2 text-sm xs:text-base text-primary-foreground/80">
                 <MapPin className="h-4 w-4 text-secondary" />
