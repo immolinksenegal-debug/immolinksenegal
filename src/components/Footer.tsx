@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { Home, Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from "lucide-react";
+import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from "lucide-react";
+import logo from "@/assets/logo-immo-link.png";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -38,14 +39,12 @@ const Footer = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 xs:gap-8 mb-6 xs:mb-8">
           {/* Brand */}
           <div className="lg:col-span-2 flex flex-col items-center sm:items-start text-center sm:text-left">
-            <Link to="/" className="flex items-center space-x-2 mb-4 group">
-              <div className="relative">
-                <div className="absolute inset-0 bg-secondary rounded-lg blur-sm opacity-50 group-hover:opacity-75 transition-smooth"></div>
-                <Home className="h-7 w-7 xs:h-8 xs:w-8 text-secondary relative z-10" />
-              </div>
-              <span className="text-lg xs:text-xl font-bold text-white">
-                Immo Link Sénégal
-              </span>
+            <Link to="/" className="flex items-center mb-4 group">
+              <img 
+                src={logo} 
+                alt="Immo Link Sénégal" 
+                className="h-16 w-16 xs:h-20 xs:w-20 object-contain transition-smooth group-hover:scale-105" 
+              />
             </Link>
             <p className="text-sm xs:text-base text-primary-foreground/80 mb-4 xs:mb-6 max-w-sm leading-relaxed">
               La plateforme immobilière moderne qui connecte acheteurs, vendeurs et locataires 

@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Home, PlusCircle, User, Menu, LogOut, Building2 } from "lucide-react";
-import logo from "@/assets/immo-link-logo.png";
+import logo from "@/assets/logo-immo-link.png";
 import { useState, useEffect } from "react";
 import {
   Sheet,
