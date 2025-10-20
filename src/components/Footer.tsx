@@ -7,16 +7,16 @@ const Footer = () => {
 
   const footerLinks = {
     company: [
-      { label: "À propos", to: "/" },
-      { label: "Comment ça marche", to: "/" },
-      { label: "Carrières", to: "/properties" },
-      { label: "Blog", to: "/properties" },
+      { label: "À propos", to: "/a-propos" },
+      { label: "Comment ça marche", to: "/comment-ca-marche" },
+      { label: "Nos biens", to: "/properties" },
+      { label: "Contact", to: "/contact" },
     ],
     support: [
-      { label: "Centre d'aide", to: "/properties" },
-      { label: "Conditions d'utilisation", to: "/" },
-      { label: "Politique de confidentialité", to: "/" },
-      { label: "Contact", to: "/" },
+      { label: "Centre d'aide", to: "/contact" },
+      { label: "Conditions d'utilisation", to: "/conditions" },
+      { label: "Politique de confidentialité", to: "/confidentialite" },
+      { label: "Nous contacter", to: "/contact" },
     ],
     services: [
       { label: "Acheter", to: "/properties" },

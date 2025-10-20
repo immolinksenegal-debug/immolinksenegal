@@ -10,6 +10,11 @@ import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import FreeEstimation from "./pages/FreeEstimation";
 import EstimationManagement from "./pages/EstimationManagement";
+import About from "./pages/About";
+import HowItWorks from "./pages/HowItWorks";
+import Contact from "./pages/Contact";
+import Terms from "./pages/Terms";
+import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +33,11 @@ const App = () => (
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/estimation-gratuite" element={<FreeEstimation />} />
           <Route path="/admin/estimations" element={<EstimationManagement />} />
+          <Route path="/a-propos" element={<About />} />
+          <Route path="/comment-ca-marche" element={<HowItWorks />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/conditions" element={<Terms />} />
+          <Route path="/confidentialite" element={<Privacy />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
