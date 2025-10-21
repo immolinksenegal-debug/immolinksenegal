@@ -34,30 +34,8 @@ const PromotionDialog = ({
   const { toast } = useToast();
 
   const handlePayment = () => {
-    // Ensure the URL has the full protocol
-    const fullUrl = MONEYFUSION_PAYMENT_LINK.startsWith('http') 
-      ? MONEYFUSION_PAYMENT_LINK 
-      : `https://${MONEYFUSION_PAYMENT_LINK}`;
-    
-    // Redirect to MoneyFusion payment page
-    const paymentWindow = window.open(fullUrl, '_blank', 'noopener,noreferrer');
-    
-    if (!paymentWindow) {
-      toast({
-        title: "Popup bloqué",
-        description: "Veuillez autoriser les popups pour ce site",
-        variant: "destructive",
-      });
-      return;
-    }
-    
-    // Show token input field after opening payment page
+    // Show token input immediately - user will open payment in another tab
     setShowTokenInput(true);
-    
-    toast({
-      title: "Page de paiement ouverte",
-      description: "Complétez votre paiement et revenez entrer votre token",
-    });
   };
 
   const handleVerifyPayment = async () => {
@@ -226,18 +204,44 @@ const PromotionDialog = ({
                     className="w-full bg-secondary hover:bg-secondary-glow text-white shadow-glow-secondary transition-smooth rounded-xl font-semibold text-base py-6"
                   >
                     <Sparkles className="h-5 w-5 mr-2" />
-                    Payer avec MoneyFusion
+                    Continuer vers le paiement
                   </Button>
 
                   <p className="text-xs text-center text-muted-foreground mt-4">
-                    Après le paiement, revenez ici pour confirmer avec votre token
+                    Vous recevrez un token après le paiement
                   </p>
                 </>
               ) : (
                 <div className="space-y-4">
+                  {/* Payment Link */}
+                  <div className="p-4 bg-secondary/5 border-2 border-secondary/20 rounded-lg">
+                    <p className="text-sm font-semibold text-foreground mb-2">
+                      Étape 1 : Effectuer le paiement
+                    </p>
+                    <p className="text-xs text-muted-foreground mb-3">
+                      Cliquez sur le bouton ci-dessous pour accéder à la page de paiement MoneyFusion
+                    </p>
+                    <Button
+                      asChild
+                      className="w-full bg-secondary hover:bg-secondary-glow text-white"
+                    >
+                      <a 
+                        href={MONEYFUSION_PAYMENT_LINK}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Sparkles className="h-4 w-4 mr-2" />
+                        Ouvrir MoneyFusion
+                      </a>
+                    </Button>
+                  </div>
+
                   <div className="p-4 bg-muted/50 rounded-lg">
-                    <p className="text-sm text-muted-foreground mb-3">
-                      Une fois votre paiement effectué, vous recevrez un <span className="font-semibold">token de transaction</span>. 
+                    <p className="text-sm font-semibold text-foreground mb-2">
+                      Étape 2 : Entrer votre token
+                    </p>
+                    <p className="text-xs text-muted-foreground mb-3">
+                      Après le paiement, vous recevrez un <span className="font-semibold">token de transaction</span>. 
                       Entrez-le ci-dessous pour activer votre promotion.
                     </p>
                     
