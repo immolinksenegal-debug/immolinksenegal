@@ -20,6 +20,7 @@ import {
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { ContactRequestDialog } from "@/components/ContactRequestDialog";
 
 const PropertyDetail = () => {
   const { id } = useParams();
@@ -29,6 +30,8 @@ const PropertyDetail = () => {
   const [property, setProperty] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [showContactDialog, setShowContactDialog] = useState(false);
+  const [isOwner, setIsOwner] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -54,6 +57,12 @@ const PropertyDetail = () => {
       }
 
       setProperty(data);
+
+      // Check if current user is the property owner
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user && data.user_id === user.id) {
+        setIsOwner(true);
+      }
     } catch (error) {
       console.error("Error fetching property:", error);
       setError(true);
@@ -369,63 +378,36 @@ const PropertyDetail = () => {
                     </div>
                   </div>
 
-                  {property.contact_phone ? (
+                  {isOwner ? (
+                    // Show contact info to property owner
+                    <>
+                      {property.contact_phone && (
+                        <div className="p-3 xs:p-4 rounded-xl bg-secondary/5 mb-3">
+                          <div className="text-xs text-muted-foreground mb-1">Téléphone</div>
+                          <div className="text-sm font-semibold text-foreground">{property.contact_phone}</div>
+                        </div>
+                      )}
+                      {property.contact_whatsapp && (
+                        <div className="p-3 xs:p-4 rounded-xl bg-secondary/5 mb-3">
+                          <div className="text-xs text-muted-foreground mb-1">WhatsApp</div>
+                          <div className="text-sm font-semibold text-foreground">{property.contact_whatsapp}</div>
+                        </div>
+                      )}
+                      {property.contact_email && (
+                        <div className="p-3 xs:p-4 rounded-xl bg-secondary/5 mb-3">
+                          <div className="text-xs text-muted-foreground mb-1">Email</div>
+                          <div className="text-sm font-semibold text-foreground">{property.contact_email}</div>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    // Show contact request button to visitors
                     <Button 
                       className="w-full bg-secondary hover:bg-secondary-glow text-white shadow-glow-secondary transition-smooth rounded-xl font-semibold h-10 xs:h-12 text-sm xs:text-base"
-                      asChild
-                    >
-                      <a href={`tel:${property.contact_phone}`}>
-                        <Phone className="mr-2 h-4 w-4 xs:h-5 xs:w-5" />
-                        Appeler maintenant
-                      </a>
-                    </Button>
-                  ) : (
-                    <Button 
-                      className="w-full bg-secondary/50 text-white rounded-xl font-semibold h-10 xs:h-12 text-sm xs:text-base"
-                      disabled
+                      onClick={() => setShowContactDialog(true)}
                     >
                       <Phone className="mr-2 h-4 w-4 xs:h-5 xs:w-5" />
-                      Numéro non disponible
-                    </Button>
-                  )}
-
-                  {property.contact_whatsapp && (
-                    <Button 
-                      className="w-full bg-[#25D366] hover:bg-[#20BA5A] text-white transition-smooth rounded-xl font-semibold h-10 xs:h-12 text-sm xs:text-base mb-3"
-                      asChild
-                    >
-                      <a 
-                        href={`https://wa.me/${property.contact_whatsapp.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(`Bonjour, je suis intéressé par votre bien: ${property.title}`)}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <svg className="mr-2 h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-                        </svg>
-                        Contacter sur WhatsApp
-                      </a>
-                    </Button>
-                  )}
-
-                  {property.contact_email ? (
-                    <Button
-                      variant="outline"
-                      className="w-full border-2 border-secondary text-secondary hover:bg-secondary hover:text-white transition-smooth rounded-xl font-semibold h-10 xs:h-12 text-sm xs:text-base"
-                      asChild
-                    >
-                      <a href={`mailto:${property.contact_email}?subject=Intéressé par: ${encodeURIComponent(property.title)}&body=Bonjour,%0D%0A%0D%0AJe suis intéressé par votre bien situé à ${encodeURIComponent(property.location)}.%0D%0A%0D%0AMerci de me contacter.`}>
-                        <Mail className="mr-2 h-4 w-4 xs:h-5 xs:w-5" />
-                        Envoyer un message
-                      </a>
-                    </Button>
-                  ) : (
-                    <Button
-                      variant="outline"
-                      className="w-full border-2 border-border text-muted-foreground rounded-xl font-semibold h-10 xs:h-12 text-sm xs:text-base"
-                      disabled
-                    >
-                      <Mail className="mr-2 h-4 w-4 xs:h-5 xs:w-5" />
-                      Email non disponible
+                      Demander les coordonnées
                     </Button>
                   )}
                 </div>
@@ -442,6 +424,13 @@ const PropertyDetail = () => {
       </main>
 
       <Footer />
+      
+      <ContactRequestDialog
+        open={showContactDialog}
+        onOpenChange={setShowContactDialog}
+        propertyId={id || ""}
+        propertyTitle={property?.title || ""}
+      />
     </div>
   );
 };

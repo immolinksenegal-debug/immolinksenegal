@@ -15,10 +15,31 @@ serve(async (req) => {
     const { token, propertyId } = await req.json()
     console.log('📥 Payment verification request received:', { token, propertyId })
 
-    if (!token || !propertyId) {
-      console.error('❌ Missing required parameters:', { token: !!token, propertyId: !!propertyId })
+    // Validate token format and length
+    if (!token || typeof token !== 'string' || token.length < 8 || token.length > 64) {
+      console.error('❌ Invalid token format or length:', { tokenLength: token?.length })
       return new Response(
-        JSON.stringify({ error: 'Token et propertyId requis' }),
+        JSON.stringify({ error: 'Token invalide ou manquant' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
+
+    // Validate token contains only safe characters (alphanumeric)
+    const tokenPattern = /^[a-zA-Z0-9]+$/
+    if (!tokenPattern.test(token)) {
+      console.error('❌ Token contains invalid characters')
+      return new Response(
+        JSON.stringify({ error: 'Format de token invalide' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
+
+    // Validate propertyId is a valid UUID
+    const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+    if (!propertyId || typeof propertyId !== 'string' || !uuidPattern.test(propertyId)) {
+      console.error('❌ Invalid propertyId format')
+      return new Response(
+        JSON.stringify({ error: 'ID de propriété invalide' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
     }
