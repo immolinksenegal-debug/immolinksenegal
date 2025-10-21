@@ -27,7 +27,7 @@ const PromotionDialog = ({
   propertyId,
   propertyTitle,
 }: PromotionDialogProps) => {
-  const MONEYFUSION_PAYMENT_LINK = "https://www.pay.moneyfusion.net/Immo_Link_S_n_gal/0f3a818c2b97afea/pay/";
+  const MONEYFUSION_PAYMENT_LINK = "https://www.pay.moneyfusion.net/Immo_Link_S_n_gal/0f3a818c2b97afea/pay/" as const;
   const [paymentToken, setPaymentToken] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);
   const [showTokenInput, setShowTokenInput] = useState(false);
@@ -221,19 +221,20 @@ const PromotionDialog = ({
                     <p className="text-xs text-muted-foreground mb-3">
                       Cliquez sur le bouton ci-dessous pour accéder à la page de paiement MoneyFusion
                     </p>
-                    <Button
-                      asChild
-                      className="w-full bg-secondary hover:bg-secondary-glow text-white"
+                    <a 
+                      href={MONEYFUSION_PAYMENT_LINK}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full"
                     >
-                      <a 
-                        href={MONEYFUSION_PAYMENT_LINK}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                      <Button
+                        type="button"
+                        className="w-full bg-secondary hover:bg-secondary-glow text-white"
                       >
                         <Sparkles className="h-4 w-4 mr-2" />
                         Ouvrir MoneyFusion
-                      </a>
-                    </Button>
+                      </Button>
+                    </a>
                   </div>
 
                   <div className="p-4 bg-muted/50 rounded-lg">
