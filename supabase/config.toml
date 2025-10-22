@@ -1,1 +1,4 @@
 project_id = "uccblgllyezbfsubfqin"
+
+[functions.verify-moneyfusion-payment]
+verify_jwt = true
