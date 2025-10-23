@@ -154,6 +154,48 @@ export type Database = {
         }
         Relationships: []
       }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          created_at: string
+          full_name: string | null
+          id: string
+          notification_email: boolean | null
+          notification_new_messages: boolean | null
+          notification_property_updates: boolean | null
+          notification_sms: boolean | null
+          phone: string | null
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          full_name?: string | null
+          id: string
+          notification_email?: boolean | null
+          notification_new_messages?: boolean | null
+          notification_property_updates?: boolean | null
+          notification_sms?: boolean | null
+          phone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          notification_email?: boolean | null
+          notification_new_messages?: boolean | null
+          notification_property_updates?: boolean | null
+          notification_sms?: boolean | null
+          phone?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       properties: {
         Row: {
           bathrooms: number | null

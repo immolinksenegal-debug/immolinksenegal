@@ -17,6 +17,9 @@ import {
 import PropertyCard from "@/components/PropertyCard";
 import PropertyForm from "@/components/PropertyForm";
 import PromotionDialog from "@/components/PromotionDialog";
+import { ProfileSettings } from "@/components/settings/ProfileSettings";
+import { NotificationSettings } from "@/components/settings/NotificationSettings";
+import { SecuritySettings } from "@/components/settings/SecuritySettings";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
@@ -284,36 +287,15 @@ const Dashboard = () => {
             </TabsContent>
 
             <TabsContent value="settings">
-              <Card className="shadow-card border-border/50">
-                <CardHeader>
-                  <CardTitle className="text-2xl">Paramètres du compte</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-6">
-                    <div>
-                      <h3 className="text-lg font-semibold text-foreground mb-4">
-                        Informations personnelles
-                      </h3>
-                      <div className="glass-effect rounded-xl p-4">
-                        <p className="text-muted-foreground">
-                          Fonctionnalité en cours de développement
-                        </p>
-                      </div>
-                    </div>
-                    
-                    <div>
-                      <h3 className="text-lg font-semibold text-foreground mb-4">
-                        Notifications
-                      </h3>
-                      <div className="glass-effect rounded-xl p-4">
-                        <p className="text-muted-foreground">
-                          Fonctionnalité en cours de développement
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="space-y-6">
+                  <ProfileSettings />
+                </div>
+                <div className="space-y-6">
+                  <NotificationSettings />
+                  <SecuritySettings />
+                </div>
+              </div>
             </TabsContent>
           </Tabs>
         </div>
