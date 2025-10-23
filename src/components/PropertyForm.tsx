@@ -14,18 +14,59 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Upload, X, Loader2 } from "lucide-react";
 
 const propertySchema = z.object({
-  title: z.string().min(5, "Le titre doit contenir au moins 5 caractères").max(100),
-  description: z.string().min(20, "La description doit contenir au moins 20 caractères").max(2000),
+  title: z.string()
+    .trim()
+    .min(5, "Le titre doit contenir au moins 5 caractères")
+    .max(200, "Le titre ne peut pas dépasser 200 caractères"),
+  description: z.string()
+    .trim()
+    .min(20, "La description doit contenir au moins 20 caractères")
+    .max(5000, "La description ne peut pas dépasser 5000 caractères"),
   type: z.string().min(1, "Veuillez sélectionner un type de bien"),
-  price: z.string().min(1, "Le prix est requis"),
-  location: z.string().min(3, "L'adresse est requise"),
-  city: z.string().min(2, "La ville est requise"),
-  bedrooms: z.string().optional(),
-  bathrooms: z.string().optional(),
-  surface: z.string().min(1, "La surface est requise"),
-  contact_phone: z.string().optional(),
-  contact_email: z.string().email("Email invalide").optional().or(z.literal("")),
-  contact_whatsapp: z.string().optional(),
+  price: z.string()
+    .min(1, "Le prix est requis")
+    .refine((val) => parseFloat(val) > 0 && parseFloat(val) <= 999999999999, {
+      message: "Le prix doit être entre 1 et 999,999,999,999 FCFA"
+    }),
+  location: z.string()
+    .trim()
+    .min(3, "L'adresse est requise")
+    .max(300, "L'adresse ne peut pas dépasser 300 caractères"),
+  city: z.string()
+    .trim()
+    .min(2, "La ville est requise")
+    .max(100, "La ville ne peut pas dépasser 100 caractères"),
+  bedrooms: z.string()
+    .optional()
+    .refine((val) => !val || (parseInt(val) >= 0 && parseInt(val) <= 50), {
+      message: "Le nombre de chambres doit être entre 0 et 50"
+    }),
+  bathrooms: z.string()
+    .optional()
+    .refine((val) => !val || (parseInt(val) >= 0 && parseInt(val) <= 50), {
+      message: "Le nombre de salles de bain doit être entre 0 et 50"
+    }),
+  surface: z.string()
+    .min(1, "La surface est requise")
+    .refine((val) => parseFloat(val) > 0 && parseFloat(val) <= 1000000, {
+      message: "La surface doit être entre 1 et 1,000,000 m²"
+    }),
+  contact_phone: z.string()
+    .trim()
+    .max(20, "Le téléphone ne peut pas dépasser 20 caractères")
+    .optional()
+    .or(z.literal("")),
+  contact_email: z.string()
+    .trim()
+    .email("Email invalide")
+    .max(255, "L'email ne peut pas dépasser 255 caractères")
+    .optional()
+    .or(z.literal("")),
+  contact_whatsapp: z.string()
+    .trim()
+    .max(20, "Le WhatsApp ne peut pas dépasser 20 caractères")
+    .optional()
+    .or(z.literal("")),
 });
 
 type PropertyFormData = z.infer<typeof propertySchema>;

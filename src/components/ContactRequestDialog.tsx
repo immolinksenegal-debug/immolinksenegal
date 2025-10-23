@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,6 +11,29 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Mail, Phone, User, MessageSquare } from "lucide-react";
 
+const contactRequestSchema = z.object({
+  requesterName: z.string()
+    .trim()
+    .min(2, "Le nom doit contenir au moins 2 caractères")
+    .max(100, "Le nom ne peut pas dépasser 100 caractères"),
+  requesterEmail: z.string()
+    .trim()
+    .email("Veuillez entrer une adresse email valide")
+    .max(255, "L'email ne peut pas dépasser 255 caractères"),
+  requesterPhone: z.string()
+    .trim()
+    .max(20, "Le téléphone ne peut pas dépasser 20 caractères")
+    .optional()
+    .or(z.literal("")),
+  message: z.string()
+    .trim()
+    .max(1000, "Le message ne peut pas dépasser 1000 caractères")
+    .optional()
+    .or(z.literal("")),
+});
+
+type ContactRequestFormData = z.infer<typeof contactRequestSchema>;
+
 interface ContactRequestDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -16,27 +42,13 @@ interface ContactRequestDialogProps {
 }
 
 export const ContactRequestDialog = ({ open, onOpenChange, propertyId, propertyTitle }: ContactRequestDialogProps) => {
-  const [requesterName, setRequesterName] = useState("");
-  const [requesterEmail, setRequesterEmail] = useState("");
-  const [requesterPhone, setRequesterPhone] = useState("");
-  const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!requesterName.trim() || !requesterEmail.trim()) {
-      toast.error("Veuillez remplir tous les champs obligatoires");
-      return;
-    }
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<ContactRequestFormData>({
+    resolver: zodResolver(contactRequestSchema),
+  });
 
-    // Basic email validation
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(requesterEmail)) {
-      toast.error("Veuillez entrer une adresse email valide");
-      return;
-    }
-
+  const onSubmit = async (data: ContactRequestFormData) => {
     setIsSubmitting(true);
 
     try {
@@ -44,10 +56,10 @@ export const ContactRequestDialog = ({ open, onOpenChange, propertyId, propertyT
         .from('contact_requests')
         .insert({
           property_id: propertyId,
-          requester_name: requesterName.trim(),
-          requester_email: requesterEmail.trim(),
-          requester_phone: requesterPhone.trim() || null,
-          message: message.trim() || null,
+          requester_name: data.requesterName,
+          requester_email: data.requesterEmail,
+          requester_phone: data.requesterPhone || null,
+          message: data.message || null,
           status: 'pending'
         });
 
@@ -55,12 +67,7 @@ export const ContactRequestDialog = ({ open, onOpenChange, propertyId, propertyT
 
       toast.success("Votre demande de contact a été envoyée avec succès !");
       onOpenChange(false);
-      
-      // Reset form
-      setRequesterName("");
-      setRequesterEmail("");
-      setRequesterPhone("");
-      setMessage("");
+      reset();
     } catch (error) {
       console.error('Error submitting contact request:', error);
       toast.error("Une erreur est survenue lors de l'envoi de votre demande");
@@ -79,7 +86,7 @@ export const ContactRequestDialog = ({ open, onOpenChange, propertyId, propertyT
           </DialogDescription>
         </DialogHeader>
         
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="name">Votre nom *</Label>
             <div className="relative">
@@ -87,13 +94,13 @@ export const ContactRequestDialog = ({ open, onOpenChange, propertyId, propertyT
               <Input
                 id="name"
                 placeholder="Entrez votre nom"
-                value={requesterName}
-                onChange={(e) => setRequesterName(e.target.value)}
+                {...register("requesterName")}
                 className="pl-10"
-                required
-                maxLength={100}
               />
             </div>
+            {errors.requesterName && (
+              <p className="text-sm text-destructive">{errors.requesterName.message}</p>
+            )}
           </div>
 
           <div className="space-y-2">
@@ -104,13 +111,13 @@ export const ContactRequestDialog = ({ open, onOpenChange, propertyId, propertyT
                 id="email"
                 type="email"
                 placeholder="votre@email.com"
-                value={requesterEmail}
-                onChange={(e) => setRequesterEmail(e.target.value)}
+                {...register("requesterEmail")}
                 className="pl-10"
-                required
-                maxLength={255}
               />
             </div>
+            {errors.requesterEmail && (
+              <p className="text-sm text-destructive">{errors.requesterEmail.message}</p>
+            )}
           </div>
 
           <div className="space-y-2">
@@ -121,12 +128,13 @@ export const ContactRequestDialog = ({ open, onOpenChange, propertyId, propertyT
                 id="phone"
                 type="tel"
                 placeholder="+221 XX XXX XX XX"
-                value={requesterPhone}
-                onChange={(e) => setRequesterPhone(e.target.value)}
+                {...register("requesterPhone")}
                 className="pl-10"
-                maxLength={20}
               />
             </div>
+            {errors.requesterPhone && (
+              <p className="text-sm text-destructive">{errors.requesterPhone.message}</p>
+            )}
           </div>
 
           <div className="space-y-2">
@@ -136,12 +144,13 @@ export const ContactRequestDialog = ({ open, onOpenChange, propertyId, propertyT
               <Textarea
                 id="message"
                 placeholder="Dites-nous pourquoi vous êtes intéressé..."
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
+                {...register("message")}
                 className="pl-10 min-h-[100px]"
-                maxLength={1000}
               />
             </div>
+            {errors.message && (
+              <p className="text-sm text-destructive">{errors.message.message}</p>
+            )}
           </div>
 
           <div className="flex gap-3 pt-4">

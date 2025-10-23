@@ -23,16 +23,44 @@ import { useNavigate } from "react-router-dom";
 
 const estimationSchema = z.object({
   property_type: z.string().min(1, "Le type de bien est requis"),
-  location: z.string().min(3, "Le quartier doit contenir au moins 3 caractères"),
+  location: z.string()
+    .trim()
+    .min(3, "Le quartier doit contenir au moins 3 caractères")
+    .max(200, "Le quartier ne peut pas dépasser 200 caractères"),
   city: z.string().min(2, "La ville est requise"),
-  surface: z.string().optional(),
-  bedrooms: z.string().optional(),
-  bathrooms: z.string().optional(),
+  surface: z.string()
+    .optional()
+    .refine((val) => !val || (parseFloat(val) > 0 && parseFloat(val) <= 100000), {
+      message: "La surface doit être entre 1 et 100000 m²"
+    }),
+  bedrooms: z.string()
+    .optional()
+    .refine((val) => !val || (parseInt(val) >= 0 && parseInt(val) <= 50), {
+      message: "Le nombre de chambres doit être entre 0 et 50"
+    }),
+  bathrooms: z.string()
+    .optional()
+    .refine((val) => !val || (parseInt(val) >= 0 && parseInt(val) <= 50), {
+      message: "Le nombre de salles de bain doit être entre 0 et 50"
+    }),
   condition: z.string().optional(),
-  description: z.string().optional(),
-  contact_name: z.string().min(2, "Le nom doit contenir au moins 2 caractères"),
-  contact_email: z.string().email("Email invalide"),
-  contact_phone: z.string().min(8, "Le numéro de téléphone est invalide"),
+  description: z.string()
+    .trim()
+    .max(2000, "La description ne peut pas dépasser 2000 caractères")
+    .optional()
+    .or(z.literal("")),
+  contact_name: z.string()
+    .trim()
+    .min(2, "Le nom doit contenir au moins 2 caractères")
+    .max(100, "Le nom ne peut pas dépasser 100 caractères"),
+  contact_email: z.string()
+    .trim()
+    .email("Email invalide")
+    .max(255, "L'email ne peut pas dépasser 255 caractères"),
+  contact_phone: z.string()
+    .trim()
+    .min(8, "Le numéro de téléphone est invalide")
+    .max(20, "Le téléphone ne peut pas dépasser 20 caractères"),
 });
 
 type EstimationFormData = z.infer<typeof estimationSchema>;
