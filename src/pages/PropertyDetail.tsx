@@ -21,6 +21,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { ContactRequestDialog } from "@/components/ContactRequestDialog";
+import WhatsAppChat from "@/components/WhatsAppChat";
 
 const PropertyDetail = () => {
   const { id } = useParams();
@@ -431,6 +432,15 @@ const PropertyDetail = () => {
         propertyId={id || ""}
         propertyTitle={property?.title || ""}
       />
+
+      {/* WhatsApp Chat intégré */}
+      {property?.contact_whatsapp && !isOwner && (
+        <WhatsAppChat
+          phoneNumber={property.contact_whatsapp}
+          propertyTitle={property.title}
+          propertyId={property.id}
+        />
+      )}
     </div>
   );
 };
