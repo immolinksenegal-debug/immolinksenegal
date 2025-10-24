@@ -20,6 +20,7 @@ import PromotionDialog from "@/components/PromotionDialog";
 import { ProfileSettings } from "@/components/settings/ProfileSettings";
 import { NotificationSettings } from "@/components/settings/NotificationSettings";
 import { SecuritySettings } from "@/components/settings/SecuritySettings";
+import { MessagesList } from "@/components/dashboard/MessagesList";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
@@ -74,11 +75,18 @@ const Dashboard = () => {
 
       setUserProperties(formattedProperties);
 
+      // Fetch contact requests count
+      const { count: messagesCount } = await supabase
+        .from('contact_requests')
+        .select('*', { count: 'exact', head: true })
+        .in('property_id', data.map(p => p.id))
+        .eq('status', 'pending');
+
       const totalViews = data.reduce((sum: number, prop: any) => sum + (prop.views || 0), 0);
       setStats([
         { label: "Annonces actives", value: data.length.toString(), icon: Home },
         { label: "Vues totales", value: totalViews.toString(), icon: Eye },
-        { label: "Messages", value: "0", icon: MessageSquare },
+        { label: "Messages", value: (messagesCount || 0).toString(), icon: MessageSquare },
         { label: "Favoris", value: "0", icon: Heart },
       ]);
     } catch (error) {
@@ -268,22 +276,7 @@ const Dashboard = () => {
             </TabsContent>
 
             <TabsContent value="messages">
-              <Card className="shadow-card border-border/50">
-                <CardHeader>
-                  <CardTitle className="text-2xl">Messages</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-center py-12">
-                    <MessageSquare className="h-16 w-16 text-muted-foreground/50 mx-auto mb-4" />
-                    <h3 className="text-xl font-semibold text-foreground mb-2">
-                      Aucun message
-                    </h3>
-                    <p className="text-muted-foreground">
-                      Vos conversations avec les acheteurs apparaîtront ici
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
+              <MessagesList />
             </TabsContent>
 
             <TabsContent value="settings">
