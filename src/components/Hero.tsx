@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, MapPin, Home, DollarSign } from "lucide-react";
-import heroImage from "@/assets/hero-immobilier-senegal.jpg";
+import heroImage from "@/assets/hero-mer-senegal.jpg";
 import {
   Select,
   SelectContent,
@@ -12,7 +12,7 @@ import {
 
 const Hero = () => {
   return (
-    <section className="relative min-h-[700px] flex items-center justify-center overflow-hidden pt-16">
+    <section className="relative min-h-[700px] flex items-center justify-center overflow-hidden pt-20 xs:pt-22 md:pt-24 lg:pt-28">
       {/* Drapeau Sénégal en haut */}
       <div className="absolute top-0 left-0 right-0 z-20 flex">
         <div className="senegal-flag-stripe senegal-flag-green"></div>

@@ -56,13 +56,13 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 glass-effect shadow-soft">
       <div className="container mx-auto px-2 xs:px-4 sm:px-6">
-        <div className="flex items-center justify-between h-14 xs:h-16">
+        <div className="flex items-center justify-between h-16 xs:h-18 md:h-20 lg:h-24">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-1 xs:space-x-2 group">
             <img 
               src={logo} 
               alt="Immo Link Sénégal" 
-              className="h-10 w-10 xs:h-12 xs:w-12 md:h-14 md:w-14 object-contain transition-smooth group-hover:scale-105" 
+              className="h-14 w-14 xs:h-16 xs:w-16 md:h-20 md:w-20 lg:h-24 lg:w-24 object-contain transition-smooth group-hover:scale-105 drop-shadow-lg" 
             />
           </Link>
 
