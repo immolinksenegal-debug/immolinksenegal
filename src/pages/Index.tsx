@@ -3,6 +3,7 @@ import Hero from "@/components/Hero";
 import FeaturedProperties from "@/components/FeaturedProperties";
 import AboutSection from "@/components/AboutSection";
 import Footer from "@/components/Footer";
+import AIEstimationChat from "@/components/AIEstimationChat";
 
 const Index = () => {
   return (
@@ -14,6 +15,7 @@ const Index = () => {
         <AboutSection />
       </main>
       <Footer />
+      <AIEstimationChat />
     </div>
   );
 };
