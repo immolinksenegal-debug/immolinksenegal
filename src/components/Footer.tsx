@@ -43,7 +43,7 @@ const Footer = () => {
               <img 
                 src={logo} 
                 alt="Immo Link Sénégal" 
-                className="h-16 w-16 xs:h-20 xs:w-20 object-contain transition-smooth group-hover:scale-105" 
+                className="h-24 w-24 xs:h-28 xs:w-28 md:h-32 md:w-32 object-contain transition-smooth group-hover:scale-110 drop-shadow-2xl" 
               />
             </Link>
             <p className="text-sm xs:text-base text-primary-foreground/80 mb-4 xs:mb-6 max-w-sm leading-relaxed">

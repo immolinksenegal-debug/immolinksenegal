@@ -10,28 +10,28 @@ All colors MUST be HSL.
   :root {
     /* Backgrounds - Tons clairs et modernes */
     --background: 0 0% 100%;
-    --foreground: 150 70% 15%;
+    --foreground: 30 15% 20%;
 
     /* Cards avec glassmorphism */
     --card: 0 0% 100%;
-    --card-foreground: 150 70% 15%;
+    --card-foreground: 30 15% 20%;
 
     /* Popover */
     --popover: 0 0% 100%;
-    --popover-foreground: 150 70% 15%;
+    --popover-foreground: 30 15% 20%;
 
-    /* Primary - Vert Sénégal vibrant */
-    --primary: 150 100% 26%;
+    /* Primary - Marron foncé élégant */
+    --primary: 25 40% 25%;
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 150 100% 40%;
+    --primary-glow: 25 45% 35%;
 
-    /* Secondary - Jaune/Or Sénégal éclatant */
-    --secondary: 56 100% 62%;
-    --secondary-foreground: 150 70% 15%;
-    --secondary-glow: 56 100% 72%;
+    /* Secondary - Bleu foncé professionnel */
+    --secondary: 215 75% 25%;
+    --secondary-foreground: 0 0% 100%;
+    --secondary-glow: 215 75% 35%;
 
-    /* Accent - Rouge Sénégal vif */
-    --accent: 355 82% 50%;
+    /* Accent - Orange foncé énergique */
+    --accent: 25 85% 45%;
     --accent-foreground: 0 0% 100%;
 
     /* Muted tones */
@@ -49,20 +49,20 @@ All colors MUST be HSL.
 
     --radius: 1rem;
     
-    /* Custom gradients - Drapeau Sénégal moderne */
-    --gradient-hero: linear-gradient(135deg, hsl(150 100% 26%) 0%, hsl(56 100% 62%) 50%, hsl(355 82% 50%) 100%);
-    --gradient-senegal: linear-gradient(90deg, hsl(150 100% 26%) 0%, hsl(56 100% 62%) 50%, hsl(355 82% 50%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(150 30% 98%) 100%);
-    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(150 20% 97%) 100%);
-    --gradient-overlay: linear-gradient(135deg, hsl(150 100% 20% / 0.95) 0%, hsl(150 100% 30% / 0.85) 50%, hsl(56 100% 50% / 0.90) 100%);
+    /* Custom gradients - Palette moderne marron/bleu/orange */
+    --gradient-hero: linear-gradient(135deg, hsl(25 40% 25%) 0%, hsl(215 75% 25%) 50%, hsl(25 85% 45%) 100%);
+    --gradient-modern: linear-gradient(90deg, hsl(25 40% 25%) 0%, hsl(215 75% 25%) 50%, hsl(25 85% 45%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(25 15% 98%) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(25 10% 97%) 100%);
+    --gradient-overlay: linear-gradient(135deg, hsl(25 40% 15% / 0.92) 0%, hsl(215 75% 20% / 0.88) 50%, hsl(25 85% 35% / 0.90) 100%);
     
-    /* Shadows vibrantes */
-    --shadow-soft: 0 4px 20px -4px hsl(150 100% 26% / 0.15);
-    --shadow-card: 0 8px 30px -6px hsl(150 100% 26% / 0.2);
-    --shadow-elevated: 0 12px 40px -8px hsl(150 100% 26% / 0.25);
-    --shadow-glow-primary: 0 0 40px hsl(150 100% 40% / 0.5);
-    --shadow-glow-secondary: 0 0 40px hsl(56 100% 62% / 0.6);
-    --shadow-glow-accent: 0 0 40px hsl(355 82% 50% / 0.5);
+    /* Shadows élégantes */
+    --shadow-soft: 0 4px 20px -4px hsl(25 40% 25% / 0.15);
+    --shadow-card: 0 8px 30px -6px hsl(25 40% 25% / 0.2);
+    --shadow-elevated: 0 12px 40px -8px hsl(25 40% 25% / 0.25);
+    --shadow-glow-primary: 0 0 40px hsl(25 45% 35% / 0.5);
+    --shadow-glow-secondary: 0 0 40px hsl(215 75% 35% / 0.6);
+    --shadow-glow-accent: 0 0 40px hsl(25 85% 45% / 0.5);
     
     /* Transitions fluides */
     --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -86,24 +86,24 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 150 40% 8%;
+    --background: 25 20% 12%;
     --foreground: 0 0% 98%;
 
-    --card: 150 30% 12%;
+    --card: 25 20% 16%;
     --card-foreground: 0 0% 98%;
 
-    --popover: 150 30% 12%;
+    --popover: 25 20% 16%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 150 100% 35%;
+    --primary: 25 45% 35%;
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 150 100% 45%;
+    --primary-glow: 25 50% 45%;
 
-    --secondary: 56 100% 60%;
-    --secondary-foreground: 150 70% 15%;
-    --secondary-glow: 56 100% 70%;
+    --secondary: 215 80% 35%;
+    --secondary-foreground: 0 0% 100%;
+    --secondary-glow: 215 80% 45%;
 
-    --accent: 355 82% 55%;
+    --accent: 25 90% 55%;
     --accent-foreground: 0 0% 100%;
 
     --muted: 150 20% 18%;
@@ -116,11 +116,11 @@ All colors MUST be HSL.
     --input: 150 25% 15%;
     --ring: 150 100% 35%;
     
-    --gradient-hero: linear-gradient(135deg, hsl(150 100% 20%) 0%, hsl(56 100% 50%) 50%, hsl(355 82% 45%) 100%);
-    --gradient-senegal: linear-gradient(90deg, hsl(150 100% 20%) 0%, hsl(56 100% 50%) 50%, hsl(355 82% 45%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(150 30% 12%) 0%, hsl(150 25% 15%) 100%);
-    --gradient-subtle: linear-gradient(180deg, hsl(150 40% 8%) 0%, hsl(150 35% 10%) 100%);
-    --gradient-overlay: linear-gradient(135deg, hsl(150 100% 15% / 0.95) 0%, hsl(150 100% 25% / 0.85) 50%, hsl(56 100% 40% / 0.90) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(25 40% 20%) 0%, hsl(215 75% 25%) 50%, hsl(25 85% 40%) 100%);
+    --gradient-modern: linear-gradient(90deg, hsl(25 40% 20%) 0%, hsl(215 75% 25%) 50%, hsl(25 85% 40%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(25 20% 16%) 0%, hsl(25 15% 18%) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(25 20% 12%) 0%, hsl(25 15% 14%) 100%);
+    --gradient-overlay: linear-gradient(135deg, hsl(25 40% 12% / 0.95) 0%, hsl(215 75% 18% / 0.88) 50%, hsl(25 85% 30% / 0.90) 100%);
     
     --shadow-soft: 0 4px 20px -4px hsl(0 0% 0% / 0.5);
     --shadow-card: 0 8px 30px -6px hsl(0 0% 0% / 0.6);
@@ -161,8 +161,8 @@ All colors MUST be HSL.
     background: var(--gradient-hero);
   }
   
-  .gradient-senegal {
-    background: var(--gradient-senegal);
+  .gradient-modern {
+    background: var(--gradient-modern);
   }
   
   .gradient-card {

@@ -13,44 +13,38 @@ import {
 const Hero = () => {
   return (
     <section className="relative min-h-[700px] flex items-center justify-center overflow-hidden pt-20 xs:pt-22 md:pt-24 lg:pt-28">
-      {/* Drapeau Sénégal en haut */}
-      <div className="absolute top-0 left-0 right-0 z-20 flex">
-        <div className="senegal-flag-stripe senegal-flag-green"></div>
-        <div className="senegal-flag-stripe senegal-flag-yellow"></div>
-        <div className="senegal-flag-stripe senegal-flag-red"></div>
-      </div>
-
       {/* Background Image with Modern Overlay */}
       <div className="absolute inset-0 z-0">
         <img
           src={heroImage}
-          alt="Immobilier moderne au Sénégal"
+          alt="Villas modernes au bord de la mer au Sénégal"
           className="w-full h-full object-cover scale-110 animate-[scale-in_20s_ease-in-out_infinite]"
         />
-        <div className="absolute inset-0 gradient-overlay animate-senegal-wave"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,223,66,0.15)_0%,transparent_70%)]"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(0,133,63,0.2)_0%,transparent_50%)]"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,rgba(227,27,35,0.15)_0%,transparent_50%)]"></div>
+        <div className="absolute inset-0 gradient-overlay"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(237,116,60,0.2)_0%,transparent_70%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(41,71,107,0.25)_0%,transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,rgba(101,67,33,0.2)_0%,transparent_50%)]"></div>
       </div>
 
       {/* Content */}
       <div className="container mx-auto px-2 xs:px-4 relative z-10">
         <div className="max-w-4xl mx-auto text-center animate-fade-in-up flex flex-col items-center">
-          {/* Badge Sénégal */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 glass-effect-dark rounded-full animate-pulse-glow">
-            <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-            <span className="text-sm font-semibold text-white">🇸🇳 Plateforme N°1 au Sénégal</span>
+          {/* Badge Premium */}
+          <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 glass-effect-dark rounded-full">
+            <span className="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+            <span className="text-sm font-semibold text-white">🏖️ Propriétés d'Exception</span>
             <span className="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
           </div>
 
           <h1 className="text-4xl xs:text-5xl md:text-7xl font-extrabold text-white mb-4 xs:mb-6 leading-tight px-2 drop-shadow-2xl">
-            Trouvez votre bien immobilier idéal au{" "}
-            <span className="bg-gradient-to-r from-secondary via-accent to-secondary bg-clip-text text-transparent animate-senegal-wave">
-              Sénégal
+            Découvrez les plus belles{" "}
+            <span className="bg-gradient-to-r from-accent via-secondary to-accent bg-clip-text text-transparent">
+              propriétés du Sénégal
             </span>
+            {" "}au bord de la mer 🌴🏖️
           </h1>
           <p className="text-lg xs:text-xl md:text-2xl text-white font-medium mb-8 xs:mb-10 max-w-2xl mx-auto px-4 drop-shadow-lg">
-            La plateforme moderne et intuitive pour acheter, vendre ou louer votre propriété
+            Vivez le rêve sénégalais : villas modernes face à l'océan Atlantique
           </p>
 
           {/* Search Bar */}
@@ -93,8 +87,8 @@ const Hero = () => {
                 </div>
               </div>
 
-              <div className="sm:col-span-2 lg:col-span-1">
-                <Button className="w-full h-11 xs:h-12 bg-gradient-to-r from-secondary via-secondary-glow to-secondary hover:shadow-glow-secondary text-primary-foreground shadow-elevated transition-smooth rounded-xl font-bold text-sm xs:text-base animate-pulse-glow">
+               <div className="sm:col-span-2 lg:col-span-1">
+                <Button className="w-full h-11 xs:h-12 bg-gradient-to-r from-accent via-accent to-secondary hover:shadow-glow-accent text-white shadow-elevated transition-smooth rounded-xl font-bold text-sm xs:text-base">
                   <Search className="h-5 w-5 mr-2" />
                   Rechercher
                 </Button>
@@ -112,9 +106,9 @@ const Hero = () => {
             ].map((stat, index) => (
               <div
                 key={index}
-                className="glass-effect-dark rounded-2xl p-4 xs:p-5 hover-lift text-center flex flex-col items-center justify-center border-2 border-white/10 hover:border-secondary/50 transition-smooth group"
+                className="glass-effect-dark rounded-2xl p-4 xs:p-5 hover-lift text-center flex flex-col items-center justify-center border-2 border-white/10 hover:border-accent/50 transition-smooth group"
               >
-                <div className={`text-2xl xs:text-3xl md:text-4xl font-extrabold mb-2 bg-gradient-to-br from-secondary via-white to-accent bg-clip-text text-transparent group-hover:scale-110 transition-smooth`}>
+                <div className={`text-2xl xs:text-3xl md:text-4xl font-extrabold mb-2 bg-gradient-to-br from-accent via-white to-secondary bg-clip-text text-transparent group-hover:scale-110 transition-smooth`}>
                   {stat.value}
                 </div>
                 <div className="text-xs xs:text-sm font-medium text-white/90">{stat.label}</div>
