@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, MapPin, Home, DollarSign } from "lucide-react";
-import heroImage from "@/assets/hero-mer-senegal.jpg";
+import heroImage from "@/assets/banner-villas-senegal.jpg";
 import {
   Select,
   SelectContent,
@@ -17,34 +17,30 @@ const Hero = () => {
       <div className="absolute inset-0 z-0">
         <img
           src={heroImage}
-          alt="Villas modernes au bord de la mer au Sénégal"
-          className="w-full h-full object-cover scale-110 animate-[scale-in_20s_ease-in-out_infinite]"
+          alt="Villas modernes au Sénégal - Gestion locative professionnelle"
+          className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 gradient-overlay"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(237,116,60,0.2)_0%,transparent_70%)]"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(41,71,107,0.25)_0%,transparent_50%)]"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,rgba(101,67,33,0.2)_0%,transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-background/50 to-background/40"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(237,116,60,0.15)_0%,transparent_70%)]"></div>
       </div>
 
       {/* Content */}
       <div className="container mx-auto px-2 xs:px-4 relative z-10">
         <div className="max-w-4xl mx-auto text-center animate-fade-in-up flex flex-col items-center">
           {/* Badge Premium */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 glass-effect-dark rounded-full">
+          <div className="inline-flex items-center gap-2 px-5 py-2.5 mb-6 glass-effect-dark rounded-full border border-accent/30">
             <span className="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
-            <span className="text-sm font-semibold text-white">🏖️ Propriétés d'Exception</span>
-            <span className="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+            <span className="text-sm font-semibold text-foreground">Immo Link Sénégal</span>
           </div>
 
-          <h1 className="text-4xl xs:text-5xl md:text-7xl font-extrabold text-white mb-4 xs:mb-6 leading-tight px-2 drop-shadow-2xl">
-            Découvrez les plus belles{" "}
-            <span className="bg-gradient-to-r from-accent via-secondary to-accent bg-clip-text text-transparent">
-              propriétés du Sénégal
+          <h1 className="text-3xl xs:text-4xl md:text-6xl lg:text-7xl font-light text-foreground mb-4 xs:mb-6 leading-tight px-2 tracking-tight">
+            Gestion locative et solutions{" "}
+            <span className="font-bold bg-gradient-to-r from-accent via-secondary to-accent bg-clip-text text-transparent">
+              immobilières modernes
             </span>
-            {" "}au bord de la mer 🌴🏖️
           </h1>
-          <p className="text-lg xs:text-xl md:text-2xl text-white font-medium mb-8 xs:mb-10 max-w-2xl mx-auto px-4 drop-shadow-lg">
-            Vivez le rêve sénégalais : villas modernes face à l'océan Atlantique
+          <p className="text-base xs:text-lg md:text-xl text-muted-foreground font-light mb-8 xs:mb-10 max-w-2xl mx-auto px-4">
+            Votre partenaire de confiance pour vendre, louer ou estimer votre bien
           </p>
 
           {/* Search Bar */}
