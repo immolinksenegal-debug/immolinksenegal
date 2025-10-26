@@ -29,6 +29,7 @@ const Dashboard = () => {
   const [showPropertyForm, setShowPropertyForm] = useState(false);
   const [showPromotionDialog, setShowPromotionDialog] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState<{ id: string; title: string } | null>(null);
+  const [editingProperty, setEditingProperty] = useState<any>(null);
   const [userProperties, setUserProperties] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [stats, setStats] = useState([
@@ -103,12 +104,45 @@ const Dashboard = () => {
 
   const handleFormSuccess = () => {
     setShowPropertyForm(false);
+    setEditingProperty(null);
     fetchUserProperties();
   };
 
   const handlePromoteProperty = (propertyId: string, propertyTitle: string) => {
     setSelectedProperty({ id: propertyId, title: propertyTitle });
     setShowPromotionDialog(true);
+  };
+
+  const handleEditProperty = (property: any) => {
+    setEditingProperty(property);
+    setShowPropertyForm(true);
+  };
+
+  const handleDeleteProperty = async (propertyId: string) => {
+    if (!confirm("Êtes-vous sûr de vouloir supprimer cette annonce ?")) return;
+
+    try {
+      const { error } = await supabase
+        .from('properties')
+        .delete()
+        .eq('id', propertyId);
+
+      if (error) throw error;
+
+      toast({
+        title: "Succès",
+        description: "Annonce supprimée avec succès",
+      });
+
+      fetchUserProperties();
+    } catch (error) {
+      console.error("Error deleting property:", error);
+      toast({
+        title: "Erreur",
+        description: "Impossible de supprimer l'annonce",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -214,8 +248,24 @@ const Dashboard = () => {
                       {userProperties.map((property) => (
                         <div key={property.id} className="relative">
                           <PropertyCard {...property} />
-                          {!property.isPremium && (
-                            <div className="absolute top-2 right-2 z-10">
+                          <div className="absolute top-2 right-2 z-10 flex gap-2">
+                            <Button
+                              size="sm"
+                              variant="secondary"
+                              onClick={() => handleEditProperty(property)}
+                              className="bg-primary hover:bg-primary-glow text-white transition-smooth rounded-lg text-xs px-2 py-1"
+                            >
+                              ✏️ Modifier
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="destructive"
+                              onClick={() => handleDeleteProperty(property.id)}
+                              className="transition-smooth rounded-lg text-xs px-2 py-1"
+                            >
+                              🗑️ Supprimer
+                            </Button>
+                            {!property.isPremium && (
                               <Button
                                 size="sm"
                                 onClick={() => handlePromoteProperty(property.id, property.title)}
@@ -224,8 +274,8 @@ const Dashboard = () => {
                                 <Sparkles className="h-3 w-3 mr-1" />
                                 Promouvoir
                               </Button>
-                            </div>
-                          )}
+                            )}
+                          </div>
                           {property.isPremium && property.premiumExpiresAt && (
                             <div className="mt-2 text-xs text-center text-muted-foreground">
                               Premium jusqu'au {new Date(property.premiumExpiresAt).toLocaleDateString('fr-FR')}
@@ -294,9 +344,15 @@ const Dashboard = () => {
         </div>
       </main>
 
-      <Dialog open={showPropertyForm} onOpenChange={setShowPropertyForm}>
+      <Dialog open={showPropertyForm} onOpenChange={(open) => {
+        setShowPropertyForm(open);
+        if (!open) setEditingProperty(null);
+      }}>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-          <PropertyForm onSuccess={handleFormSuccess} />
+          <PropertyForm 
+            onSuccess={handleFormSuccess} 
+            initialData={editingProperty}
+          />
         </DialogContent>
       </Dialog>
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -73,18 +73,44 @@ type PropertyFormData = z.infer<typeof propertySchema>;
 
 interface PropertyFormProps {
   onSuccess?: () => void;
+  initialData?: any;
 }
 
-const PropertyForm = ({ onSuccess }: PropertyFormProps) => {
+const PropertyForm = ({ onSuccess, initialData }: PropertyFormProps) => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [images, setImages] = useState<File[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+  const [existingImages, setExistingImages] = useState<string[]>([]);
+  const isEditing = !!initialData;
 
-  const { register, handleSubmit, formState: { errors }, setValue } = useForm<PropertyFormData>({
+  const { register, handleSubmit, formState: { errors }, setValue, reset } = useForm<PropertyFormData>({
     resolver: zodResolver(propertySchema),
   });
+
+  useEffect(() => {
+    if (initialData) {
+      reset({
+        title: initialData.title,
+        description: initialData.description,
+        type: initialData.type,
+        price: initialData.price.toString().replace(/\s/g, ''),
+        location: initialData.location.split(',')[0]?.trim() || initialData.location,
+        city: initialData.location.split(',')[1]?.trim() || initialData.city,
+        bedrooms: initialData.bedrooms?.toString() || '',
+        bathrooms: initialData.bathrooms?.toString() || '',
+        surface: initialData.surface?.toString() || '',
+        contact_phone: initialData.contact_phone || '',
+        contact_email: initialData.contact_email || '',
+        contact_whatsapp: initialData.contact_whatsapp || '',
+      });
+      
+      if (initialData.image) {
+        setExistingImages([initialData.image]);
+      }
+    }
+  }, [initialData, reset]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
@@ -112,6 +138,10 @@ const PropertyForm = ({ onSuccess }: PropertyFormProps) => {
     setImagePreviews((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const removeExistingImage = (index: number) => {
+    setExistingImages((prev) => prev.filter((_, i) => i !== index));
+  };
+
   const onSubmit = async (data: PropertyFormData) => {
     setIsLoading(true);
 
@@ -127,7 +157,7 @@ const PropertyForm = ({ onSuccess }: PropertyFormProps) => {
         return;
       }
 
-      const imageUrls: string[] = [];
+      const imageUrls: string[] = [...existingImages];
       for (const image of images) {
         const fileExt = image.name.split('.').pop();
         const fileName = `${user.id}/${Math.random()}.${fileExt}`;
@@ -145,32 +175,48 @@ const PropertyForm = ({ onSuccess }: PropertyFormProps) => {
         imageUrls.push(publicUrl);
       }
 
-      const { error: insertError } = await supabase
-        .from('properties')
-        .insert({
-          user_id: user.id,
-          title: data.title,
-          description: data.description,
-          type: data.type,
-          price: parseFloat(data.price),
-          location: data.location,
-          city: data.city,
-          bedrooms: data.bedrooms ? parseInt(data.bedrooms) : null,
-          bathrooms: data.bathrooms ? parseInt(data.bathrooms) : null,
-          surface: parseFloat(data.surface),
-          images: imageUrls,
-          status: 'active',
-          contact_phone: data.contact_phone || null,
-          contact_email: data.contact_email || null,
-          contact_whatsapp: data.contact_whatsapp || null,
+      const propertyData = {
+        user_id: user.id,
+        title: data.title,
+        description: data.description,
+        type: data.type,
+        price: parseFloat(data.price),
+        location: data.location,
+        city: data.city,
+        bedrooms: data.bedrooms ? parseInt(data.bedrooms) : null,
+        bathrooms: data.bathrooms ? parseInt(data.bathrooms) : null,
+        surface: parseFloat(data.surface),
+        images: imageUrls,
+        status: 'active',
+        contact_phone: data.contact_phone || null,
+        contact_email: data.contact_email || null,
+        contact_whatsapp: data.contact_whatsapp || null,
+      };
+
+      if (isEditing) {
+        const { error: updateError } = await supabase
+          .from('properties')
+          .update(propertyData)
+          .eq('id', initialData.id);
+
+        if (updateError) throw updateError;
+
+        toast({
+          title: "Succès",
+          description: "Votre annonce a été modifiée avec succès",
         });
+      } else {
+        const { error: insertError } = await supabase
+          .from('properties')
+          .insert(propertyData);
 
-      if (insertError) throw insertError;
+        if (insertError) throw insertError;
 
-      toast({
-        title: "Succès",
-        description: "Votre annonce a été créée avec succès",
-      });
+        toast({
+          title: "Succès",
+          description: "Votre annonce a été créée avec succès",
+        });
+      }
 
       if (onSuccess) {
         onSuccess();
@@ -178,10 +224,10 @@ const PropertyForm = ({ onSuccess }: PropertyFormProps) => {
         navigate("/dashboard");
       }
     } catch (error) {
-      console.error("Error creating property:", error);
+      console.error("Error creating/updating property:", error);
       toast({
         title: "Erreur",
-        description: "Une erreur est survenue lors de la création de l'annonce",
+        description: `Une erreur est survenue lors de ${isEditing ? 'la modification' : 'la création'} de l'annonce`,
         variant: "destructive",
       });
     } finally {
@@ -192,7 +238,9 @@ const PropertyForm = ({ onSuccess }: PropertyFormProps) => {
   return (
     <Card className="shadow-card border-border/50">
       <CardHeader>
-        <CardTitle className="text-2xl">Créer une nouvelle annonce</CardTitle>
+        <CardTitle className="text-2xl">
+          {isEditing ? "Modifier l'annonce" : "Créer une nouvelle annonce"}
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -393,6 +441,30 @@ const PropertyForm = ({ onSuccess }: PropertyFormProps) => {
               </label>
             </div>
 
+            {existingImages.length > 0 && (
+              <div className="mb-4">
+                <Label className="mb-2">Images actuelles</Label>
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                  {existingImages.map((url, index) => (
+                    <div key={index} className="relative group">
+                      <img
+                        src={url}
+                        alt={`Existing ${index + 1}`}
+                        className="w-full h-24 object-cover rounded-lg"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeExistingImage(index)}
+                        className="absolute top-1 right-1 bg-destructive text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {imagePreviews.length > 0 && (
               <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mt-4">
                 {imagePreviews.map((preview, index) => (
@@ -424,10 +496,10 @@ const PropertyForm = ({ onSuccess }: PropertyFormProps) => {
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Création...
+                  {isEditing ? 'Modification...' : 'Création...'}
                 </>
               ) : (
-                "Créer l'annonce"
+                isEditing ? "Modifier l'annonce" : "Créer l'annonce"
               )}
             </Button>
           </div>
