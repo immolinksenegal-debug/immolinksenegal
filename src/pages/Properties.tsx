@@ -111,14 +111,14 @@ const Properties = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
-      <main className="flex-1 pt-16 xs:pt-20 pb-8 xs:pb-12 bg-gradient-subtle">
+      <main className="flex-1 pt-24 xs:pt-28 md:pt-32 pb-8 xs:pb-12 bg-gradient-subtle">
         <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-8">
           {/* Header */}
-          <div className="mb-6 xs:mb-8 animate-fade-in-up">
-            <h1 className="text-2xl xs:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-2">
+          <div className="mb-8 xs:mb-10 md:mb-12 text-center animate-fade-in-up">
+            <h1 className="text-3xl xs:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-3 md:mb-4">
               Tous les biens immobiliers
             </h1>
-            <p className="text-sm xs:text-base text-muted-foreground">
+            <p className="text-base xs:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
               {properties.length} {properties.length > 1 ? 'biens disponibles' : 'bien disponible'}
             </p>
           </div>

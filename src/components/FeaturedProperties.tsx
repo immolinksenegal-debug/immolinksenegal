@@ -18,9 +18,7 @@ const FeaturedProperties = () => {
       const { data, error } = await supabase
         .from('properties')
         .select('*')
-        .eq('is_premium', true)
         .eq('status', 'active')
-        .gte('premium_expires_at', new Date().toISOString())
         .order('created_at', { ascending: false })
         .limit(6);
 
@@ -71,12 +69,12 @@ const FeaturedProperties = () => {
     <section className="py-12 xs:py-16 md:py-20 bg-gradient-subtle">
       <div className="container mx-auto px-2 xs:px-4">
         <div className="text-center mb-8 xs:mb-12 animate-fade-in-up flex flex-col items-center">
-          <h2 className="text-2xl xs:text-3xl md:text-4xl font-bold text-foreground mb-3 xs:mb-4 px-2">
-            Annonces{" "}
-            <span className="text-secondary">Premium</span>
+          <h2 className="text-2xl xs:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 xs:mb-4 px-2">
+            Nos meilleures{" "}
+            <span className="text-secondary">offres immobilières</span>
           </h2>
           <p className="text-sm xs:text-base md:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
-            Découvrez les annonces mises en avant par nos annonceurs
+            Découvrez notre sélection de biens immobiliers récents et en vedette
           </p>
         </div>
 
