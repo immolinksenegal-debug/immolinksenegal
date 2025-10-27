@@ -20,6 +20,7 @@ import { Calculator, CheckCircle, Home, MessageSquare, Download, Sparkles } from
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
+import jsPDF from "jspdf";
 
 const estimationSchema = z.object({
   property_type: z.string().min(1, "Le type de bien est requis"),
@@ -86,28 +87,152 @@ const FreeEstimation = () => {
   const generatePDF = async (data: EstimationFormData) => {
     setIsGeneratingPdf(true);
     try {
+      // Appeler la fonction edge pour obtenir l'estimation IA
       const { data: pdfData, error } = await supabase.functions.invoke('generate-estimation-pdf', {
         body: data
       });
 
       if (error) throw error;
 
-      if (pdfData?.success && pdfData?.htmlContent) {
-        // Ouvrir le PDF HTML dans une nouvelle fenêtre pour impression
-        const printWindow = window.open('', '_blank');
-        if (printWindow) {
-          printWindow.document.write(pdfData.htmlContent);
-          printWindow.document.close();
-          
-          // Déclencher l'impression automatiquement
-          setTimeout(() => {
-            printWindow.print();
-          }, 500);
+      if (pdfData?.success && pdfData?.estimation) {
+        // Créer le PDF avec jsPDF
+        const doc = new jsPDF();
+        const pageWidth = doc.internal.pageSize.width;
+        const pageHeight = doc.internal.pageSize.height;
+        const margin = 20;
+        const maxWidth = pageWidth - 2 * margin;
+        let yPosition = 20;
+
+        // En-tête avec couleurs Immo Link
+        doc.setFillColor(11, 47, 100); // Bleu foncé #0b2f64
+        doc.rect(0, 0, pageWidth, 50, 'F');
+        
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(24);
+        doc.setFont('helvetica', 'bold');
+        doc.text('IMMO LINK SÉNÉGAL', margin, 25);
+        
+        doc.setFontSize(14);
+        doc.setFont('helvetica', 'normal');
+        doc.text('Rapport d\'Estimation Immobilière', margin, 35);
+        
+        doc.setFontSize(10);
+        doc.text(`Généré le ${new Date().toLocaleDateString('fr-FR')}`, margin, 43);
+
+        // Réinitialiser la couleur du texte
+        doc.setTextColor(0, 0, 0);
+        yPosition = 65;
+
+        // Section Informations Client
+        doc.setFontSize(16);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(107, 74, 43); // Marron #6b4a2b
+        doc.text('INFORMATIONS CLIENT', margin, yPosition);
+        yPosition += 10;
+
+        doc.setFontSize(11);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(0, 0, 0);
+        doc.text(`Nom: ${data.contact_name}`, margin, yPosition);
+        yPosition += 7;
+        doc.text(`Email: ${data.contact_email}`, margin, yPosition);
+        yPosition += 7;
+        doc.text(`Téléphone: ${data.contact_phone}`, margin, yPosition);
+        yPosition += 15;
+
+        // Section Caractéristiques du Bien
+        doc.setFontSize(16);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(107, 74, 43);
+        doc.text('CARACTÉRISTIQUES DU BIEN', margin, yPosition);
+        yPosition += 10;
+
+        doc.setFontSize(11);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(0, 0, 0);
+        
+        const propertyInfo = [
+          `Type: ${data.property_type}`,
+          `Ville: ${data.city}`,
+          `Localisation: ${data.location}`,
+          data.surface ? `Surface: ${data.surface} m²` : null,
+          data.bedrooms ? `Chambres: ${data.bedrooms}` : null,
+          data.bathrooms ? `Salles de bain: ${data.bathrooms}` : null,
+          data.condition ? `État: ${data.condition}` : null,
+        ].filter(Boolean);
+
+        propertyInfo.forEach((info) => {
+          doc.text(info!, margin, yPosition);
+          yPosition += 7;
+        });
+
+        if (data.description) {
+          yPosition += 3;
+          doc.setFont('helvetica', 'bold');
+          doc.text('Description:', margin, yPosition);
+          yPosition += 7;
+          doc.setFont('helvetica', 'normal');
+          const descLines = doc.splitTextToSize(data.description, maxWidth);
+          descLines.slice(0, 5).forEach((line: string) => {
+            if (yPosition > pageHeight - 40) {
+              doc.addPage();
+              yPosition = 20;
+            }
+            doc.text(line, margin, yPosition);
+            yPosition += 6;
+          });
         }
 
+        yPosition += 10;
+
+        // Section Estimation IA
+        if (yPosition > pageHeight - 60) {
+          doc.addPage();
+          yPosition = 20;
+        }
+
+        doc.setFontSize(16);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(107, 74, 43);
+        doc.text('ESTIMATION INTELLIGENTE', margin, yPosition);
+        yPosition += 10;
+
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(0, 0, 0);
+
+        // Découper l'estimation IA en lignes
+        const aiLines = doc.splitTextToSize(pdfData.estimation, maxWidth);
+        aiLines.forEach((line: string) => {
+          if (yPosition > pageHeight - 40) {
+            doc.addPage();
+            yPosition = 20;
+          }
+          doc.text(line, margin, yPosition);
+          yPosition += 6;
+        });
+
+        // Pied de page sur la dernière page
+        const lastPageNum = doc.internal.pages.length - 1;
+        doc.setPage(lastPageNum);
+        
+        doc.setFillColor(240, 240, 240);
+        doc.rect(0, pageHeight - 30, pageWidth, 30, 'F');
+        
+        doc.setFontSize(10);
+        doc.setTextColor(50, 50, 50);
+        doc.text('Contact: contact@immolinksenegal.com | Tél: +221 XX XXX XX XX', margin, pageHeight - 18);
+        doc.setFontSize(9);
+        doc.setTextColor(100, 100, 100);
+        doc.text('www.immolinksenegal.com', margin, pageHeight - 10);
+
+        // Télécharger le PDF
+        const fileName = `Estimation_${data.property_type}_${data.city}_${Date.now()}.pdf`;
+        doc.save(fileName);
+
         toast({
-          title: "✅ Rapport généré avec succès !",
-          description: "Votre estimation est prête. Vous pouvez l'imprimer ou la sauvegarder en PDF.",
+          title: "✅ PDF téléchargé avec succès !",
+          description: "Votre rapport d'estimation professionnelle a été généré.",
         });
       }
     } catch (error: any) {
