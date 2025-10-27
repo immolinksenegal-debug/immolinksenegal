@@ -16,7 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Calculator, CheckCircle, Home, MessageSquare } from "lucide-react";
+import { Calculator, CheckCircle, Home, MessageSquare, Download, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
@@ -68,6 +68,8 @@ type EstimationFormData = z.infer<typeof estimationSchema>;
 const FreeEstimation = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
+  const [lastSubmittedData, setLastSubmittedData] = useState<EstimationFormData | null>(null);
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -81,8 +83,48 @@ const FreeEstimation = () => {
     resolver: zodResolver(estimationSchema),
   });
 
+  const generatePDF = async (data: EstimationFormData) => {
+    setIsGeneratingPdf(true);
+    try {
+      const { data: pdfData, error } = await supabase.functions.invoke('generate-estimation-pdf', {
+        body: data
+      });
+
+      if (error) throw error;
+
+      if (pdfData?.success && pdfData?.htmlContent) {
+        // Ouvrir le PDF HTML dans une nouvelle fenêtre pour impression
+        const printWindow = window.open('', '_blank');
+        if (printWindow) {
+          printWindow.document.write(pdfData.htmlContent);
+          printWindow.document.close();
+          
+          // Déclencher l'impression automatiquement
+          setTimeout(() => {
+            printWindow.print();
+          }, 500);
+        }
+
+        toast({
+          title: "✅ Rapport généré avec succès !",
+          description: "Votre estimation est prête. Vous pouvez l'imprimer ou la sauvegarder en PDF.",
+        });
+      }
+    } catch (error: any) {
+      console.error("PDF generation error:", error);
+      toast({
+        title: "Erreur",
+        description: error.message || "Impossible de générer le rapport",
+        variant: "destructive",
+      });
+    } finally {
+      setIsGeneratingPdf(false);
+    }
+  };
+
   const onSubmit = async (data: EstimationFormData) => {
     setIsSubmitting(true);
+    setLastSubmittedData(data);
 
     try {
       const { data: { session } } = await supabase.auth.getSession();
@@ -111,9 +153,13 @@ const FreeEstimation = () => {
 
       setIsSuccess(true);
       reset();
+      
+      // Générer automatiquement le PDF après soumission
+      await generatePDF(data);
+
       toast({
         title: "✅ Demande envoyée !",
-        description: "Nous vous contacterons sous 24-48h avec votre estimation.",
+        description: "Votre rapport PDF a été généré automatiquement.",
       });
 
       setTimeout(() => {
@@ -178,8 +224,27 @@ const FreeEstimation = () => {
                 Nous avons bien reçu votre demande d'estimation. Notre équipe d'experts vous contactera sous 24-48h avec une estimation détaillée de votre bien.
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <Button onClick={() => navigate("/")} className="w-full">
+            <CardContent className="space-y-4">
+              {lastSubmittedData && (
+                <Button 
+                  onClick={() => generatePDF(lastSubmittedData)} 
+                  className="w-full bg-secondary hover:bg-secondary-glow"
+                  disabled={isGeneratingPdf}
+                >
+                  {isGeneratingPdf ? (
+                    <>
+                      <Sparkles className="w-5 h-5 mr-2 animate-spin" />
+                      Génération du PDF en cours...
+                    </>
+                  ) : (
+                    <>
+                      <Download className="w-5 h-5 mr-2" />
+                      Télécharger à nouveau le PDF
+                    </>
+                  )}
+                </Button>
+              )}
+              <Button onClick={() => navigate("/")} variant="outline" className="w-full">
                 Retour à l'accueil
               </Button>
             </CardContent>
@@ -424,25 +489,31 @@ const FreeEstimation = () => {
 
                 <Button
                   type="submit"
-                  className="w-full bg-secondary hover:bg-secondary-glow text-white py-6 text-lg"
-                  disabled={isSubmitting}
+                  className="w-full bg-gradient-to-r from-accent via-secondary to-accent hover:shadow-glow-accent text-white py-6 text-lg"
+                  disabled={isSubmitting || isGeneratingPdf}
                 >
-                  {isSubmitting ? (
+                  {isSubmitting || isGeneratingPdf ? (
                     <>
-                      <Calculator className="w-5 h-5 mr-2 animate-spin" />
-                      Envoi en cours...
+                      <Sparkles className="w-5 h-5 mr-2 animate-spin" />
+                      {isGeneratingPdf ? 'Analyse IA en cours...' : 'Envoi en cours...'}
                     </>
                   ) : (
                     <>
-                      <Calculator className="w-5 h-5 mr-2" />
-                      Obtenir mon estimation gratuite
+                      <Sparkles className="w-5 h-5 mr-2" />
+                      Obtenir mon estimation gratuite + PDF
                     </>
                   )}
                 </Button>
 
-                <p className="text-xs text-center text-muted-foreground">
-                  En soumettant ce formulaire, vous acceptez d'être contacté par nos experts
-                </p>
+                <div className="text-center space-y-2">
+                  <div className="flex items-center justify-center gap-2 text-sm text-secondary font-medium">
+                    <Sparkles className="w-4 h-4" />
+                    <span>Rapport PDF généré automatiquement par IA</span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    En soumettant ce formulaire, vous acceptez d'être contacté par nos experts
+                  </p>
+                </div>
               </form>
             </CardContent>
           </Card>

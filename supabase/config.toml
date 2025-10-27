@@ -5,3 +5,6 @@ verify_jwt = true
 
 [functions.ai-chat]
 verify_jwt = false
+
+[functions.generate-estimation-pdf]
+verify_jwt = false

@@ -12,16 +12,16 @@ import {
 
 const Hero = () => {
   return (
-    <section className="relative min-h-[700px] flex items-center justify-center overflow-hidden pt-20 xs:pt-22 md:pt-24 lg:pt-28">
+    <section className="relative min-h-[500px] sm:min-h-[600px] md:min-h-[700px] flex items-center justify-center overflow-hidden pt-20 xs:pt-22 md:pt-24 lg:pt-28">
       {/* Background Image with Modern Overlay */}
       <div className="absolute inset-0 z-0">
         <img
           src={heroImage}
           alt="Villas modernes au Sénégal - Gestion locative professionnelle"
-          className="w-full h-full object-cover md:object-cover object-center"
+          className="w-full h-full object-cover object-[center_40%] sm:object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/70 via-background/40 to-background/30"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(237,116,60,0.1)_0%,transparent_70%)]"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-background/60 via-background/30 to-background/20"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(237,116,60,0.08)_0%,transparent_70%)]"></div>
       </div>
 
       {/* Content */}
