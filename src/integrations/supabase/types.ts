@@ -14,6 +14,54 @@ export type Database = {
   }
   public: {
     Tables: {
+      articles: {
+        Row: {
+          author_id: string
+          content: string
+          created_at: string
+          excerpt: string | null
+          featured_image: string | null
+          id: string
+          is_featured: boolean | null
+          published_at: string | null
+          slug: string
+          status: string
+          title: string
+          updated_at: string
+          views: number | null
+        }
+        Insert: {
+          author_id: string
+          content: string
+          created_at?: string
+          excerpt?: string | null
+          featured_image?: string | null
+          id?: string
+          is_featured?: boolean | null
+          published_at?: string | null
+          slug: string
+          status?: string
+          title: string
+          updated_at?: string
+          views?: number | null
+        }
+        Update: {
+          author_id?: string
+          content?: string
+          created_at?: string
+          excerpt?: string | null
+          featured_image?: string | null
+          id?: string
+          is_featured?: boolean | null
+          published_at?: string | null
+          slug?: string
+          status?: string
+          title?: string
+          updated_at?: string
+          views?: number | null
+        }
+        Relationships: []
+      }
       chat_rate_limits: {
         Row: {
           created_at: string
@@ -40,6 +88,54 @@ export type Database = {
           window_start?: string
         }
         Relationships: []
+      }
+      comments: {
+        Row: {
+          article_id: string | null
+          content: string
+          created_at: string
+          id: string
+          property_id: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          article_id?: string | null
+          content: string
+          created_at?: string
+          id?: string
+          property_id?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          article_id?: string | null
+          content?: string
+          created_at?: string
+          id?: string
+          property_id?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "comments_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "articles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "comments_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       contact_requests: {
         Row: {
@@ -201,6 +297,7 @@ export type Database = {
       }
       properties: {
         Row: {
+          approval_status: string | null
           bathrooms: number | null
           bedrooms: number | null
           city: string
@@ -224,6 +321,7 @@ export type Database = {
           views: number | null
         }
         Insert: {
+          approval_status?: string | null
           bathrooms?: number | null
           bedrooms?: number | null
           city: string
@@ -247,6 +345,7 @@ export type Database = {
           views?: number | null
         }
         Update: {
+          approval_status?: string | null
           bathrooms?: number | null
           bedrooms?: number | null
           city?: string
@@ -268,6 +367,94 @@ export type Database = {
           updated_at?: string
           user_id?: string
           views?: number | null
+        }
+        Relationships: []
+      }
+      reports: {
+        Row: {
+          article_id: string | null
+          comment_id: string | null
+          created_at: string
+          description: string | null
+          id: string
+          property_id: string | null
+          reason: string
+          reported_user_id: string | null
+          reporter_id: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          article_id?: string | null
+          comment_id?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          property_id?: string | null
+          reason: string
+          reported_user_id?: string | null
+          reporter_id: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          article_id?: string | null
+          comment_id?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          property_id?: string | null
+          reason?: string
+          reported_user_id?: string | null
+          reporter_id?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reports_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "articles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reports_comment_id_fkey"
+            columns: ["comment_id"]
+            isOneToOne: false
+            referencedRelation: "comments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reports_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      site_settings: {
+        Row: {
+          created_at: string
+          id: string
+          setting_key: string
+          setting_value: Json
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          setting_key: string
+          setting_value: Json
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          setting_key?: string
+          setting_value?: Json
+          updated_at?: string
         }
         Relationships: []
       }

@@ -183,18 +183,11 @@ const Dashboard = () => {
             {isAdmin && (
               <div className="mt-6 flex gap-3 justify-center flex-wrap">
                 <Button
-                  onClick={() => navigate('/admin/users')}
+                  onClick={() => navigate('/admin')}
                   className="bg-primary hover:bg-primary-glow text-white shadow-glow transition-smooth rounded-xl"
                 >
-                  <Users className="h-4 w-4 mr-2" />
-                  Gestion utilisateurs
-                </Button>
-                <Button
-                  onClick={() => navigate('/admin/estimations')}
-                  className="bg-secondary hover:bg-secondary-glow text-white shadow-glow-secondary transition-smooth rounded-xl"
-                >
                   <Shield className="h-4 w-4 mr-2" />
-                  Gestion estimations
+                  Panneau d'administration
                 </Button>
               </div>
             )}

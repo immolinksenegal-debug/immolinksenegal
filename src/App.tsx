@@ -11,6 +11,7 @@ import Dashboard from "./pages/Dashboard";
 import FreeEstimation from "./pages/FreeEstimation";
 import EstimationManagement from "./pages/EstimationManagement";
 import UserManagement from "./pages/UserManagement";
+import AdminDashboard from "./pages/AdminDashboard";
 import About from "./pages/About";
 import HowItWorks from "./pages/HowItWorks";
 import Contact from "./pages/Contact";
@@ -34,6 +35,7 @@ const App = () => (
           <Route path="/auth" element={<Auth />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/estimation-gratuite" element={<FreeEstimation />} />
+          <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/estimations" element={<EstimationManagement />} />
           <Route path="/admin/users" element={<UserManagement />} />
           <Route path="/a-propos" element={<About />} />
