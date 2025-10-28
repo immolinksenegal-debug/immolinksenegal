@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -13,6 +14,8 @@ import {
   Settings,
   Eye,
   Sparkles,
+  Users,
+  Shield,
 } from "lucide-react";
 import PropertyCard from "@/components/PropertyCard";
 import PropertyForm from "@/components/PropertyForm";
@@ -25,6 +28,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const { toast } = useToast();
   const [showPropertyForm, setShowPropertyForm] = useState(false);
   const [showPromotionDialog, setShowPromotionDialog] = useState(false);
@@ -32,6 +36,7 @@ const Dashboard = () => {
   const [editingProperty, setEditingProperty] = useState<any>(null);
   const [userProperties, setUserProperties] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [stats, setStats] = useState([
     { label: "Annonces actives", value: "0", icon: Home },
     { label: "Vues totales", value: "0", icon: Eye },
@@ -40,8 +45,25 @@ const Dashboard = () => {
   ]);
 
   useEffect(() => {
+    checkAdminStatus();
     fetchUserProperties();
   }, []);
+
+  const checkAdminStatus = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data: roles } = await supabase
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', user.id);
+
+      setIsAdmin(roles?.some(r => r.role === 'admin') || false);
+    } catch (error) {
+      console.error('Error checking admin status:', error);
+    }
+  };
 
   const fetchUserProperties = async () => {
     try {
@@ -158,6 +180,24 @@ const Dashboard = () => {
             <p className="text-base xs:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
               Gérez vos annonces et suivez vos statistiques
             </p>
+            {isAdmin && (
+              <div className="mt-6 flex gap-3 justify-center flex-wrap">
+                <Button
+                  onClick={() => navigate('/admin/users')}
+                  className="bg-primary hover:bg-primary-glow text-white shadow-glow transition-smooth rounded-xl"
+                >
+                  <Users className="h-4 w-4 mr-2" />
+                  Gestion utilisateurs
+                </Button>
+                <Button
+                  onClick={() => navigate('/admin/estimations')}
+                  className="bg-secondary hover:bg-secondary-glow text-white shadow-glow-secondary transition-smooth rounded-xl"
+                >
+                  <Shield className="h-4 w-4 mr-2" />
+                  Gestion estimations
+                </Button>
+              </div>
+            )}
           </div>
 
           {/* Stats Grid */}
