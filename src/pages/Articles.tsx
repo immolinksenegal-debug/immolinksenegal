@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Search, Calendar, Eye, TrendingUp, Clock } from "lucide-react";
+import { Search, Calendar, Eye, TrendingUp, Clock, ArrowLeft } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import bannerFiscalite from "@/assets/banner-fiscalite-senegal.jpg";
@@ -108,6 +108,11 @@ const Articles = () => {
       </div>
 
       <div className="container mx-auto px-4 -mt-16 relative z-10 pb-16">
+        {/* Back to Home Button */}
+        <Link to="/" className="inline-flex items-center gap-2 mb-6 hover:text-secondary transition-base bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-card hover:shadow-elevated">
+          <ArrowLeft className="h-4 w-4" />
+          <span className="font-medium">Retour à l'accueil</span>
+        </Link>
 
         {/* Search Bar */}
         <div className="max-w-2xl mx-auto mb-12">
