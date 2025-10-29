@@ -168,6 +168,7 @@ export const AdminArticlesManager = ({ onStatsUpdate }: AdminArticlesManagerProp
           slug,
           content: data.content,
           excerpt: data.excerpt,
+          featured_image: data.featured_image || null,
           author_id: user.id,
           status: 'pending'
         });
@@ -176,7 +177,7 @@ export const AdminArticlesManager = ({ onStatsUpdate }: AdminArticlesManagerProp
 
       toast({
         title: "Succès",
-        description: "Article généré avec succès et en attente de validation",
+        description: "Article et image générés avec succès ! En attente de validation.",
       });
 
       setShowGenerateDialog(false);

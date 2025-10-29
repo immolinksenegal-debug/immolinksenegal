@@ -26,7 +26,16 @@ serve(async (req) => {
       throw new Error('LOVABLE_API_KEY not configured');
     }
 
-    // Call Lovable AI to generate article
+    const SUPABASE_URL = Deno.env.get('SUPABASE_URL');
+    const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+    
+    if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
+      throw new Error('Supabase configuration missing');
+    }
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+
+    // Étape 1: Générer le texte de l'article
     const aiResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -93,7 +102,6 @@ serve(async (req) => {
     // Parse the JSON response from AI
     let article;
     try {
-      // Remove markdown code blocks if present
       const cleanedContent = generatedContent
         .replace(/```json\n?/g, '')
         .replace(/```\n?/g, '')
@@ -103,6 +111,70 @@ serve(async (req) => {
     } catch (parseError) {
       console.error('Failed to parse AI response:', generatedContent);
       throw new Error('Format de réponse invalide de l\'IA');
+    }
+
+    // Étape 2: Générer une image pour l'article
+    console.log('Generating image for article:', article.title);
+    
+    const imagePrompt = `Professional real estate image for article about: ${idea}. Modern Senegalese architecture, elegant style with brown and blue tones. High quality, 16:9 aspect ratio.`;
+    
+    const imageResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${LOVABLE_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'google/gemini-2.5-flash-image-preview',
+        messages: [
+          {
+            role: 'user',
+            content: imagePrompt
+          }
+        ],
+        modalities: ['image', 'text']
+      }),
+    });
+
+    if (!imageResponse.ok) {
+      console.error('Image generation failed:', imageResponse.status);
+      // Continue without image if generation fails
+      return new Response(
+        JSON.stringify(article),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const imageData = await imageResponse.json();
+    const imageUrl = imageData.choices?.[0]?.message?.images?.[0]?.image_url?.url;
+
+    if (imageUrl && imageUrl.startsWith('data:image')) {
+      // Convertir base64 en blob
+      const base64Data = imageUrl.split(',')[1];
+      const binaryData = Uint8Array.from(atob(base64Data), c => c.charCodeAt(0));
+      
+      // Générer un nom de fichier unique
+      const fileName = `article-${Date.now()}.png`;
+      
+      // Upload vers Supabase Storage
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('property-images')
+        .upload(fileName, binaryData, {
+          contentType: 'image/png',
+          upsert: false
+        });
+
+      if (uploadError) {
+        console.error('Error uploading image:', uploadError);
+      } else {
+        // Obtenir l'URL publique de l'image
+        const { data: publicUrlData } = supabase.storage
+          .from('property-images')
+          .getPublicUrl(fileName);
+        
+        article.featured_image = publicUrlData.publicUrl;
+        console.log('Image uploaded successfully:', article.featured_image);
+      }
     }
 
     return new Response(
