@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Search, Calendar, Eye, TrendingUp, Clock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import bannerFiscalite from "@/assets/banner-fiscalite-senegal.jpg";
 
 interface Article {
   id: string;
@@ -86,17 +87,27 @@ const Articles = () => {
   );
 
   return (
-    <div className="min-h-screen pt-24 pb-16">
-      <div className="container mx-auto px-4">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 gradient-modern bg-clip-text text-transparent">
-            Actualités Immobilières
-          </h1>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Restez informé des dernières tendances du marché immobilier sénégalais
-          </p>
+    <div className="min-h-screen">
+      {/* Hero Banner */}
+      <div className="relative h-[400px] md:h-[500px] overflow-hidden">
+        <img 
+          src={bannerFiscalite} 
+          alt="Fiscalité Immobilière au Sénégal" 
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 gradient-overlay flex items-center justify-center">
+          <div className="text-center px-4">
+            <h1 className="text-4xl md:text-6xl font-bold mb-4 text-white drop-shadow-lg">
+              Actualités Immobilières
+            </h1>
+            <p className="text-white/90 text-lg md:text-xl max-w-2xl mx-auto drop-shadow-md">
+              Restez informé des dernières tendances du marché immobilier sénégalais
+            </p>
+          </div>
         </div>
+      </div>
+
+      <div className="container mx-auto px-4 -mt-16 relative z-10 pb-16">
 
         {/* Search Bar */}
         <div className="max-w-2xl mx-auto mb-12">
