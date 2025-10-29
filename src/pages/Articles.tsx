@@ -87,20 +87,20 @@ const Articles = () => {
   );
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen pt-24">
       {/* Hero Banner */}
       <div className="relative h-[400px] md:h-[500px] overflow-hidden">
         <img 
           src={bannerFiscalite} 
           alt="Fiscalité Immobilière au Sénégal" 
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover brightness-90"
         />
-        <div className="absolute inset-0 gradient-overlay flex items-center justify-center">
+        <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-primary/20 to-transparent flex items-center justify-center">
           <div className="text-center px-4">
-            <h1 className="text-4xl md:text-6xl font-bold mb-4 text-white drop-shadow-lg">
+            <h1 className="text-4xl md:text-6xl font-bold mb-4 text-white drop-shadow-2xl">
               Actualités Immobilières
             </h1>
-            <p className="text-white/90 text-lg md:text-xl max-w-2xl mx-auto drop-shadow-md">
+            <p className="text-white text-lg md:text-xl max-w-2xl mx-auto drop-shadow-lg">
               Restez informé des dernières tendances du marché immobilier sénégalais
             </p>
           </div>
