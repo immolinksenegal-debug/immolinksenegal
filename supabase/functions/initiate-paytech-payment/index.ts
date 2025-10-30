@@ -77,8 +77,32 @@ serve(async (req) => {
       )
     }
 
+    // Construct frontend URL from Supabase URL
+    // Convert https://xxx.supabase.co to https://xxx.lovableproject.com
+    const frontendUrl = supabaseUrl.replace('.supabase.co', '.lovableproject.com')
+    console.log('🌐 Frontend URL:', frontendUrl)
+    console.log('🔗 IPN URL:', `${supabaseUrl}/functions/v1/verify-paytech-payment`)
+
     // Create payment with PayTech
     console.log('🚀 Creating PayTech payment...')
+    const paytechPayload = {
+      item_name: `Promotion Premium - ${property.title}`,
+      item_price: amount,
+      currency: 'XOF',
+      ref_command: `PROP_${propertyId}_${Date.now()}`,
+      command_name: `Promotion annonce #${propertyId.substring(0, 8)}`,
+      env: 'prod',
+      ipn_url: `${supabaseUrl}/functions/v1/verify-paytech-payment`,
+      success_url: `${frontendUrl}/dashboard`,
+      cancel_url: `${frontendUrl}/dashboard`,
+      custom_field: JSON.stringify({
+        propertyId,
+        userId: user.id,
+      }),
+    }
+
+    console.log('📦 PayTech payload:', JSON.stringify(paytechPayload, null, 2))
+
     const paytechResponse = await fetch('https://paytech.sn/api/payment/request-payment', {
       method: 'POST',
       headers: {
@@ -87,21 +111,7 @@ serve(async (req) => {
         'API_KEY': paytechApiKey,
         'API_SECRET': paytechSecretKey,
       },
-      body: JSON.stringify({
-        item_name: `Promotion Premium - ${property.title}`,
-        item_price: amount,
-        currency: 'XOF',
-        ref_command: `PROP_${propertyId}_${Date.now()}`,
-        command_name: `Promotion annonce #${propertyId.substring(0, 8)}`,
-        env: 'prod',
-        ipn_url: `${supabaseUrl}/functions/v1/verify-paytech-payment`,
-        success_url: `${Deno.env.get('VITE_SUPABASE_URL')}/dashboard`,
-        cancel_url: `${Deno.env.get('VITE_SUPABASE_URL')}/dashboard`,
-        custom_field: JSON.stringify({
-          propertyId,
-          userId: user.id,
-        }),
-      }),
+      body: JSON.stringify(paytechPayload),
     })
 
     if (!paytechResponse.ok) {
