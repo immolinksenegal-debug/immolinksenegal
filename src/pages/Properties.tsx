@@ -116,10 +116,13 @@ const Properties = () => {
           {/* Header */}
           <div className="mb-8 xs:mb-10 md:mb-12 text-center animate-fade-in-up">
             <h1 className="text-3xl xs:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-3 md:mb-4">
-              Tous les biens immobiliers
+              Annonces Immobilières Sénégal
             </h1>
-            <p className="text-base xs:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-              {properties.length} {properties.length > 1 ? 'biens disponibles' : 'bien disponible'}
+            <p className="text-base xs:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-2">
+              Terrain à vendre, villa, maison, appartement à Dakar, Saly, Mbour, Thiès
+            </p>
+            <p className="text-sm text-muted-foreground">
+              {properties.length} {properties.length > 1 ? 'biens immobiliers disponibles' : 'bien immobilier disponible'}
             </p>
           </div>
 
