@@ -8,8 +8,6 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Check, Sparkles, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -27,100 +25,55 @@ const PromotionDialog = ({
   propertyId,
   propertyTitle,
 }: PromotionDialogProps) => {
-  const MONEYFUSION_PAYMENT_LINK = "https://www.pay.moneyfusion.net/Link_Immo_S_n_gal/e902fe8f4097b33e/pay/" as const;
-  const [paymentToken, setPaymentToken] = useState("");
-  const [isVerifying, setIsVerifying] = useState(false);
-  const [showTokenInput, setShowTokenInput] = useState(false);
+  const [isInitiating, setIsInitiating] = useState(false);
   const { toast } = useToast();
 
-  const handlePayment = () => {
-    // Show token input immediately - user will open payment in another tab
-    setShowTokenInput(true);
-  };
-
-  const handleVerifyPayment = async () => {
-    if (!paymentToken.trim()) {
-      toast({
-        title: "Token requis",
-        description: "Veuillez entrer votre token de paiement",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    // Validation du format du token (au moins 8 caractères alphanumériques)
-    const tokenPattern = /^[a-zA-Z0-9]{8,}$/;
-    if (!tokenPattern.test(paymentToken.trim())) {
-      toast({
-        title: "Format de token invalide",
-        description: "Le token doit contenir au moins 8 caractères alphanumériques",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setIsVerifying(true);
-
+  const handlePayment = async () => {
+    setIsInitiating(true);
     try {
-      console.log('🔐 Getting user session...');
+      console.log('🚀 Initiating PayTech payment...');
       const { data: { session } } = await supabase.auth.getSession();
       
       if (!session) {
         throw new Error("Vous devez être connecté pour effectuer cette action");
       }
 
-      console.log('📤 Sending payment verification request...');
-      const response = await supabase.functions.invoke('verify-moneyfusion-payment', {
-        body: { token: paymentToken.trim(), propertyId },
+      const response = await supabase.functions.invoke('initiate-paytech-payment', {
+        body: { propertyId, amount: 6500 },
       });
 
       console.log('📥 Response received:', response);
 
       if (response.error) {
-        console.error('❌ Verification failed:', response.error);
-        throw new Error(response.error.message || "Erreur lors de la vérification du paiement");
+        console.error('❌ Payment initiation failed:', response.error);
+        throw new Error(response.error.message || "Erreur lors de l'initiation du paiement");
       }
 
-      if (!response.data?.success) {
-        throw new Error(response.data?.error || "La vérification du paiement a échoué");
+      if (!response.data?.success || !response.data?.paymentUrl) {
+        throw new Error("URL de paiement introuvable");
       }
 
-      console.log('✅ Payment verified successfully');
-
-      toast({
-        title: "✅ Paiement confirmé !",
-        description: response.data.message || "Votre annonce est maintenant premium",
-        duration: 5000,
-      });
-
-      // Close dialog and reset
-      setPaymentToken("");
-      setShowTokenInput(false);
-      onOpenChange(false);
-      
-      // Reload page to show updated premium status
-      setTimeout(() => {
-        console.log('🔄 Reloading page to show premium status...');
-        window.location.reload();
-      }, 1500);
+      console.log('✅ Redirecting to PayTech...');
+      // Redirect to PayTech payment page
+      window.location.href = response.data.paymentUrl;
 
     } catch (error: any) {
-      console.error("💥 Verification error:", error);
+      console.error("💥 Payment initiation error:", error);
       
-      let errorMessage = "Impossible de vérifier le paiement";
+      let errorMessage = "Impossible d'initier le paiement";
       
       if (error.message) {
         errorMessage = error.message;
       }
       
       toast({
-        title: "Erreur de vérification",
+        title: "Erreur",
         description: errorMessage,
         variant: "destructive",
         duration: 7000,
       });
     } finally {
-      setIsVerifying(false);
+      setIsInitiating(false);
     }
   };
 
@@ -197,99 +150,27 @@ const PromotionDialog = ({
                 </div>
               </div>
 
-              {!showTokenInput ? (
-                <>
-                  <Button
-                    onClick={handlePayment}
-                    className="w-full bg-secondary hover:bg-secondary-glow text-white shadow-glow-secondary transition-smooth rounded-xl font-semibold text-base py-6"
-                  >
+              <Button
+                onClick={handlePayment}
+                disabled={isInitiating}
+                className="w-full bg-secondary hover:bg-secondary-glow text-white shadow-glow-secondary transition-smooth rounded-xl font-semibold text-base py-6"
+              >
+                {isInitiating ? (
+                  <>
+                    <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+                    Redirection vers PayTech...
+                  </>
+                ) : (
+                  <>
                     <Sparkles className="h-5 w-5 mr-2" />
-                    Continuer vers le paiement
-                  </Button>
+                    Payer avec PayTech
+                  </>
+                )}
+              </Button>
 
-                  <p className="text-xs text-center text-muted-foreground mt-4">
-                    Vous recevrez un token après le paiement
-                  </p>
-                </>
-              ) : (
-                <div className="space-y-4">
-                  {/* Payment Link */}
-                  <div className="p-4 bg-secondary/5 border-2 border-secondary/20 rounded-lg">
-                    <p className="text-sm font-semibold text-foreground mb-2">
-                      Étape 1 : Effectuer le paiement
-                    </p>
-                    <p className="text-xs text-muted-foreground mb-3">
-                      Cliquez sur le bouton ci-dessous pour accéder à la page de paiement MoneyFusion
-                    </p>
-                    <a 
-                      href={MONEYFUSION_PAYMENT_LINK}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full"
-                    >
-                      <Button
-                        type="button"
-                        className="w-full bg-secondary hover:bg-secondary-glow text-white"
-                      >
-                        <Sparkles className="h-4 w-4 mr-2" />
-                        Ouvrir MoneyFusion
-                      </Button>
-                    </a>
-                  </div>
-
-                  <div className="p-4 bg-muted/50 rounded-lg">
-                    <p className="text-sm font-semibold text-foreground mb-2">
-                      Étape 2 : Entrer votre token
-                    </p>
-                    <p className="text-xs text-muted-foreground mb-3">
-                      Après le paiement, vous recevrez un <span className="font-semibold">token de transaction</span>. 
-                      Entrez-le ci-dessous pour activer votre promotion.
-                    </p>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="payment-token">Token de paiement</Label>
-                      <Input
-                        id="payment-token"
-                        placeholder="Ex: 0d1d8bc9b6d2819c"
-                        value={paymentToken}
-                        onChange={(e) => setPaymentToken(e.target.value)}
-                        disabled={isVerifying}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex gap-3">
-                    <Button
-                      variant="outline"
-                      onClick={() => {
-                        setShowTokenInput(false);
-                        setPaymentToken("");
-                      }}
-                      disabled={isVerifying}
-                      className="flex-1"
-                    >
-                      Retour
-                    </Button>
-                    <Button
-                      onClick={handleVerifyPayment}
-                      disabled={isVerifying || !paymentToken.trim()}
-                      className="flex-1 bg-secondary hover:bg-secondary-glow text-white"
-                    >
-                      {isVerifying ? (
-                        <>
-                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                          Vérification...
-                        </>
-                      ) : (
-                        <>
-                          <Check className="h-4 w-4 mr-2" />
-                          Confirmer le paiement
-                        </>
-                      )}
-                    </Button>
-                  </div>
-                </div>
-              )}
+              <p className="text-xs text-center text-muted-foreground mt-4">
+                Paiement sécurisé via PayTech
+              </p>
             </CardContent>
           </Card>
         </div>

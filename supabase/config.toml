@@ -1,7 +1,10 @@
 project_id = "uccblgllyezbfsubfqin"
 
-[functions.verify-moneyfusion-payment]
+[functions.initiate-paytech-payment]
 verify_jwt = true
+
+[functions.verify-paytech-payment]
+verify_jwt = false
 
 [functions.ai-chat]
 verify_jwt = false
