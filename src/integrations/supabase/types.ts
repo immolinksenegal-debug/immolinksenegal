@@ -308,6 +308,7 @@ export type Database = {
           description: string | null
           id: string
           images: string[] | null
+          is_featured: boolean | null
           is_premium: boolean | null
           location: string
           premium_expires_at: string | null
@@ -332,6 +333,7 @@ export type Database = {
           description?: string | null
           id?: string
           images?: string[] | null
+          is_featured?: boolean | null
           is_premium?: boolean | null
           location: string
           premium_expires_at?: string | null
@@ -356,6 +358,7 @@ export type Database = {
           description?: string | null
           id?: string
           images?: string[] | null
+          is_featured?: boolean | null
           is_premium?: boolean | null
           location?: string
           premium_expires_at?: string | null
@@ -458,6 +461,62 @@ export type Database = {
         }
         Relationships: []
       }
+      subscriptions: {
+        Row: {
+          amount: number
+          created_at: string
+          currency: string
+          expires_at: string | null
+          id: string
+          payment_ref: string | null
+          payment_token: string | null
+          property_id: string
+          starts_at: string | null
+          status: Database["public"]["Enums"]["subscription_status"]
+          subscription_type: Database["public"]["Enums"]["subscription_type"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          currency?: string
+          expires_at?: string | null
+          id?: string
+          payment_ref?: string | null
+          payment_token?: string | null
+          property_id: string
+          starts_at?: string | null
+          status?: Database["public"]["Enums"]["subscription_status"]
+          subscription_type: Database["public"]["Enums"]["subscription_type"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          currency?: string
+          expires_at?: string | null
+          id?: string
+          payment_ref?: string | null
+          payment_token?: string | null
+          property_id?: string
+          starts_at?: string | null
+          status?: Database["public"]["Enums"]["subscription_status"]
+          subscription_type?: Database["public"]["Enums"]["subscription_type"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscriptions_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -485,6 +544,7 @@ export type Database = {
     }
     Functions: {
       cleanup_old_rate_limits: { Args: never; Returns: undefined }
+      expire_old_subscriptions: { Args: never; Returns: undefined }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -495,6 +555,8 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
+      subscription_status: "active" | "pending" | "expired" | "cancelled"
+      subscription_type: "featured" | "premium"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -623,6 +685,8 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "moderator", "user"],
+      subscription_status: ["active", "pending", "expired", "cancelled"],
+      subscription_type: ["featured", "premium"],
     },
   },
 } as const
