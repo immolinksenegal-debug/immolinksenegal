@@ -11,9 +11,11 @@ import {
 } from "@/components/ui/select";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Hero = () => {
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
   const [propertyType, setPropertyType] = useState<string>("");
   const [city, setCity] = useState<string>("");
   const [maxPrice, setMaxPrice] = useState<string>("");
@@ -63,23 +65,47 @@ const Hero = () => {
           <div className="glass-effect rounded-3xl p-5 xs:p-7 shadow-glow-secondary w-full max-w-3xl mx-auto animate-scale-in border-2 border-secondary/30">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 xs:gap-4">
               <div className="sm:col-span-1">
-                <Select value={propertyType} onValueChange={setPropertyType}>
-                  <SelectTrigger className="w-full bg-white/90 border-white/30 h-11 xs:h-12 rounded-xl text-sm xs:text-base touch-manipulation">
-                    <Home className="h-4 w-4 mr-2 text-primary flex-shrink-0" />
-                    <SelectValue placeholder="Type" />
-                  </SelectTrigger>
-                  <SelectContent 
-                    position="popper" 
-                    sideOffset={4}
-                    align="start"
-                  >
-                    <SelectItem value="Appartement">Appartement</SelectItem>
-                    <SelectItem value="Maison">Maison</SelectItem>
-                    <SelectItem value="Villa">Villa</SelectItem>
-                    <SelectItem value="Terrain">Terrain</SelectItem>
-                    <SelectItem value="Bureau">Bureau</SelectItem>
-                  </SelectContent>
-                </Select>
+                {isMobile ? (
+                  <div className="relative">
+                    <Home className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-primary flex-shrink-0 pointer-events-none z-10" />
+                    <select
+                      value={propertyType}
+                      onChange={(e) => setPropertyType(e.target.value)}
+                      className="w-full bg-white/90 border border-white/30 h-11 xs:h-12 rounded-xl text-sm xs:text-base pl-10 pr-3 appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary"
+                      style={{
+                        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'right 0.5rem center',
+                        backgroundSize: '1.5em 1.5em',
+                      }}
+                    >
+                      <option value="">Type</option>
+                      <option value="Appartement">Appartement</option>
+                      <option value="Maison">Maison</option>
+                      <option value="Villa">Villa</option>
+                      <option value="Terrain">Terrain</option>
+                      <option value="Bureau">Bureau</option>
+                    </select>
+                  </div>
+                ) : (
+                  <Select value={propertyType} onValueChange={setPropertyType}>
+                    <SelectTrigger className="w-full bg-white/90 border-white/30 h-11 xs:h-12 rounded-xl text-sm xs:text-base">
+                      <Home className="h-4 w-4 mr-2 text-primary flex-shrink-0" />
+                      <SelectValue placeholder="Type" />
+                    </SelectTrigger>
+                    <SelectContent 
+                      position="popper" 
+                      sideOffset={4}
+                      align="start"
+                    >
+                      <SelectItem value="Appartement">Appartement</SelectItem>
+                      <SelectItem value="Maison">Maison</SelectItem>
+                      <SelectItem value="Villa">Villa</SelectItem>
+                      <SelectItem value="Terrain">Terrain</SelectItem>
+                      <SelectItem value="Bureau">Bureau</SelectItem>
+                    </SelectContent>
+                  </Select>
+                )}
               </div>
 
               <div className="sm:col-span-1">
