@@ -9,6 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Search, SlidersHorizontal, MapPin, Home as HomeIcon } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import SEOHead from "@/components/SEOHead";
 
 const Properties = () => {
   const { toast } = useToast();
@@ -108,6 +109,12 @@ const Properties = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead
+        title="Annonces Immobilières Sénégal - Terrain Villa Maison Appartement"
+        description={`Découvrez ${properties.length} biens immobiliers à vendre au Sénégal. Terrain, villa, maison, appartement à Dakar, Saly, Mbour, Thiès. Filtrez par prix, type et localisation.`}
+        keywords="annonces immobilières sénégal, biens à vendre, terrain dakar, villa saly, maison mbour, appartement thiès, achat immobilier sénégal"
+        type="website"
+      />
       <Navbar />
       
       <main className="flex-1 pt-24 xs:pt-28 md:pt-32 pb-8 xs:pb-12 bg-gradient-subtle">

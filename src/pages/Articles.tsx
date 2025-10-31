@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import bannerFiscalite from "@/assets/banner-fiscalite-senegal.jpg";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEOHead from "@/components/SEOHead";
 
 interface Article {
   id: string;
@@ -102,6 +103,12 @@ const Articles = () => {
 
   return (
     <div className="min-h-screen">
+      <SEOHead
+        title="Actualités Immobilières Sénégal - Blog & Conseils"
+        description="Restez informé des dernières tendances du marché immobilier sénégalais. Guides, conseils d'achat, fiscalité immobilière, investissement locatif au Sénégal."
+        keywords="actualités immobilières sénégal, blog immobilier, conseils achat immobilier, fiscalité immobilière sénégal, investissement locatif, marché immobilier dakar"
+        type="website"
+      />
       <Navbar />
       <main className="pt-20">
       {/* Hero Banner */}

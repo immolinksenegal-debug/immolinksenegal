@@ -22,6 +22,7 @@ import { useToast } from "@/hooks/use-toast";
 import { ContactRequestDialog } from "@/components/ContactRequestDialog";
 import WhatsAppChat from "@/components/WhatsAppChat";
 import ShareButtons from "@/components/ShareButtons";
+import SEOHead from "@/components/SEOHead";
 
 const PropertyDetail = () => {
   const { id } = useParams();
@@ -161,8 +162,41 @@ const PropertyDetail = () => {
     return imageErrors[index] || !images[index] ? placeholderImage : images[index];
   };
 
+  // Structured Data pour la propriété
+  const propertyStructuredData = property ? {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": property.title,
+    "description": property.description,
+    "image": images[0],
+    "offers": {
+      "@type": "Offer",
+      "price": property.price,
+      "priceCurrency": "XOF",
+      "availability": "https://schema.org/InStock",
+      "url": `https://immolinksenegal.com/property/${id}`
+    },
+    "category": property.type,
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": property.city,
+      "addressRegion": property.location,
+      "addressCountry": "SN"
+    }
+  } : null;
+
   return (
     <div className="min-h-screen flex flex-col">
+      {property && (
+        <SEOHead
+          title={`${property.title} - ${property.city}`}
+          description={`${property.type} à vendre à ${property.city}, ${property.location}. ${property.price.toLocaleString('fr-FR')} FCFA. ${property.bedrooms ? `${property.bedrooms} chambres, ` : ''}${property.surface ? `${property.surface}m²` : ''}. ${property.description?.substring(0, 100)}...`}
+          keywords={`${property.type.toLowerCase()}, ${property.city.toLowerCase()}, immobilier ${property.city.toLowerCase()}, achat ${property.type.toLowerCase()}, ${property.location.toLowerCase()}`}
+          image={images[0]}
+          type="product"
+          structuredData={propertyStructuredData}
+        />
+      )}
       <Navbar />
       
       <main className="flex-1 pt-16 xs:pt-20 pb-8 xs:pb-12">

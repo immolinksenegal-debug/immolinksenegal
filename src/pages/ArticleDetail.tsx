@@ -10,6 +10,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import DOMPurify from 'dompurify';
 import ShareButtons from "@/components/ShareButtons";
+import SEOHead from "@/components/SEOHead";
 
 interface Article {
   id: string;
@@ -229,8 +230,46 @@ const ArticleDetail = () => {
     );
   }
 
+  // Structured Data pour l'article
+  const articleStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": article.title,
+    "description": article.excerpt || article.title,
+    "image": article.featured_image || "https://storage.googleapis.com/gpt-engineer-file-uploads/3HQRKoPwLbS6o4UNtPowFjhoqbM2/social-images/social-1761134461735-immo link sénégal.png",
+    "datePublished": article.published_at || article.created_at,
+    "dateModified": article.created_at,
+    "author": {
+      "@type": "Organization",
+      "name": "Immo Link Sénégal"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Immo Link Sénégal",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://storage.googleapis.com/gpt-engineer-file-uploads/3HQRKoPwLbS6o4UNtPowFjhoqbM2/uploads/1761296863842-logo immo link sénégal.png"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://immolinksenegal.com/articles/${article.slug}`
+    }
+  };
+
   return (
     <div className="min-h-screen pt-24 pb-16">
+      <SEOHead
+        title={article.title}
+        description={article.excerpt || article.title}
+        keywords={`immobilier sénégal, ${article.title.toLowerCase()}, blog immobilier`}
+        image={article.featured_image || undefined}
+        type="article"
+        structuredData={articleStructuredData}
+        author="Immo Link Sénégal"
+        publishedTime={article.published_at || article.created_at}
+        modifiedTime={article.created_at}
+      />
       <div className="container mx-auto px-4">
         {/* Back Button */}
         <Link to="/articles" className="inline-flex items-center gap-2 mb-6 hover:text-secondary transition-base">
