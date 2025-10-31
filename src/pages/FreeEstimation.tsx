@@ -338,38 +338,42 @@ const FreeEstimation = () => {
     return (
       <div className="min-h-screen flex flex-col">
         <Navbar />
-        <main className="flex-1 flex items-center justify-center py-12 px-4">
+        <main className="flex-1 flex items-center justify-center py-8 md:py-12 px-4">
           <Card className="max-w-lg w-full text-center">
-            <CardHeader>
-              <div className="mx-auto w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mb-4">
-                <CheckCircle className="w-10 h-10 text-secondary" />
+            <CardHeader className="space-y-3 md:space-y-4 pb-4 md:pb-6">
+              <div className="mx-auto w-12 h-12 md:w-16 md:h-16 bg-secondary/10 rounded-full flex items-center justify-center mb-2 md:mb-4">
+                <CheckCircle className="w-8 h-8 md:w-10 md:h-10 text-secondary" />
               </div>
-              <CardTitle className="text-2xl">Demande reçue !</CardTitle>
-              <CardDescription className="text-base">
+              <CardTitle className="text-xl md:text-2xl px-2">Demande reçue !</CardTitle>
+              <CardDescription className="text-sm md:text-base px-2">
                 Nous avons bien reçu votre demande d'estimation. Notre équipe d'experts vous contactera sous 24-48h avec une estimation détaillée de votre bien.
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-3 md:space-y-4 px-4 md:px-6">
               {lastSubmittedData && (
                 <Button 
                   onClick={() => generatePDF(lastSubmittedData)} 
-                  className="w-full bg-secondary hover:bg-secondary-glow"
+                  className="w-full bg-secondary hover:bg-secondary-glow h-11 md:h-12 text-sm md:text-base"
                   disabled={isGeneratingPdf}
                 >
                   {isGeneratingPdf ? (
                     <>
-                      <Sparkles className="w-5 h-5 mr-2 animate-spin" />
-                      Génération du PDF en cours...
+                      <Sparkles className="w-4 h-4 md:w-5 md:h-5 mr-2 animate-spin" />
+                      <span className="text-sm md:text-base">Génération du PDF en cours...</span>
                     </>
                   ) : (
                     <>
-                      <Download className="w-5 h-5 mr-2" />
-                      Télécharger à nouveau le PDF
+                      <Download className="w-4 h-4 md:w-5 md:h-5 mr-2" />
+                      <span className="text-sm md:text-base">Télécharger à nouveau le PDF</span>
                     </>
                   )}
                 </Button>
               )}
-              <Button onClick={() => navigate("/")} variant="outline" className="w-full">
+              <Button 
+                onClick={() => navigate("/")} 
+                variant="outline" 
+                className="w-full h-11 md:h-12 text-sm md:text-base"
+              >
                 Retour à l'accueil
               </Button>
             </CardContent>
@@ -387,49 +391,51 @@ const FreeEstimation = () => {
       <main className="flex-1 container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
           {/* Hero Section */}
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-secondary/10 rounded-full mb-4">
-              <Calculator className="w-8 h-8 text-secondary" />
+          <div className="text-center mb-8 md:mb-12 px-4">
+            <div className="inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16 bg-secondary/10 rounded-full mb-3 md:mb-4">
+              <Calculator className="w-6 h-6 md:w-8 md:h-8 text-secondary" />
             </div>
-            <h1 className="text-4xl font-bold mb-4">Estimation Gratuite</h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 md:mb-4 px-2">
+              Estimation Gratuite
+            </h1>
+            <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto px-2">
               Obtenez une estimation précise et gratuite de votre bien immobilier en moins de 24-48h
             </p>
           </div>
 
           {/* Benefits */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            <Card>
-              <CardContent className="pt-6 text-center">
-                <div className="inline-flex items-center justify-center w-12 h-12 bg-secondary/10 rounded-full mb-3">
-                  <Calculator className="w-6 h-6 text-secondary" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-12 px-4">
+            <Card className="h-full">
+              <CardContent className="pt-4 md:pt-6 pb-4 md:pb-6 text-center">
+                <div className="inline-flex items-center justify-center w-10 h-10 md:w-12 md:h-12 bg-secondary/10 rounded-full mb-2 md:mb-3">
+                  <Calculator className="w-5 h-5 md:w-6 md:h-6 text-secondary" />
                 </div>
-                <h3 className="font-semibold mb-2">100% Gratuit</h3>
-                <p className="text-sm text-muted-foreground">
+                <h3 className="font-semibold mb-1 md:mb-2 text-sm md:text-base">100% Gratuit</h3>
+                <p className="text-xs md:text-sm text-muted-foreground">
                   Sans engagement et sans frais cachés
                 </p>
               </CardContent>
             </Card>
 
-            <Card>
-              <CardContent className="pt-6 text-center">
-                <div className="inline-flex items-center justify-center w-12 h-12 bg-secondary/10 rounded-full mb-3">
-                  <Home className="w-6 h-6 text-secondary" />
+            <Card className="h-full">
+              <CardContent className="pt-4 md:pt-6 pb-4 md:pb-6 text-center">
+                <div className="inline-flex items-center justify-center w-10 h-10 md:w-12 md:h-12 bg-secondary/10 rounded-full mb-2 md:mb-3">
+                  <Home className="w-5 h-5 md:w-6 md:h-6 text-secondary" />
                 </div>
-                <h3 className="font-semibold mb-2">Experts Certifiés</h3>
-                <p className="text-sm text-muted-foreground">
+                <h3 className="font-semibold mb-1 md:mb-2 text-sm md:text-base">Experts Certifiés</h3>
+                <p className="text-xs md:text-sm text-muted-foreground">
                   Évaluation par des professionnels du secteur
                 </p>
               </CardContent>
             </Card>
 
-            <Card>
-              <CardContent className="pt-6 text-center">
-                <div className="inline-flex items-center justify-center w-12 h-12 bg-secondary/10 rounded-full mb-3">
-                  <CheckCircle className="w-6 h-6 text-secondary" />
+            <Card className="h-full sm:col-span-2 md:col-span-1">
+              <CardContent className="pt-4 md:pt-6 pb-4 md:pb-6 text-center">
+                <div className="inline-flex items-center justify-center w-10 h-10 md:w-12 md:h-12 bg-secondary/10 rounded-full mb-2 md:mb-3">
+                  <CheckCircle className="w-5 h-5 md:w-6 md:h-6 text-secondary" />
                 </div>
-                <h3 className="font-semibold mb-2">Réponse Rapide</h3>
-                <p className="text-sm text-muted-foreground">
+                <h3 className="font-semibold mb-1 md:mb-2 text-sm md:text-base">Réponse Rapide</h3>
+                <p className="text-xs md:text-sm text-muted-foreground">
                   Estimation sous 24-48h maximum
                 </p>
               </CardContent>
@@ -437,27 +443,27 @@ const FreeEstimation = () => {
           </div>
 
           {/* Form */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Remplissez le formulaire</CardTitle>
-              <CardDescription>
+          <Card className="mx-4 md:mx-0">
+            <CardHeader className="space-y-2 pb-4 md:pb-6">
+              <CardTitle className="text-lg md:text-xl">Remplissez le formulaire</CardTitle>
+              <CardDescription className="text-xs md:text-sm">
                 Plus vous nous donnez d'informations, plus notre estimation sera précise
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <CardContent className="px-4 md:px-6">
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 md:space-y-6">
                 {/* Property Information */}
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold flex items-center gap-2">
-                    <Home className="w-5 h-5 text-secondary" />
+                <div className="space-y-3 md:space-y-4">
+                  <h3 className="text-base md:text-lg font-semibold flex items-center gap-2">
+                    <Home className="w-4 h-4 md:w-5 md:h-5 text-secondary" />
                     Informations sur le bien
                   </h3>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="property_type">Type de bien *</Label>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                    <div className="space-y-1.5 md:space-y-2">
+                      <Label htmlFor="property_type" className="text-sm md:text-base">Type de bien *</Label>
                       <Select onValueChange={(value) => setValue("property_type", value)}>
-                        <SelectTrigger>
+                        <SelectTrigger className="h-10 md:h-11">
                           <SelectValue placeholder="Sélectionnez le type" />
                         </SelectTrigger>
                         <SelectContent>
@@ -469,14 +475,14 @@ const FreeEstimation = () => {
                         </SelectContent>
                       </Select>
                       {errors.property_type && (
-                        <p className="text-sm text-destructive">{errors.property_type.message}</p>
+                        <p className="text-xs md:text-sm text-destructive break-words">{errors.property_type.message}</p>
                       )}
                     </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="city">Ville *</Label>
+                    <div className="space-y-1.5 md:space-y-2">
+                      <Label htmlFor="city" className="text-sm md:text-base">Ville *</Label>
                       <Select onValueChange={(value) => setValue("city", value)}>
-                        <SelectTrigger>
+                        <SelectTrigger className="h-10 md:h-11">
                           <SelectValue placeholder="Sélectionnez la ville" />
                         </SelectTrigger>
                         <SelectContent>
@@ -488,59 +494,72 @@ const FreeEstimation = () => {
                         </SelectContent>
                       </Select>
                       {errors.city && (
-                        <p className="text-sm text-destructive">{errors.city.message}</p>
+                        <p className="text-xs md:text-sm text-destructive break-words">{errors.city.message}</p>
                       )}
                     </div>
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="location">Quartier / Localisation *</Label>
+                  <div className="space-y-1.5 md:space-y-2">
+                    <Label htmlFor="location" className="text-sm md:text-base">Quartier / Localisation *</Label>
                     <Input
                       id="location"
                       placeholder="Ex: Almadies, Ngor, Somone..."
+                      className="h-10 md:h-11"
                       {...register("location")}
                     />
                     {errors.location && (
-                      <p className="text-sm text-destructive">{errors.location.message}</p>
+                      <p className="text-xs md:text-sm text-destructive break-words">{errors.location.message}</p>
                     )}
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="surface">Surface (m²)</Label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+                    <div className="space-y-1.5 md:space-y-2">
+                      <Label htmlFor="surface" className="text-sm md:text-base">Surface (m²)</Label>
                       <Input
                         id="surface"
                         type="number"
                         placeholder="Ex: 150"
+                        className="h-10 md:h-11"
                         {...register("surface")}
                       />
+                      {errors.surface && (
+                        <p className="text-xs md:text-sm text-destructive break-words">{errors.surface.message}</p>
+                      )}
                     </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="bedrooms">Chambres</Label>
+                    <div className="space-y-1.5 md:space-y-2">
+                      <Label htmlFor="bedrooms" className="text-sm md:text-base">Chambres</Label>
                       <Input
                         id="bedrooms"
                         type="number"
                         placeholder="Ex: 3"
+                        className="h-10 md:h-11"
                         {...register("bedrooms")}
                       />
+                      {errors.bedrooms && (
+                        <p className="text-xs md:text-sm text-destructive break-words">{errors.bedrooms.message}</p>
+                      )}
                     </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="bathrooms">Salles de bain</Label>
+                    <div className="space-y-1.5 md:space-y-2 sm:col-span-2 md:col-span-1">
+                      <Label htmlFor="bathrooms" className="text-sm md:text-base">Salles de bain</Label>
                       <Input
                         id="bathrooms"
                         type="number"
                         placeholder="Ex: 2"
+                        className="h-10 md:h-11"
                         {...register("bathrooms")}
                       />
+                      {errors.bathrooms && (
+                        <p className="text-xs md:text-sm text-destructive break-words">{errors.bathrooms.message}</p>
+                      )}
                     </div>
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="condition">État du bien</Label>
+                  <div className="space-y-1.5 md:space-y-2">
+                    <Label htmlFor="condition" className="text-sm md:text-base">État du bien</Label>
                     <Select onValueChange={(value) => setValue("condition", value)}>
-                      <SelectTrigger>
+                      <SelectTrigger className="h-10 md:h-11">
                         <SelectValue placeholder="Sélectionnez l'état" />
                       </SelectTrigger>
                       <SelectContent>
@@ -553,60 +572,67 @@ const FreeEstimation = () => {
                     </Select>
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="description">Description (optionnel)</Label>
+                  <div className="space-y-1.5 md:space-y-2">
+                    <Label htmlFor="description" className="text-sm md:text-base">Description (optionnel)</Label>
                     <Textarea
                       id="description"
                       placeholder="Ajoutez des détails supplémentaires : vue, proximités, rénovations récentes..."
-                      rows={4}
+                      rows={3}
+                      className="min-h-[80px] md:min-h-[100px] resize-y"
                       {...register("description")}
                     />
+                    {errors.description && (
+                      <p className="text-xs md:text-sm text-destructive break-words">{errors.description.message}</p>
+                    )}
                   </div>
                 </div>
 
                 {/* Contact Information */}
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold flex items-center gap-2">
-                    <MessageSquare className="w-5 h-5 text-secondary" />
+                <div className="space-y-3 md:space-y-4 pt-2 md:pt-4 border-t">
+                  <h3 className="text-base md:text-lg font-semibold flex items-center gap-2">
+                    <MessageSquare className="w-4 h-4 md:w-5 md:h-5 text-secondary" />
                     Vos coordonnées
                   </h3>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="contact_name">Nom complet *</Label>
+                  <div className="space-y-1.5 md:space-y-2">
+                    <Label htmlFor="contact_name" className="text-sm md:text-base">Nom complet *</Label>
                     <Input
                       id="contact_name"
                       placeholder="Ex: Jean Dupont"
+                      className="h-10 md:h-11"
                       {...register("contact_name")}
                     />
                     {errors.contact_name && (
-                      <p className="text-sm text-destructive">{errors.contact_name.message}</p>
+                      <p className="text-xs md:text-sm text-destructive break-words">{errors.contact_name.message}</p>
                     )}
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="contact_email">Email *</Label>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                    <div className="space-y-1.5 md:space-y-2">
+                      <Label htmlFor="contact_email" className="text-sm md:text-base">Email *</Label>
                       <Input
                         id="contact_email"
                         type="email"
                         placeholder="votre@email.com"
+                        className="h-10 md:h-11"
                         {...register("contact_email")}
                       />
                       {errors.contact_email && (
-                        <p className="text-sm text-destructive">{errors.contact_email.message}</p>
+                        <p className="text-xs md:text-sm text-destructive break-words">{errors.contact_email.message}</p>
                       )}
                     </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="contact_phone">Téléphone *</Label>
+                    <div className="space-y-1.5 md:space-y-2">
+                      <Label htmlFor="contact_phone" className="text-sm md:text-base">Téléphone *</Label>
                       <Input
                         id="contact_phone"
                         type="tel"
                         placeholder="+221 77 XXX XX XX"
+                        className="h-10 md:h-11"
                         {...register("contact_phone")}
                       />
                       {errors.contact_phone && (
-                        <p className="text-sm text-destructive">{errors.contact_phone.message}</p>
+                        <p className="text-xs md:text-sm text-destructive break-words">{errors.contact_phone.message}</p>
                       )}
                     </div>
                   </div>
@@ -614,28 +640,32 @@ const FreeEstimation = () => {
 
                 <Button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-accent via-secondary to-accent hover:shadow-glow-accent text-white py-6 text-lg"
+                  className="w-full bg-gradient-to-r from-accent via-secondary to-accent hover:shadow-glow-accent text-white py-4 md:py-6 text-base md:text-lg font-semibold"
                   disabled={isSubmitting || isGeneratingPdf}
                 >
                   {isSubmitting || isGeneratingPdf ? (
                     <>
-                      <Sparkles className="w-5 h-5 mr-2 animate-spin" />
-                      {isGeneratingPdf ? 'Analyse IA en cours...' : 'Envoi en cours...'}
+                      <Sparkles className="w-4 h-4 md:w-5 md:h-5 mr-2 animate-spin" />
+                      <span className="text-sm md:text-base">
+                        {isGeneratingPdf ? 'Analyse IA en cours...' : 'Envoi en cours...'}
+                      </span>
                     </>
                   ) : (
                     <>
-                      <Sparkles className="w-5 h-5 mr-2" />
-                      Obtenir mon estimation gratuite + PDF
+                      <Sparkles className="w-4 h-4 md:w-5 md:h-5 mr-2" />
+                      <span className="text-sm md:text-base">
+                        Obtenir mon estimation gratuite + PDF
+                      </span>
                     </>
                   )}
                 </Button>
 
-                <div className="text-center space-y-2">
-                  <div className="flex items-center justify-center gap-2 text-sm text-secondary font-medium">
-                    <Sparkles className="w-4 h-4" />
+                <div className="text-center space-y-1.5 md:space-y-2 px-2">
+                  <div className="flex items-center justify-center gap-2 text-xs md:text-sm text-secondary font-medium">
+                    <Sparkles className="w-3.5 h-3.5 md:w-4 md:h-4" />
                     <span>Rapport PDF généré automatiquement par IA</span>
                   </div>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-[10px] md:text-xs text-muted-foreground">
                     En soumettant ce formulaire, vous acceptez d'être contacté par nos experts
                   </p>
                 </div>
