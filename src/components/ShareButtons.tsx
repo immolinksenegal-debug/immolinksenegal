@@ -46,8 +46,14 @@ const ShareButtons = ({ title, description, url, imageUrl }: ShareButtonsProps) 
     }
 
     if (shareLink) {
-      const newWindow = window.open(shareLink, '_blank', 'noopener,noreferrer');
-      if (newWindow) newWindow.opener = null;
+      // Créer un lien temporaire et le cliquer pour éviter les problèmes COOP
+      const link = document.createElement('a');
+      link.href = shareLink;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
   };
 
