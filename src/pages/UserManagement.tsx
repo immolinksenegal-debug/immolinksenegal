@@ -21,13 +21,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Users, UserCheck, UserX, Shield, Ban, CheckCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -484,16 +477,16 @@ const UserManagement = () => {
             </div>
 
             <p className="text-sm text-muted-foreground mb-2">Modifier les rôles:</p>
-            <Select value={selectedRole} onValueChange={(value) => setSelectedRole(value as AppRole)}>
-              <SelectTrigger>
-                <SelectValue placeholder="Sélectionner un rôle" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="admin">Admin</SelectItem>
-                <SelectItem value="moderator">Modérateur</SelectItem>
-                <SelectItem value="user">Utilisateur</SelectItem>
-              </SelectContent>
-            </Select>
+            <select
+              value={selectedRole}
+              onChange={(e) => setSelectedRole(e.target.value as AppRole)}
+              className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              <option value="" disabled>Sélectionner un rôle</option>
+              <option value="admin">Admin</option>
+              <option value="moderator">Modérateur</option>
+              <option value="user">Utilisateur</option>
+            </select>
           </div>
 
           <DialogFooter>

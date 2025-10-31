@@ -8,13 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calculator, CheckCircle, Home, MessageSquare, Download, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -475,18 +468,19 @@ const FreeEstimation = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                     <div className="space-y-1.5 md:space-y-2">
                       <Label htmlFor="property_type" className="text-sm md:text-base">Type de bien *</Label>
-                      <Select onValueChange={(value) => setValue("property_type", value)}>
-                        <SelectTrigger className="h-10 md:h-11">
-                          <SelectValue placeholder="Sélectionnez le type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {propertyTypes.map((type) => (
-                            <SelectItem key={type} value={type}>
-                              {type}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <select
+                        id="property_type"
+                        {...register("property_type")}
+                        className="flex h-10 md:h-11 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        defaultValue=""
+                      >
+                        <option value="" disabled>Sélectionnez le type</option>
+                        {propertyTypes.map((type) => (
+                          <option key={type} value={type}>
+                            {type}
+                          </option>
+                        ))}
+                      </select>
                       {errors.property_type && (
                         <p className="text-xs md:text-sm text-destructive break-words">{errors.property_type.message}</p>
                       )}
@@ -494,18 +488,19 @@ const FreeEstimation = () => {
 
                     <div className="space-y-1.5 md:space-y-2">
                       <Label htmlFor="city" className="text-sm md:text-base">Ville *</Label>
-                      <Select onValueChange={(value) => setValue("city", value)}>
-                        <SelectTrigger className="h-10 md:h-11">
-                          <SelectValue placeholder="Sélectionnez la ville" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {cities.map((city) => (
-                            <SelectItem key={city} value={city}>
-                              {city}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <select
+                        id="city"
+                        {...register("city")}
+                        className="flex h-10 md:h-11 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        defaultValue=""
+                      >
+                        <option value="" disabled>Sélectionnez la ville</option>
+                        {cities.map((city) => (
+                          <option key={city} value={city}>
+                            {city}
+                          </option>
+                        ))}
+                      </select>
                       {errors.city && (
                         <p className="text-xs md:text-sm text-destructive break-words">{errors.city.message}</p>
                       )}
@@ -571,18 +566,19 @@ const FreeEstimation = () => {
 
                   <div className="space-y-1.5 md:space-y-2">
                     <Label htmlFor="condition" className="text-sm md:text-base">État du bien</Label>
-                    <Select onValueChange={(value) => setValue("condition", value)}>
-                      <SelectTrigger className="h-10 md:h-11">
-                        <SelectValue placeholder="Sélectionnez l'état" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {conditions.map((condition) => (
-                          <SelectItem key={condition} value={condition}>
-                            {condition}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <select
+                      id="condition"
+                      {...register("condition")}
+                      className="flex h-10 md:h-11 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                      defaultValue=""
+                    >
+                      <option value="" disabled>Sélectionnez l'état</option>
+                      {conditions.map((condition) => (
+                        <option key={condition} value={condition}>
+                          {condition}
+                        </option>
+                      ))}
+                    </select>
                   </div>
 
                   <div className="space-y-1.5 md:space-y-2">

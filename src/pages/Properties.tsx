@@ -5,7 +5,6 @@ import Footer from "@/components/Footer";
 import PropertyCard from "@/components/PropertyCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
 import { Search, SlidersHorizontal, MapPin, Home as HomeIcon } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -163,21 +162,19 @@ const Properties = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4 border-t border-border animate-fade-in">
                   <div>
                     <label className="text-sm font-medium mb-2 block">Type de bien</label>
-                    <Select value={typeFilter} onValueChange={setTypeFilter}>
-                      <SelectTrigger>
-                        <HomeIcon className="h-4 w-4 mr-2 text-primary" />
-                        <SelectValue placeholder="Tous" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value=" ">Tous</SelectItem>
-                        <SelectItem value="Appartement">Appartement</SelectItem>
-                        <SelectItem value="Villa">Villa</SelectItem>
-                        <SelectItem value="Maison">Maison</SelectItem>
-                        <SelectItem value="Terrain">Terrain</SelectItem>
-                        <SelectItem value="Bureau">Bureau</SelectItem>
-                        <SelectItem value="Commerce">Commerce</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <select
+                      value={typeFilter}
+                      onChange={(e) => setTypeFilter(e.target.value)}
+                      className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      <option value=" ">Tous</option>
+                      <option value="Appartement">Appartement</option>
+                      <option value="Villa">Villa</option>
+                      <option value="Maison">Maison</option>
+                      <option value="Terrain">Terrain</option>
+                      <option value="Bureau">Bureau</option>
+                      <option value="Commerce">Commerce</option>
+                    </select>
                   </div>
 
                   <div>
