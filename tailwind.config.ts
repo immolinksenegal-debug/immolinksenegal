@@ -64,7 +64,8 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        sans: ['Poppins', 'system-ui', 'sans-serif'],
+        sans: ['Inter', 'Poppins', 'system-ui', 'sans-serif'],
+        inter: ['Inter', 'sans-serif'],
         poppins: ['Poppins', 'sans-serif'],
       },
       keyframes: {
@@ -119,9 +120,35 @@ export default {
         "glow-pulse": {
           "0%, 100%": {
             opacity: "1",
+            filter: "brightness(1)",
           },
           "50%": {
-            opacity: "0.6",
+            opacity: "0.8",
+            filter: "brightness(1.2)",
+          },
+        },
+        "cyber-grid": {
+          "0%": {
+            transform: "translateY(0)",
+          },
+          "100%": {
+            transform: "translateY(50%)",
+          },
+        },
+        "neon-pulse": {
+          "0%, 100%": {
+            boxShadow: "0 0 5px hsl(189 95% 55% / 0.5), 0 0 20px hsl(189 95% 55% / 0.3)",
+          },
+          "50%": {
+            boxShadow: "0 0 20px hsl(189 95% 55% / 0.8), 0 0 40px hsl(189 95% 55% / 0.5), 0 0 60px hsl(189 95% 55% / 0.3)",
+          },
+        },
+        "float": {
+          "0%, 100%": {
+            transform: "translateY(0px)",
+          },
+          "50%": {
+            transform: "translateY(-10px)",
           },
         },
       },
@@ -133,6 +160,9 @@ export default {
         "scale-in": "scale-in 0.4s ease-out",
         "slide-in-right": "slide-in-right 0.3s ease-out",
         "glow-pulse": "glow-pulse 2s ease-in-out infinite",
+        "cyber-grid": "cyber-grid 20s linear infinite",
+        "neon-pulse": "neon-pulse 2s ease-in-out infinite",
+        "float": "float 3s ease-in-out infinite",
       },
     },
   },
