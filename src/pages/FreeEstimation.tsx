@@ -391,21 +391,22 @@ const FreeEstimation = () => {
       
       <main className="flex-1">
         {/* Hero Banner Image */}
-        <div className="relative w-full h-48 sm:h-64 md:h-80 lg:h-96 overflow-hidden">
+        <div className="relative w-full h-48 sm:h-64 md:h-80 lg:h-96 overflow-hidden bg-muted">
           <img 
             src={bannerEstimation} 
             alt="Estimation immobilière gratuite au Sénégal" 
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-center"
+            loading="eager"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-primary/60 via-primary/40 to-background/95">
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/50 via-primary/30 to-background/80">
             <div className="container mx-auto px-4 h-full flex flex-col justify-center items-center text-center">
-              <div className="inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16 bg-white/10 backdrop-blur-sm rounded-full mb-3 md:mb-4">
+              <div className="inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16 bg-white/20 backdrop-blur-sm rounded-full mb-3 md:mb-4 shadow-lg">
                 <Calculator className="w-6 h-6 md:w-8 md:h-8 text-white" />
               </div>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-4 px-2 text-white drop-shadow-lg">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-4 px-2 text-white drop-shadow-2xl">
                 Estimation Gratuite
               </h1>
-              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/95 max-w-2xl mx-auto px-2 drop-shadow-md">
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white max-w-2xl mx-auto px-2 drop-shadow-xl">
                 Obtenez une estimation précise et gratuite de votre bien immobilier en moins de 24-48h
               </p>
             </div>
