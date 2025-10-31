@@ -94,6 +94,31 @@ serve(async (req) => {
       )
     }
 
+    // Check for existing subscription and clean up if necessary
+    const { data: existingSub } = await supabase
+      .from('subscriptions')
+      .select('id, status')
+      .eq('property_id', propertyId)
+      .eq('subscription_type', 'premium')
+      .maybeSingle()
+
+    if (existingSub) {
+      if (existingSub.status === 'active') {
+        console.log('⚠️ Property already has active subscription')
+        return new Response(
+          JSON.stringify({ error: 'Cette propriété a déjà un abonnement actif' }),
+          { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        )
+      }
+      
+      // Delete old pending/expired subscription to allow new one
+      console.log('🗑️ Removing old subscription:', existingSub.id)
+      await supabase
+        .from('subscriptions')
+        .delete()
+        .eq('id', existingSub.id)
+    }
+
     // Construct frontend URL from Supabase URL
     // Convert https://xxx.supabase.co to https://xxx.lovableproject.com
     const frontendUrl = supabaseUrl.replace('.supabase.co', '.lovableproject.com')
