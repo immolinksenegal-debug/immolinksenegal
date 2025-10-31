@@ -16,6 +16,7 @@ import {
   Sparkles,
   Users,
   Shield,
+  FileText,
 } from "lucide-react";
 import PropertyCard from "@/components/PropertyCard";
 import PropertyForm from "@/components/PropertyForm";
@@ -167,6 +168,62 @@ const Dashboard = () => {
     }
   };
 
+  const handleDownloadInvoice = async (propertyId: string) => {
+    try {
+      // Find the active subscription for this property
+      const { data: subscription, error: subError } = await supabase
+        .from('subscriptions')
+        .select('id, invoice_number')
+        .eq('property_id', propertyId)
+        .eq('status', 'active')
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (subError) throw subError;
+
+      if (!subscription || !subscription.invoice_number) {
+        toast({
+          title: "Facture non disponible",
+          description: "Aucune facture n'est disponible pour cette propriété",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Generate and download invoice
+      const { data, error } = await supabase.functions.invoke('generate-invoice-pdf', {
+        body: { subscriptionId: subscription.id },
+      });
+
+      if (error) throw error;
+
+      // Create a blob from the HTML response and open in new window
+      const blob = new Blob([data], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const newWindow = window.open(url, '_blank');
+      
+      if (newWindow) {
+        // Allow time for the page to load, then trigger print dialog
+        setTimeout(() => {
+          newWindow.print();
+        }, 500);
+      }
+
+      toast({
+        title: "Facture générée",
+        description: `Facture ${subscription.invoice_number} prête à imprimer`,
+      });
+    } catch (error: any) {
+      console.error('Error downloading invoice:', error);
+      toast({
+        title: "Erreur",
+        description: error.message || "Impossible de générer la facture",
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -278,10 +335,10 @@ const Dashboard = () => {
                     </div>
                   ) : userProperties.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-6">
-                      {userProperties.map((property) => (
+                       {userProperties.map((property) => (
                         <div key={property.id} className="relative">
                           <PropertyCard {...property} />
-                          <div className="absolute top-2 right-2 z-10 flex gap-2">
+                          <div className="absolute top-2 right-2 z-10 flex flex-wrap gap-2 max-w-[90%]">
                             <Button
                               size="sm"
                               variant="secondary"
@@ -298,7 +355,7 @@ const Dashboard = () => {
                             >
                               🗑️ Supprimer
                             </Button>
-                            {!property.isPremium && (
+                            {!property.isPremium ? (
                               <Button
                                 size="sm"
                                 onClick={() => handlePromoteProperty(property.id, property.title)}
@@ -306,6 +363,16 @@ const Dashboard = () => {
                               >
                                 <Sparkles className="h-3 w-3 mr-1" />
                                 Promouvoir
+                              </Button>
+                            ) : (
+                              <Button
+                                size="sm"
+                                onClick={() => handleDownloadInvoice(property.id)}
+                                className="bg-accent hover:bg-accent/90 text-white transition-smooth rounded-lg text-xs px-2 py-1"
+                                title="Télécharger la facture"
+                              >
+                                <FileText className="h-3 w-3 mr-1" />
+                                Facture
                               </Button>
                             )}
                           </div>

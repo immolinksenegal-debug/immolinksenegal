@@ -12,8 +12,25 @@ serve(async (req) => {
   }
 
   try {
-    const { propertyId, amount = 6500 } = await req.json()
-    console.log('📥 Payment initiation request:', { propertyId, amount })
+    const { propertyId, plan = 'monthly' } = await req.json()
+    
+    // SECURITY: Define prices server-side to prevent tampering
+    const SUBSCRIPTION_PRICES = {
+      monthly: 6500,  // 6,500 FCFA per month
+      yearly: 78000   // 78,000 FCFA per year (12 months)
+    }
+    
+    const amount = SUBSCRIPTION_PRICES[plan as keyof typeof SUBSCRIPTION_PRICES]
+    
+    if (!amount) {
+      console.error('❌ Invalid subscription plan')
+      return new Response(
+        JSON.stringify({ error: 'Formule d\'abonnement invalide' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
+    
+    console.log('📥 Payment initiation request:', { propertyId, plan, amount })
 
     // Validate propertyId
     const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
@@ -85,12 +102,13 @@ serve(async (req) => {
 
     // Create payment with PayTech
     console.log('🚀 Creating PayTech payment...')
+    const planLabel = plan === 'yearly' ? 'Annuel' : 'Mensuel'
     const paytechPayload = {
-      item_name: `Promotion Premium - ${property.title}`,
+      item_name: `Abonnement ${planLabel} - ${property.title}`,
       item_price: amount,
       currency: 'XOF',
       ref_command: `PROP_${propertyId}_${Date.now()}`,
-      command_name: `Promotion annonce #${propertyId.substring(0, 8)}`,
+      command_name: `Abonnement ${planLabel} #${propertyId.substring(0, 8)}`,
       env: 'prod',
       ipn_url: `${supabaseUrl}/functions/v1/verify-paytech-payment`,
       success_url: `${frontendUrl}/dashboard`,
@@ -98,6 +116,8 @@ serve(async (req) => {
       custom_field: JSON.stringify({
         propertyId,
         userId: user.id,
+        plan,
+        expectedAmount: amount,
       }),
     }
 
@@ -123,13 +143,14 @@ serve(async (req) => {
     const paymentData = await paytechResponse.json()
     console.log('✅ PayTech payment created:', paymentData)
 
-    // Create subscription record
+    // Create subscription record with plan information
     const { error: subscriptionError } = await supabase
       .from('subscriptions')
       .insert({
         user_id: user.id,
         property_id: propertyId,
         subscription_type: 'premium',
+        plan,
         amount,
         currency: 'XOF',
         status: 'pending',

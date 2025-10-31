@@ -468,8 +468,11 @@ export type Database = {
           currency: string
           expires_at: string | null
           id: string
+          invoice_data: Json | null
+          invoice_number: string | null
           payment_ref: string | null
           payment_token: string | null
+          plan: Database["public"]["Enums"]["subscription_plan"] | null
           property_id: string
           starts_at: string | null
           status: Database["public"]["Enums"]["subscription_status"]
@@ -483,8 +486,11 @@ export type Database = {
           currency?: string
           expires_at?: string | null
           id?: string
+          invoice_data?: Json | null
+          invoice_number?: string | null
           payment_ref?: string | null
           payment_token?: string | null
+          plan?: Database["public"]["Enums"]["subscription_plan"] | null
           property_id: string
           starts_at?: string | null
           status?: Database["public"]["Enums"]["subscription_status"]
@@ -498,8 +504,11 @@ export type Database = {
           currency?: string
           expires_at?: string | null
           id?: string
+          invoice_data?: Json | null
+          invoice_number?: string | null
           payment_ref?: string | null
           payment_token?: string | null
+          plan?: Database["public"]["Enums"]["subscription_plan"] | null
           property_id?: string
           starts_at?: string | null
           status?: Database["public"]["Enums"]["subscription_status"]
@@ -545,6 +554,7 @@ export type Database = {
     Functions: {
       cleanup_old_rate_limits: { Args: never; Returns: undefined }
       expire_old_subscriptions: { Args: never; Returns: undefined }
+      generate_invoice_number: { Args: never; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -555,6 +565,7 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
+      subscription_plan: "monthly" | "yearly"
       subscription_status: "active" | "pending" | "expired" | "cancelled"
       subscription_type: "featured" | "premium"
     }
@@ -685,6 +696,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "moderator", "user"],
+      subscription_plan: ["monthly", "yearly"],
       subscription_status: ["active", "pending", "expired", "cancelled"],
       subscription_type: ["featured", "premium"],
     },
