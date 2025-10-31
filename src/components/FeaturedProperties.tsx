@@ -15,16 +15,35 @@ const FeaturedProperties = () => {
 
   const fetchPremiumProperties = async () => {
     try {
-      const { data, error } = await supabase
+      // Fetch premium properties first, then fill with recent active properties
+      const { data: premiumData, error: premiumError } = await supabase
         .from('properties')
         .select('*')
         .eq('status', 'active')
-        .order('created_at', { ascending: false })
+        .eq('is_premium', true)
+        .order('premium_expires_at', { ascending: false })
         .limit(6);
 
-      if (error) throw error;
+      if (premiumError) throw premiumError;
 
-      const formattedProperties = data?.map((prop: any) => ({
+      let allProperties = premiumData || [];
+
+      // If we have less than 6 premium properties, fill with recent active ones
+      if (allProperties.length < 6) {
+        const { data: recentData, error: recentError } = await supabase
+          .from('properties')
+          .select('*')
+          .eq('status', 'active')
+          .eq('is_premium', false)
+          .order('created_at', { ascending: false })
+          .limit(6 - allProperties.length);
+
+        if (recentError) throw recentError;
+
+        allProperties = [...allProperties, ...(recentData || [])];
+      }
+
+      const formattedProperties = allProperties.map((prop: any) => ({
         id: prop.id,
         title: prop.title,
         location: `${prop.location}, ${prop.city}`,
@@ -39,7 +58,8 @@ const FeaturedProperties = () => {
         views: prop.views,
         createdAt: prop.created_at,
         isPremium: prop.is_premium,
-      })) || [];
+        premiumExpiresAt: prop.premium_expires_at,
+      }));
 
       setProperties(formattedProperties);
     } catch (error) {

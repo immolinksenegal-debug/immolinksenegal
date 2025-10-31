@@ -29,6 +29,11 @@ interface Features {
   ai_chat_enabled: boolean;
 }
 
+interface PayTechConfig {
+  api_key: string;
+  secret_key: string;
+}
+
 interface SEO {
   site_title: string;
   meta_description: string;
@@ -58,6 +63,11 @@ export const AdminSiteSettings = () => {
     blog_enabled: true,
     estimation_enabled: true,
     ai_chat_enabled: true,
+  });
+
+  const [paytechConfig, setPaytechConfig] = useState<PayTechConfig>({
+    api_key: "",
+    secret_key: "",
   });
 
   const [seo, setSeo] = useState<SEO>({
@@ -91,6 +101,9 @@ export const AdminSiteSettings = () => {
           case 'features':
             setFeatures(setting.setting_value as unknown as Features);
             break;
+          case 'paytech_config':
+            setPaytechConfig(setting.setting_value as unknown as PayTechConfig);
+            break;
           case 'seo':
             setSeo(setting.setting_value as unknown as SEO);
             break;
@@ -116,6 +129,7 @@ export const AdminSiteSettings = () => {
         { setting_key: 'site_info', setting_value: siteInfo as any },
         { setting_key: 'social_links', setting_value: socialLinks as any },
         { setting_key: 'features', setting_value: features as any },
+        { setting_key: 'paytech_config', setting_value: paytechConfig as any },
         { setting_key: 'seo', setting_value: seo as any },
       ];
 
@@ -276,6 +290,58 @@ export const AdminSiteSettings = () => {
               onCheckedChange={(checked) => setFeatures({ ...features, ai_chat_enabled: checked })}
             />
           </div>
+        </CardContent>
+      </Card>
+
+      {/* PayTech Configuration */}
+      <Card className="shadow-card border-border/50 border-accent/30">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            💳 Configuration PayTech
+            <span className="text-xs font-normal text-muted-foreground">(Clés API de paiement)</span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="bg-accent/5 border border-accent/20 rounded-lg p-4 mb-4">
+            <p className="text-sm text-muted-foreground">
+              ⚠️ Ces clés sont sensibles et permettent de traiter les paiements. 
+              Assurez-vous de les garder confidentielles. Obtenez vos clés depuis votre 
+              <a href="https://paytech.sn" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline ml-1">
+                compte PayTech
+              </a>
+            </p>
+          </div>
+          <div>
+            <Label>Clé API (API_KEY)</Label>
+            <Input
+              type="password"
+              placeholder="Entrez votre clé API PayTech"
+              value={paytechConfig.api_key}
+              onChange={(e) => setPaytechConfig({ ...paytechConfig, api_key: e.target.value })}
+            />
+            <p className="text-xs text-muted-foreground mt-1">
+              Format: Clé publique fournie par PayTech
+            </p>
+          </div>
+          <div>
+            <Label>Clé Secrète (SECRET_KEY)</Label>
+            <Input
+              type="password"
+              placeholder="Entrez votre clé secrète PayTech"
+              value={paytechConfig.secret_key}
+              onChange={(e) => setPaytechConfig({ ...paytechConfig, secret_key: e.target.value })}
+            />
+            <p className="text-xs text-muted-foreground mt-1">
+              Format: Clé privée à ne jamais partager
+            </p>
+          </div>
+          {paytechConfig.api_key && paytechConfig.secret_key && (
+            <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-3">
+              <p className="text-sm text-green-600 dark:text-green-400 font-medium">
+                ✓ Clés API configurées
+              </p>
+            </div>
+          )}
         </CardContent>
       </Card>
 
