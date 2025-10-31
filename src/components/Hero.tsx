@@ -60,15 +60,20 @@ const Hero = () => {
           </p>
 
           {/* Search Bar */}
-          <div className="glass-effect rounded-3xl p-5 xs:p-7 shadow-glow-secondary w-full max-w-3xl mx-auto animate-scale-in border-2 border-secondary/30">
+          <div className="glass-effect rounded-3xl p-5 xs:p-7 shadow-glow-secondary w-full max-w-3xl mx-auto animate-scale-in border-2 border-secondary/30 relative">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 xs:gap-4">
-              <div className="sm:col-span-1">
+              <div className="sm:col-span-1 relative z-10">
                 <Select value={propertyType} onValueChange={setPropertyType}>
-                  <SelectTrigger className="w-full bg-white/90 border-white/30 h-11 xs:h-12 rounded-xl text-sm xs:text-base touch-manipulation">
-                    <Home className="h-4 w-4 mr-2 text-primary" />
+                  <SelectTrigger className="w-full bg-white/90 border-white/30 h-11 xs:h-12 rounded-xl text-sm xs:text-base touch-manipulation active:scale-[0.98]">
+                    <Home className="h-4 w-4 mr-2 text-primary flex-shrink-0" />
                     <SelectValue placeholder="Type" />
                   </SelectTrigger>
-                  <SelectContent position="popper" sideOffset={4} className="z-[200]">
+                  <SelectContent 
+                    position="popper" 
+                    sideOffset={8} 
+                    align="start"
+                    className="min-w-[200px] max-w-[90vw]"
+                  >
                     <SelectItem value="Appartement">Appartement</SelectItem>
                     <SelectItem value="Maison">Maison</SelectItem>
                     <SelectItem value="Villa">Villa</SelectItem>
