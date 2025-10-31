@@ -12,9 +12,7 @@ interface Comment {
   content: string;
   created_at: string;
   user_id: string;
-  profiles: {
-    full_name: string;
-  };
+  user_name?: string;
 }
 
 interface CommentSectionProps {
@@ -45,10 +43,7 @@ const CommentSection = ({ propertyId, articleId }: CommentSectionProps) => {
       setIsLoading(true);
       let query = supabase
         .from('comments')
-        .select(`
-          *,
-          profiles (full_name)
-        `)
+        .select('*')
         .eq('status', 'approved')
         .order('created_at', { ascending: false });
 
@@ -58,10 +53,29 @@ const CommentSection = ({ propertyId, articleId }: CommentSectionProps) => {
         query = query.eq('article_id', articleId);
       }
 
-      const { data, error } = await query;
+      const { data: commentsData, error } = await query;
 
       if (error) throw error;
-      setComments(data || []);
+
+      // Fetch user profiles for each comment
+      if (commentsData && commentsData.length > 0) {
+        const userIds = [...new Set(commentsData.map(c => c.user_id))];
+        const { data: profilesData } = await supabase
+          .from('profiles')
+          .select('id, full_name')
+          .in('id', userIds);
+
+        const profilesMap = new Map(profilesData?.map(p => [p.id, p.full_name]) || []);
+        
+        const commentsWithNames = commentsData.map(comment => ({
+          ...comment,
+          user_name: profilesMap.get(comment.user_id) || 'Utilisateur'
+        }));
+        
+        setComments(commentsWithNames);
+      } else {
+        setComments([]);
+      }
     } catch (error) {
       console.error('Error fetching comments:', error);
     } finally {
@@ -211,13 +225,13 @@ const CommentSection = ({ propertyId, articleId }: CommentSectionProps) => {
                 <div className="flex gap-4">
                   <Avatar className="h-10 w-10 border-2 border-secondary/20">
                     <AvatarFallback className="bg-secondary/10 text-secondary font-semibold">
-                      {getInitials(comment.profiles?.full_name || 'Utilisateur')}
+                      {getInitials(comment.user_name || 'Utilisateur')}
                     </AvatarFallback>
                   </Avatar>
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
                       <span className="font-semibold text-foreground">
-                        {comment.profiles?.full_name || 'Utilisateur'}
+                        {comment.user_name || 'Utilisateur'}
                       </span>
                       <span className="text-xs text-muted-foreground">
                         {formatDate(comment.created_at)}
