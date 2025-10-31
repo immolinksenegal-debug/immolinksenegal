@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Calendar, Eye, ArrowLeft, MessageSquare, Send } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import ShareButtons from "@/components/ShareButtons";
 
 interface Article {
   id: string;
@@ -256,19 +257,26 @@ const ArticleDetail = () => {
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               {article.title}
             </h1>
-            <div className="flex items-center gap-4 text-muted-foreground">
-              <span className="flex items-center gap-2">
-                <Calendar className="h-4 w-4" />
-                {new Date(article.created_at).toLocaleDateString('fr-FR', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })}
-              </span>
-              <span className="flex items-center gap-2">
-                <Eye className="h-4 w-4" />
-                {article.views} vues
-              </span>
+            <div className="flex items-center justify-between flex-wrap gap-4">
+              <div className="flex items-center gap-4 text-muted-foreground">
+                <span className="flex items-center gap-2">
+                  <Calendar className="h-4 w-4" />
+                  {new Date(article.created_at).toLocaleDateString('fr-FR', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  })}
+                </span>
+                <span className="flex items-center gap-2">
+                  <Eye className="h-4 w-4" />
+                  {article.views} vues
+                </span>
+              </div>
+              <ShareButtons
+                title={article.title}
+                description={article.excerpt || article.title}
+                imageUrl={article.featured_image || undefined}
+              />
             </div>
           </div>
 

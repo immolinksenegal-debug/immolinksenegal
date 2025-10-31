@@ -12,7 +12,6 @@ import {
   Phone,
   Mail,
   Heart,
-  Share2,
   Calendar,
   Eye,
   Home as HomeIcon,
@@ -22,6 +21,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { ContactRequestDialog } from "@/components/ContactRequestDialog";
 import WhatsAppChat from "@/components/WhatsAppChat";
+import ShareButtons from "@/components/ShareButtons";
 
 const PropertyDetail = () => {
   const { id } = useParams();
@@ -241,34 +241,11 @@ const PropertyDetail = () => {
                         }`}
                       />
                     </Button>
-                    <Button
-                      size="icon"
-                      variant="outline"
-                      className="rounded-xl h-8 w-8 xs:h-10 xs:w-10 hover-scale"
-                      onClick={() => {
-                        if (navigator.share) {
-                          navigator.share({
-                            title: property.title,
-                            text: `Découvrez ce bien: ${property.title}`,
-                            url: window.location.href,
-                          }).catch(() => {
-                            navigator.clipboard.writeText(window.location.href);
-                            toast({
-                              title: "Lien copié!",
-                              description: "Le lien a été copié dans votre presse-papiers",
-                            });
-                          });
-                        } else {
-                          navigator.clipboard.writeText(window.location.href);
-                          toast({
-                            title: "Lien copié!",
-                            description: "Le lien a été copié dans votre presse-papiers",
-                          });
-                        }
-                      }}
-                    >
-                      <Share2 className="h-4 w-4 xs:h-5 xs:w-5" />
-                    </Button>
+                    <ShareButtons
+                      title={property.title}
+                      description={`Découvrez ce bien: ${property.title} - ${property.price.toLocaleString('fr-FR')} FCFA à ${property.city}`}
+                      imageUrl={images[0]}
+                    />
                   </div>
                 </div>
 
