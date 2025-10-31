@@ -46,7 +46,8 @@ const ShareButtons = ({ title, description, url, imageUrl }: ShareButtonsProps) 
     }
 
     if (shareLink) {
-      window.open(shareLink, '_blank', 'width=600,height=400');
+      const newWindow = window.open(shareLink, '_blank', 'noopener,noreferrer');
+      if (newWindow) newWindow.opener = null;
     }
   };
 
