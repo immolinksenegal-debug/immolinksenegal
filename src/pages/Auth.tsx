@@ -29,20 +29,25 @@ const Auth = () => {
 
   // Vérifier si l'utilisateur est déjà connecté
   useEffect(() => {
-    const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        navigate("/dashboard");
-      }
-    };
-    checkSession();
-
-    // Écouter les changements d'authentification
+    // Écouter les changements d'authentification AVANT de vérifier la session
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN' && session) {
         navigate("/dashboard");
       }
     });
+
+    // PUIS vérifier la session existante
+    const checkSession = async () => {
+      const { data: { session }, error } = await supabase.auth.getSession();
+      if (error) {
+        console.error('Session error:', error);
+        // Nettoyer la session invalide
+        await supabase.auth.signOut();
+      } else if (session) {
+        navigate("/dashboard");
+      }
+    };
+    checkSession();
 
     return () => subscription.unsubscribe();
   }, [navigate]);
