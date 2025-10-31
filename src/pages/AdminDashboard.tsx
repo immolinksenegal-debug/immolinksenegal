@@ -14,6 +14,7 @@ import {
   TrendingUp,
   Users,
   AlertCircle,
+  Mail,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -21,6 +22,7 @@ import { AdminPropertiesManager } from "@/components/admin/AdminPropertiesManage
 import { AdminArticlesManager } from "@/components/admin/AdminArticlesManager";
 import { AdminCommentsManager } from "@/components/admin/AdminCommentsManager";
 import { AdminSiteSettings } from "@/components/admin/AdminSiteSettings";
+import AdminContactMessages from "@/components/admin/AdminContactMessages";
 
 interface Stats {
   totalProperties: number;
@@ -31,6 +33,8 @@ interface Stats {
   totalComments: number;
   pendingComments: number;
   totalReports: number;
+  totalContactMessages: number;
+  pendingContactMessages: number;
 }
 
 const AdminDashboard = () => {
@@ -47,6 +51,8 @@ const AdminDashboard = () => {
     totalComments: 0,
     pendingComments: 0,
     totalReports: 0,
+    totalContactMessages: 0,
+    pendingContactMessages: 0,
   });
 
   useEffect(() => {
@@ -134,6 +140,16 @@ const AdminDashboard = () => {
         .select('*', { count: 'exact', head: true })
         .eq('status', 'pending');
 
+      // Fetch contact messages stats
+      const { count: totalContactMessages } = await supabase
+        .from('contact_messages')
+        .select('*', { count: 'exact', head: true });
+
+      const { count: pendingContactMessages } = await supabase
+        .from('contact_messages')
+        .select('*', { count: 'exact', head: true })
+        .eq('status', 'pending');
+
       setStats({
         totalProperties: totalProperties || 0,
         pendingProperties: pendingProperties || 0,
@@ -143,6 +159,8 @@ const AdminDashboard = () => {
         totalComments: totalComments || 0,
         pendingComments: pendingComments || 0,
         totalReports: totalReports || 0,
+        totalContactMessages: totalContactMessages || 0,
+        pendingContactMessages: pendingContactMessages || 0,
       });
 
     } catch (error) {
@@ -234,16 +252,16 @@ const AdminDashboard = () => {
               <CardContent className="pt-6 pb-6 px-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm text-muted-foreground mb-1">Signalements</p>
-                    <p className="text-3xl font-bold text-foreground">{stats.totalReports}</p>
-                    {stats.pendingComments > 0 && (
+                    <p className="text-sm text-muted-foreground mb-1">Messages Contact</p>
+                    <p className="text-3xl font-bold text-foreground">{stats.totalContactMessages}</p>
+                    {stats.pendingContactMessages > 0 && (
                       <p className="text-xs text-orange-500 mt-1">
-                        {stats.pendingComments} commentaires en attente
+                        {stats.pendingContactMessages} en attente
                       </p>
                     )}
                   </div>
-                  <div className="w-14 h-14 bg-red-500/10 rounded-xl flex items-center justify-center">
-                    <AlertCircle className="h-7 w-7 text-red-500" />
+                  <div className="w-14 h-14 bg-green-500/10 rounded-xl flex items-center justify-center">
+                    <Mail className="h-7 w-7 text-green-500" />
                   </div>
                 </div>
               </CardContent>
@@ -275,6 +293,13 @@ const AdminDashboard = () => {
                 Commentaires
               </TabsTrigger>
               <TabsTrigger
+                value="contact"
+                className="data-[state=active]:bg-secondary data-[state=active]:text-white transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
+              >
+                <Mail className="h-3 w-3 xs:h-4 xs:w-4 mr-1 xs:mr-2" />
+                Messages
+              </TabsTrigger>
+              <TabsTrigger
                 value="settings"
                 className="data-[state=active]:bg-secondary data-[state=active]:text-white transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
               >
@@ -293,6 +318,10 @@ const AdminDashboard = () => {
 
             <TabsContent value="comments">
               <AdminCommentsManager onStatsUpdate={loadStats} />
+            </TabsContent>
+
+            <TabsContent value="contact">
+              <AdminContactMessages />
             </TabsContent>
 
             <TabsContent value="settings">
