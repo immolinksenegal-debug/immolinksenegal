@@ -28,7 +28,7 @@ const Hero = () => {
     navigate(`/properties?${params.toString()}`);
   };
   return (
-    <section className="relative min-h-[500px] sm:min-h-[600px] md:min-h-[700px] flex items-center justify-center overflow-x-hidden pt-20 xs:pt-22 md:pt-24 lg:pt-28 pb-8">
+    <section className="relative min-h-[500px] sm:min-h-[600px] md:min-h-[700px] flex items-center justify-center overflow-hidden pt-20 xs:pt-22 md:pt-24 lg:pt-28">
       {/* Background Image with Modern Overlay */}
       <div className="absolute inset-0 z-0">
         <img
@@ -42,7 +42,7 @@ const Hero = () => {
 
       {/* Content */}
       <div className="container mx-auto px-2 xs:px-4 relative z-10">
-        <div className="max-w-4xl mx-auto text-center animate-fade-in-up flex flex-col items-center relative">
+        <div className="max-w-4xl mx-auto text-center animate-fade-in-up flex flex-col items-center">
           {/* Badge Premium */}
           <div className="inline-flex items-center gap-2 px-5 py-2.5 mb-6 glass-effect-dark rounded-full border border-accent/30">
             <span className="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
@@ -60,9 +60,9 @@ const Hero = () => {
           </p>
 
           {/* Search Bar */}
-          <div className="glass-effect rounded-3xl p-5 xs:p-7 shadow-glow-secondary w-full max-w-3xl mx-auto animate-scale-in border-2 border-secondary/30 relative z-20">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 xs:gap-4 relative">
-              <div className="sm:col-span-1 relative z-30">
+          <div className="glass-effect rounded-3xl p-5 xs:p-7 shadow-glow-secondary w-full max-w-3xl mx-auto animate-scale-in border-2 border-secondary/30">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 xs:gap-4">
+              <div className="sm:col-span-1">
                 <Select value={propertyType} onValueChange={setPropertyType}>
                   <SelectTrigger className="w-full bg-white/90 border-white/30 h-11 xs:h-12 rounded-xl text-sm xs:text-base touch-manipulation active:scale-[0.98] transition-transform">
                     <Home className="h-4 w-4 mr-2 text-primary flex-shrink-0" />
@@ -70,9 +70,8 @@ const Hero = () => {
                   </SelectTrigger>
                   <SelectContent 
                     position="popper" 
-                    sideOffset={8} 
-                    align="start"
-                    className="min-w-[200px] max-w-[90vw] z-[9999]"
+                    sideOffset={4}
+                    className="bg-white"
                   >
                     <SelectItem value="Appartement">Appartement</SelectItem>
                     <SelectItem value="Maison">Maison</SelectItem>
