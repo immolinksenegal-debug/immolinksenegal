@@ -83,11 +83,29 @@ const PropertyForm = ({ onSuccess, initialData }: PropertyFormProps) => {
   const [images, setImages] = useState<File[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [existingImages, setExistingImages] = useState<string[]>([]);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const isEditing = !!initialData;
 
   const { register, handleSubmit, formState: { errors }, setValue, reset } = useForm<PropertyFormData>({
     resolver: zodResolver(propertySchema),
   });
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setIsAuthenticated(!!user);
+      
+      if (!user && !isEditing) {
+        toast({
+          title: "Connexion requise",
+          description: "Vous devez être connecté pour publier une annonce",
+          variant: "destructive",
+        });
+      }
+    };
+    
+    checkAuth();
+  }, [toast, isEditing]);
 
   useEffect(() => {
     if (initialData) {
@@ -234,6 +252,39 @@ const PropertyForm = ({ onSuccess, initialData }: PropertyFormProps) => {
       setIsLoading(false);
     }
   };
+
+  if (isAuthenticated === null) {
+    return (
+      <Card className="shadow-card border-border/50">
+        <CardContent className="flex items-center justify-center min-h-[400px]">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (!isAuthenticated && !isEditing) {
+    return (
+      <Card className="shadow-card border-border/50">
+        <CardHeader>
+          <CardTitle className="text-2xl text-center">
+            Connexion requise
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="text-center space-y-4">
+          <p className="text-muted-foreground">
+            Vous devez être connecté pour publier une annonce.
+          </p>
+          <Button 
+            onClick={() => navigate("/auth")}
+            className="bg-secondary hover:bg-secondary-glow text-white"
+          >
+            Se connecter
+          </Button>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card className="shadow-card border-border/50">
