@@ -23,7 +23,6 @@ import { ContactRequestDialog } from "@/components/ContactRequestDialog";
 import WhatsAppChat from "@/components/WhatsAppChat";
 import ShareButtons from "@/components/ShareButtons";
 import SEOHead from "@/components/SEOHead";
-import { imagePresets } from "@/lib/imageUtils";
 
 const PropertyDetail = () => {
   const { id } = useParams();
@@ -159,13 +158,8 @@ const PropertyDetail = () => {
     setImageErrors(prev => ({ ...prev, [index]: true }));
   };
   
-  const getImageSrc = (index: number, isHero: boolean = false) => {
-    if (imageErrors[index] || !images[index]) return placeholderImage;
-    
-    // Optimiser selon le type d'image
-    return isHero 
-      ? imagePresets.propertyHero(images[index])
-      : imagePresets.propertyThumbnail(images[index]);
+  const getImageSrc = (index: number) => {
+    return imageErrors[index] || !images[index] ? placeholderImage : images[index];
   };
 
   // Structured Data pour la propriété
@@ -213,7 +207,7 @@ const PropertyDetail = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2 xs:gap-4 rounded-xl xs:rounded-2xl overflow-hidden shadow-elegant">
                 <div className="md:col-span-2 aspect-video md:aspect-[21/9] overflow-hidden group cursor-pointer bg-muted">
                   <img
-                    src={getImageSrc(0, true)}
+                    src={getImageSrc(0)}
                     alt={property.title}
                     className="w-full h-full object-cover transition-smooth group-hover:scale-110"
                     loading="eager"
@@ -223,7 +217,7 @@ const PropertyDetail = () => {
                 {images.slice(1, 5).map((image, index) => (
                   <div key={index} className="aspect-video overflow-hidden group cursor-pointer bg-muted">
                     <img
-                      src={getImageSrc(index + 1, false)}
+                      src={getImageSrc(index + 1)}
                       alt={`${property.title} ${index + 2}`}
                       className="w-full h-full object-cover transition-smooth group-hover:scale-110"
                       loading="lazy"

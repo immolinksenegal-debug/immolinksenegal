@@ -11,7 +11,6 @@ import bannerFiscalite from "@/assets/banner-fiscalite-senegal.jpg";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
-import { imagePresets } from "@/lib/imageUtils";
 
 interface Article {
   id: string;
@@ -39,13 +38,9 @@ const Articles = () => {
     setImageErrors(prev => ({ ...prev, [articleId]: true }));
   };
   
-  const getImageSrc = (articleId: string, imageSrc: string | null, isThumbnail: boolean = false) => {
+  const getImageSrc = (articleId: string, imageSrc: string | null) => {
     if (!imageSrc || imageErrors[articleId]) return placeholderImage;
-    
-    // Optimiser selon le type
-    return isThumbnail 
-      ? imagePresets.articleThumbnail(imageSrc)
-      : imagePresets.articleFeatured(imageSrc);
+    return imageSrc;
   };
 
   useEffect(() => {
@@ -171,7 +166,7 @@ const Articles = () => {
                       <div className="md:col-span-1">
                         <div className="relative h-48 md:h-full bg-muted">
                           <img
-                            src={getImageSrc(article.id, article.featured_image, false)}
+                            src={getImageSrc(article.id, article.featured_image)}
                             alt={article.title}
                             className="w-full h-full object-cover"
                             onError={() => handleImageError(article.id)}
@@ -240,7 +235,7 @@ const Articles = () => {
                       <div className="flex gap-3">
                         <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-muted">
                           <img
-                            src={getImageSrc(`popular-${article.id}`, article.featured_image, true)}
+                            src={getImageSrc(`popular-${article.id}`, article.featured_image)}
                             alt={article.title}
                             className="w-full h-full object-cover"
                             onError={() => handleImageError(`popular-${article.id}`)}
@@ -280,7 +275,7 @@ const Articles = () => {
                       <div className="flex gap-3">
                         <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-muted">
                           <img
-                            src={getImageSrc(`recent-${article.id}`, article.featured_image, true)}
+                            src={getImageSrc(`recent-${article.id}`, article.featured_image)}
                             alt={article.title}
                             className="w-full h-full object-cover"
                             onError={() => handleImageError(`recent-${article.id}`)}

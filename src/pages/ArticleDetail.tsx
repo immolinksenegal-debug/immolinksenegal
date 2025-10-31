@@ -11,7 +11,6 @@ import { useToast } from "@/hooks/use-toast";
 import DOMPurify from 'dompurify';
 import ShareButtons from "@/components/ShareButtons";
 import SEOHead from "@/components/SEOHead";
-import { imagePresets } from "@/lib/imageUtils";
 
 interface Article {
   id: string;
@@ -284,7 +283,7 @@ const ArticleDetail = () => {
           {article.featured_image && (
             <div className="mb-8 rounded-2xl overflow-hidden shadow-elevated bg-muted">
               <img
-                src={imageError ? placeholderImage : imagePresets.articleFeatured(article.featured_image)}
+                src={imageError ? placeholderImage : article.featured_image}
                 alt={article.title}
                 className="w-full h-96 object-cover"
                 onError={() => setImageError(true)}
