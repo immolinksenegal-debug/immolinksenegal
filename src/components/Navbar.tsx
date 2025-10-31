@@ -14,8 +14,11 @@ import { useToast } from "@/hooks/use-toast";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
+  const [logoError, setLogoError] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+  
+  const fallbackLogo = "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=200&h=200&fit=crop";
 
   useEffect(() => {
     // Écouter les changements d'authentification AVANT de vérifier la session
@@ -77,9 +80,10 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-1 xs:space-x-2 group">
             <img 
-              src={logo} 
+              src={logoError ? fallbackLogo : logo}
               alt="Immo Link Sénégal" 
-              className="h-14 w-14 xs:h-16 xs:w-16 md:h-20 md:w-20 lg:h-24 lg:w-24 object-contain transition-smooth group-hover:scale-105 drop-shadow-lg" 
+              className="h-14 w-14 xs:h-16 xs:w-16 md:h-20 md:w-20 lg:h-24 lg:w-24 object-contain transition-smooth group-hover:scale-105 drop-shadow-lg"
+              onError={() => setLogoError(true)}
             />
           </Link>
 

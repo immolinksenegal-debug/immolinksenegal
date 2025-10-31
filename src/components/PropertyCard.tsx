@@ -41,14 +41,20 @@ const PropertyCard = ({
   isPremium = false,
 }: PropertyCardProps) => {
   const [isFavorite, setIsFavorite] = useState(false);
+  const [imgError, setImgError] = useState(false);
+  
+  // Placeholder image for properties without image
+  const placeholderImage = "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&h=600&fit=crop";
 
   return (
     <Card className="group overflow-hidden hover-lift bg-card shadow-card border-border/50 rounded-2xl">
-      <div className="relative overflow-hidden aspect-[4/3]">
+      <div className="relative overflow-hidden aspect-[4/3] bg-muted">
         <img
-          src={image}
+          src={imgError || !image ? placeholderImage : image}
           alt={title}
           className="w-full h-full object-cover transition-smooth group-hover:scale-110"
+          onError={() => setImgError(true)}
+          loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-smooth"></div>
         
