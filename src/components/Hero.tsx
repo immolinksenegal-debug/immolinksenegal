@@ -9,8 +9,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
+  const navigate = useNavigate();
+  const [propertyType, setPropertyType] = useState<string>("");
+  const [city, setCity] = useState<string>("");
+  const [maxPrice, setMaxPrice] = useState<string>("");
+
+  const handleSearch = () => {
+    const params = new URLSearchParams();
+    
+    if (propertyType) params.set('type', propertyType);
+    if (city) params.set('city', city);
+    if (maxPrice) params.set('maxPrice', maxPrice);
+    
+    navigate(`/properties?${params.toString()}`);
+  };
   return (
     <section className="relative min-h-[500px] sm:min-h-[600px] md:min-h-[700px] flex items-center justify-center overflow-hidden pt-20 xs:pt-22 md:pt-24 lg:pt-28">
       {/* Background Image with Modern Overlay */}
@@ -47,17 +63,17 @@ const Hero = () => {
           <div className="glass-effect rounded-3xl p-5 xs:p-7 shadow-glow-secondary w-full max-w-3xl mx-auto animate-scale-in border-2 border-secondary/30">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 xs:gap-4">
               <div className="sm:col-span-1">
-                <Select>
+                <Select value={propertyType} onValueChange={setPropertyType}>
                   <SelectTrigger className="w-full bg-white/90 border-white/30 h-11 xs:h-12 rounded-xl text-sm xs:text-base">
                     <Home className="h-4 w-4 mr-2 text-primary" />
                     <SelectValue placeholder="Type" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="appartement">Appartement</SelectItem>
-                    <SelectItem value="maison">Maison</SelectItem>
-                    <SelectItem value="villa">Villa</SelectItem>
-                    <SelectItem value="terrain">Terrain</SelectItem>
-                    <SelectItem value="bureau">Bureau</SelectItem>
+                    <SelectItem value="Appartement">Appartement</SelectItem>
+                    <SelectItem value="Maison">Maison</SelectItem>
+                    <SelectItem value="Villa">Villa</SelectItem>
+                    <SelectItem value="Terrain">Terrain</SelectItem>
+                    <SelectItem value="Bureau">Bureau</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -67,6 +83,8 @@ const Hero = () => {
                   <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-primary" />
                   <Input
                     placeholder="Ville"
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
                     className="pl-10 bg-white/90 border-white/30 h-11 xs:h-12 rounded-xl text-sm xs:text-base"
                   />
                 </div>
@@ -78,13 +96,18 @@ const Hero = () => {
                   <Input
                     placeholder="Prix max"
                     type="number"
+                    value={maxPrice}
+                    onChange={(e) => setMaxPrice(e.target.value)}
                     className="pl-10 bg-white/90 border-white/30 h-11 xs:h-12 rounded-xl text-sm xs:text-base"
                   />
                 </div>
               </div>
 
                <div className="sm:col-span-2 lg:col-span-1">
-                <Button className="w-full h-11 xs:h-12 bg-gradient-to-r from-accent via-accent to-secondary hover:shadow-glow-accent text-white shadow-elevated transition-smooth rounded-xl font-bold text-sm xs:text-base">
+                <Button 
+                  onClick={handleSearch}
+                  className="w-full h-11 xs:h-12 bg-gradient-to-r from-accent via-accent to-secondary hover:shadow-glow-accent text-white shadow-elevated transition-smooth rounded-xl font-bold text-sm xs:text-base"
+                >
                   <Search className="h-5 w-5 mr-2" />
                   Rechercher
                 </Button>
