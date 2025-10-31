@@ -6,14 +6,80 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
+// PayTech official server IPs for webhook verification
+const PAYTECH_ALLOWED_IPS = ['196.1.95.124', '41.82.108.82']
+
+async function verifySignature(body: any, signature: string | null, secretKey: string): Promise<boolean> {
+  if (!signature) {
+    console.error('❌ Missing signature header')
+    return false
+  }
+
+  try {
+    // Create HMAC signature using PayTech secret key
+    const payload = JSON.stringify(body)
+    const encoder = new TextEncoder()
+    const keyData = encoder.encode(secretKey)
+    const messageData = encoder.encode(payload)
+
+    const cryptoKey = await crypto.subtle.importKey(
+      'raw',
+      keyData,
+      { name: 'HMAC', hash: 'SHA-256' },
+      false,
+      ['sign']
+    )
+
+    const signatureBuffer = await crypto.subtle.sign('HMAC', cryptoKey, messageData)
+    const expectedSignature = Array.from(new Uint8Array(signatureBuffer))
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('')
+
+    return signature === expectedSignature
+  } catch (error) {
+    console.error('❌ Signature verification error:', error)
+    return false
+  }
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders })
   }
 
   try {
-    const body = await req.json()
+    // Security Check #1: Verify IP whitelist
+    const clientIP = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 
+                     req.headers.get('x-real-ip')
+    
+    console.log('🔍 Request from IP:', clientIP)
+    
+    if (clientIP && !PAYTECH_ALLOWED_IPS.includes(clientIP)) {
+      console.error('❌ Unauthorized IP:', clientIP)
+      return new Response(
+        JSON.stringify({ error: 'Non autorisé' }),
+        { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
+
+    const bodyText = await req.text()
+    const body = JSON.parse(bodyText)
     console.log('📥 PayTech IPN received:', JSON.stringify(body, null, 2))
+
+    // Security Check #2: Verify HMAC signature
+    const webhookSignature = req.headers.get('x-paytech-signature') || req.headers.get('signature')
+    const paytechSecret = Deno.env.get('PAYTECH_SECRET_KEY')!
+    
+    const isValidSignature = await verifySignature(body, webhookSignature, paytechSecret)
+    if (!isValidSignature) {
+      console.error('❌ Invalid webhook signature')
+      return new Response(
+        JSON.stringify({ error: 'Signature invalide' }),
+        { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
+    
+    console.log('✅ Signature verified')
 
     // Extract payment info from PayTech IPN
     const { 
@@ -34,6 +100,30 @@ serve(async (req) => {
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
     const supabase = createClient(supabaseUrl, supabaseServiceKey)
+
+    // Security Check #3: Idempotency - Check if payment already processed
+    const { data: existingSubscription, error: checkError } = await supabase
+      .from('subscriptions')
+      .select('status, updated_at')
+      .eq('payment_ref', ref_command)
+      .single()
+
+    if (checkError && checkError.code !== 'PGRST116') {
+      console.error('❌ Error checking existing subscription:', checkError)
+      throw checkError
+    }
+
+    if (existingSubscription?.status === 'active') {
+      console.log('⚠️ Payment already processed, skipping duplicate')
+      return new Response(
+        JSON.stringify({ 
+          success: true,
+          message: 'Paiement déjà traité',
+          processed_at: existingSubscription.updated_at
+        }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
 
     // Parse custom field to get propertyId and validate expected amount
     let propertyId: string
@@ -56,7 +146,6 @@ serve(async (req) => {
 
     // Verify payment with PayTech API
     const paytechApiKey = Deno.env.get('PAYTECH_API_KEY')
-    const paytechSecretKey = Deno.env.get('PAYTECH_SECRET_KEY')
 
     console.log('🔍 Verifying payment with PayTech API...')
     const verificationResponse = await fetch(`https://paytech.sn/api/payment/verify/${ref_command}`, {
@@ -64,7 +153,7 @@ serve(async (req) => {
       headers: {
         'Accept': 'application/json',
         'API_KEY': paytechApiKey!,
-        'API_SECRET': paytechSecretKey!,
+        'API_SECRET': paytechSecret,
       },
     })
 
