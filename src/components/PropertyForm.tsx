@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Upload, X, Loader2 } from "lucide-react";
 
@@ -324,31 +324,32 @@ const PropertyForm = ({ onSuccess, initialData }: PropertyFormProps) => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <Label htmlFor="type">Type de bien *</Label>
-              <Select onValueChange={(value) => setValue("type", value)}>
-                <SelectTrigger className="mt-1">
-                  <SelectValue placeholder="Sélectionner" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Appartement">Appartement</SelectItem>
-                  <SelectItem value="Villa">Villa</SelectItem>
-                  <SelectItem value="Maison">Maison</SelectItem>
-                  <SelectItem value="Terrain">Terrain</SelectItem>
-                  <SelectItem value="Bureau">Bureau</SelectItem>
-                  <SelectItem value="Commerce">Commerce</SelectItem>
-                </SelectContent>
-              </Select>
+              <select
+                id="type"
+                {...register("type")}
+                className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 mt-1"
+                defaultValue=""
+              >
+                <option value="" disabled>Sélectionner</option>
+                <option value="Appartement">Appartement</option>
+                <option value="Villa">Villa</option>
+                <option value="Maison">Maison</option>
+                <option value="Terrain">Terrain</option>
+                <option value="Bureau">Bureau</option>
+                <option value="Commerce">Commerce</option>
+              </select>
               {errors.type && (
                 <p className="text-sm text-destructive mt-1">{errors.type.message}</p>
               )}
             </div>
 
             <div>
-              <Label htmlFor="price">Prix (FCFA) *</Label>
+              <Label htmlFor="price">Prix (XOF) *</Label>
               <Input
                 id="price"
                 type="number"
                 {...register("price")}
-                placeholder="Ex: 45000000"
+                placeholder="Ex: 45000000 XOF"
                 className="mt-1"
               />
               {errors.price && (
