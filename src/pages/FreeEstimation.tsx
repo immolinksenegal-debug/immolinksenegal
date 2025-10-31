@@ -20,6 +20,7 @@ import { Calculator, CheckCircle, Home, MessageSquare, Download, Sparkles } from
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
+import bannerEstimation from "@/assets/banner-fiscalite-senegal.jpg";
 import jsPDF from "jspdf";
 
 const estimationSchema = z.object({
@@ -388,20 +389,31 @@ const FreeEstimation = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
-      <main className="flex-1 container mx-auto px-4 py-12">
-        <div className="max-w-4xl mx-auto">
-          {/* Hero Section */}
-          <div className="text-center mb-8 md:mb-12 px-4">
-            <div className="inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16 bg-secondary/10 rounded-full mb-3 md:mb-4">
-              <Calculator className="w-6 h-6 md:w-8 md:h-8 text-secondary" />
+      <main className="flex-1">
+        {/* Hero Banner Image */}
+        <div className="relative w-full h-48 sm:h-64 md:h-80 lg:h-96 overflow-hidden">
+          <img 
+            src={bannerEstimation} 
+            alt="Estimation immobilière gratuite au Sénégal" 
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/60 via-primary/40 to-background/95">
+            <div className="container mx-auto px-4 h-full flex flex-col justify-center items-center text-center">
+              <div className="inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16 bg-white/10 backdrop-blur-sm rounded-full mb-3 md:mb-4">
+                <Calculator className="w-6 h-6 md:w-8 md:h-8 text-white" />
+              </div>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-4 px-2 text-white drop-shadow-lg">
+                Estimation Gratuite
+              </h1>
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/95 max-w-2xl mx-auto px-2 drop-shadow-md">
+                Obtenez une estimation précise et gratuite de votre bien immobilier en moins de 24-48h
+              </p>
             </div>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 md:mb-4 px-2">
-              Estimation Gratuite
-            </h1>
-            <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto px-2">
-              Obtenez une estimation précise et gratuite de votre bien immobilier en moins de 24-48h
-            </p>
           </div>
+        </div>
+
+        <div className="container mx-auto px-4 py-8 md:py-12">
+          <div className="max-w-4xl mx-auto">
 
           {/* Benefits */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-12 px-4">
@@ -672,6 +684,7 @@ const FreeEstimation = () => {
               </form>
             </CardContent>
           </Card>
+          </div>
         </div>
       </main>
 
