@@ -64,11 +64,11 @@ const Hero = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 xs:gap-4">
               <div className="sm:col-span-1">
                 <Select value={propertyType} onValueChange={setPropertyType}>
-                  <SelectTrigger className="w-full bg-white/90 border-white/30 h-11 xs:h-12 rounded-xl text-sm xs:text-base">
+                  <SelectTrigger className="w-full bg-white/90 border-white/30 h-11 xs:h-12 rounded-xl text-sm xs:text-base touch-manipulation">
                     <Home className="h-4 w-4 mr-2 text-primary" />
                     <SelectValue placeholder="Type" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent position="popper" sideOffset={4} className="z-[200]">
                     <SelectItem value="Appartement">Appartement</SelectItem>
                     <SelectItem value="Maison">Maison</SelectItem>
                     <SelectItem value="Villa">Villa</SelectItem>
