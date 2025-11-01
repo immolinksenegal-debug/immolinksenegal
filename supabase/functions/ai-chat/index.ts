@@ -18,16 +18,27 @@ serve(async (req) => {
   }
 
   try {
-    // Get client IP for rate limiting
-    const clientIP = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 
-                     req.headers.get('x-real-ip') || 
-                     'unknown';
+    // Extract auth token and verify user
+    const authHeader = req.headers.get('authorization');
+    let userId: string | null = null;
+    
+    if (authHeader) {
+      const token = authHeader.replace('Bearer ', '');
+      const { data: { user }, error: authError } = await supabaseAdmin.auth.getUser(token);
+      if (!authError && user) {
+        userId = user.id;
+      }
+    }
 
-    // Check rate limit (20 requests per hour per IP)
+    // Use user ID for authenticated users, fallback to 'anonymous' for unauthenticated
+    // This prevents IP spoofing attacks while still allowing unauthenticated access
+    const rateLimitKey = userId || 'anonymous';
+
+    // Check rate limit (20 requests per hour per user/anonymous bucket)
     const { data: rateData } = await supabaseAdmin
       .from('chat_rate_limits')
       .select('request_count, window_start')
-      .eq('ip_address', clientIP)
+      .eq('ip_address', rateLimitKey)
       .maybeSingle();
 
     const oneHourAgo = new Date(Date.now() - 3600000);
@@ -37,7 +48,7 @@ serve(async (req) => {
       
       if (windowStart > oneHourAgo) {
         if (rateData.request_count >= 20) {
-          console.warn(`⚠️ Rate limit exceeded for IP ${clientIP}`);
+          console.warn(`⚠️ Rate limit exceeded for ${userId ? `user ${userId}` : 'anonymous users'}`);
           return new Response(
             JSON.stringify({ 
               error: "Limite de requêtes atteinte. Veuillez réessayer dans une heure.",
@@ -57,7 +68,7 @@ serve(async (req) => {
             request_count: rateData.request_count + 1,
             last_request: new Date().toISOString()
           })
-          .eq('ip_address', clientIP);
+          .eq('ip_address', rateLimitKey);
       } else {
         // Reset window
         await supabaseAdmin
@@ -67,14 +78,14 @@ serve(async (req) => {
             window_start: new Date().toISOString(),
             last_request: new Date().toISOString()
           })
-          .eq('ip_address', clientIP);
+          .eq('ip_address', rateLimitKey);
       }
     } else {
       // Create new rate limit entry
       await supabaseAdmin
         .from('chat_rate_limits')
         .insert({ 
-          ip_address: clientIP,
+          ip_address: rateLimitKey,
           request_count: 1,
           window_start: new Date().toISOString(),
           last_request: new Date().toISOString()
@@ -132,7 +143,7 @@ serve(async (req) => {
 
       for (const pattern of suspiciousPatterns) {
         if (pattern.test(msg.content)) {
-          console.warn(`⚠️ Potential prompt injection attempt from IP ${clientIP}: ${msg.content.substring(0, 100)}`);
+          console.warn(`⚠️ Potential prompt injection attempt from ${userId ? `user ${userId}` : 'anonymous'}: ${msg.content.substring(0, 100)}`);
           // Continue processing but log the attempt
           break;
         }
@@ -145,7 +156,7 @@ serve(async (req) => {
       throw new Error("LOVABLE_API_KEY is not configured");
     }
 
-    console.log(`🤖 Chat request from IP ${clientIP} with ${messages.length} messages`);
+    console.log(`🤖 Chat request from ${userId ? `user ${userId}` : 'anonymous'} with ${messages.length} messages`);
 
     // Simplified system prompt to reduce information leakage
     const systemPrompt = `Tu es un assistant immobilier professionnel IA pour Immo Link Sénégal (immolinksenegal.com).
