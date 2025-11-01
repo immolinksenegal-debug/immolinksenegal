@@ -38,7 +38,7 @@ const Hero = () => {
 
           <h1 className="text-3xl xs:text-4xl md:text-6xl lg:text-7xl font-light text-foreground mb-4 xs:mb-6 leading-tight px-2 tracking-tight">
             Gestion locative et solutions{" "}
-            <span className="font-bold bg-gradient-to-r from-accent via-secondary to-accent bg-clip-text text-transparent">
+            <span className="font-bold bg-gradient-to-r from-accent via-secondary to-accent bg-clip-text text-green-900">
               immobilières modernes
             </span>
           </h1>
