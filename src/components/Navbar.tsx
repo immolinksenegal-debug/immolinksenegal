@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Home, PlusCircle, User, Menu, LogOut, Building2, Calculator, Newspaper } from "lucide-react";
+import { Home, PlusCircle, User, Menu, LogOut, Building2, Calculator, Newspaper, Shield } from "lucide-react";
 import logo from "@/assets/logo-immo-link-main.png";
 import { useState, useEffect } from "react";
 import {
@@ -14,19 +14,38 @@ import { useToast } from "@/hooks/use-toast";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
   useEffect(() => {
+    const checkAdminStatus = async (userId: string) => {
+      const { data } = await supabase
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', userId)
+        .eq('role', 'admin')
+        .maybeSingle();
+      
+      setIsAdmin(!!data);
+    };
+
     // Écouter les changements d'authentification AVANT de vérifier la session
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       setUser(session?.user ?? null);
+      
+      if (session?.user) {
+        checkAdminStatus(session.user.id);
+      } else {
+        setIsAdmin(false);
+      }
       
       // Gérer les erreurs de token
       if (event === 'TOKEN_REFRESHED') {
         console.log('Token refreshed successfully');
       } else if (event === 'SIGNED_OUT') {
         setUser(null);
+        setIsAdmin(false);
       }
     });
 
@@ -38,6 +57,9 @@ const Navbar = () => {
         supabase.auth.signOut();
       } else {
         setUser(session?.user ?? null);
+        if (session?.user) {
+          checkAdminStatus(session.user.id);
+        }
       }
     });
 
@@ -54,19 +76,21 @@ const Navbar = () => {
     setIsOpen(false);
   };
 
+  const baseNavLinks = [
+    { to: "/", label: "Accueil", icon: Home },
+    { to: "/properties", label: "Biens", icon: Building2 },
+    { to: "/articles", label: "Actualités immobilières", icon: Newspaper },
+    { to: "/estimation-gratuite", label: "Estimation gratuite", icon: Calculator },
+  ];
+
   const navLinks = user
     ? [
-        { to: "/", label: "Accueil", icon: Home },
-        { to: "/properties", label: "Biens", icon: Building2 },
-        { to: "/articles", label: "Actualités immobilières", icon: Newspaper },
-        { to: "/estimation-gratuite", label: "Estimation gratuite", icon: Calculator },
+        ...baseNavLinks,
         { to: "/dashboard", label: "Dashboard", icon: PlusCircle },
+        ...(isAdmin ? [{ to: "/admin", label: "Admin", icon: Shield }] : []),
       ]
     : [
-        { to: "/", label: "Accueil", icon: Home },
-        { to: "/properties", label: "Biens", icon: Building2 },
-        { to: "/articles", label: "Actualités immobilières", icon: Newspaper },
-        { to: "/estimation-gratuite", label: "Estimation gratuite", icon: Calculator },
+        ...baseNavLinks,
         { to: "/auth", label: "Connexion", icon: User },
       ];
 
