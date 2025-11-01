@@ -6,7 +6,7 @@ const Terms = () => {
       
       <main className="flex-grow pt-20 pb-16">
         <div className="container mx-auto px-4 max-w-4xl">
-          <h1 className="text-4xl md:text-5xl font-bold text-primary mb-8 px-[100px] mx-[100px] py-[20px]">
+          <h1 className="text-4xl md:text-5xl font-bold text-primary mb-8 mx-0 px-[155px] py-[30px]">
             Conditions d'utilisation
           </h1>
 
