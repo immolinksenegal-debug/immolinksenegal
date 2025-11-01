@@ -86,7 +86,7 @@ const Navbar = () => {
   const navLinks = user
     ? [
         ...baseNavLinks,
-        { to: "/dashboard", label: "Dashboard", icon: PlusCircle },
+        { to: "/dashboard", label: isAdmin ? "Dashboard admin" : "Dashboard", icon: PlusCircle },
         ...(isAdmin ? [{ to: "/admin", label: "Admin", icon: Shield }] : []),
       ]
     : [
