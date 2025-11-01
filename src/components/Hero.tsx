@@ -122,13 +122,12 @@ const Hero = () => {
 
               <div className="sm:col-span-1">
                 <div className="relative">
-                  <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-primary" />
                   <Input
                     placeholder="Prix max (XOF)"
                     type="number"
                     value={maxPrice}
                     onChange={(e) => setMaxPrice(e.target.value)}
-                    className="pl-10 bg-white/90 border-white/30 h-11 xs:h-12 rounded-xl text-sm xs:text-base"
+                    className="px-4 bg-white/90 border-white/30 h-11 xs:h-12 rounded-xl text-sm xs:text-base"
                   />
                 </div>
               </div>
