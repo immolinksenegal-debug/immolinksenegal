@@ -36,6 +36,10 @@
     --accent-foreground: 0 0% 100%;
     --accent-glow: 24 95% 63%;
 
+    /* Brown - Marron du logo */
+    --brown: 25 50% 35%;
+    --brown-foreground: 0 0% 100%;
+
     /* Muted tones */
     --muted: 210 40% 96%;
     --muted-foreground: 215 16% 47%;

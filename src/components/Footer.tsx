@@ -61,8 +61,8 @@ const Footer = () => {
     href: "https://linkedin.com",
     label: "LinkedIn"
   }];
-  return <footer className="bg-primary text-primary-foreground">
-      <div className="container mx-auto px-4 xs:px-6 py-8 xs:py-12 bg-orange-800">
+  return <footer className="bg-[hsl(var(--brown))] text-primary-foreground">
+      <div className="container mx-auto px-4 xs:px-6 py-8 xs:py-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 xs:gap-8 mb-6 xs:mb-8">
           {/* Brand */}
           <div className="lg:col-span-2 flex flex-col items-center sm:items-start text-center sm:text-left">
