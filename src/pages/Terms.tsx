@@ -1,14 +1,12 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-
 const Terms = () => {
-  return (
-    <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col">
       <Navbar />
       
       <main className="flex-grow pt-20 pb-16">
         <div className="container mx-auto px-4 max-w-4xl">
-          <h1 className="text-4xl md:text-5xl font-bold text-primary mb-8">
+          <h1 className="text-4xl md:text-5xl font-bold text-primary mb-8 px-[100px] mx-[100px] py-[20px]">
             Conditions d'utilisation
           </h1>
 
@@ -81,8 +79,6 @@ const Terms = () => {
       </main>
 
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default Terms;
