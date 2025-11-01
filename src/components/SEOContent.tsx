@@ -71,7 +71,7 @@ const SEOContent = () => {
 
         {/* Services */}
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl font-bold text-foreground text-center mb-10">
+          <h2 className="text-3xl font-bold text-center mb-10 text-indigo-700">
             Nos Services Immobiliers au Sénégal
           </h2>
           
