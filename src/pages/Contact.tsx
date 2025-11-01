@@ -93,11 +93,11 @@ const Contact = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
-      <main className="flex-grow pt-20 pb-16">
+      <main className="flex-grow pt-24 xs:pt-28 md:pt-32 lg:pt-36 pb-16">
         <div className="container mx-auto px-4">
           {/* Hero */}
           <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold text-primary mb-6">
+            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
               Contactez-<span className="text-secondary">nous</span>
             </h1>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
