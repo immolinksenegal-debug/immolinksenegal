@@ -10,7 +10,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { supabase } from "@/integrations/supabase/client";
-import SEOHead from "@/components/SEOHead";
 
 const contactSchema = z.object({
   full_name: z.string()
@@ -92,12 +91,6 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <SEOHead
-        title="Contact Immo Link Sénégal - Nous Contacter"
-        description="Contactez Immo Link Sénégal pour toute question sur l'immobilier au Sénégal. Notre équipe vous répond rapidement pour vos projets d'achat, vente ou location."
-        keywords="contact immo link, contacter agence immobilière sénégal, question immobilier dakar, support immo link"
-        type="website"
-      />
       <Navbar />
       
       <main className="flex-grow pt-20 pb-16">

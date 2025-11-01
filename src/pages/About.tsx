@@ -1,17 +1,10 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Building2, Users, Target, Award } from "lucide-react";
-import SEOHead from "@/components/SEOHead";
 
 const About = () => {
   return (
     <div className="min-h-screen flex flex-col">
-      <SEOHead
-        title="À Propos - Immo Link Sénégal | Plateforme Immobilière Moderne"
-        description="Découvrez Immo Link Sénégal, la plateforme immobilière moderne qui révolutionne le marché de l'immobilier au Sénégal. Qualité, innovation et transparence."
-        keywords="à propos immo link, agence immobilière moderne sénégal, plateforme immobilière dakar, mission immo link"
-        type="website"
-      />
       <Navbar />
       
       <main className="flex-grow pt-20 pb-16">

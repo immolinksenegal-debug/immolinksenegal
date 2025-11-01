@@ -4,7 +4,6 @@ import { Badge } from "@/components/ui/badge";
 import { MapPin, Bed, Bath, Square, Heart, Eye, Calendar } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { imagePresets } from "@/lib/imageUtils";
 
 interface PropertyCardProps {
   id: string;
@@ -44,14 +43,14 @@ const PropertyCard = ({
   const [isFavorite, setIsFavorite] = useState(false);
   const [imgError, setImgError] = useState(false);
   
-  // Optimiser l'image avec transformation Supabase
-  const optimizedImage = imgError ? null : imagePresets.propertyCard(image);
+  // Placeholder image for properties without image
+  const placeholderImage = "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&h=600&fit=crop";
 
   return (
     <Card className="group overflow-hidden hover-lift bg-card shadow-card border-border/50 rounded-2xl">
       <div className="relative overflow-hidden aspect-[4/3] bg-muted">
         <img
-          src={optimizedImage || "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=400&fit=crop"}
+          src={imgError || !image ? placeholderImage : image}
           alt={title}
           className="w-full h-full object-cover transition-smooth group-hover:scale-110"
           onError={() => setImgError(true)}

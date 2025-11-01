@@ -10,8 +10,6 @@ import { useToast } from "@/hooks/use-toast";
 import bannerFiscalite from "@/assets/banner-fiscalite-senegal.jpg";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import SEOHead from "@/components/SEOHead";
-import { imagePresets } from "@/lib/imageUtils";
 
 interface Article {
   id: string;
@@ -39,13 +37,9 @@ const Articles = () => {
     setImageErrors(prev => ({ ...prev, [articleId]: true }));
   };
   
-  const getImageSrc = (articleId: string, imageSrc: string | null, isThumbnail: boolean = false) => {
+  const getImageSrc = (articleId: string, imageSrc: string | null) => {
     if (!imageSrc || imageErrors[articleId]) return placeholderImage;
-    
-    // Optimiser selon le type
-    return isThumbnail 
-      ? imagePresets.articleThumbnail(imageSrc)
-      : imagePresets.articleFeatured(imageSrc);
+    return imageSrc;
   };
 
   useEffect(() => {
@@ -108,12 +102,6 @@ const Articles = () => {
 
   return (
     <div className="min-h-screen">
-      <SEOHead
-        title="Actualités Immobilières Sénégal - Blog & Conseils"
-        description="Restez informé des dernières tendances du marché immobilier sénégalais. Guides, conseils d'achat, fiscalité immobilière, investissement locatif au Sénégal."
-        keywords="actualités immobilières sénégal, blog immobilier, conseils achat immobilier, fiscalité immobilière sénégal, investissement locatif, marché immobilier dakar"
-        type="website"
-      />
       <Navbar />
       <main className="pt-20">
       {/* Hero Banner */}
@@ -171,7 +159,7 @@ const Articles = () => {
                       <div className="md:col-span-1">
                         <div className="relative h-48 md:h-full bg-muted">
                           <img
-                            src={getImageSrc(article.id, article.featured_image, false)}
+                            src={getImageSrc(article.id, article.featured_image)}
                             alt={article.title}
                             className="w-full h-full object-cover"
                             onError={() => handleImageError(article.id)}
@@ -240,7 +228,7 @@ const Articles = () => {
                       <div className="flex gap-3">
                         <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-muted">
                           <img
-                            src={getImageSrc(`popular-${article.id}`, article.featured_image, true)}
+                            src={getImageSrc(`popular-${article.id}`, article.featured_image)}
                             alt={article.title}
                             className="w-full h-full object-cover"
                             onError={() => handleImageError(`popular-${article.id}`)}
@@ -280,7 +268,7 @@ const Articles = () => {
                       <div className="flex gap-3">
                         <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-muted">
                           <img
-                            src={getImageSrc(`recent-${article.id}`, article.featured_image, true)}
+                            src={getImageSrc(`recent-${article.id}`, article.featured_image)}
                             alt={article.title}
                             className="w-full h-full object-cover"
                             onError={() => handleImageError(`recent-${article.id}`)}

@@ -15,7 +15,6 @@ import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import bannerEstimation from "@/assets/banner-fiscalite-senegal.jpg";
 import jsPDF from "jspdf";
-import SEOHead from "@/components/SEOHead";
 
 const estimationSchema = z.object({
   property_type: z.string().min(1, "Le type de bien est requis"),
@@ -381,12 +380,6 @@ const FreeEstimation = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <SEOHead
-        title="Estimation Immobilière Gratuite Sénégal - Estimez Votre Bien"
-        description="Obtenez une estimation gratuite et précise de votre bien immobilier au Sénégal en 24-48h. Maison, villa, appartement, terrain à Dakar, Saly, Mbour. Service professionnel par IA."
-        keywords="estimation immobilière gratuite sénégal, estimer bien immobilier, évaluation maison dakar, prix immobilier saly, estimation terrain mbour"
-        type="website"
-      />
       <Navbar />
       
       <main className="flex-1">

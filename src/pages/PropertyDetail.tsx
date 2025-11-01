@@ -22,8 +22,6 @@ import { useToast } from "@/hooks/use-toast";
 import { ContactRequestDialog } from "@/components/ContactRequestDialog";
 import WhatsAppChat from "@/components/WhatsAppChat";
 import ShareButtons from "@/components/ShareButtons";
-import SEOHead from "@/components/SEOHead";
-import { imagePresets } from "@/lib/imageUtils";
 
 const PropertyDetail = () => {
   const { id } = useParams();
@@ -159,50 +157,12 @@ const PropertyDetail = () => {
     setImageErrors(prev => ({ ...prev, [index]: true }));
   };
   
-  const getImageSrc = (index: number, isHero: boolean = false) => {
-    if (imageErrors[index] || !images[index]) return placeholderImage;
-    
-    // Optimiser selon le type d'image
-    return isHero 
-      ? imagePresets.propertyHero(images[index])
-      : imagePresets.propertyThumbnail(images[index]);
+  const getImageSrc = (index: number) => {
+    return imageErrors[index] || !images[index] ? placeholderImage : images[index];
   };
-
-  // Structured Data pour la propriété
-  const propertyStructuredData = property ? {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    "name": property.title,
-    "description": property.description,
-    "image": images[0],
-    "offers": {
-      "@type": "Offer",
-      "price": property.price,
-      "priceCurrency": "XOF",
-      "availability": "https://schema.org/InStock",
-      "url": `https://immolinksenegal.com/property/${id}`
-    },
-    "category": property.type,
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": property.city,
-      "addressRegion": property.location,
-      "addressCountry": "SN"
-    }
-  } : null;
 
   return (
     <div className="min-h-screen flex flex-col">
-      {property && (
-        <SEOHead
-          title={`${property.title} - ${property.city}`}
-          description={`${property.type} à vendre à ${property.city}, ${property.location}. ${property.price.toLocaleString('fr-FR')} FCFA. ${property.bedrooms ? `${property.bedrooms} chambres, ` : ''}${property.surface ? `${property.surface}m²` : ''}. ${property.description?.substring(0, 100)}...`}
-          keywords={`${property.type.toLowerCase()}, ${property.city.toLowerCase()}, immobilier ${property.city.toLowerCase()}, achat ${property.type.toLowerCase()}, ${property.location.toLowerCase()}`}
-          image={images[0]}
-          type="product"
-          structuredData={propertyStructuredData}
-        />
-      )}
       <Navbar />
       
       <main className="flex-1 pt-16 xs:pt-20 pb-8 xs:pb-12">
@@ -213,7 +173,7 @@ const PropertyDetail = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2 xs:gap-4 rounded-xl xs:rounded-2xl overflow-hidden shadow-elegant">
                 <div className="md:col-span-2 aspect-video md:aspect-[21/9] overflow-hidden group cursor-pointer bg-muted">
                   <img
-                    src={getImageSrc(0, true)}
+                    src={getImageSrc(0)}
                     alt={property.title}
                     className="w-full h-full object-cover transition-smooth group-hover:scale-110"
                     loading="eager"
@@ -223,7 +183,7 @@ const PropertyDetail = () => {
                 {images.slice(1, 5).map((image, index) => (
                   <div key={index} className="aspect-video overflow-hidden group cursor-pointer bg-muted">
                     <img
-                      src={getImageSrc(index + 1, false)}
+                      src={getImageSrc(index + 1)}
                       alt={`${property.title} ${index + 2}`}
                       className="w-full h-full object-cover transition-smooth group-hover:scale-110"
                       loading="lazy"
