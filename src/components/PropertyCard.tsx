@@ -71,7 +71,7 @@ const PropertyCard = ({
       </div>
 
       <CardContent className="p-5">
-        <h3 className="text-xl font-semibold text-foreground mb-2 line-clamp-1 group-hover:text-secondary transition-base">
+        <h3 className="text-xl font-semibold mb-2 line-clamp-1 transition-base text-green-600">
           {title}
         </h3>
         
