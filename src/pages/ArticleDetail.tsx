@@ -42,9 +42,6 @@ const ArticleDetail = () => {
   const [user, setUser] = useState<any>(null);
   const [commentContent, setCommentContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [imageError, setImageError] = useState(false);
-  
-  const placeholderImage = "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&h=800&fit=crop";
 
   useEffect(() => {
     // Vérifier l'authentification
@@ -242,13 +239,11 @@ const ArticleDetail = () => {
         <article className="max-w-4xl mx-auto">
           {/* Featured Image */}
           {article.featured_image && (
-            <div className="mb-8 rounded-2xl overflow-hidden shadow-elevated bg-muted">
+            <div className="mb-8 rounded-2xl overflow-hidden shadow-elevated">
               <img
-                src={imageError ? placeholderImage : article.featured_image}
+                src={article.featured_image}
                 alt={article.title}
                 className="w-full h-96 object-cover"
-                onError={() => setImageError(true)}
-                loading="eager"
               />
             </div>
           )}

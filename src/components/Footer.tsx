@@ -1,12 +1,9 @@
 import { Link } from "react-router-dom";
 import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from "lucide-react";
 import logo from "@/assets/logo-immo-link-new.png";
-import { useState } from "react";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-  const [logoError, setLogoError] = useState(false);
-  const fallbackLogo = "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=200&h=200&fit=crop";
 
   const footerLinks = {
     company: [
@@ -44,10 +41,9 @@ const Footer = () => {
           <div className="lg:col-span-2 flex flex-col items-center sm:items-start text-center sm:text-left">
             <Link to="/" className="flex items-center mb-4 group">
               <img 
-                src={logoError ? fallbackLogo : logo}
+                src={logo} 
                 alt="Immo Link Sénégal" 
-                className="h-24 w-24 xs:h-28 xs:w-28 md:h-32 md:w-32 object-contain transition-smooth group-hover:scale-110 drop-shadow-2xl"
-                onError={() => setLogoError(true)}
+                className="h-24 w-24 xs:h-28 xs:w-28 md:h-32 md:w-32 object-contain transition-smooth group-hover:scale-110 drop-shadow-2xl" 
               />
             </Link>
             <p className="text-sm xs:text-base text-primary-foreground/80 mb-4 xs:mb-6 max-w-sm leading-relaxed">

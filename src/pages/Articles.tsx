@@ -29,18 +29,6 @@ const Articles = () => {
   const [recentArticles, setRecentArticles] = useState<Article[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-  const [imageErrors, setImageErrors] = useState<{ [key: string]: boolean }>({});
-  
-  const placeholderImage = "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&h=600&fit=crop";
-  
-  const handleImageError = (articleId: string) => {
-    setImageErrors(prev => ({ ...prev, [articleId]: true }));
-  };
-  
-  const getImageSrc = (articleId: string, imageSrc: string | null) => {
-    if (!imageSrc || imageErrors[articleId]) return placeholderImage;
-    return imageSrc;
-  };
 
   useEffect(() => {
     loadArticles();
@@ -157,14 +145,18 @@ const Articles = () => {
                     <div className="grid md:grid-cols-3 gap-4">
                       {/* Image */}
                       <div className="md:col-span-1">
-                        <div className="relative h-48 md:h-full bg-muted">
-                          <img
-                            src={getImageSrc(article.id, article.featured_image)}
-                            alt={article.title}
-                            className="w-full h-full object-cover"
-                            onError={() => handleImageError(article.id)}
-                            loading="lazy"
-                          />
+                        <div className="relative h-48 md:h-full">
+                          {article.featured_image ? (
+                            <img
+                              src={article.featured_image}
+                              alt={article.title}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full bg-gradient-modern flex items-center justify-center">
+                              <span className="text-white text-4xl">📰</span>
+                            </div>
+                          )}
                           {article.is_featured && (
                             <Badge className="absolute top-3 left-3 bg-accent text-white border-0">
                               À la une
@@ -226,14 +218,18 @@ const Articles = () => {
                       className="block group"
                     >
                       <div className="flex gap-3">
-                        <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-muted">
-                          <img
-                            src={getImageSrc(`popular-${article.id}`, article.featured_image)}
-                            alt={article.title}
-                            className="w-full h-full object-cover"
-                            onError={() => handleImageError(`popular-${article.id}`)}
-                            loading="lazy"
-                          />
+                        <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                          {article.featured_image ? (
+                            <img
+                              src={article.featured_image}
+                              alt={article.title}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full bg-gradient-modern flex items-center justify-center text-white">
+                              📰
+                            </div>
+                          )}
                         </div>
                         <div className="flex-1 min-w-0">
                           <h4 className="font-medium text-sm line-clamp-2 group-hover:text-secondary transition-base">
@@ -266,14 +262,18 @@ const Articles = () => {
                       className="block group"
                     >
                       <div className="flex gap-3">
-                        <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-muted">
-                          <img
-                            src={getImageSrc(`recent-${article.id}`, article.featured_image)}
-                            alt={article.title}
-                            className="w-full h-full object-cover"
-                            onError={() => handleImageError(`recent-${article.id}`)}
-                            loading="lazy"
-                          />
+                        <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                          {article.featured_image ? (
+                            <img
+                              src={article.featured_image}
+                              alt={article.title}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full bg-gradient-modern flex items-center justify-center text-white">
+                              📰
+                            </div>
+                          )}
                         </div>
                         <div className="flex-1 min-w-0">
                           <h4 className="font-medium text-sm line-clamp-2 group-hover:text-secondary transition-base">

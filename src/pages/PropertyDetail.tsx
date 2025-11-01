@@ -33,9 +33,6 @@ const PropertyDetail = () => {
   const [error, setError] = useState(false);
   const [showContactDialog, setShowContactDialog] = useState(false);
   const [isOwner, setIsOwner] = useState(false);
-  const [imageErrors, setImageErrors] = useState<{ [key: number]: boolean }>({});
-  
-  const placeholderImage = "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&h=800&fit=crop";
 
   useEffect(() => {
     if (id) {
@@ -146,20 +143,12 @@ const PropertyDetail = () => {
 
   const images = property.images && property.images.length > 0 
     ? property.images 
-    : [placeholderImage];
+    : [];
   const publishedDate = new Date(property.created_at).toLocaleDateString('fr-FR', {
     day: 'numeric',
     month: 'long',
     year: 'numeric'
   });
-  
-  const handleImageError = (index: number) => {
-    setImageErrors(prev => ({ ...prev, [index]: true }));
-  };
-  
-  const getImageSrc = (index: number) => {
-    return imageErrors[index] || !images[index] ? placeholderImage : images[index];
-  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -171,23 +160,21 @@ const PropertyDetail = () => {
           {images.length > 0 && (
             <div className="mb-4 xs:mb-6 md:mb-8 animate-fade-in">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2 xs:gap-4 rounded-xl xs:rounded-2xl overflow-hidden shadow-elegant">
-                <div className="md:col-span-2 aspect-video md:aspect-[21/9] overflow-hidden group cursor-pointer bg-muted">
+                <div className="md:col-span-2 aspect-video md:aspect-[21/9] overflow-hidden group cursor-pointer">
                   <img
-                    src={getImageSrc(0)}
+                    src={images[0]}
                     alt={property.title}
                     className="w-full h-full object-cover transition-smooth group-hover:scale-110"
                     loading="eager"
-                    onError={() => handleImageError(0)}
                   />
                 </div>
                 {images.slice(1, 5).map((image, index) => (
-                  <div key={index} className="aspect-video overflow-hidden group cursor-pointer bg-muted">
+                  <div key={index} className="aspect-video overflow-hidden group cursor-pointer">
                     <img
-                      src={getImageSrc(index + 1)}
+                      src={image}
                       alt={`${property.title} ${index + 2}`}
                       className="w-full h-full object-cover transition-smooth group-hover:scale-110"
                       loading="lazy"
-                      onError={() => handleImageError(index + 1)}
                     />
                   </div>
                 ))}
