@@ -4,10 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Home, Mail, Lock, User } from "lucide-react";
+import { Mail, Lock, User } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
+import logoAuth from "@/assets/logo-auth.png";
 
 const loginSchema = z.object({
   email: z.string().trim().email({ message: "Email invalide" }),
@@ -185,14 +186,12 @@ const Auth = () => {
 
       <div className="w-full max-w-md relative z-10 animate-scale-in">
         {/* Logo */}
-        <Link to="/" className="flex items-center justify-center space-x-2 mb-8 group">
-          <div className="relative">
-            <div className="absolute inset-0 bg-secondary rounded-lg blur-sm opacity-50 group-hover:opacity-75 transition-smooth"></div>
-            <Home className="h-10 w-10 text-secondary relative z-10" />
-          </div>
-          <span className="text-2xl font-bold text-white">
-            Immo Link Sénégal
-          </span>
+        <Link to="/" className="flex items-center justify-center mb-8 group">
+          <img 
+            src={logoAuth} 
+            alt="Immo Link Sénégal" 
+            className="h-32 w-auto object-contain transition-smooth group-hover:scale-105 drop-shadow-2xl" 
+          />
         </Link>
 
         <div className="glass-effect rounded-2xl p-8 shadow-elevated">
