@@ -1,13 +1,11 @@
 import { Building2, MapPin, TrendingUp, Shield, Sparkles, Home } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-
 const SEOContent = () => {
-  return (
-    <section className="py-16 bg-gradient-subtle">
+  return <section className="py-16 bg-gradient-subtle">
       <div className="container mx-auto px-4">
         {/* Main SEO Content */}
         <div className="max-w-4xl mx-auto mb-16 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-green-500">
             Immobilier au Sénégal : Trouvez Votre Bien Idéal
           </h2>
           <p className="text-lg text-muted-foreground mb-4">
@@ -173,8 +171,6 @@ const SEOContent = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default SEOContent;
