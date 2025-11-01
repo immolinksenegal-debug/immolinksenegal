@@ -91,7 +91,7 @@ const Articles = () => {
   return (
     <div className="min-h-screen">
       <Navbar />
-      <main className="pt-20">
+      <main className="pt-24 xs:pt-28 md:pt-32 lg:pt-36">
       {/* Hero Banner */}
       <div className="relative h-[400px] md:h-[500px] overflow-hidden">
         <img 

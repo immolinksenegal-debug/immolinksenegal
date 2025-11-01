@@ -110,7 +110,7 @@ const Properties = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
-      <main className="flex-1 pt-24 xs:pt-28 md:pt-32 pb-8 xs:pb-12 bg-gradient-subtle">
+      <main className="flex-1 pt-24 xs:pt-28 md:pt-32 lg:pt-36 pb-8 xs:pb-12 bg-gradient-subtle">
         <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="mb-8 xs:mb-10 md:mb-12 text-center animate-fade-in-up">
