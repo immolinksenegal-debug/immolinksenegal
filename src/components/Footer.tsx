@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from "lucide-react";
-import logo from "@/assets/logo-immo-link-new.png";
+import logo from "@/assets/logo-immo-link-main.png";
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const footerLinks = {
