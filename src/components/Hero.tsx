@@ -157,7 +157,7 @@ const Hero = () => {
                 key={index}
                 className="glass-effect-dark rounded-2xl p-4 xs:p-5 hover-lift text-center flex flex-col items-center justify-center border-2 border-white/10 hover:border-accent/50 transition-smooth group"
               >
-                <div className={`text-2xl xs:text-3xl md:text-4xl font-extrabold mb-2 bg-gradient-to-br from-accent via-white to-secondary bg-clip-text text-transparent group-hover:scale-110 transition-smooth`}>
+                <div className={`text-2xl xs:text-3xl md:text-4xl font-extrabold mb-2 bg-gradient-to-br from-secondary via-secondary/70 to-white bg-clip-text text-transparent group-hover:scale-110 transition-smooth`}>
                   {stat.value}
                 </div>
                 <div className="text-xs xs:text-sm font-medium text-white/90">{stat.label}</div>
