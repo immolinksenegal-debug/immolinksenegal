@@ -109,7 +109,7 @@ const Properties = () => {
             <h1 className="text-3xl xs:text-4xl md:text-5xl font-bold mb-3 md:mb-4 text-green-700 lg:text-6xl">
               Annonces Immobilières Sénégal
             </h1>
-            <p className="text-base xs:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-2">
+            <p className="text-base xs:text-lg md:text-xl max-w-3xl mx-auto mb-2 text-slate-950">
               Terrain à vendre, villa, maison, appartement à Dakar, Saly, Mbour, Thiès
             </p>
             <p className="text-sm text-muted-foreground">
