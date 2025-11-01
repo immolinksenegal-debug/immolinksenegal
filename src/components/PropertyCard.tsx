@@ -41,14 +41,26 @@ const PropertyCard = ({
   isPremium = false,
 }: PropertyCardProps) => {
   const [isFavorite, setIsFavorite] = useState(false);
+  const [imageError, setImageError] = useState(false);
+  const [imageLoading, setImageLoading] = useState(true);
 
   return (
     <Card className="group overflow-hidden hover-lift bg-card shadow-card border-border/50 rounded-2xl">
-      <div className="relative overflow-hidden aspect-[4/3]">
+      <div className="relative overflow-hidden aspect-[4/3] bg-muted">
+        {imageLoading && (
+          <div className="absolute inset-0 flex items-center justify-center bg-muted">
+            <div className="animate-pulse text-muted-foreground">Chargement...</div>
+          </div>
+        )}
         <img
-          src={image}
+          src={imageError ? '/placeholder.svg' : image || '/placeholder.svg'}
           alt={title}
-          className="w-full h-full object-cover transition-smooth group-hover:scale-110"
+          className={`w-full h-full object-cover transition-smooth group-hover:scale-110 ${imageLoading ? 'opacity-0' : 'opacity-100'}`}
+          onLoad={() => setImageLoading(false)}
+          onError={() => {
+            setImageError(true);
+            setImageLoading(false);
+          }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-smooth"></div>
         
