@@ -94,7 +94,7 @@ const Hero = () => {
               </div>
 
                <div className="sm:col-span-2 lg:col-span-1">
-                <Button onClick={handleSearch} className="w-full h-11 xs:h-12 bg-gradient-to-r from-accent via-accent to-secondary hover:shadow-glow-accent text-white shadow-elevated transition-smooth rounded-xl font-bold text-sm xs:text-base bg-orange-800 hover:bg-orange-700">
+                <Button onClick={handleSearch} className="w-full h-11 xs:h-12 bg-gradient-to-r from-accent via-accent to-secondary hover:shadow-glow-accent text-white shadow-elevated transition-smooth rounded-xl font-bold text-sm xs:text-base bg-amber-800 hover:bg-amber-700">
                   <Search className="h-5 w-5 mr-2" />
                   Rechercher
                 </Button>
