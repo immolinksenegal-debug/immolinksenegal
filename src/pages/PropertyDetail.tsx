@@ -22,6 +22,7 @@ import { useToast } from "@/hooks/use-toast";
 import { ContactRequestDialog } from "@/components/ContactRequestDialog";
 import WhatsAppChat from "@/components/WhatsAppChat";
 import ShareButtons from "@/components/ShareButtons";
+import SEOHead from "@/components/SEOHead";
 
 const PropertyDetail = () => {
   const { id } = useParams();
@@ -152,6 +153,13 @@ const PropertyDetail = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead
+        title={property.title}
+        description={`${property.type} à ${property.city} - ${property.price.toLocaleString('fr-FR')} FCFA. ${property.description.substring(0, 100)}...`}
+        image={images[0]}
+        url={`https://immolinksenegal.com/property/${property.id}`}
+        type="website"
+      />
       <Navbar />
       
       <main className="flex-1 pt-16 xs:pt-20 pb-8 xs:pb-12">
@@ -244,6 +252,7 @@ const PropertyDetail = () => {
                     <ShareButtons
                       title={property.title}
                       description={`Découvrez ce bien: ${property.title} - ${property.price.toLocaleString('fr-FR')} FCFA à ${property.city}`}
+                      url={`https://immolinksenegal.com/property/${property.id}`}
                       imageUrl={images[0]}
                     />
                   </div>

@@ -10,6 +10,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import DOMPurify from 'dompurify';
 import ShareButtons from "@/components/ShareButtons";
+import SEOHead from "@/components/SEOHead";
 
 interface Article {
   id: string;
@@ -228,6 +229,15 @@ const ArticleDetail = () => {
 
   return (
     <div className="min-h-screen pt-24 pb-16">
+      <SEOHead
+        title={article.title}
+        description={article.excerpt || article.title}
+        image={article.featured_image || undefined}
+        url={`https://immolinksenegal.com/articles/${article.slug}`}
+        type="article"
+        publishedTime={article.published_at || article.created_at}
+        modifiedTime={article.created_at}
+      />
       <div className="container mx-auto px-4">
         {/* Back Button */}
         <Link to="/articles" className="inline-flex items-center gap-2 mb-6 hover:text-secondary transition-base">
@@ -276,6 +286,7 @@ const ArticleDetail = () => {
               <ShareButtons
                 title={article.title}
                 description={article.excerpt || article.title}
+                url={`https://immolinksenegal.com/articles/${article.slug}`}
                 imageUrl={article.featured_image || undefined}
               />
             </div>
