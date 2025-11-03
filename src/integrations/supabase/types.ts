@@ -249,6 +249,7 @@ export type Database = {
           response_message: string | null
           status: string | null
           surface: number | null
+          transaction_type: string
           updated_at: string
           user_id: string | null
         }
@@ -271,6 +272,7 @@ export type Database = {
           response_message?: string | null
           status?: string | null
           surface?: number | null
+          transaction_type?: string
           updated_at?: string
           user_id?: string | null
         }
@@ -293,6 +295,7 @@ export type Database = {
           response_message?: string | null
           status?: string | null
           surface?: number | null
+          transaction_type?: string
           updated_at?: string
           user_id?: string | null
         }

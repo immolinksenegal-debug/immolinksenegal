@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Calculator, CheckCircle, Home, MessageSquare, Download, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -17,6 +18,9 @@ import bannerEstimation from "@/assets/banner-fiscalite-senegal.jpg";
 import jsPDF from "jspdf";
 
 const estimationSchema = z.object({
+  transaction_type: z.enum(["vente", "achat"], {
+    required_error: "Veuillez sélectionner une option",
+  }),
   property_type: z.string().min(1, "Le type de bien est requis"),
   location: z.string()
     .trim()
@@ -146,6 +150,7 @@ const FreeEstimation = () => {
         doc.setTextColor(0, 0, 0);
         
         const propertyInfo = [
+          `Transaction: ${data.transaction_type === 'vente' ? 'À vendre' : 'À acheter'}`,
           `Type: ${data.property_type}`,
           `Ville: ${data.city}`,
           `Localisation: ${data.location}`,
@@ -250,6 +255,7 @@ const FreeEstimation = () => {
 
       const insertData = {
         user_id: session?.user?.id || null,
+        transaction_type: data.transaction_type,
         property_type: data.property_type,
         location: data.location,
         city: data.city,
@@ -464,6 +470,30 @@ const FreeEstimation = () => {
                     <Home className="w-4 h-4 md:w-5 md:h-5 text-secondary" />
                     Informations sur le bien
                   </h3>
+
+                  <div className="space-y-1.5 md:space-y-2">
+                    <Label className="text-sm md:text-base">Type de transaction *</Label>
+                    <RadioGroup
+                      onValueChange={(value) => setValue("transaction_type", value as "vente" | "achat")}
+                      className="flex flex-col sm:flex-row gap-4"
+                    >
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="vente" id="vente" />
+                        <Label htmlFor="vente" className="text-sm md:text-base font-normal cursor-pointer">
+                          À vendre
+                        </Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="achat" id="achat" />
+                        <Label htmlFor="achat" className="text-sm md:text-base font-normal cursor-pointer">
+                          À acheter
+                        </Label>
+                      </div>
+                    </RadioGroup>
+                    {errors.transaction_type && (
+                      <p className="text-xs md:text-sm text-destructive break-words">{errors.transaction_type.message}</p>
+                    )}
+                  </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                     <div className="space-y-1.5 md:space-y-2">

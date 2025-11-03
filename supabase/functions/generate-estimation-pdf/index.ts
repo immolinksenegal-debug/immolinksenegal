@@ -13,6 +13,7 @@ serve(async (req) => {
 
   try {
     const {
+      transaction_type,
       property_type,
       location,
       city,
@@ -36,6 +37,7 @@ serve(async (req) => {
 
     const aiPrompt = `Tu es un expert en estimation immobilière au Sénégal. Analyse les informations suivantes et fournis une estimation de prix réaliste et professionnelle:
 
+Transaction: ${transaction_type === 'vente' ? 'Vente du bien' : 'Recherche d\'achat'}
 Type de bien: ${property_type}
 Ville: ${city}
 Localisation: ${location}
@@ -45,10 +47,13 @@ Salles de bain: ${bathrooms || 'Non spécifié'}
 État: ${condition || 'Non spécifié'}
 Description: ${description || 'Aucune'}
 
-Fournis une estimation détaillée incluant:
+${transaction_type === 'vente' 
+  ? 'Fournis une estimation détaillée pour la vente incluant:' 
+  : 'Fournis une estimation détaillée pour l\'achat incluant:'
+}
 1. Fourchette de prix en FCFA (minimum - maximum)
 2. Analyse des facteurs influençant le prix (localisation, état, marché actuel)
-3. Conseils pour optimiser la valeur du bien
+3. ${transaction_type === 'vente' ? 'Conseils pour optimiser la valeur du bien' : 'Conseils pour négocier le meilleur prix d\'achat'}
 4. Tendances du marché pour ce type de bien dans cette zone
 
 Format ta réponse de manière structurée et professionnelle en français.`;
@@ -81,6 +86,7 @@ Format ta réponse de manière structurée et professionnelle en français.`;
 
     // Générer le contenu HTML du PDF
     const htmlContent = generatePDFHTML({
+      transaction_type,
       property_type,
       location,
       city,
@@ -111,6 +117,7 @@ Format ta réponse de manière structurée et professionnelle en français.`;
         htmlContent,
         estimation: aiEstimation,
         propertyInfo: {
+          transaction_type,
           property_type,
           location,
           city,
@@ -274,6 +281,10 @@ function generatePDFHTML(data: any): string {
     <div class="section">
       <h2>🏠 Caractéristiques du Bien</h2>
       <div class="info-grid">
+        <div class="info-item">
+          <div class="info-label">Transaction</div>
+          <div class="info-value">${data.transaction_type === 'vente' ? '✅ À vendre' : '🔍 À acheter'}</div>
+        </div>
         <div class="info-item">
           <div class="info-label">Type</div>
           <div class="info-value">${data.property_type}</div>
