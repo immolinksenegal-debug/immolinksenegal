@@ -23,7 +23,11 @@ const WhatsAppChat = ({ phoneNumber, propertyTitle, propertyId }: WhatsAppChatPr
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState("");
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const chatRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (isOpen && messages.length === 0) {
@@ -93,6 +97,39 @@ const WhatsAppChat = ({ phoneNumber, propertyTitle, propertyId }: WhatsAppChatPr
     }
   };
 
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if ((e.target as HTMLElement).closest('.drag-handle')) {
+      setIsDragging(true);
+      setDragStart({
+        x: e.clientX - position.x,
+        y: e.clientY - position.y,
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (isDragging) {
+      const handleMove = (e: MouseEvent) => {
+        setPosition({
+          x: e.clientX - dragStart.x,
+          y: e.clientY - dragStart.y,
+        });
+      };
+
+      const handleUp = () => {
+        setIsDragging(false);
+      };
+
+      document.addEventListener('mousemove', handleMove);
+      document.addEventListener('mouseup', handleUp);
+      
+      return () => {
+        document.removeEventListener('mousemove', handleMove);
+        document.removeEventListener('mouseup', handleUp);
+      };
+    }
+  }, [isDragging, dragStart]);
+
   return (
     <>
       {/* Bouton flottant WhatsApp - Repositionné à gauche au milieu avec animations */}
@@ -124,8 +161,19 @@ const WhatsAppChat = ({ phoneNumber, propertyTitle, propertyId }: WhatsAppChatPr
 
       {/* Fenêtre de chat - Repositionnée à gauche */}
       {isOpen && (
-        <Card className="fixed left-4 sm:left-6 top-1/2 -translate-y-1/2 mt-20 sm:mt-24 w-[calc(100vw-2rem)] sm:w-96 h-[500px] sm:h-[600px] z-50 shadow-2xl border-2 border-[#25D366]/30 flex flex-col animate-scale-in">
-          <CardHeader className="bg-gradient-to-r from-[#075E54] to-[#128C7E] text-white rounded-t-xl p-3 sm:p-4 flex-row items-center justify-between space-y-0">
+        <Card 
+          ref={chatRef}
+          onMouseDown={handleMouseDown}
+          className="fixed w-[calc(100vw-2rem)] sm:w-96 h-[500px] sm:h-[600px] z-50 shadow-2xl border-2 border-[#25D366]/30 flex flex-col animate-scale-in"
+          style={{
+            left: position.x === 0 ? '1rem' : `${position.x}px`,
+            top: position.y === 0 ? '50%' : `${position.y}px`,
+            transform: position.y === 0 ? 'translateY(-50%)' : 'none',
+            marginTop: position.y === 0 ? '5rem' : '0',
+            cursor: isDragging ? 'grabbing' : 'default',
+          }}
+        >
+          <CardHeader className="drag-handle bg-gradient-to-r from-[#075E54] to-[#128C7E] text-white rounded-t-xl p-3 sm:p-4 flex-row items-center justify-between space-y-0 cursor-grab active:cursor-grabbing">
             <div className="flex items-center gap-2 sm:gap-3">
               <Avatar className="h-8 w-8 sm:h-10 sm:w-10 border-2 border-white bg-white/20 animate-pulse">
                 <AvatarFallback className="bg-[#128C7E] text-white">
