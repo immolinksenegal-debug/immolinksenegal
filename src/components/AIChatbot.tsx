@@ -192,7 +192,7 @@ const AIChatbot = () => {
 
       {/* Fenêtre de chat */}
       {isOpen && (
-        <Card className="fixed bottom-6 right-6 w-[400px] h-[600px] shadow-2xl flex flex-col z-50 animate-in slide-in-from-bottom-4">
+        <Card className="fixed inset-4 md:bottom-6 md:right-6 md:left-auto md:top-auto md:w-[400px] md:h-[600px] shadow-2xl flex flex-col z-50 animate-in slide-in-from-bottom-4">
           {/* Header */}
           <div className="bg-primary text-white p-4 rounded-t-lg flex items-center justify-between">
             <div className="flex items-center gap-2">
