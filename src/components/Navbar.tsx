@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Home, PlusCircle, User, Menu, LogOut, Building2, Calculator, Newspaper, Shield } from "lucide-react";
+import { Home, PlusCircle, User, Menu, LogOut, Building2, Calculator, Newspaper, Shield, Share2 } from "lucide-react";
 import logo from "@/assets/logo-immo-link-main.png";
 import { useState, useEffect } from "react";
 import {
@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/sheet";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import ShareButtons from "@/components/ShareButtons";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -118,6 +119,11 @@ const Navbar = () => {
                 </Button>
               </Link>
             ))}
+            <ShareButtons 
+              title="Immo Link Sénégal - Plateforme Immobilière"
+              description="Découvrez la meilleure plateforme immobilière au Sénégal pour acheter, vendre et louer des biens immobiliers."
+              url={window.location.origin}
+            />
             {user ? (
               <Button 
                 onClick={handleLogout}
@@ -160,6 +166,13 @@ const Navbar = () => {
                     </Button>
                   </Link>
                 ))}
+                <div className="w-full">
+                  <ShareButtons 
+                    title="Immo Link Sénégal - Plateforme Immobilière"
+                    description="Découvrez la meilleure plateforme immobilière au Sénégal pour acheter, vendre et louer des biens immobiliers."
+                    url={window.location.origin}
+                  />
+                </div>
                 {user ? (
                   <Button 
                     onClick={handleLogout}
