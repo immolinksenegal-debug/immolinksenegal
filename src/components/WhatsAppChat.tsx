@@ -23,7 +23,7 @@ const WhatsAppChat = ({ phoneNumber, propertyTitle, propertyId }: WhatsAppChatPr
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState("");
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [position, setPosition] = useState<{ x: number | null; y: number | null }>({ x: null, y: null });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const scrollAreaRef = useRef<HTMLDivElement>(null);
@@ -109,10 +109,13 @@ const WhatsAppChat = ({ phoneNumber, propertyTitle, propertyId }: WhatsAppChatPr
 
   useEffect(() => {
     if (isDragging) {
-      const handleMove = (e: MouseEvent) => {
+      const handleMove = (e: MouseEvent | TouchEvent) => {
+        const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+        const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+        
         setPosition({
-          x: e.clientX - dragStart.x,
-          y: e.clientY - dragStart.y,
+          x: clientX - dragStart.x,
+          y: clientY - dragStart.y,
         });
       };
 
@@ -122,10 +125,14 @@ const WhatsAppChat = ({ phoneNumber, propertyTitle, propertyId }: WhatsAppChatPr
 
       document.addEventListener('mousemove', handleMove);
       document.addEventListener('mouseup', handleUp);
+      document.addEventListener('touchmove', handleMove);
+      document.addEventListener('touchend', handleUp);
       
       return () => {
         document.removeEventListener('mousemove', handleMove);
         document.removeEventListener('mouseup', handleUp);
+        document.removeEventListener('touchmove', handleMove);
+        document.removeEventListener('touchend', handleUp);
       };
     }
   }, [isDragging, dragStart]);
@@ -164,12 +171,21 @@ const WhatsAppChat = ({ phoneNumber, propertyTitle, propertyId }: WhatsAppChatPr
         <Card 
           ref={chatRef}
           onMouseDown={handleMouseDown}
+          onTouchStart={(e) => {
+            const touch = e.touches[0];
+            if ((e.target as HTMLElement).closest('.drag-handle')) {
+              setIsDragging(true);
+              setDragStart({
+                x: touch.clientX - (position.x || 0),
+                y: touch.clientY - (position.y || 0),
+              });
+            }
+          }}
           className="fixed w-[calc(100vw-2rem)] sm:w-96 h-[500px] sm:h-[600px] z-50 shadow-2xl border-2 border-[#25D366]/30 flex flex-col animate-scale-in"
           style={{
-            left: position.x === 0 ? '1rem' : `${position.x}px`,
-            top: position.y === 0 ? '50%' : `${position.y}px`,
-            transform: position.y === 0 ? 'translateY(-50%)' : 'none',
-            marginTop: position.y === 0 ? '5rem' : '0',
+            left: position.x === null ? '50%' : `${position.x}px`,
+            top: position.y === null ? '50%' : `${position.y}px`,
+            transform: position.x === null && position.y === null ? 'translate(-50%, -50%)' : 'none',
             cursor: isDragging ? 'grabbing' : 'default',
           }}
         >
