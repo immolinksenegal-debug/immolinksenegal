@@ -169,6 +169,54 @@ const SEOContent = () => {
               </p>
             </div>
           </div>
+
+          {/* Additional SEO Keywords Section */}
+          <div className="mt-8 bg-gradient-subtle border border-border/30 rounded-lg p-6">
+            <h3 className="text-lg font-semibold text-foreground mb-3">
+              Recherches populaires
+            </h3>
+            <div className="flex flex-wrap gap-2 text-xs">
+              {[
+                "terrain à vendre Dakar",
+                "villa à vendre Saly",
+                "maison à louer Mbour",
+                "appartement Thiès",
+                "terrain viabilisé Sénégal",
+                "immobilier Petite Côte",
+                "terrain bord de mer",
+                "villa de luxe Dakar",
+                "maison à vendre Somone",
+                "terrain Ngaparou",
+                "parcelle à vendre",
+                "terrain loti Dakar",
+                "résidence sécurisée Saly",
+                "appartement à louer Dakar",
+                "villa piscine Saly",
+                "terrain titre foncier",
+                "immobilier haut standing",
+                "agence immobilière Dakar",
+                "estimation immobilière",
+                "investissement immobilier",
+                "projet immobilier Sénégal",
+                "annonces immobilières",
+                "site immo Sénégal",
+                "acheter terrain Sénégal",
+                "vendre maison Dakar",
+                "louer villa Saly",
+                "terrain constructible",
+                "maison moderne Sénégal",
+                "appartement neuf Dakar",
+                "villa bord de mer"
+              ].map((keyword, idx) => (
+                <span 
+                  key={idx}
+                  className="px-3 py-1 bg-primary/5 text-primary rounded-full border border-primary/20 hover:bg-primary/10 transition-smooth"
+                >
+                  {keyword}
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>;
