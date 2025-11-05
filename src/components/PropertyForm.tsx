@@ -9,9 +9,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Upload, X, Loader2 } from "lucide-react";
+import { LocationPicker } from "./LocationPicker";
 
 const propertySchema = z.object({
   title: z.string()
@@ -84,6 +84,8 @@ const PropertyForm = ({ onSuccess, initialData }: PropertyFormProps) => {
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [existingImages, setExistingImages] = useState<string[]>([]);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [latitude, setLatitude] = useState<number | undefined>(initialData?.latitude || undefined);
+  const [longitude, setLongitude] = useState<number | undefined>(initialData?.longitude || undefined);
   const isEditing = !!initialData;
 
   const { register, handleSubmit, formState: { errors }, setValue, reset } = useForm<PropertyFormData>({
@@ -209,6 +211,8 @@ const PropertyForm = ({ onSuccess, initialData }: PropertyFormProps) => {
         contact_phone: data.contact_phone || null,
         contact_email: data.contact_email || null,
         contact_whatsapp: data.contact_whatsapp || null,
+        latitude: latitude || null,
+        longitude: longitude || null,
       };
 
       if (isEditing) {
@@ -538,6 +542,15 @@ const PropertyForm = ({ onSuccess, initialData }: PropertyFormProps) => {
               </div>
             )}
           </div>
+
+          <LocationPicker
+            latitude={latitude}
+            longitude={longitude}
+            onLocationChange={(lat, lng) => {
+              setLatitude(lat);
+              setLongitude(lng);
+            }}
+          />
 
           <div className="flex gap-4">
             <Button

@@ -23,6 +23,7 @@ import { ContactRequestDialog } from "@/components/ContactRequestDialog";
 import WhatsAppChat from "@/components/WhatsAppChat";
 import ShareButtons from "@/components/ShareButtons";
 import SEOHead from "@/components/SEOHead";
+import { PropertyMap } from "@/components/PropertyMap";
 
 const PropertyDetail = () => {
   const { id } = useParams();
@@ -315,6 +316,15 @@ const PropertyDetail = () => {
                   {property.description}
                 </p>
               </div>
+
+              {/* Map */}
+              {property.latitude && property.longitude && (
+                <PropertyMap
+                  latitude={property.latitude}
+                  longitude={property.longitude}
+                  title={property.location}
+                />
+              )}
 
               {/* Additional Information */}
               <div className="glass-effect rounded-xl xs:rounded-2xl p-4 xs:p-6 shadow-card">
