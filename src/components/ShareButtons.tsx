@@ -25,7 +25,7 @@ const ShareButtons = ({ title, description, url, imageUrl }: ShareButtonsProps) 
 
     switch (platform) {
       case 'facebook':
-        shareLink = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
+        shareLink = `https://www.facebook.com/share.php?u=${encodeURIComponent(shareUrl)}`;
         break;
       case 'twitter':
         shareLink = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
