@@ -201,6 +201,56 @@ export const AdminContractsManager = () => {
     }
   };
 
+  const downloadContractPDF = async (contractId: string) => {
+    try {
+      toast({
+        title: "Génération du PDF",
+        description: "Le PDF est en cours de génération...",
+      });
+
+      const { data, error } = await supabase.functions.invoke('generate-contract-pdf', {
+        body: { contractId }
+      });
+
+      if (error) throw error;
+
+      // Create a temporary iframe to render HTML and print
+      const iframe = document.createElement('iframe');
+      iframe.style.position = 'absolute';
+      iframe.style.width = '0';
+      iframe.style.height = '0';
+      iframe.style.border = 'none';
+      document.body.appendChild(iframe);
+
+      const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
+      if (iframeDoc) {
+        iframeDoc.open();
+        iframeDoc.write(data.html);
+        iframeDoc.close();
+
+        // Wait for content to load then print
+        setTimeout(() => {
+          iframe.contentWindow?.print();
+          setTimeout(() => {
+            document.body.removeChild(iframe);
+          }, 100);
+        }, 500);
+      }
+
+      toast({
+        title: "Succès",
+        description: "Le PDF est prêt à être imprimé ou téléchargé",
+      });
+    } catch (error) {
+      console.error('Error downloading PDF:', error);
+      toast({
+        title: "Erreur",
+        description: "Impossible de générer le PDF",
+        variant: "destructive",
+      });
+    }
+  };
+
   const resetForm = () => {
     setFormData({
       contract_type: 'mandat_gestion',
@@ -557,19 +607,19 @@ export const AdminContractsManager = () => {
                   <TableCell>{getStatusBadge(contract.status)}</TableCell>
                   <TableCell>
                     <div className="flex gap-2">
-                      {contract.pdf_url && (
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => window.open(contract.pdf_url, '_blank')}
-                        >
-                          <Download className="h-4 w-4" />
-                        </Button>
-                      )}
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => downloadContractPDF(contract.id)}
+                        title="Télécharger le PDF"
+                      >
+                        <Download className="h-4 w-4" />
+                      </Button>
                       <Button
                         variant="outline"
                         size="sm"
                         onClick={() => handleDelete(contract.id)}
+                        title="Supprimer le contrat"
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>

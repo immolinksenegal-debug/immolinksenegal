@@ -93,6 +93,9 @@ function generateContractHTML(contract: any): string {
 
   const isMandat = contract.contract_type === 'mandat_gestion';
   const title = isMandat ? 'MANDAT DE GESTION' : 'CONTRAT DE LOCATION';
+  
+  const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+  const logoUrl = `${supabaseUrl.replace('.supabase.co', '.lovableproject.com')}/logo-immo-link.png`;
 
   return `
 <!DOCTYPE html>
@@ -108,10 +111,14 @@ function generateContractHTML(contract: any): string {
       box-sizing: border-box;
     }
     
+    @page {
+      margin: 2cm;
+    }
+    
     body {
-      font-family: 'Georgia', serif;
+      font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
       line-height: 1.6;
-      color: #333;
+      color: #1a1a1a;
       max-width: 800px;
       margin: 0 auto;
       padding: 40px 20px;
@@ -120,23 +127,35 @@ function generateContractHTML(contract: any): string {
     
     .header {
       text-align: center;
-      margin-bottom: 40px;
-      border-bottom: 3px solid #000;
-      padding-bottom: 20px;
+      margin-bottom: 50px;
+      padding: 30px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+    }
+    
+    .logo {
+      width: 180px;
+      height: auto;
+      margin-bottom: 20px;
+      filter: brightness(0) invert(1);
     }
     
     .header h1 {
-      font-size: 28px;
-      font-weight: bold;
+      font-size: 32px;
+      font-weight: 700;
       margin-bottom: 10px;
       text-transform: uppercase;
-      letter-spacing: 2px;
+      letter-spacing: 3px;
+      color: #fff;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
     }
     
     .header .subtitle {
-      font-size: 14px;
-      color: #666;
+      font-size: 16px;
+      color: rgba(255, 255, 255, 0.9);
       margin-top: 5px;
+      font-weight: 500;
     }
     
     .date {
@@ -151,25 +170,30 @@ function generateContractHTML(contract: any): string {
     }
     
     .section-title {
-      font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 15px;
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 20px;
       text-transform: uppercase;
-      border-bottom: 2px solid #000;
-      padding-bottom: 5px;
+      color: #667eea;
+      border-bottom: 3px solid #667eea;
+      padding-bottom: 10px;
+      letter-spacing: 1px;
     }
     
     .party {
-      margin-bottom: 20px;
-      padding: 15px;
-      background: #f9f9f9;
-      border-left: 4px solid #000;
+      margin-bottom: 25px;
+      padding: 20px;
+      background: linear-gradient(to right, #f8f9ff 0%, #fff 100%);
+      border-left: 5px solid #667eea;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     }
     
     .party-title {
-      font-weight: bold;
-      margin-bottom: 10px;
-      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      font-size: 18px;
+      color: #667eea;
     }
     
     .info-row {
@@ -184,49 +208,77 @@ function generateContractHTML(contract: any): string {
     }
     
     .article {
-      margin-bottom: 20px;
-      padding: 15px;
-      border: 1px solid #ddd;
-      background: #fafafa;
+      margin-bottom: 25px;
+      padding: 20px;
+      border: 2px solid #e8ebf7;
+      background: #fafbff;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .article:hover {
+      border-color: #667eea;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
     }
     
     .article-title {
-      font-weight: bold;
-      margin-bottom: 10px;
-      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      font-size: 17px;
+      color: #764ba2;
     }
     
     .article-content {
       text-align: justify;
-      line-height: 1.8;
+      line-height: 1.9;
+      color: #4a4a4a;
     }
     
     .signature-section {
-      margin-top: 60px;
+      margin-top: 80px;
       display: flex;
       justify-content: space-between;
+      gap: 20px;
     }
     
     .signature-box {
-      width: 45%;
+      flex: 1;
       text-align: center;
-      padding-top: 20px;
+      padding: 25px;
+      background: #f8f9ff;
+      border-radius: 8px;
+      border: 2px dashed #667eea;
+    }
+    
+    .signature-box > div:first-child {
+      font-weight: 600;
+      color: #667eea;
+      margin-bottom: 10px;
     }
     
     .signature-line {
-      border-top: 2px solid #000;
+      border-top: 3px solid #667eea;
       margin-top: 80px;
-      padding-top: 10px;
-      font-weight: bold;
+      padding-top: 15px;
+      font-weight: 700;
+      color: #1a1a1a;
     }
     
     .footer {
-      margin-top: 40px;
+      margin-top: 60px;
       text-align: center;
-      font-size: 12px;
-      color: #666;
-      border-top: 1px solid #ddd;
-      padding-top: 20px;
+      font-size: 13px;
+      color: #888;
+      border-top: 2px solid #e8ebf7;
+      padding-top: 30px;
+      background: linear-gradient(to bottom, transparent 0%, #f8f9ff 100%);
+      padding-bottom: 20px;
+      border-radius: 8px;
+    }
+    
+    .footer strong {
+      color: #667eea;
+      font-weight: 600;
     }
     
     @media print {
@@ -242,8 +294,9 @@ function generateContractHTML(contract: any): string {
 </head>
 <body>
   <div class="header">
+    <img src="${logoUrl}" alt="Immo Link Sénégal" class="logo" onerror="this.style.display='none'">
     <h1>${title}</h1>
-    <div class="subtitle">Immo Link Sénégal</div>
+    <div class="subtitle">Immo Link Sénégal - Plateforme Immobilière de Référence</div>
   </div>
 
   <div class="date">
@@ -401,9 +454,11 @@ function generateContractHTML(contract: any): string {
   </div>
 
   <div class="footer">
-    Document généré par Immo Link Sénégal - Plateforme de gestion immobilière
+    <strong>Immo Link Sénégal</strong> - Plateforme de gestion immobilière professionnelle
     <br/>
-    Dakar, Sénégal - contact@immolink.sn
+    📍 Dakar, Sénégal | 📧 contact@immolink.sn | 🌐 www.immolink.sn
+    <br/>
+    <small style="color: #aaa; margin-top: 10px; display: block;">Document généré le ${currentDate}</small>
   </div>
 </body>
 </html>
