@@ -22,10 +22,13 @@ serve(async (req) => {
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    // Get contract data
+    // Get contract data with signatures
     const { data: contract, error: contractError } = await supabase
       .from('property_contracts')
-      .select('*')
+      .select(`
+        *,
+        signatures:contract_signatures(*)
+      `)
       .eq('id', contractId)
       .single();
 
@@ -96,6 +99,11 @@ function generateContractHTML(contract: any): string {
   const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
   const logoUrl = `${supabaseUrl.replace('.supabase.co', '.lovableproject.com')}/logo-immo-link-official.png`;
 
+  // Get signatures (passed from the function)
+  const ownerSignature = contract.signatures?.find((s: any) => s.signer_type === 'owner');
+  const tenantSignature = contract.signatures?.find((s: any) => s.signer_type === 'tenant');
+  const agencySignature = contract.signatures?.find((s: any) => s.signer_type === 'agency');
+
   return `
 <!DOCTYPE html>
 <html lang="fr">
@@ -137,7 +145,6 @@ function generateContractHTML(contract: any): string {
       width: 180px;
       height: auto;
       margin-bottom: 20px;
-      filter: brightness(0) invert(1);
     }
     
     .header h1 {
@@ -238,6 +245,7 @@ function generateContractHTML(contract: any): string {
       display: flex;
       justify-content: space-between;
       gap: 20px;
+      page-break-inside: avoid;
     }
     
     .signature-box {
@@ -255,12 +263,27 @@ function generateContractHTML(contract: any): string {
       margin-bottom: 10px;
     }
     
+    .signature-image {
+      max-width: 200px;
+      max-height: 100px;
+      margin: 20px auto;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background: white;
+    }
+    
     .signature-line {
       border-top: 3px solid #667eea;
-      margin-top: 80px;
+      margin-top: 20px;
       padding-top: 15px;
       font-weight: 700;
       color: #1a1a1a;
+    }
+    
+    .signature-info {
+      font-size: 12px;
+      color: #666;
+      margin-top: 5px;
     }
     
     .footer {
@@ -436,18 +459,30 @@ function generateContractHTML(contract: any): string {
   <div class="signature-section">
     <div class="signature-box">
       <div>Le ${isMandat ? 'Mandant' : 'Bailleur'}</div>
+      ${ownerSignature ? `
+        <img src="${ownerSignature.signature_data}" alt="Signature" class="signature-image" />
+        <div class="signature-info">Signé le ${new Date(ownerSignature.signed_at).toLocaleDateString('fr-FR')}</div>
+      ` : '<div class="signature-line">_________________</div>'}
       <div class="signature-line">${contract.owner_name}</div>
     </div>
     
     ${!isMandat && contract.tenant_name ? `
     <div class="signature-box">
       <div>Le Locataire</div>
+      ${tenantSignature ? `
+        <img src="${tenantSignature.signature_data}" alt="Signature" class="signature-image" />
+        <div class="signature-info">Signé le ${new Date(tenantSignature.signed_at).toLocaleDateString('fr-FR')}</div>
+      ` : '<div class="signature-line">_________________</div>'}
       <div class="signature-line">${contract.tenant_name}</div>
     </div>
     ` : ''}
     
     <div class="signature-box">
       <div>${isMandat ? 'Le Mandataire' : "L'Agence"}</div>
+      ${agencySignature ? `
+        <img src="${agencySignature.signature_data}" alt="Signature" class="signature-image" />
+        <div class="signature-info">Signé le ${new Date(agencySignature.signed_at).toLocaleDateString('fr-FR')}</div>
+      ` : '<div class="signature-line">_________________</div>'}
       <div class="signature-line">Immo Link Sénégal</div>
     </div>
   </div>

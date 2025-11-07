@@ -9,17 +9,23 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { FileText, Plus, Eye, Download, Trash2, Loader2, Edit } from "lucide-react";
+import { FileText, Plus, Eye, Download, Trash2, Loader2, Edit, PenTool } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
+import { SignatureDialog } from "@/components/contracts/SignatureDialog";
 
 interface Contract {
   id: string;
   contract_type: string;
   status: string;
+  signature_status?: string;
   owner_name: string;
   owner_email: string;
+  owner_phone?: string;
+  tenant_name?: string;
+  tenant_email?: string;
+  tenant_phone?: string;
   property_address: string;
   monthly_rent: number;
   start_date: string;
@@ -58,6 +64,13 @@ export const AdminContractsManager = () => {
   const [generating, setGenerating] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingContract, setEditingContract] = useState<string | null>(null);
+  const [signatureDialogOpen, setSignatureDialogOpen] = useState(false);
+  const [currentSignature, setCurrentSignature] = useState<{
+    contractId: string;
+    signerType: 'owner' | 'tenant' | 'agency';
+    signerName: string;
+    signerEmail: string;
+  } | null>(null);
   const [formData, setFormData] = useState<FormData>({
     contract_type: 'mandat_gestion',
     owner_name: '',
@@ -380,12 +393,50 @@ export const AdminContractsManager = () => {
     return <Badge variant={variants[status] || "default"}>{status}</Badge>;
   };
 
+  const getSignatureBadge = (signatureStatus?: string) => {
+    const variants: Record<string, { variant: "default" | "secondary" | "destructive"; label: string }> = {
+      pending: { variant: "secondary", label: "En attente" },
+      partially_signed: { variant: "default", label: "Partiellement signé" },
+      fully_signed: { variant: "default", label: "Entièrement signé" },
+    };
+    const config = variants[signatureStatus || 'pending'] || variants.pending;
+    return <Badge variant={config.variant}>{config.label}</Badge>;
+  };
+
   const getContractTypeBadge = (type: string) => {
     return (
       <Badge variant={type === 'mandat_gestion' ? "secondary" : "default"}>
         {type === 'mandat_gestion' ? 'Mandat de Gestion' : 'Contrat de Location'}
       </Badge>
     );
+  };
+
+  const handleInitiateSignature = (contract: Contract, signerType: 'owner' | 'tenant' | 'agency') => {
+    let signerName = '';
+    let signerEmail = '';
+
+    if (signerType === 'owner') {
+      signerName = contract.owner_name;
+      signerEmail = contract.owner_email;
+    } else if (signerType === 'tenant') {
+      signerName = contract.tenant_name || '';
+      signerEmail = contract.tenant_email || '';
+    } else {
+      signerName = 'Immo Link Sénégal';
+      signerEmail = 'contact@immolink.sn';
+    }
+
+    setCurrentSignature({
+      contractId: contract.id,
+      signerType,
+      signerName,
+      signerEmail,
+    });
+    setSignatureDialogOpen(true);
+  };
+
+  const handleSignatureComplete = () => {
+    loadContracts();
   };
 
   return (
@@ -690,6 +741,7 @@ export const AdminContractsManager = () => {
                 <TableHead>Loyer</TableHead>
                 <TableHead>Date Début</TableHead>
                 <TableHead>Statut</TableHead>
+                <TableHead>Signatures</TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -709,6 +761,45 @@ export const AdminContractsManager = () => {
                     {format(new Date(contract.start_date), 'dd MMM yyyy', { locale: fr })}
                   </TableCell>
                   <TableCell>{getStatusBadge(contract.status)}</TableCell>
+                  <TableCell>
+                    <div className="space-y-2">
+                      {getSignatureBadge(contract.signature_status)}
+                      <div className="flex flex-wrap gap-1">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleInitiateSignature(contract, 'owner')}
+                          title="Signature propriétaire"
+                          className="h-7 px-2 text-xs"
+                        >
+                          <PenTool className="h-3 w-3 mr-1" />
+                          Prop.
+                        </Button>
+                        {contract.contract_type === 'contrat_location' && (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleInitiateSignature(contract, 'tenant')}
+                            title="Signature locataire"
+                            className="h-7 px-2 text-xs"
+                          >
+                            <PenTool className="h-3 w-3 mr-1" />
+                            Loc.
+                          </Button>
+                        )}
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleInitiateSignature(contract, 'agency')}
+                          title="Signature agence"
+                          className="h-7 px-2 text-xs"
+                        >
+                          <PenTool className="h-3 w-3 mr-1" />
+                          Agence
+                        </Button>
+                      </div>
+                    </div>
+                  </TableCell>
                   <TableCell>
                     <div className="flex gap-2">
                       <Button
@@ -743,6 +834,18 @@ export const AdminContractsManager = () => {
           </Table>
         )}
       </CardContent>
+
+      {currentSignature && (
+        <SignatureDialog
+          open={signatureDialogOpen}
+          onOpenChange={setSignatureDialogOpen}
+          contractId={currentSignature.contractId}
+          signerType={currentSignature.signerType}
+          signerName={currentSignature.signerName}
+          signerEmail={currentSignature.signerEmail}
+          onSignatureComplete={handleSignatureComplete}
+        />
+      )}
     </Card>
   );
 };

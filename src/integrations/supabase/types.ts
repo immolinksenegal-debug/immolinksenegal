@@ -229,6 +229,50 @@ export type Database = {
           },
         ]
       }
+      contract_signatures: {
+        Row: {
+          contract_id: string
+          created_at: string
+          id: string
+          ip_address: string | null
+          signature_data: string
+          signed_at: string
+          signer_email: string
+          signer_name: string
+          signer_type: string
+        }
+        Insert: {
+          contract_id: string
+          created_at?: string
+          id?: string
+          ip_address?: string | null
+          signature_data: string
+          signed_at?: string
+          signer_email: string
+          signer_name: string
+          signer_type: string
+        }
+        Update: {
+          contract_id?: string
+          created_at?: string
+          id?: string
+          ip_address?: string | null
+          signature_data?: string
+          signed_at?: string
+          signer_email?: string
+          signer_name?: string
+          signer_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contract_signatures_contract_id_fkey"
+            columns: ["contract_id"]
+            isOneToOne: false
+            referencedRelation: "property_contracts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       estimation_requests: {
         Row: {
           bathrooms: number | null
@@ -450,6 +494,7 @@ export type Database = {
           property_surface: number | null
           property_type: string
           security_deposit: number | null
+          signature_status: string | null
           special_conditions: string | null
           start_date: string
           status: string
@@ -480,6 +525,7 @@ export type Database = {
           property_surface?: number | null
           property_type: string
           security_deposit?: number | null
+          signature_status?: string | null
           special_conditions?: string | null
           start_date: string
           status?: string
@@ -510,6 +556,7 @@ export type Database = {
           property_surface?: number | null
           property_type?: string
           security_deposit?: number | null
+          signature_status?: string | null
           special_conditions?: string | null
           start_date?: string
           status?: string
