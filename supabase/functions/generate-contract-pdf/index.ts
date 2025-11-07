@@ -40,8 +40,7 @@ serve(async (req) => {
     await supabase
       .from('property_contracts')
       .update({ 
-        status: 'generated',
-        pdf_url: `data:text/html;base64,${btoa(html)}`
+        status: 'generated'
       })
       .eq('id', contractId);
 
@@ -52,7 +51,7 @@ serve(async (req) => {
         message: 'Contract PDF generated successfully' 
       }),
       { 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        headers: { ...corsHeaders, 'Content-Type': 'application/json; charset=utf-8' },
         status: 200 
       }
     );
