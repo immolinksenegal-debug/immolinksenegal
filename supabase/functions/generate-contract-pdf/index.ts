@@ -95,7 +95,7 @@ function generateContractHTML(contract: any): string {
   const title = isMandat ? 'MANDAT DE GESTION' : 'CONTRAT DE LOCATION';
   
   const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-  const logoUrl = `${supabaseUrl.replace('.supabase.co', '.lovableproject.com')}/logo-immo-link.png`;
+  const logoUrl = `${supabaseUrl.replace('.supabase.co', '.lovableproject.com')}/logo-immo-link-official.png`;
 
   return `
 <!DOCTYPE html>

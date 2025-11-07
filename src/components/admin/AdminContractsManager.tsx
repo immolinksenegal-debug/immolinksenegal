@@ -9,7 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { FileText, Plus, Eye, Download, Trash2, Loader2 } from "lucide-react";
+import { FileText, Plus, Eye, Download, Trash2, Loader2, Edit } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
@@ -57,6 +57,7 @@ export const AdminContractsManager = () => {
   const [loading, setLoading] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [editingContract, setEditingContract] = useState<string | null>(null);
   const [formData, setFormData] = useState<FormData>({
     contract_type: 'mandat_gestion',
     owner_name: '',
@@ -115,59 +116,104 @@ export const AdminContractsManager = () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Non authentifié");
 
-      // Insert contract into database
-      const { data: contract, error: insertError } = await supabase
-        .from('property_contracts')
-        .insert({
-          user_id: user.id,
-          contract_type: formData.contract_type,
-          owner_name: formData.owner_name,
-          owner_email: formData.owner_email,
-          owner_phone: formData.owner_phone,
-          owner_address: formData.owner_address,
-          owner_id_number: formData.owner_id_number,
-          property_address: formData.property_address,
-          property_type: formData.property_type,
-          property_description: formData.property_description,
-          property_surface: formData.property_surface ? parseFloat(formData.property_surface) : null,
-          tenant_name: formData.tenant_name || null,
-          tenant_email: formData.tenant_email || null,
-          tenant_phone: formData.tenant_phone || null,
-          tenant_address: formData.tenant_address || null,
-          tenant_id_number: formData.tenant_id_number || null,
-          start_date: formData.start_date,
-          end_date: formData.end_date || null,
-          monthly_rent: parseFloat(formData.monthly_rent),
-          commission_rate: parseFloat(formData.commission_rate),
-          security_deposit: formData.security_deposit ? parseFloat(formData.security_deposit) : null,
-          special_conditions: formData.special_conditions || null,
-          status: 'draft',
-        })
-        .select()
-        .single();
+      if (editingContract) {
+        // Update existing contract
+        const { error: updateError } = await supabase
+          .from('property_contracts')
+          .update({
+            contract_type: formData.contract_type,
+            owner_name: formData.owner_name,
+            owner_email: formData.owner_email,
+            owner_phone: formData.owner_phone,
+            owner_address: formData.owner_address,
+            owner_id_number: formData.owner_id_number,
+            property_address: formData.property_address,
+            property_type: formData.property_type,
+            property_description: formData.property_description,
+            property_surface: formData.property_surface ? parseFloat(formData.property_surface) : null,
+            tenant_name: formData.tenant_name || null,
+            tenant_email: formData.tenant_email || null,
+            tenant_phone: formData.tenant_phone || null,
+            tenant_address: formData.tenant_address || null,
+            tenant_id_number: formData.tenant_id_number || null,
+            start_date: formData.start_date,
+            end_date: formData.end_date || null,
+            monthly_rent: parseFloat(formData.monthly_rent),
+            commission_rate: parseFloat(formData.commission_rate),
+            security_deposit: formData.security_deposit ? parseFloat(formData.security_deposit) : null,
+            special_conditions: formData.special_conditions || null,
+          })
+          .eq('id', editingContract);
 
-      if (insertError) throw insertError;
+        if (updateError) throw updateError;
 
-      // Generate PDF
-      const { data: pdfData, error: pdfError } = await supabase.functions.invoke('generate-contract-pdf', {
-        body: { contractId: contract.id },
-      });
+        // Regenerate PDF
+        const { error: pdfError } = await supabase.functions.invoke('generate-contract-pdf', {
+          body: { contractId: editingContract },
+        });
 
-      if (pdfError) throw pdfError;
+        if (pdfError) throw pdfError;
 
-      toast({
-        title: "Succès",
-        description: "Le contrat a été créé avec succès",
-      });
+        toast({
+          title: "Succès",
+          description: "Le contrat a été modifié avec succès",
+        });
+      } else {
+        // Insert new contract
+        const { data: contract, error: insertError } = await supabase
+          .from('property_contracts')
+          .insert({
+            user_id: user.id,
+            contract_type: formData.contract_type,
+            owner_name: formData.owner_name,
+            owner_email: formData.owner_email,
+            owner_phone: formData.owner_phone,
+            owner_address: formData.owner_address,
+            owner_id_number: formData.owner_id_number,
+            property_address: formData.property_address,
+            property_type: formData.property_type,
+            property_description: formData.property_description,
+            property_surface: formData.property_surface ? parseFloat(formData.property_surface) : null,
+            tenant_name: formData.tenant_name || null,
+            tenant_email: formData.tenant_email || null,
+            tenant_phone: formData.tenant_phone || null,
+            tenant_address: formData.tenant_address || null,
+            tenant_id_number: formData.tenant_id_number || null,
+            start_date: formData.start_date,
+            end_date: formData.end_date || null,
+            monthly_rent: parseFloat(formData.monthly_rent),
+            commission_rate: parseFloat(formData.commission_rate),
+            security_deposit: formData.security_deposit ? parseFloat(formData.security_deposit) : null,
+            special_conditions: formData.special_conditions || null,
+            status: 'draft',
+          })
+          .select()
+          .single();
+
+        if (insertError) throw insertError;
+
+        // Generate PDF
+        const { error: pdfError } = await supabase.functions.invoke('generate-contract-pdf', {
+          body: { contractId: contract.id },
+        });
+
+        if (pdfError) throw pdfError;
+
+        toast({
+          title: "Succès",
+          description: "Le contrat a été créé avec succès",
+        });
+      }
 
       setIsDialogOpen(false);
+      setEditingContract(null);
       loadContracts();
       resetForm();
     } catch (error) {
-      console.error('Error creating contract:', error);
+      console.error('Error creating/updating contract:', error);
       toast({
         title: "Erreur",
-        description: "Impossible de créer le contrat",
+        description: editingContract ? "Impossible de modifier le contrat" : "Impossible de créer le contrat",
         variant: "destructive",
       });
     } finally {
@@ -251,6 +297,53 @@ export const AdminContractsManager = () => {
     }
   };
 
+  const handleEdit = async (contract: Contract) => {
+    try {
+      // Load full contract data
+      const { data, error } = await supabase
+        .from('property_contracts')
+        .select('*')
+        .eq('id', contract.id)
+        .single();
+
+      if (error) throw error;
+
+      setFormData({
+        contract_type: data.contract_type as 'mandat_gestion' | 'contrat_location',
+        owner_name: data.owner_name,
+        owner_email: data.owner_email,
+        owner_phone: data.owner_phone || '',
+        owner_address: data.owner_address,
+        owner_id_number: data.owner_id_number || '',
+        property_address: data.property_address,
+        property_type: data.property_type,
+        property_description: data.property_description || '',
+        property_surface: data.property_surface?.toString() || '',
+        tenant_name: data.tenant_name || '',
+        tenant_email: data.tenant_email || '',
+        tenant_phone: data.tenant_phone || '',
+        tenant_address: data.tenant_address || '',
+        tenant_id_number: data.tenant_id_number || '',
+        start_date: data.start_date,
+        end_date: data.end_date || '',
+        monthly_rent: data.monthly_rent.toString(),
+        commission_rate: data.commission_rate?.toString() || '10',
+        security_deposit: data.security_deposit?.toString() || '',
+        special_conditions: data.special_conditions || '',
+      });
+
+      setEditingContract(contract.id);
+      setIsDialogOpen(true);
+    } catch (error) {
+      console.error('Error loading contract:', error);
+      toast({
+        title: "Erreur",
+        description: "Impossible de charger le contrat",
+        variant: "destructive",
+      });
+    }
+  };
+
   const resetForm = () => {
     setFormData({
       contract_type: 'mandat_gestion',
@@ -275,6 +368,7 @@ export const AdminContractsManager = () => {
       security_deposit: '',
       special_conditions: '',
     });
+    setEditingContract(null);
   };
 
   const getStatusBadge = (status: string) => {
@@ -301,7 +395,12 @@ export const AdminContractsManager = () => {
           <FileText className="h-5 w-5" />
           Gestion des Contrats
         </CardTitle>
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <Dialog open={isDialogOpen} onOpenChange={(open) => {
+          setIsDialogOpen(open);
+          if (!open) {
+            resetForm();
+          }
+        }}>
           <DialogTrigger asChild>
             <Button className="gap-2">
               <Plus className="h-4 w-4" />
@@ -310,7 +409,9 @@ export const AdminContractsManager = () => {
           </DialogTrigger>
           <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle>Créer un Nouveau Contrat</DialogTitle>
+              <DialogTitle>
+                {editingContract ? 'Modifier le Contrat' : 'Créer un Nouveau Contrat'}
+              </DialogTitle>
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Contract Type */}
@@ -553,14 +654,17 @@ export const AdminContractsManager = () => {
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={() => setIsDialogOpen(false)}
+                  onClick={() => {
+                    setIsDialogOpen(false);
+                    resetForm();
+                  }}
                   disabled={generating}
                 >
                   Annuler
                 </Button>
                 <Button type="submit" disabled={generating}>
                   {generating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  Créer et Générer le PDF
+                  {editingContract ? 'Modifier et Régénérer le PDF' : 'Créer et Générer le PDF'}
                 </Button>
               </div>
             </form>
@@ -610,13 +714,21 @@ export const AdminContractsManager = () => {
                       <Button
                         variant="outline"
                         size="sm"
+                        onClick={() => handleEdit(contract)}
+                        title="Modifier le contrat"
+                      >
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
                         onClick={() => downloadContractPDF(contract.id)}
                         title="Télécharger le PDF"
                       >
                         <Download className="h-4 w-4" />
                       </Button>
                       <Button
-                        variant="outline"
+                        variant="destructive"
                         size="sm"
                         onClick={() => handleDelete(contract.id)}
                         title="Supprimer le contrat"
