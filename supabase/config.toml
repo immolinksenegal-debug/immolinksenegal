@@ -17,3 +17,6 @@ verify_jwt = false
 
 [functions.generate-article]
 verify_jwt = true
+
+[functions.generate-contract-pdf]
+verify_jwt = true

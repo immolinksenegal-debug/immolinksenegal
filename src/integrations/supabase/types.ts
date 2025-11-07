@@ -430,6 +430,99 @@ export type Database = {
         }
         Relationships: []
       }
+      property_contracts: {
+        Row: {
+          commission_rate: number | null
+          contract_type: string
+          created_at: string
+          end_date: string | null
+          id: string
+          monthly_rent: number
+          owner_address: string
+          owner_email: string
+          owner_id_number: string | null
+          owner_name: string
+          owner_phone: string | null
+          pdf_url: string | null
+          property_address: string
+          property_description: string | null
+          property_id: string | null
+          property_surface: number | null
+          property_type: string
+          security_deposit: number | null
+          special_conditions: string | null
+          start_date: string
+          status: string
+          tenant_address: string | null
+          tenant_email: string | null
+          tenant_id_number: string | null
+          tenant_name: string | null
+          tenant_phone: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          commission_rate?: number | null
+          contract_type: string
+          created_at?: string
+          end_date?: string | null
+          id?: string
+          monthly_rent: number
+          owner_address: string
+          owner_email: string
+          owner_id_number?: string | null
+          owner_name: string
+          owner_phone?: string | null
+          pdf_url?: string | null
+          property_address: string
+          property_description?: string | null
+          property_id?: string | null
+          property_surface?: number | null
+          property_type: string
+          security_deposit?: number | null
+          special_conditions?: string | null
+          start_date: string
+          status?: string
+          tenant_address?: string | null
+          tenant_email?: string | null
+          tenant_id_number?: string | null
+          tenant_name?: string | null
+          tenant_phone?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          commission_rate?: number | null
+          contract_type?: string
+          created_at?: string
+          end_date?: string | null
+          id?: string
+          monthly_rent?: number
+          owner_address?: string
+          owner_email?: string
+          owner_id_number?: string | null
+          owner_name?: string
+          owner_phone?: string | null
+          pdf_url?: string | null
+          property_address?: string
+          property_description?: string | null
+          property_id?: string | null
+          property_surface?: number | null
+          property_type?: string
+          security_deposit?: number | null
+          special_conditions?: string | null
+          start_date?: string
+          status?: string
+          tenant_address?: string | null
+          tenant_email?: string | null
+          tenant_id_number?: string | null
+          tenant_name?: string | null
+          tenant_phone?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       reports: {
         Row: {
           article_id: string | null

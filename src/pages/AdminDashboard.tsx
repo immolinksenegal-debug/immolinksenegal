@@ -23,6 +23,7 @@ import { AdminArticlesManager } from "@/components/admin/AdminArticlesManager";
 import { AdminCommentsManager } from "@/components/admin/AdminCommentsManager";
 import { AdminSiteSettings } from "@/components/admin/AdminSiteSettings";
 import AdminContactMessages from "@/components/admin/AdminContactMessages";
+import { AdminContractsManager } from "@/components/admin/AdminContractsManager";
 
 interface Stats {
   totalProperties: number;
@@ -300,6 +301,13 @@ const AdminDashboard = () => {
                 Messages
               </TabsTrigger>
               <TabsTrigger
+                value="contracts"
+                className="data-[state=active]:bg-secondary data-[state=active]:text-white transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
+              >
+                <FileText className="h-3 w-3 xs:h-4 xs:w-4 mr-1 xs:mr-2" />
+                Contrats
+              </TabsTrigger>
+              <TabsTrigger
                 value="settings"
                 className="data-[state=active]:bg-secondary data-[state=active]:text-white transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
               >
@@ -322,6 +330,10 @@ const AdminDashboard = () => {
 
             <TabsContent value="contact">
               <AdminContactMessages />
+            </TabsContent>
+
+            <TabsContent value="contracts">
+              <AdminContractsManager />
             </TabsContent>
 
             <TabsContent value="settings">
