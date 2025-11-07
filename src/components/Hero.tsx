@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, MapPin, Home, DollarSign } from "lucide-react";
-import heroImage from "@/assets/banner-villas-senegal.jpg";
+import heroImage from "@/assets/hero-immobilier-senegal.jpg";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
