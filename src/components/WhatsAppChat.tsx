@@ -74,15 +74,31 @@ const WhatsAppChat = ({ phoneNumber, propertyTitle, propertyId }: WhatsAppChatPr
     }, 1000);
   };
 
+  // Sanitize inputs for URL construction
+  const sanitizeForUrl = (text: string, maxLength: number = 100): string => {
+    return text
+      .trim()
+      .replace(/[^a-zA-Z0-9\sÀ-ÿ-]/g, '') // Keep alphanumeric, spaces, and accented characters
+      .substring(0, maxLength);
+  };
+
+  const isValidUUID = (uuid: string): boolean => {
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    return uuidRegex.test(uuid);
+  };
+
   const openWhatsApp = () => {
     const cleanPhone = phoneNumber.replace(/\s/g, "");
     let defaultMessage = `Bonjour, je suis intéressé(e) par votre bien`;
     
-    if (propertyTitle) {
-      defaultMessage += `: ${propertyTitle}`;
+    if (propertyTitle && propertyTitle.trim()) {
+      const safeTitle = sanitizeForUrl(propertyTitle, 100);
+      if (safeTitle) {
+        defaultMessage += `: ${safeTitle}`;
+      }
     }
     
-    if (propertyId) {
+    if (propertyId && isValidUUID(propertyId)) {
       defaultMessage += ` (Réf: ${propertyId})`;
     }
 
