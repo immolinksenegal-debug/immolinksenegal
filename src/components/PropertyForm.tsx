@@ -12,7 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Upload, X, Loader2, MapPin } from "lucide-react";
 import imageCompression from 'browser-image-compression';
-import { Geolocation } from '@capacitor/geolocation';
+import { InteractiveLocationPicker } from "./InteractiveLocationPicker";
 
 const propertySchema = z.object({
   title: z.string()
@@ -86,7 +86,6 @@ const PropertyForm = ({ onSuccess, initialData }: PropertyFormProps) => {
   const [existingImages, setExistingImages] = useState<string[]>([]);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [isCompressing, setIsCompressing] = useState(false);
-  const [isGettingLocation, setIsGettingLocation] = useState(false);
   const [latitude, setLatitude] = useState<number | undefined>(initialData?.latitude || undefined);
   const [longitude, setLongitude] = useState<number | undefined>(initialData?.longitude || undefined);
   const isEditing = !!initialData;
@@ -230,50 +229,6 @@ const PropertyForm = ({ onSuccess, initialData }: PropertyFormProps) => {
 
   const removeExistingImage = (index: number) => {
     setExistingImages((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  const getCurrentLocation = async () => {
-    setIsGettingLocation(true);
-    try {
-      // Demander la permission
-      const permission = await Geolocation.checkPermissions();
-      
-      if (permission.location !== 'granted') {
-        const requestPermission = await Geolocation.requestPermissions();
-        if (requestPermission.location !== 'granted') {
-          toast({
-            title: "Permission refusée",
-            description: "L'accès à la localisation a été refusé",
-            variant: "destructive",
-          });
-          return;
-        }
-      }
-
-      // Obtenir la position
-      const position = await Geolocation.getCurrentPosition({
-        enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 0
-      });
-
-      setLatitude(position.coords.latitude);
-      setLongitude(position.coords.longitude);
-
-      toast({
-        title: "Position récupérée",
-        description: `Lat: ${position.coords.latitude.toFixed(6)}, Long: ${position.coords.longitude.toFixed(6)}`,
-      });
-    } catch (error) {
-      console.error('Erreur de géolocalisation:', error);
-      toast({
-        title: "Erreur",
-        description: "Impossible de récupérer votre position. Vérifiez que la localisation est activée.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsGettingLocation(false);
-    }
   };
 
   const onSubmit = async (data: PropertyFormData) => {
@@ -740,46 +695,14 @@ const PropertyForm = ({ onSuccess, initialData }: PropertyFormProps) => {
             )}
           </div>
 
-          <div className="border-t border-border pt-6 mt-6">
-            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <MapPin className="h-5 w-5" />
-              Localisation GPS
-            </h3>
-            <p className="text-sm text-muted-foreground mb-4">
-              Ajoutez la position GPS de votre bien pour une meilleure visibilité
-            </p>
-            
-            <div className="flex flex-col gap-4">
-              <Button
-                type="button"
-                onClick={getCurrentLocation}
-                disabled={isGettingLocation}
-                variant="outline"
-                className="w-full sm:w-auto"
-              >
-                {isGettingLocation ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Récupération de la position...
-                  </>
-                ) : (
-                  <>
-                    <MapPin className="mr-2 h-4 w-4" />
-                    Utiliser ma position actuelle
-                  </>
-                )}
-              </Button>
-
-              {latitude && longitude && (
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <MapPin className="h-4 w-4 text-primary" />
-                  <span>
-                    Position enregistrée: {latitude.toFixed(6)}, {longitude.toFixed(6)}
-                  </span>
-                </div>
-              )}
-            </div>
-          </div>
+          <InteractiveLocationPicker
+            latitude={latitude}
+            longitude={longitude}
+            onLocationChange={(lat, lng) => {
+              setLatitude(lat);
+              setLongitude(lng);
+            }}
+          />
 
           <div className="flex gap-4">
             <Button
