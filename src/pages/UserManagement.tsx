@@ -88,7 +88,9 @@ const UserManagement = () => {
       setIsAdmin(true);
       loadUsers();
     } catch (error) {
-      console.error('Error checking admin status:', error);
+      if (import.meta.env.DEV) {
+        console.error('Error checking admin status:', error);
+      }
       navigate('/dashboard');
     }
   };
@@ -144,7 +146,9 @@ const UserManagement = () => {
       });
 
     } catch (error) {
-      console.error('Error loading users:', error);
+      if (import.meta.env.DEV) {
+        console.error('Error loading users:', error);
+      }
       toast({
         title: "Erreur",
         description: "Impossible de charger les utilisateurs",
@@ -171,7 +175,9 @@ const UserManagement = () => {
 
       loadUsers();
     } catch (error) {
-      console.error('Error toggling ban status:', error);
+      if (import.meta.env.DEV) {
+        console.error('Error toggling ban status:', error);
+      }
       toast({
         title: "Erreur",
         description: "Impossible de modifier le statut de l'utilisateur",
@@ -228,7 +234,9 @@ const UserManagement = () => {
       setSelectedRole("");
       loadUsers();
     } catch (error) {
-      console.error('Error changing role:', error);
+      if (import.meta.env.DEV) {
+        console.error('Error changing role:', error);
+      }
       toast({
         title: "Erreur",
         description: "Impossible de modifier le rôle",

@@ -53,7 +53,9 @@ export const SecuritySettings = () => {
       
       setTimeout(() => setShowSuccess(false), 5000);
     } catch (error: any) {
-      console.error('Error updating password:', error);
+      if (import.meta.env.DEV) {
+        console.error('Error updating password:', error);
+      }
       toast.error(error.message || "Impossible de mettre à jour le mot de passe");
     } finally {
       setIsLoading(false);
@@ -68,7 +70,9 @@ export const SecuritySettings = () => {
       toast.success("Déconnexion réussie");
       navigate("/");
     } catch (error) {
-      console.error('Error logging out:', error);
+      if (import.meta.env.DEV) {
+        console.error('Error logging out:', error);
+      }
       toast.error("Erreur lors de la déconnexion");
     }
   };

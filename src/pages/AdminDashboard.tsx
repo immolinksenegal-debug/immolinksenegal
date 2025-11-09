@@ -91,7 +91,9 @@ const AdminDashboard = () => {
       setIsAdmin(true);
       loadStats();
     } catch (error) {
-      console.error('Error checking admin status:', error);
+      if (import.meta.env.DEV) {
+        console.error('Error checking admin status:', error);
+      }
       navigate('/dashboard');
     }
   };
@@ -165,7 +167,9 @@ const AdminDashboard = () => {
       });
 
     } catch (error) {
-      console.error('Error loading stats:', error);
+      if (import.meta.env.DEV) {
+        console.error('Error loading stats:', error);
+      }
       toast({
         title: "Erreur",
         description: "Impossible de charger les statistiques",
