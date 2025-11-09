@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/sheet";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import ShareButtons from "@/components/ShareButtons";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -119,11 +118,6 @@ const Navbar = () => {
                 </Button>
               </Link>
             ))}
-            <ShareButtons 
-              title="Immo Link Sénégal - Plateforme Immobilière"
-              description="Découvrez la meilleure plateforme immobilière au Sénégal pour acheter, vendre et louer des biens immobiliers."
-              url={window.location.origin}
-            />
             {user ? (
               <Button 
                 onClick={handleLogout}
@@ -166,13 +160,6 @@ const Navbar = () => {
                     </Button>
                   </Link>
                 ))}
-                <div className="w-full">
-                  <ShareButtons 
-                    title="Immo Link Sénégal - Plateforme Immobilière"
-                    description="Découvrez la meilleure plateforme immobilière au Sénégal pour acheter, vendre et louer des biens immobiliers."
-                    url={window.location.origin}
-                  />
-                </div>
                 {user ? (
                   <Button 
                     onClick={handleLogout}

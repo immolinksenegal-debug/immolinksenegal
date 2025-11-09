@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from "lucide-react";
 import logo from "@/assets/logo-immo-link-main.png";
+import ShareButtons from "@/components/ShareButtons";
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const footerLinks = {
@@ -133,8 +134,13 @@ const Footer = () => {
               © {currentYear} Immo Link Sénégal. Tous droits réservés.
             </p>
             
-            {/* Social Links */}
+            {/* Social Links & Share */}
             <div className="flex items-center justify-center gap-3 xs:gap-4">
+              <ShareButtons 
+                title="Immo Link Sénégal - Plateforme Immobilière"
+                description="Découvrez la meilleure plateforme immobilière au Sénégal pour acheter, vendre et louer des biens immobiliers."
+                url={window.location.origin}
+              />
               {socialLinks.map(social => {
               const Icon = social.icon;
               return <a key={social.label} href={social.href} target="_blank" rel="noopener noreferrer" className="w-9 h-9 xs:w-10 xs:h-10 rounded-full bg-primary-foreground/10 hover:bg-secondary flex items-center justify-center transition-smooth group" aria-label={social.label}>
