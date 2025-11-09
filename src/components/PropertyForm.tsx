@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Upload, X, Loader2 } from "lucide-react";
+import imageCompression from 'browser-image-compression';
 
 const propertySchema = z.object({
   title: z.string()
@@ -83,6 +84,7 @@ const PropertyForm = ({ onSuccess, initialData }: PropertyFormProps) => {
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [existingImages, setExistingImages] = useState<string[]>([]);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [isCompressing, setIsCompressing] = useState(false);
   const isEditing = !!initialData;
 
   const { register, handleSubmit, formState: { errors }, setValue, reset } = useForm<PropertyFormData>({
@@ -129,9 +131,9 @@ const PropertyForm = ({ onSuccess, initialData }: PropertyFormProps) => {
     }
   }, [initialData, reset]);
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
-    if (files.length + images.length > 5) {
+    if (files.length + images.length + existingImages.length > 5) {
       toast({
         title: "Trop d'images",
         description: "Vous pouvez télécharger jusqu'à 5 images maximum",
@@ -140,14 +142,81 @@ const PropertyForm = ({ onSuccess, initialData }: PropertyFormProps) => {
       return;
     }
 
-    setImages((prev) => [...prev, ...files]);
-    files.forEach((file) => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreviews((prev) => [...prev, reader.result as string]);
+    setIsCompressing(true);
+    
+    try {
+      const compressionOptions = {
+        maxSizeMB: 1, // Taille maximale de 1 MB
+        maxWidthOrHeight: 1920, // Résolution maximale
+        useWebWorker: true,
+        fileType: 'image/jpeg' as const,
+        initialQuality: 0.85,
       };
-      reader.readAsDataURL(file);
-    });
+
+      const compressedFiles: File[] = [];
+      const previews: string[] = [];
+
+      for (const file of files) {
+        try {
+          // Compresser l'image
+          const compressedFile = await imageCompression(file, compressionOptions);
+          
+          // Créer un nouveau fichier avec un nom approprié
+          const newFile = new File(
+            [compressedFile], 
+            file.name.replace(/\.\w+$/, '.jpg'),
+            { type: 'image/jpeg' }
+          );
+          
+          compressedFiles.push(newFile);
+
+          // Générer l'aperçu
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            previews.push(reader.result as string);
+            if (previews.length === files.length) {
+              setImagePreviews((prev) => [...prev, ...previews]);
+            }
+          };
+          reader.readAsDataURL(compressedFile);
+        } catch (error) {
+          console.error('Erreur lors de la compression:', error);
+          // En cas d'erreur, utiliser le fichier original
+          compressedFiles.push(file);
+          
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            previews.push(reader.result as string);
+            if (previews.length === files.length) {
+              setImagePreviews((prev) => [...prev, ...previews]);
+            }
+          };
+          reader.readAsDataURL(file);
+        }
+      }
+
+      setImages((prev) => [...prev, ...compressedFiles]);
+
+      const totalSize = compressedFiles.reduce((sum, file) => sum + file.size, 0);
+      const originalSize = files.reduce((sum, file) => sum + file.size, 0);
+      const savedPercentage = Math.round(((originalSize - totalSize) / originalSize) * 100);
+
+      toast({
+        title: "Images compressées avec succès",
+        description: `Économie d'espace : ${savedPercentage}% (${(originalSize / 1024 / 1024).toFixed(2)} MB → ${(totalSize / 1024 / 1024).toFixed(2)} MB)`,
+      });
+    } catch (error) {
+      console.error('Erreur lors de la compression des images:', error);
+      toast({
+        title: "Erreur",
+        description: "Une erreur est survenue lors de la compression des images",
+        variant: "destructive",
+      });
+    } finally {
+      setIsCompressing(false);
+      // Réinitialiser l'input pour permettre de sélectionner à nouveau les mêmes fichiers
+      e.target.value = '';
+    }
   };
 
   const removeImage = (index: number) => {
@@ -476,30 +545,43 @@ const PropertyForm = ({ onSuccess, initialData }: PropertyFormProps) => {
               {/* Bouton Prendre une photo */}
               <label
                 htmlFor="camera-input"
-                className="flex flex-col items-center justify-center h-32 border-2 border-dashed border-border rounded-lg cursor-pointer hover:bg-accent/50 transition-colors"
+                className={`flex flex-col items-center justify-center h-32 border-2 border-dashed border-border rounded-lg transition-colors ${
+                  isCompressing ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:bg-accent/50'
+                }`}
               >
-                <svg 
-                  className="h-8 w-8 text-muted-foreground mb-2" 
-                  fill="none" 
-                  viewBox="0 0 24 24" 
-                  stroke="currentColor"
-                >
-                  <path 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round" 
-                    strokeWidth={2} 
-                    d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" 
-                  />
-                  <path 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round" 
-                    strokeWidth={2} 
-                    d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" 
-                  />
-                </svg>
-                <span className="text-sm text-muted-foreground text-center px-2">
-                  Prendre une photo
-                </span>
+                {isCompressing ? (
+                  <>
+                    <Loader2 className="h-8 w-8 text-primary mb-2 animate-spin" />
+                    <span className="text-sm text-muted-foreground text-center px-2">
+                      Compression en cours...
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <svg 
+                      className="h-8 w-8 text-muted-foreground mb-2" 
+                      fill="none" 
+                      viewBox="0 0 24 24" 
+                      stroke="currentColor"
+                    >
+                      <path 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round" 
+                        strokeWidth={2} 
+                        d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" 
+                      />
+                      <path 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round" 
+                        strokeWidth={2} 
+                        d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" 
+                      />
+                    </svg>
+                    <span className="text-sm text-muted-foreground text-center px-2">
+                      Prendre une photo
+                    </span>
+                  </>
+                )}
                 <input
                   id="camera-input"
                   type="file"
@@ -508,18 +590,32 @@ const PropertyForm = ({ onSuccess, initialData }: PropertyFormProps) => {
                   multiple
                   onChange={handleImageChange}
                   className="hidden"
+                  disabled={isCompressing}
                 />
               </label>
 
               {/* Bouton Choisir depuis la galerie */}
               <label
                 htmlFor="gallery-input"
-                className="flex flex-col items-center justify-center h-32 border-2 border-dashed border-border rounded-lg cursor-pointer hover:bg-accent/50 transition-colors"
+                className={`flex flex-col items-center justify-center h-32 border-2 border-dashed border-border rounded-lg transition-colors ${
+                  isCompressing ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:bg-accent/50'
+                }`}
               >
-                <Upload className="h-8 w-8 text-muted-foreground mb-2" />
-                <span className="text-sm text-muted-foreground text-center px-2">
-                  Choisir depuis la galerie
-                </span>
+                {isCompressing ? (
+                  <>
+                    <Loader2 className="h-8 w-8 text-primary mb-2 animate-spin" />
+                    <span className="text-sm text-muted-foreground text-center px-2">
+                      Compression en cours...
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <Upload className="h-8 w-8 text-muted-foreground mb-2" />
+                    <span className="text-sm text-muted-foreground text-center px-2">
+                      Choisir depuis la galerie
+                    </span>
+                  </>
+                )}
                 <input
                   id="gallery-input"
                   type="file"
@@ -527,13 +623,21 @@ const PropertyForm = ({ onSuccess, initialData }: PropertyFormProps) => {
                   multiple
                   onChange={handleImageChange}
                   className="hidden"
+                  disabled={isCompressing}
                 />
               </label>
             </div>
             
-            <p className="text-xs text-muted-foreground mt-2">
-              {images.length + existingImages.length}/5 photos ajoutées
-            </p>
+            <div className="flex justify-between items-center mt-2">
+              <p className="text-xs text-muted-foreground">
+                {images.length + existingImages.length}/5 photos ajoutées
+              </p>
+              {images.length + existingImages.length > 0 && (
+                <p className="text-xs text-muted-foreground italic">
+                  Les images sont automatiquement optimisées
+                </p>
+              )}
+            </div>
 
             {existingImages.length > 0 && (
               <div className="mt-4">
