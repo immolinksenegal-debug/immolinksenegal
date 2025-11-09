@@ -12,13 +12,23 @@ import logoAuth from "@/assets/logo-immo-link-main.png";
 
 const loginSchema = z.object({
   email: z.string().trim().email({ message: "Email invalide" }),
-  password: z.string().min(6, { message: "Le mot de passe doit contenir au moins 6 caractères" }),
+  password: z.string()
+    .min(8, { message: "Le mot de passe doit contenir au moins 8 caractères" })
+    .max(72)
+    .regex(/[A-Z]/, { message: "Le mot de passe doit contenir au moins une majuscule" })
+    .regex(/[a-z]/, { message: "Le mot de passe doit contenir au moins une minuscule" })
+    .regex(/[0-9]/, { message: "Le mot de passe doit contenir au moins un chiffre" }),
 });
 
 const signupSchema = z.object({
   name: z.string().trim().min(2, { message: "Le nom doit contenir au moins 2 caractères" }).max(100),
   email: z.string().trim().email({ message: "Email invalide" }),
-  password: z.string().min(6, { message: "Le mot de passe doit contenir au moins 6 caractères" }),
+  password: z.string()
+    .min(8, { message: "Le mot de passe doit contenir au moins 8 caractères" })
+    .max(72)
+    .regex(/[A-Z]/, { message: "Le mot de passe doit contenir au moins une majuscule" })
+    .regex(/[a-z]/, { message: "Le mot de passe doit contenir au moins une minuscule" })
+    .regex(/[0-9]/, { message: "Le mot de passe doit contenir au moins un chiffre" }),
 });
 
 const Auth = () => {
@@ -41,7 +51,9 @@ const Auth = () => {
     const checkSession = async () => {
       const { data: { session }, error } = await supabase.auth.getSession();
       if (error) {
-        console.error('Session error:', error);
+        if (import.meta.env.DEV) {
+          console.error('Session error:', error);
+        }
         // Nettoyer la session invalide
         await supabase.auth.signOut();
       } else if (session) {
@@ -307,10 +319,13 @@ const Auth = () => {
                   </div>
                 </div>
 
-                <div className="space-y-2">
+                 <div className="space-y-2">
                   <Label htmlFor="signup-password" className="text-white">
                     Mot de passe
                   </Label>
+                  <p className="text-xs text-white/70">
+                    Min. 8 caractères avec majuscule, minuscule et chiffre
+                  </p>
                   <div className="relative">
                     <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                     <Input
