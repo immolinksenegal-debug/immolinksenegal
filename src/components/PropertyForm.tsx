@@ -472,17 +472,56 @@ const PropertyForm = ({ onSuccess, initialData }: PropertyFormProps) => {
 
           <div>
             <Label>Photos (Maximum 5)</Label>
-            <div className="mt-2">
+            <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {/* Bouton Prendre une photo */}
               <label
-                htmlFor="images"
-                className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-border rounded-lg cursor-pointer hover:bg-accent/50 transition-colors"
+                htmlFor="camera-input"
+                className="flex flex-col items-center justify-center h-32 border-2 border-dashed border-border rounded-lg cursor-pointer hover:bg-accent/50 transition-colors"
               >
-                <Upload className="h-8 w-8 text-muted-foreground mb-2" />
-                <span className="text-sm text-muted-foreground">
-                  Cliquez pour télécharger des images
+                <svg 
+                  className="h-8 w-8 text-muted-foreground mb-2" 
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke="currentColor"
+                >
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth={2} 
+                    d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" 
+                  />
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth={2} 
+                    d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" 
+                  />
+                </svg>
+                <span className="text-sm text-muted-foreground text-center px-2">
+                  Prendre une photo
                 </span>
                 <input
-                  id="images"
+                  id="camera-input"
+                  type="file"
+                  accept="image/*"
+                  capture="environment"
+                  multiple
+                  onChange={handleImageChange}
+                  className="hidden"
+                />
+              </label>
+
+              {/* Bouton Choisir depuis la galerie */}
+              <label
+                htmlFor="gallery-input"
+                className="flex flex-col items-center justify-center h-32 border-2 border-dashed border-border rounded-lg cursor-pointer hover:bg-accent/50 transition-colors"
+              >
+                <Upload className="h-8 w-8 text-muted-foreground mb-2" />
+                <span className="text-sm text-muted-foreground text-center px-2">
+                  Choisir depuis la galerie
+                </span>
+                <input
+                  id="gallery-input"
                   type="file"
                   accept="image/*"
                   multiple
@@ -491,22 +530,27 @@ const PropertyForm = ({ onSuccess, initialData }: PropertyFormProps) => {
                 />
               </label>
             </div>
+            
+            <p className="text-xs text-muted-foreground mt-2">
+              {images.length + existingImages.length}/5 photos ajoutées
+            </p>
 
             {existingImages.length > 0 && (
-              <div className="mb-4">
-                <Label className="mb-2">Images actuelles</Label>
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+              <div className="mt-4">
+                <Label className="mb-2 block">Images actuelles</Label>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
                   {existingImages.map((url, index) => (
-                    <div key={index} className="relative group">
+                    <div key={index} className="relative group aspect-square">
                       <img
                         src={url}
                         alt={`Existing ${index + 1}`}
-                        className="w-full h-24 object-cover rounded-lg"
+                        className="w-full h-full object-cover rounded-lg"
                       />
                       <button
                         type="button"
                         onClick={() => removeExistingImage(index)}
-                        className="absolute top-1 right-1 bg-destructive text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                        className="absolute top-1 right-1 bg-destructive text-white rounded-full p-1.5 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+                        aria-label="Supprimer l'image"
                       >
                         <X className="h-4 w-4" />
                       </button>
@@ -517,23 +561,27 @@ const PropertyForm = ({ onSuccess, initialData }: PropertyFormProps) => {
             )}
 
             {imagePreviews.length > 0 && (
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mt-4">
-                {imagePreviews.map((preview, index) => (
-                  <div key={index} className="relative group">
-                    <img
-                      src={preview}
-                      alt={`Preview ${index + 1}`}
-                      className="w-full h-24 object-cover rounded-lg"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => removeImage(index)}
-                      className="absolute top-1 right-1 bg-destructive text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                    >
-                      <X className="h-4 w-4" />
-                    </button>
-                  </div>
-                ))}
+              <div className="mt-4">
+                <Label className="mb-2 block">Nouvelles photos</Label>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                  {imagePreviews.map((preview, index) => (
+                    <div key={index} className="relative group aspect-square">
+                      <img
+                        src={preview}
+                        alt={`Preview ${index + 1}`}
+                        className="w-full h-full object-cover rounded-lg"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeImage(index)}
+                        className="absolute top-1 right-1 bg-destructive text-white rounded-full p-1.5 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+                        aria-label="Supprimer la photo"
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
           </div>
