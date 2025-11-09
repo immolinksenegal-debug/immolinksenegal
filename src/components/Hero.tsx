@@ -42,7 +42,7 @@ const Hero = () => {
               immobilières modernes
             </span>
           </h1>
-          <p className="text-base xs:text-lg md:text-xl font-light mb-8 xs:mb-10 max-w-2xl mx-auto px-4 text-neutral-950 my-[15px]">
+          <p className="text-base xs:text-lg mb-8 xs:mb-10 max-w-2xl mx-auto px-4 text-neutral-950 my-[15px] font-medium md:text-sm text-center">
             Votre partenaire de confiance pour vendre, louer ou estimer votre bien
           </p>
 
