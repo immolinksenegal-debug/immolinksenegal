@@ -67,6 +67,13 @@ export default {
         sans: ['Inter', 'Poppins', 'system-ui', 'sans-serif'],
         inter: ['Inter', 'sans-serif'],
         poppins: ['Poppins', 'sans-serif'],
+        futuristic: ['Orbitron', 'Inter', 'sans-serif'],
+      },
+      colors: {
+        tertiary: {
+          DEFAULT: "hsl(var(--tertiary))",
+          foreground: "hsl(var(--tertiary-foreground))",
+        },
       },
       keyframes: {
         "accordion-down": {
