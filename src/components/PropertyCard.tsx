@@ -40,20 +40,20 @@ const PropertyCard = ({
 }: PropertyCardProps) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [imageError, setImageError] = useState(false);
-  return <Card className="group overflow-hidden hover-lift bg-card shadow-card border-border/50 rounded-2xl">
+  return <Card className="group overflow-hidden hover-lift bg-card shadow-card border-primary/10 hover:border-primary/30 rounded-2xl transition-all duration-500">
       <div className="relative overflow-hidden aspect-[4/3] bg-muted">
         <img src={imageError ? '/placeholder.svg' : image || '/placeholder.svg'} alt={title} className="w-full h-full object-cover transition-smooth group-hover:scale-110" onError={e => {
         setImageError(true);
         e.currentTarget.src = '/placeholder.svg';
       }} loading="lazy" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-smooth"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-smooth"></div>
         
         {/* Badges */}
         <div className="absolute top-4 left-4 flex gap-2 flex-wrap">
           <Badge className="bg-primary text-primary-foreground font-semibold shadow-soft">
             {type}
           </Badge>
-          {isPremium && <Badge className="bg-gradient-primary text-white font-semibold shadow-glow-secondary animate-pulse-glow">
+          {isPremium && <Badge className="bg-gradient-to-r from-accent to-primary text-accent-foreground font-semibold shadow-glow-accent animate-pulse">
               ⭐ Premium
             </Badge>}
           {featured && <Badge className="bg-accent text-accent-foreground font-semibold shadow-soft">
@@ -66,12 +66,12 @@ const PropertyCard = ({
 
         {/* Favorite Button */}
         <button onClick={() => setIsFavorite(!isFavorite)} className="absolute top-4 right-4 w-10 h-10 rounded-full glass-effect flex items-center justify-center transition-smooth hover:scale-110">
-          <Heart className={`h-5 w-5 transition-smooth ${isFavorite ? "fill-destructive text-destructive" : "text-white"}`} />
+          <Heart className={`h-5 w-5 transition-smooth ${isFavorite ? "fill-destructive text-destructive" : "text-foreground"}`} />
         </button>
       </div>
 
       <CardContent className="p-5">
-        <h3 className="text-xl font-semibold mb-2 line-clamp-1 transition-base text-green-600">
+        <h3 className="text-xl font-semibold mb-2 line-clamp-1 text-foreground group-hover:text-primary transition-all duration-300">
           {title}
         </h3>
         
@@ -110,14 +110,14 @@ const PropertyCard = ({
             </div>}
         </div>
 
-        <div className="text-2xl font-bold text-secondary">
+        <div className="text-2xl font-bold text-accent">
           {price} <span className="text-lg font-normal text-muted-foreground">FCFA</span>
         </div>
       </CardContent>
 
       <CardFooter className="p-5 pt-0">
         <Link to={`/property/${id}`} className="w-full">
-          <Button className="w-full hover:bg-primary-glow transition-smooth rounded-xl font-semibold text-lime-50 bg-amber-800 hover:bg-amber-700">
+          <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground transition-smooth rounded-xl font-semibold shadow-[0_0_15px_hsl(var(--primary)/0.3)] hover:shadow-[0_0_25px_hsl(var(--primary)/0.5)]">
             Voir les détails
           </Button>
         </Link>
