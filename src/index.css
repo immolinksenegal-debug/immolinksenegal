@@ -51,7 +51,8 @@
 
     /* Borders & Inputs */
     --border: 25 15% 22%;
-    --input: 25 15% 15%;
+    --input: 30 10% 92%;
+    --input-foreground: 0 0% 10%;
     --ring: 25 85% 55%;
 
     --radius: 1rem;
