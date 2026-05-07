@@ -1,6 +1,6 @@
 import PropertyCard from "./PropertyCard";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Flame } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -15,7 +15,6 @@ const FeaturedProperties = () => {
 
   const fetchPremiumProperties = async () => {
     try {
-      // Fetch premium properties first, then fill with recent active properties
       const { data: premiumData, error: premiumError } = await supabase
         .from('properties')
         .select('*')
@@ -28,7 +27,6 @@ const FeaturedProperties = () => {
 
       let allProperties = premiumData || [];
 
-      // If we have less than 6 premium properties, fill with recent active ones
       if (allProperties.length < 6) {
         const { data: recentData, error: recentError } = await supabase
           .from('properties')
@@ -71,8 +69,8 @@ const FeaturedProperties = () => {
 
   if (isLoading) {
     return (
-      <section className="py-12 xs:py-16 md:py-20 bg-gradient-subtle">
-        <div className="container mx-auto px-2 xs:px-4">
+      <section className="py-20 md:py-28">
+        <div className="container mx-auto px-4">
           <div className="text-center">
             <p className="text-muted-foreground">Chargement des annonces premium...</p>
           </div>
@@ -86,19 +84,29 @@ const FeaturedProperties = () => {
   }
 
   return (
-    <section className="py-12 xs:py-16 md:py-20 bg-gradient-subtle">
-      <div className="container mx-auto px-2 xs:px-4">
-        <div className="text-center mb-8 xs:mb-12 animate-fade-in-up flex flex-col items-center">
-          <h2 className="text-2xl xs:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 xs:mb-4 px-2">
+    <section className="py-20 md:py-28 relative overflow-hidden">
+      {/* Subtle background accents */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="text-center mb-14 flex flex-col items-center">
+          <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full bg-primary/10 border border-primary/20">
+            <Flame className="w-4 h-4 text-primary" />
+            <span className="text-sm font-semibold text-primary">Annonces en vedette</span>
+          </div>
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4">
             Nos meilleures{" "}
-            <span className="text-secondary">offres immobilières</span>
+            <span className="bg-gradient-to-r from-secondary to-accent bg-clip-text text-transparent">
+              offres
+            </span>
           </h2>
-          <p className="text-sm xs:text-base md:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
+          <p className="text-base md:text-lg text-muted-foreground max-w-xl mx-auto">
             Découvrez notre sélection de biens immobiliers récents et en vedette
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-6 md:gap-8 mb-8 xs:mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-14">
           {properties.map((property, index) => (
             <div
               key={property.id}
@@ -110,15 +118,14 @@ const FeaturedProperties = () => {
           ))}
         </div>
 
-        <div className="flex justify-center px-4">
-          <Link to="/properties" className="w-full xs:w-auto flex justify-center">
+        <div className="flex justify-center">
+          <Link to="/properties">
             <Button
               size="lg"
-              variant="outline"
-              className="w-full xs:w-auto border-2 border-secondary text-secondary hover:bg-secondary hover:text-white transition-smooth rounded-xl font-semibold shadow-soft text-sm xs:text-base px-4 xs:px-6 py-3"
+              className="bg-secondary hover:bg-secondary/90 text-secondary-foreground rounded-2xl font-semibold text-base px-8 py-6 shadow-lg hover:shadow-[0_0_30px_hsl(var(--secondary)/0.3)] transition-all duration-300 group"
             >
               Voir tous les biens
-              <ArrowRight className="ml-2 h-4 w-4 xs:h-5 xs:w-5" />
+              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </Button>
           </Link>
         </div>

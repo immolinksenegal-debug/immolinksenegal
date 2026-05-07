@@ -144,30 +144,6 @@
     font-weight: 700;
     letter-spacing: -0.025em;
   }
-  
-  h1 {
-    font-size: 3rem;
-    background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--accent)), hsl(var(--secondary)));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  @media (min-width: 768px) {
-    h1 {
-      font-size: 4.5rem;
-    }
-  }
-  
-  h2 {
-    font-size: 2.25rem;
-  }
-
-  @media (min-width: 768px) {
-    h2 {
-      font-size: 3rem;
-    }
-  }
 
   /* Scrollbar élégante */
   ::-webkit-scrollbar {
