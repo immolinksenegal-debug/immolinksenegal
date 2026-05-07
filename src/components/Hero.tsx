@@ -153,12 +153,12 @@ const Hero = () => {
             ].map((stat, index) => (
               <div 
                 key={index} 
-                className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-background/50 backdrop-blur-md border border-border/30 hover:border-primary/40 transition-all duration-300 group"
+                className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-background/80 backdrop-blur-md border border-border/30 hover:border-primary/40 transition-all duration-300 group"
               >
-                <span className="text-xl xs:text-2xl font-extrabold bg-gradient-to-br from-primary via-accent to-secondary bg-clip-text text-transparent">
+                <span className="text-xl xs:text-2xl font-extrabold text-accent">
                   {stat.value}
                 </span>
-                <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors">
+                <span className="text-xs font-medium text-foreground/70 group-hover:text-foreground transition-colors">
                   {stat.label}
                 </span>
               </div>
