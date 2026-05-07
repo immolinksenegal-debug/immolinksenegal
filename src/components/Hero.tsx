@@ -49,12 +49,14 @@ const Hero = () => {
             </span>
           </div>
 
-          <h1 className="text-3xl xs:text-4xl md:text-6xl lg:text-7xl font-black mb-6 leading-[1.15] px-2 tracking-tight" style={{ WebkitTextFillColor: 'initial' }}>
-            <span className="text-foreground drop-shadow-[0_4px_30px_rgba(0,0,0,0.5)]">Trouvez votre </span>
-            <span className="bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text drop-shadow-[0_4px_30px_rgba(0,0,0,0.5)]" style={{ WebkitTextFillColor: 'transparent' }}>
+          <div className="mb-6 px-2">
+            <h1 className="text-3xl xs:text-4xl md:text-6xl lg:text-7xl font-black leading-[1.15] tracking-tight text-foreground drop-shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
+              Trouvez votre
+            </h1>
+            <h1 className="text-3xl xs:text-4xl md:text-6xl lg:text-7xl font-black leading-[1.15] tracking-tight bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
               bien idéal
-            </span>
-          </h1>
+            </h1>
+          </div>
           
           <p className="text-lg xs:text-xl md:text-2xl mb-10 max-w-2xl mx-auto px-4 text-foreground/80 font-medium drop-shadow-lg">
             Gestion locative, vente et estimation — votre partenaire de confiance au Sénégal
