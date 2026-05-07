@@ -42,9 +42,9 @@ const Hero = () => {
       <div className="container mx-auto px-4 relative z-10 pt-24 pb-12">
         <div className="max-w-5xl mx-auto text-center flex flex-col items-center">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-5 py-2.5 mb-8 rounded-full bg-background/60 backdrop-blur-md border border-primary/30">
+          <div className="inline-flex items-center gap-2 px-5 py-2.5 mb-8 rounded-full bg-background/80 backdrop-blur-md border border-primary/30">
             <Sparkles className="w-4 h-4 text-primary animate-pulse" />
-            <span className="text-sm font-semibold bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
+            <span className="text-sm font-semibold text-primary">
               Plateforme immobilière N°1 au Sénégal
             </span>
           </div>
