@@ -49,9 +49,9 @@ const Hero = () => {
             </span>
           </div>
 
-          <h1 className="text-4xl xs:text-5xl md:text-7xl lg:text-8xl font-black mb-6 leading-[1.1] px-2 tracking-tight drop-shadow-[0_4px_30px_rgba(0,0,0,0.5)]" style={{ WebkitTextFillColor: 'initial' }}>
-            <span className="text-foreground">Trouvez votre</span>{" "}
-            <span className="bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text" style={{ WebkitTextFillColor: 'transparent' }}>
+          <h1 className="text-3xl xs:text-4xl md:text-6xl lg:text-7xl font-black mb-6 leading-[1.15] px-2 tracking-tight" style={{ WebkitTextFillColor: 'initial' }}>
+            <span className="text-foreground drop-shadow-[0_4px_30px_rgba(0,0,0,0.5)]">Trouvez votre </span>
+            <span className="bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text drop-shadow-[0_4px_30px_rgba(0,0,0,0.5)]" style={{ WebkitTextFillColor: 'transparent' }}>
               bien idéal
             </span>
           </h1>
