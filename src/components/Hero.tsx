@@ -50,10 +50,10 @@ const Hero = () => {
           </div>
 
           <div className="mb-6 px-2">
-            <h1 className="text-3xl xs:text-4xl md:text-6xl lg:text-7xl font-black leading-[1.15] tracking-tight text-foreground drop-shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
+            <h1 className="text-3xl xs:text-4xl md:text-6xl lg:text-7xl font-black leading-[1.15] tracking-tight text-white [text-shadow:_0_4px_30px_rgba(0,0,0,0.6)]">
               Trouvez votre
             </h1>
-            <h1 className="text-3xl xs:text-4xl md:text-6xl lg:text-7xl font-black leading-[1.15] tracking-tight bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
+            <h1 className="text-3xl xs:text-4xl md:text-6xl lg:text-7xl font-black leading-[1.15] tracking-tight text-accent [text-shadow:_0_4px_30px_rgba(0,0,0,0.6)]">
               bien idéal
             </h1>
           </div>
