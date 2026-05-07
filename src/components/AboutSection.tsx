@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Shield, TrendingUp, Users, Sparkles } from "lucide-react";
+import { Shield, TrendingUp, Users, Sparkles, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const AboutSection = () => {
@@ -8,63 +8,66 @@ const AboutSection = () => {
       icon: Shield,
       title: "Transactions sécurisées",
       description: "Vos données et transactions sont protégées avec les meilleurs standards de sécurité",
+      color: "primary" as const,
     },
     {
       icon: TrendingUp,
       title: "Croissance garantie",
       description: "Investissez dans l'immobilier sénégalais avec confiance et expertise",
+      color: "secondary" as const,
     },
     {
       icon: Users,
       title: "Communauté active",
       description: "Rejoignez des milliers d'utilisateurs satisfaits à travers tout le Sénégal",
+      color: "accent" as const,
     },
     {
       icon: Sparkles,
       title: "Expérience moderne",
       description: "Interface intuitive et fonctionnalités innovantes pour une recherche simplifiée",
+      color: "primary" as const,
     },
   ];
 
   return (
-    <section className="py-12 xs:py-16 md:py-20 bg-background">
-      <div className="container mx-auto px-2 xs:px-4">
+    <section className="py-20 md:py-28 relative overflow-hidden">
+      {/* Background accents */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/5 rounded-full blur-[150px] pointer-events-none"></div>
+
+      <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-10 xs:mb-16 animate-fade-in-up flex flex-col items-center">
-            <h2 className="text-2xl xs:text-3xl md:text-4xl font-bold text-foreground mb-3 xs:mb-4 px-2">
-              À propos d'{" "}
-              <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                Immo Link Sénégal
+          <div className="text-center mb-16 flex flex-col items-center">
+            <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
+              Pourquoi choisir{" "}
+              <span className="bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
+                Immo Link
               </span>
+              {" "}?
             </h2>
-            <p className="text-sm xs:text-base md:text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed px-4">
+            <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
               La plateforme immobilière nouvelle génération qui révolutionne la façon dont 
-              les Sénégalais trouvent, achètent et vendent leurs biens immobiliers. 
-              Une fusion parfaite entre technologie moderne et connaissance locale.
+              les Sénégalais trouvent, achètent et vendent leurs biens immobiliers.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xs:gap-6 md:gap-8 mb-8 xs:mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 mb-14">
             {features.map((feature, index) => {
               const Icon = feature.icon;
               return (
                 <div
                   key={index}
-                  className="group p-4 xs:p-6 rounded-2xl gradient-card shadow-card hover-lift border border-border/50 animate-scale-in flex flex-col items-center text-center md:text-left md:items-start"
-                  style={{ animationDelay: `${index * 0.1}s` }}
+                  className="group p-6 md:p-8 rounded-3xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/30 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.3)]"
                 >
-                  <div className="flex flex-col md:flex-row items-center md:items-start gap-4 w-full">
-                    <div className="relative flex-shrink-0">
-                      <div className="absolute inset-0 bg-secondary rounded-xl blur-sm opacity-30 group-hover:opacity-60 transition-smooth"></div>
-                      <div className="relative w-12 h-12 xs:w-14 xs:h-14 bg-secondary/10 rounded-xl flex items-center justify-center">
-                        <Icon className="h-6 w-6 xs:h-7 xs:w-7 text-secondary" />
-                      </div>
+                  <div className="flex items-start gap-5">
+                    <div className={`w-14 h-14 rounded-2xl bg-${feature.color}/10 border border-${feature.color}/20 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300`}>
+                      <Icon className={`h-7 w-7 text-${feature.color}`} />
                     </div>
-                    <div className="flex-1">
-                      <h3 className="text-lg xs:text-xl font-semibold text-foreground mb-2 group-hover:text-secondary transition-base">
+                    <div>
+                      <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors duration-300">
                         {feature.title}
                       </h3>
-                      <p className="text-sm xs:text-base text-muted-foreground leading-relaxed">
+                      <p className="text-muted-foreground leading-relaxed">
                         {feature.description}
                       </p>
                     </div>
@@ -74,23 +77,25 @@ const AboutSection = () => {
             })}
           </div>
 
-          <div className="text-center glass-effect rounded-2xl p-6 xs:p-8 md:p-12 shadow-elevated">
-            <h3 className="text-xl xs:text-2xl md:text-3xl font-bold text-foreground mb-3 xs:mb-4">
-              Prêt à publier votre bien ?
-            </h3>
-            <p className="text-sm xs:text-base text-muted-foreground mb-6 max-w-2xl mx-auto px-2">
-              Rejoignez des centaines de propriétaires qui ont déjà fait confiance à notre plateforme 
-              pour vendre ou louer leurs biens rapidement et efficacement.
-            </p>
-            <div className="flex justify-center">
-              <Link to="/dashboard" className="w-full xs:w-auto">
+          {/* CTA Card */}
+          <div className="relative rounded-3xl overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-secondary opacity-90"></div>
+            <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.05%22%3E%3Cpath%20d%3D%22M36%2034v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6%2034v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6%204V0H4v4H0v2h4v4h2V6h4V4H6z%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E')] opacity-30"></div>
+            <div className="relative z-10 text-center p-10 md:p-16">
+              <h3 className="text-2xl md:text-4xl font-bold text-white mb-4">
+                Prêt à publier votre bien ?
+              </h3>
+              <p className="text-white/80 mb-8 max-w-lg mx-auto text-lg">
+                Rejoignez des centaines de propriétaires qui ont déjà fait confiance à notre plateforme.
+              </p>
+              <Link to="/dashboard">
                 <Button
                   size="lg"
-                  className="w-full xs:w-auto bg-secondary hover:bg-secondary-glow text-white shadow-glow-secondary transition-smooth rounded-xl font-semibold text-sm xs:text-base md:text-lg px-4 xs:px-6 md:px-8 py-3 xs:py-4"
+                  className="bg-white text-primary hover:bg-white/90 rounded-2xl font-bold text-lg px-10 py-6 shadow-xl hover:shadow-2xl transition-all duration-300 group"
                 >
-                  <Sparkles className="mr-2 h-4 w-4 xs:h-5 xs:w-5" />
-                  <span className="hidden xs:inline">Publier une annonce maintenant</span>
-                  <span className="xs:hidden">Publier maintenant</span>
+                  <Sparkles className="mr-2 h-5 w-5" />
+                  Publier une annonce
+                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
             </div>
