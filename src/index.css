@@ -133,17 +133,18 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: hsl(25 20% 8%);
+    background: hsl(0 0% 96%);
   }
 
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, hsl(25 85% 55%) 0%, hsl(42 90% 52%) 100%);
+    background: linear-gradient(180deg, hsl(150 100% 26%) 0%, hsl(51 95% 55%) 50%, hsl(358 78% 50%) 100%);
     border-radius: 4px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, hsl(25 90% 62%) 0%, hsl(42 95% 60%) 100%);
+    background: linear-gradient(180deg, hsl(150 80% 36%) 0%, hsl(358 80% 60%) 100%);
   }
+
 }
 
 @layer utilities {
