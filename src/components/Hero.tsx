@@ -32,7 +32,7 @@ const Hero = () => {
           className="w-full h-full object-cover object-[center_40%] sm:object-center" 
         />
         {/* Lighter overlay for better image visibility */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/40 to-background/90"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-background/85 via-background/70 to-background/95"></div>
         {/* Subtle color tints */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,hsl(var(--primary)/0.1)_0%,transparent_60%)]"></div>
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,hsl(var(--secondary)/0.1)_0%,transparent_60%)]"></div>
