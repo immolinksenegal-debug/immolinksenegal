@@ -32,7 +32,7 @@ const Hero = () => {
           className="w-full h-full object-cover object-[center_40%] sm:object-center" 
         />
         {/* Lighter overlay for better image visibility */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/40 to-background/90"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-background/85 via-background/70 to-background/95"></div>
         {/* Subtle color tints */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,hsl(var(--primary)/0.1)_0%,transparent_60%)]"></div>
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,hsl(var(--secondary)/0.1)_0%,transparent_60%)]"></div>
@@ -50,17 +50,18 @@ const Hero = () => {
           </div>
 
           <div className="mb-6 px-2">
-            <h1 className="text-3xl xs:text-4xl md:text-6xl lg:text-7xl font-black leading-[1.15] tracking-tight text-white [text-shadow:_0_4px_30px_rgba(0,0,0,0.6)]">
+            <h1 className="text-3xl xs:text-4xl md:text-6xl lg:text-7xl font-black leading-[1.15] tracking-tight text-foreground drop-shadow-sm">
               Trouvez votre
             </h1>
-            <h1 className="text-3xl xs:text-4xl md:text-6xl lg:text-7xl font-black leading-[1.15] tracking-tight text-accent [text-shadow:_0_4px_30px_rgba(0,0,0,0.6)]">
+            <h1 className="text-3xl xs:text-4xl md:text-6xl lg:text-7xl font-black leading-[1.15] tracking-tight bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
               bien idéal
             </h1>
           </div>
           
-          <p className="text-lg xs:text-xl md:text-2xl mb-10 max-w-2xl mx-auto px-4 text-foreground/80 font-medium drop-shadow-lg">
+          <p className="text-lg xs:text-xl md:text-2xl mb-10 max-w-2xl mx-auto px-4 text-muted-foreground font-medium">
             Gestion locative, vente et estimation — votre partenaire de confiance au Sénégal
           </p>
+
 
           {/* Search Bar - Modern floating card */}
           <div className="w-full max-w-4xl mx-auto mb-12">
