@@ -11,13 +11,14 @@
   :root {
     /* Backgrounds - Blanc pur */
     --background: 0 0% 100%;
-    --foreground: 0 0% 10%;
+    --foreground: 140 100% 8%;
 
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 10%;
+    --card-foreground: 140 100% 8%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 10%;
+    --popover-foreground: 140 100% 8%;
+
 
     /* Primary - Vert profond du logo */
     --primary: 140 100% 18%;
