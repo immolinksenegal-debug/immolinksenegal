@@ -143,13 +143,28 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, hsl(150 100% 26%) 0%, hsl(51 95% 55%) 50%, hsl(358 78% 50%) 100%);
+    background: linear-gradient(180deg, hsl(140 100% 18%) 0%, hsl(45 95% 53%) 50%, hsl(0 100% 41%) 100%);
     border-radius: 4px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, hsl(150 80% 36%) 0%, hsl(358 80% 60%) 100%);
+    background: linear-gradient(180deg, hsl(140 80% 28%) 0%, hsl(0 90% 52%) 100%);
   }
+
+  @keyframes fade-in-up {
+    0% { opacity: 0; transform: translateY(24px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  /* Gradient mesh background utility */
+  .bg-mesh {
+    background-image: var(--gradient-mesh);
+  }
+
 
 }
 
