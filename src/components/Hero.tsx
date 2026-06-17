@@ -33,9 +33,11 @@ const Hero = () => {
         />
         {/* Lighter overlay for better image visibility */}
         <div className="absolute inset-0 bg-gradient-to-b from-background/85 via-background/70 to-background/95"></div>
-        {/* Subtle color tints */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,hsl(var(--primary)/0.1)_0%,transparent_60%)]"></div>
+        {/* Subtle color tints from logo */}
+        <div className="absolute inset-0 bg-mesh opacity-80"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,hsl(var(--primary)/0.12)_0%,transparent_60%)]"></div>
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,hsl(var(--secondary)/0.1)_0%,transparent_60%)]"></div>
+
       </div>
 
       {/* Content */}
@@ -144,27 +146,32 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* Stats - Clean modern pills */}
-          <div className="flex flex-wrap justify-center gap-3 xs:gap-4 w-full max-w-3xl mx-auto px-2">
+          {/* Stats - Modern bento grid */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 xs:gap-4 w-full max-w-4xl mx-auto px-2">
             {[
-              { label: "Biens disponibles", value: "500+" },
-              { label: "Villes couvertes", value: "15+" },
-              { label: "Clients satisfaits", value: "1000+" },
-              { label: "Agences partenaires", value: "50+" }
+              { label: "Biens disponibles", value: "500+", color: "primary" },
+              { label: "Villes couvertes", value: "15+", color: "accent" },
+              { label: "Clients satisfaits", value: "1000+", color: "secondary" },
+              { label: "Agences partenaires", value: "50+", color: "primary" },
             ].map((stat, index) => (
-              <div 
-                key={index} 
-                className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-background/80 backdrop-blur-md border border-border/30 hover:border-primary/40 transition-all duration-300 group"
+              <div
+                key={index}
+                className="group relative overflow-hidden rounded-2xl bg-background/85 backdrop-blur-xl border border-border/50 p-4 xs:p-5 hover:-translate-y-1 hover:border-primary/40 transition-all duration-500"
+                style={{ animationDelay: `${index * 80}ms` }}
               >
-                <span className="text-xl xs:text-2xl font-extrabold text-accent">
-                  {stat.value}
-                </span>
-                <span className="text-xs font-medium text-foreground/70 group-hover:text-foreground transition-colors">
-                  {stat.label}
-                </span>
+                <div className={`absolute -top-8 -right-8 w-24 h-24 rounded-full bg-${stat.color}/10 blur-2xl group-hover:bg-${stat.color}/20 transition-all duration-500`} />
+                <div className="relative flex flex-col items-start">
+                  <span className={`text-3xl xs:text-4xl font-black bg-gradient-to-br from-${stat.color} to-${stat.color}/60 bg-clip-text text-transparent leading-none`}>
+                    {stat.value}
+                  </span>
+                  <span className="mt-2 text-xs xs:text-sm font-medium text-muted-foreground text-left">
+                    {stat.label}
+                  </span>
+                </div>
               </div>
             ))}
           </div>
+
         </div>
       </div>
 
