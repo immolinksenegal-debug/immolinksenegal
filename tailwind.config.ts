@@ -3,6 +3,10 @@ import type { Config } from "tailwindcss";
 export default {
   darkMode: ["class"],
   content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
+  safelist: [
+    { pattern: /(bg|text|border|from|to|via|shadow|ring)-(primary|secondary|accent|destructive|muted)(\/(5|10|15|20|30|40|50|60|70|80|90))?/ },
+    { pattern: /(bg|text|border|from|to|via)-(primary|secondary|accent)-foreground/ },
+  ],
   prefix: "",
   theme: {
     container: {
