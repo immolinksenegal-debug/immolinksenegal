@@ -199,7 +199,7 @@ const Footer = () => {
       </div>
 
       {/* Top border glow effect */}
-      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div>
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-primary via-accent to-secondary opacity-80"></div>
     </footer>
   );
 };
