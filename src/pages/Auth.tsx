@@ -192,32 +192,36 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 gradient-hero relative overflow-hidden">
-      {/* Decorative Elements */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(160,220,180,0.15),transparent_60%)]"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(160,220,180,0.1),transparent_50%)]"></div>
+      {/* Decorative brand tints */}
+      <div className="absolute inset-0 bg-mesh opacity-90 pointer-events-none"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,hsl(var(--primary)/0.15),transparent_60%)] pointer-events-none"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,hsl(var(--accent)/0.12),transparent_55%)] pointer-events-none"></div>
 
       <div className="w-full max-w-md relative z-10 animate-scale-in">
         {/* Logo */}
-        <Link to="/" className="flex items-center justify-center mb-8 group">
-          <img 
-            src={logoAuth} 
-            alt="Immo Link Sénégal" 
-            className="h-32 w-auto object-contain transition-smooth group-hover:scale-105 drop-shadow-2xl" 
+        <Link to="/" className="flex items-center justify-center mb-6 group">
+          <img
+            src={logoAuth}
+            alt="Immo Link Sénégal"
+            className="h-28 w-auto object-contain transition-smooth group-hover:scale-105 drop-shadow-xl"
           />
         </Link>
 
-        <div className="glass-effect rounded-2xl p-8 shadow-elevated">
+        {/* Brand gradient bar */}
+        <div className="mx-auto mb-6 h-1 w-24 rounded-full bg-gradient-to-r from-primary via-accent to-secondary" />
+
+        <div className="glass-card p-8 shadow-elevated">
           <Tabs defaultValue="login" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 mb-8 bg-background/50">
+            <TabsList className="grid w-full grid-cols-2 mb-8 bg-muted/60 p-1 rounded-xl">
               <TabsTrigger
                 value="login"
-                className="rounded-xl data-[state=active]:bg-secondary data-[state=active]:text-white transition-smooth"
+                className="rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-primary-glow data-[state=active]:text-primary-foreground data-[state=active]:shadow-md transition-smooth"
               >
                 Connexion
               </TabsTrigger>
               <TabsTrigger
                 value="signup"
-                className="rounded-xl data-[state=active]:bg-secondary data-[state=active]:text-white transition-smooth"
+                className="rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-secondary data-[state=active]:to-secondary-glow data-[state=active]:text-secondary-foreground data-[state=active]:shadow-md transition-smooth"
               >
                 Inscription
               </TabsTrigger>
@@ -226,16 +230,16 @@ const Auth = () => {
             <TabsContent value="login">
               <form onSubmit={handleLogin} className="space-y-5">
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-white">
+                  <Label htmlFor="email" className="text-foreground font-medium">
                     Email
                   </Label>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-primary" />
                     <Input
                       id="email"
                       type="email"
                       placeholder="votre@email.com"
-                      className="pl-10 bg-white/90 border-white/30 h-12 rounded-xl"
+                      className="pl-10 bg-background border-border h-12 rounded-xl text-foreground focus:border-primary focus:ring-primary/30"
                       value={loginData.email}
                       onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
                       required
@@ -244,16 +248,16 @@ const Auth = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="password" className="text-white">
+                  <Label htmlFor="password" className="text-foreground font-medium">
                     Mot de passe
                   </Label>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-primary" />
                     <Input
                       id="password"
                       type="password"
                       placeholder="••••••••"
-                      className="pl-10 bg-white/90 border-white/30 h-12 rounded-xl"
+                      className="pl-10 bg-background border-border h-12 rounded-xl text-foreground focus:border-primary focus:ring-primary/30"
                       value={loginData.password}
                       onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
                       required
@@ -262,18 +266,18 @@ const Auth = () => {
                 </div>
 
                 <div className="flex items-center justify-between text-sm">
-                  <label className="flex items-center text-white">
-                    <input type="checkbox" className="mr-2 rounded" />
+                  <label className="flex items-center text-muted-foreground">
+                    <input type="checkbox" className="mr-2 rounded accent-primary" />
                     Se souvenir de moi
                   </label>
-                  <a href="#" className="text-secondary hover:text-secondary-glow transition-base">
+                  <a href="#" className="text-secondary hover:text-secondary-glow font-medium transition-base">
                     Mot de passe oublié ?
                   </a>
                 </div>
 
                 <Button
                   type="submit"
-                  className="w-full bg-secondary hover:bg-secondary-glow text-white shadow-glow-secondary transition-smooth rounded-xl font-semibold h-12"
+                  className="w-full bg-gradient-to-r from-primary to-primary-glow hover:opacity-90 text-primary-foreground shadow-[0_8px_24px_-8px_hsl(var(--primary)/0.5)] transition-smooth rounded-xl font-semibold h-12"
                   disabled={isLoading}
                 >
                   {isLoading ? "Connexion..." : "Se connecter"}
@@ -284,16 +288,16 @@ const Auth = () => {
             <TabsContent value="signup">
               <form onSubmit={handleSignup} className="space-y-5">
                 <div className="space-y-2">
-                  <Label htmlFor="name" className="text-white">
+                  <Label htmlFor="name" className="text-foreground font-medium">
                     Nom complet
                   </Label>
                   <div className="relative">
-                    <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                    <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-secondary" />
                     <Input
                       id="name"
                       type="text"
                       placeholder="Votre nom"
-                      className="pl-10 bg-white/90 border-white/30 h-12 rounded-xl"
+                      className="pl-10 bg-background border-border h-12 rounded-xl text-foreground focus:border-secondary focus:ring-secondary/30"
                       value={signupData.name}
                       onChange={(e) => setSignupData({ ...signupData, name: e.target.value })}
                       required
@@ -302,16 +306,16 @@ const Auth = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="signup-email" className="text-white">
+                  <Label htmlFor="signup-email" className="text-foreground font-medium">
                     Email
                   </Label>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-secondary" />
                     <Input
                       id="signup-email"
                       type="email"
                       placeholder="votre@email.com"
-                      className="pl-10 bg-white/90 border-white/30 h-12 rounded-xl"
+                      className="pl-10 bg-background border-border h-12 rounded-xl text-foreground focus:border-secondary focus:ring-secondary/30"
                       value={signupData.email}
                       onChange={(e) => setSignupData({ ...signupData, email: e.target.value })}
                       required
@@ -320,19 +324,19 @@ const Auth = () => {
                 </div>
 
                  <div className="space-y-2">
-                  <Label htmlFor="signup-password" className="text-white">
+                  <Label htmlFor="signup-password" className="text-foreground font-medium">
                     Mot de passe
                   </Label>
-                  <p className="text-xs text-white/70">
+                  <p className="text-xs text-muted-foreground">
                     Min. 8 caractères avec majuscule, minuscule et chiffre
                   </p>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-secondary" />
                     <Input
                       id="signup-password"
                       type="password"
                       placeholder="••••••••"
-                      className="pl-10 bg-white/90 border-white/30 h-12 rounded-xl"
+                      className="pl-10 bg-background border-border h-12 rounded-xl text-foreground focus:border-secondary focus:ring-secondary/30"
                       value={signupData.password}
                       onChange={(e) => setSignupData({ ...signupData, password: e.target.value })}
                       required
@@ -340,13 +344,13 @@ const Auth = () => {
                   </div>
                 </div>
 
-                <div className="text-sm text-white/80">
+                <div className="text-sm text-muted-foreground">
                   En vous inscrivant, vous acceptez nos{" "}
-                  <a href="#" className="text-secondary hover:text-secondary-glow transition-base">
+                  <a href="#" className="text-primary hover:text-primary-glow font-medium transition-base">
                     conditions d'utilisation
                   </a>{" "}
                   et notre{" "}
-                  <a href="#" className="text-secondary hover:text-secondary-glow transition-base">
+                  <a href="#" className="text-primary hover:text-primary-glow font-medium transition-base">
                     politique de confidentialité
                   </a>
                   .
@@ -354,7 +358,7 @@ const Auth = () => {
 
                 <Button
                   type="submit"
-                  className="w-full bg-secondary hover:bg-secondary-glow text-white shadow-glow-secondary transition-smooth rounded-xl font-semibold h-12"
+                  className="w-full bg-gradient-to-r from-secondary to-secondary-glow hover:opacity-90 text-secondary-foreground shadow-[0_8px_24px_-8px_hsl(var(--secondary)/0.5)] transition-smooth rounded-xl font-semibold h-12"
                   disabled={isLoading}
                 >
                   {isLoading ? "Inscription..." : "Créer un compte"}
@@ -365,12 +369,13 @@ const Auth = () => {
         </div>
 
         <div className="text-center mt-6">
-          <Link to="/" className="text-white/80 hover:text-white transition-base text-sm">
+          <Link to="/" className="text-muted-foreground hover:text-primary transition-base text-sm font-medium">
             ← Retour à l'accueil
           </Link>
         </div>
       </div>
     </div>
+
   );
 };
 

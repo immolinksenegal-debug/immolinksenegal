@@ -104,7 +104,7 @@ const Navbar = () => {
         : 'bg-background/40 backdrop-blur-md border-b border-primary/10'
     }`}>
       {/* Neon top line */}
-      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary to-transparent opacity-80" />
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-primary via-accent to-secondary opacity-90" />
       
       <div className="container mx-auto px-2 xs:px-4 sm:px-6">
         <div className="flex items-center justify-between h-16 xs:h-18 md:h-20 lg:h-24">
