@@ -19,36 +19,38 @@
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 10%;
 
-    /* Primary - Vert Sénégal (drapeau) */
-    --primary: 150 100% 26%;
+    /* Primary - Vert profond du logo */
+    --primary: 140 100% 18%;
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 150 80% 36%;
+    --primary-glow: 140 80% 28%;
 
-    /* Secondary - Rouge Sénégal (drapeau) */
-    --secondary: 358 78% 50%;
+    /* Secondary - Rouge intense du logo */
+    --secondary: 0 100% 41%;
     --secondary-foreground: 0 0% 100%;
-    --secondary-glow: 358 80% 60%;
+    --secondary-glow: 0 90% 52%;
 
-    /* Accent - Jaune Sénégal (drapeau) */
-    --accent: 51 95% 55%;
-    --accent-foreground: 0 0% 10%;
-    --accent-glow: 51 100% 65%;
+    /* Accent - Or doré du logo */
+    --accent: 45 95% 53%;
+    --accent-foreground: 140 100% 12%;
+    --accent-glow: 45 100% 63%;
 
-    /* Tertiary - Vert foncé */
-    --tertiary: 150 90% 18%;
+    /* Tertiary - Vert très foncé */
+    --tertiary: 140 100% 12%;
     --tertiary-foreground: 0 0% 100%;
-    --tertiary-glow: 150 70% 30%;
+    --tertiary-glow: 140 80% 22%;
+
 
     --muted: 0 0% 96%;
     --muted-foreground: 0 0% 40%;
 
-    --destructive: 358 78% 50%;
+    --destructive: 0 100% 41%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 90%;
+    --border: 0 0% 92%;
     --input: 0 0% 98%;
-    --input-foreground: 0 0% 10%;
-    --ring: 150 100% 26%;
+    --input-foreground: 140 100% 12%;
+    --ring: 140 100% 18%;
+
 
     --radius: 1rem;
 
