@@ -132,11 +132,11 @@ const AdminContactMessages = () => {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "pending":
-        return <Badge variant="outline" className="bg-yellow-500/10 text-yellow-700 border-yellow-500">En attente</Badge>;
+        return <Badge variant="outline" className="bg-accent/100/10 text-yellow-700 border-yellow-500">En attente</Badge>;
       case "read":
-        return <Badge variant="outline" className="bg-blue-500/10 text-blue-700 border-blue-500">Lu</Badge>;
+        return <Badge variant="outline" className="bg-primary/10 text-blue-700 border-blue-500">Lu</Badge>;
       case "responded":
-        return <Badge variant="outline" className="bg-green-500/10 text-green-700 border-green-500">Répondu</Badge>;
+        return <Badge variant="outline" className="bg-primary/10 text-primary border-green-500">Répondu</Badge>;
       default:
         return <Badge variant="outline">{status}</Badge>;
     }
@@ -286,7 +286,7 @@ const AdminContactMessages = () => {
                 <Button
                   onClick={handleSubmitResponse}
                   disabled={isSubmitting || !adminResponse.trim()}
-                  className="bg-secondary hover:bg-secondary-glow"
+                  className="bg-secondary hover:bg-secondary/90"
                 >
                   {isSubmitting ? (
                     <>

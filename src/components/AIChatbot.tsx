@@ -194,7 +194,7 @@ const AIChatbot = () => {
       {isOpen && (
         <Card className="fixed inset-4 md:bottom-6 md:right-6 md:left-auto md:top-auto md:w-[400px] md:h-[600px] shadow-2xl flex flex-col z-50 animate-in slide-in-from-bottom-4">
           {/* Header */}
-          <div className="bg-primary text-white p-4 rounded-t-lg flex items-center justify-between">
+          <div className="bg-primary text-primary-foreground p-4 rounded-t-lg flex items-center justify-between">
             <div className="flex items-center gap-2">
               <MessageCircle className="h-5 w-5" />
               <div>
@@ -213,7 +213,7 @@ const AIChatbot = () => {
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-muted">
             {messages.map((msg, idx) => (
               <div
                 key={idx}
@@ -222,8 +222,8 @@ const AIChatbot = () => {
                 <div
                   className={`max-w-[80%] rounded-lg p-3 ${
                     msg.role === "user"
-                      ? "bg-primary text-white"
-                      : "bg-white text-gray-800 shadow-sm border"
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-white text-foreground shadow-sm border"
                   }`}
                 >
                   <p className="text-sm whitespace-pre-wrap">{msg.content}</p>

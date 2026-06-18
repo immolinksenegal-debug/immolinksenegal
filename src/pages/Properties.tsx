@@ -106,10 +106,10 @@ const Properties = () => {
         <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="mb-8 xs:mb-10 md:mb-12 text-center animate-fade-in-up">
-            <h1 className="text-3xl xs:text-4xl md:text-5xl font-bold mb-3 md:mb-4 text-green-700 lg:text-6xl">
+            <h1 className="text-3xl xs:text-4xl md:text-5xl font-bold mb-3 md:mb-4 text-primary lg:text-6xl">
               Annonces Immobilières Sénégal
             </h1>
-            <p className="text-base xs:text-lg md:text-xl max-w-3xl mx-auto mb-2 text-slate-950">
+            <p className="text-base xs:text-lg md:text-xl max-w-3xl mx-auto mb-2 text-foreground">
               Terrain à vendre, villa, maison, appartement à Dakar, Saly, Mbour, Thiès
             </p>
             <p className="text-sm text-muted-foreground">
@@ -130,7 +130,7 @@ const Properties = () => {
                   <SlidersHorizontal className="h-4 w-4 mr-2" />
                   Filtres
                 </Button>
-                <Button onClick={handleSearch} className="w-full sm:w-auto bg-secondary hover:bg-secondary-glow text-white">
+                <Button onClick={handleSearch} className="w-full sm:w-auto bg-secondary hover:bg-secondary/90 text-secondary-foreground">
                   <Search className="h-4 w-4 mr-2" />
                   Rechercher
                 </Button>
@@ -197,7 +197,7 @@ const Properties = () => {
                 <p className="text-muted-foreground mb-6">
                   Essayez de modifier vos critères de recherche
                 </p>
-                <Button onClick={clearFilters} variant="outline" className="border-secondary text-secondary hover:bg-secondary hover:text-white">
+                <Button onClick={clearFilters} variant="outline" className="border-secondary text-secondary hover:bg-secondary hover:text-secondary-foreground">
                   Réinitialiser les filtres
                 </Button>
               </CardContent>

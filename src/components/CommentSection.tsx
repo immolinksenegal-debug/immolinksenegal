@@ -192,7 +192,7 @@ const CommentSection = ({ propertyId, articleId }: CommentSectionProps) => {
               <Button
                 onClick={handleSubmitComment}
                 disabled={isSubmitting || !newComment.trim()}
-                className="bg-secondary hover:bg-secondary-glow text-white rounded-xl"
+                className="bg-secondary hover:bg-secondary/90 text-secondary-foreground rounded-xl"
               >
                 <Send className="h-4 w-4 mr-2" />
                 {isSubmitting ? 'Envoi...' : 'Publier'}

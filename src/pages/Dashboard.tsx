@@ -285,7 +285,7 @@ const Dashboard = () => {
             <TabsList className="mb-4 xs:mb-6 bg-card shadow-soft flex-wrap h-auto p-1 gap-1">
               <TabsTrigger
                 value="properties"
-                className="data-[state=active]:bg-secondary data-[state=active]:text-white transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
+                className="data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
               >
                 <Home className="h-3 w-3 xs:h-4 xs:w-4 mr-1 xs:mr-2" />
                 <span className="hidden xs:inline">Mes annonces</span>
@@ -293,21 +293,21 @@ const Dashboard = () => {
               </TabsTrigger>
               <TabsTrigger
                 value="favorites"
-                className="data-[state=active]:bg-secondary data-[state=active]:text-white transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
+                className="data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
               >
                 <Heart className="h-3 w-3 xs:h-4 xs:w-4 mr-1 xs:mr-2" />
                 Favoris
               </TabsTrigger>
               <TabsTrigger
                 value="messages"
-                className="data-[state=active]:bg-secondary data-[state=active]:text-white transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
+                className="data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
               >
                 <MessageSquare className="h-3 w-3 xs:h-4 xs:w-4 mr-1 xs:mr-2" />
                 Messages
               </TabsTrigger>
               <TabsTrigger
                 value="settings"
-                className="data-[state=active]:bg-secondary data-[state=active]:text-white transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
+                className="data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
               >
                 <Settings className="h-3 w-3 xs:h-4 xs:w-4 mr-1 xs:mr-2" />
                 Paramètres
@@ -343,7 +343,7 @@ const Dashboard = () => {
                               size="sm"
                               variant="secondary"
                               onClick={() => handleEditProperty(property)}
-                              className="bg-primary hover:bg-primary-glow text-white transition-smooth rounded-lg text-xs px-2 py-1"
+                              className="bg-primary hover:bg-primary/90 text-primary-foreground transition-smooth rounded-lg text-xs px-2 py-1"
                             >
                               ✏️ Modifier
                             </Button>
@@ -359,7 +359,7 @@ const Dashboard = () => {
                               <Button
                                 size="sm"
                                 onClick={() => handlePromoteProperty(property.id, property.title)}
-                                className="bg-secondary hover:bg-secondary-glow text-white shadow-glow-secondary transition-smooth rounded-lg text-xs px-2 py-1"
+                                className="bg-secondary hover:bg-secondary/90 text-secondary-foreground shadow-glow-secondary transition-smooth rounded-lg text-xs px-2 py-1"
                               >
                                 <Sparkles className="h-3 w-3 mr-1" />
                                 Promouvoir
@@ -368,7 +368,7 @@ const Dashboard = () => {
                               <Button
                                 size="sm"
                                 onClick={() => handleDownloadInvoice(property.id)}
-                                className="bg-accent hover:bg-accent/90 text-white transition-smooth rounded-lg text-xs px-2 py-1"
+                                className="bg-accent hover:bg-accent/90 text-accent-foreground transition-smooth rounded-lg text-xs px-2 py-1"
                                 title="Télécharger la facture"
                               >
                                 <FileText className="h-3 w-3 mr-1" />
@@ -395,7 +395,7 @@ const Dashboard = () => {
                       </p>
                       <Button 
                         onClick={() => setShowPropertyForm(true)}
-                        className="bg-secondary hover:bg-secondary-glow text-white shadow-glow-secondary transition-smooth rounded-xl text-xs xs:text-sm px-3 xs:px-4 py-2"
+                        className="bg-secondary hover:bg-secondary/90 text-secondary-foreground shadow-glow-secondary transition-smooth rounded-xl text-xs xs:text-sm px-3 xs:px-4 py-2"
                       >
                         <PlusCircle className="h-3 w-3 xs:h-4 xs:w-4 mr-1 xs:mr-2" />
                         Créer une annonce

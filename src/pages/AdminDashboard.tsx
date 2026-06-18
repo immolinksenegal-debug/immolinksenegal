@@ -208,7 +208,7 @@ const AdminDashboard = () => {
                     <p className="text-sm text-muted-foreground mb-1">Annonces</p>
                     <p className="text-3xl font-bold text-foreground">{stats.totalProperties}</p>
                     {stats.pendingProperties > 0 && (
-                      <p className="text-xs text-orange-500 mt-1">
+                      <p className="text-xs text-accent mt-1">
                         {stats.pendingProperties} en attente
                       </p>
                     )}
@@ -241,13 +241,13 @@ const AdminDashboard = () => {
                     <p className="text-sm text-muted-foreground mb-1">Articles</p>
                     <p className="text-3xl font-bold text-foreground">{stats.totalArticles}</p>
                     {stats.pendingArticles > 0 && (
-                      <p className="text-xs text-orange-500 mt-1">
+                      <p className="text-xs text-accent mt-1">
                         {stats.pendingArticles} en attente
                       </p>
                     )}
                   </div>
-                  <div className="w-14 h-14 bg-blue-500/10 rounded-xl flex items-center justify-center">
-                    <FileText className="h-7 w-7 text-blue-500" />
+                  <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center">
+                    <FileText className="h-7 w-7 text-primary" />
                   </div>
                 </div>
               </CardContent>
@@ -260,13 +260,13 @@ const AdminDashboard = () => {
                     <p className="text-sm text-muted-foreground mb-1">Messages Contact</p>
                     <p className="text-3xl font-bold text-foreground">{stats.totalContactMessages}</p>
                     {stats.pendingContactMessages > 0 && (
-                      <p className="text-xs text-orange-500 mt-1">
+                      <p className="text-xs text-accent mt-1">
                         {stats.pendingContactMessages} en attente
                       </p>
                     )}
                   </div>
-                  <div className="w-14 h-14 bg-green-500/10 rounded-xl flex items-center justify-center">
-                    <Mail className="h-7 w-7 text-green-500" />
+                  <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center">
+                    <Mail className="h-7 w-7 text-primary" />
                   </div>
                 </div>
               </CardContent>
@@ -278,42 +278,42 @@ const AdminDashboard = () => {
             <TabsList className="mb-4 xs:mb-6 bg-card shadow-soft flex-wrap h-auto p-1 gap-1">
               <TabsTrigger
                 value="properties"
-                className="data-[state=active]:bg-secondary data-[state=active]:text-white transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
+                className="data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
               >
                 <Home className="h-3 w-3 xs:h-4 xs:w-4 mr-1 xs:mr-2" />
                 Annonces
               </TabsTrigger>
               <TabsTrigger
                 value="articles"
-                className="data-[state=active]:bg-secondary data-[state=active]:text-white transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
+                className="data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
               >
                 <FileText className="h-3 w-3 xs:h-4 xs:w-4 mr-1 xs:mr-2" />
                 Articles
               </TabsTrigger>
               <TabsTrigger
                 value="comments"
-                className="data-[state=active]:bg-secondary data-[state=active]:text-white transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
+                className="data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
               >
                 <MessageSquare className="h-3 w-3 xs:h-4 xs:w-4 mr-1 xs:mr-2" />
                 Commentaires
               </TabsTrigger>
               <TabsTrigger
                 value="contact"
-                className="data-[state=active]:bg-secondary data-[state=active]:text-white transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
+                className="data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
               >
                 <Mail className="h-3 w-3 xs:h-4 xs:w-4 mr-1 xs:mr-2" />
                 Messages
               </TabsTrigger>
               <TabsTrigger
                 value="contracts"
-                className="data-[state=active]:bg-secondary data-[state=active]:text-white transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
+                className="data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
               >
                 <FileText className="h-3 w-3 xs:h-4 xs:w-4 mr-1 xs:mr-2" />
                 Contrats
               </TabsTrigger>
               <TabsTrigger
                 value="settings"
-                className="data-[state=active]:bg-secondary data-[state=active]:text-white transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
+                className="data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
               >
                 <Settings className="h-3 w-3 xs:h-4 xs:w-4 mr-1 xs:mr-2" />
                 Paramètres

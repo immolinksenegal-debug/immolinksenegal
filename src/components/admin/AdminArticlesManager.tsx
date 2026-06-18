@@ -198,10 +198,10 @@ export const AdminArticlesManager = ({ onStatsUpdate }: AdminArticlesManagerProp
 
   const getStatusBadge = (status: string) => {
     const variants: Record<string, string> = {
-      pending: "bg-orange-500/10 text-orange-500 border-orange-500/20",
-      published: "bg-green-500/10 text-green-500 border-green-500/20",
-      rejected: "bg-red-500/10 text-red-500 border-red-500/20",
-      draft: "bg-gray-500/10 text-gray-500 border-gray-500/20",
+      pending: "bg-orange-500/10 text-accent border-orange-500/20",
+      published: "bg-primary/10 text-primary border-primary/20",
+      rejected: "bg-destructive/10 text-destructive border-destructive/20",
+      draft: "bg-muted0/10 text-gray-500 border-gray-500/20",
     };
 
     const labels: Record<string, string> = {
@@ -228,7 +228,7 @@ export const AdminArticlesManager = ({ onStatsUpdate }: AdminArticlesManagerProp
               <Button
                 size="sm"
                 onClick={() => setShowGenerateDialog(true)}
-                className="bg-secondary hover:bg-secondary-glow text-white"
+                className="bg-secondary hover:bg-secondary/90 text-secondary-foreground"
               >
                 <Sparkles className="h-4 w-4 mr-2" />
                 Générer avec l'IA
@@ -300,7 +300,7 @@ export const AdminArticlesManager = ({ onStatsUpdate }: AdminArticlesManagerProp
                                 size="sm"
                                 variant="default"
                                 onClick={() => handleStatusChange(article.id, 'published')}
-                                className="bg-green-500 hover:bg-green-600"
+                                className="bg-primary/100 hover:bg-green-600"
                               >
                                 <CheckCircle className="h-3 w-3 mr-1" />
                                 Publier
@@ -361,7 +361,7 @@ export const AdminArticlesManager = ({ onStatsUpdate }: AdminArticlesManagerProp
             <Button
               onClick={handleGenerateArticle}
               disabled={isGenerating}
-              className="bg-secondary hover:bg-secondary-glow text-white"
+              className="bg-secondary hover:bg-secondary/90 text-secondary-foreground"
             >
               {isGenerating ? (
                 <>Génération en cours...</>

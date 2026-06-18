@@ -161,7 +161,7 @@ const PromotionDialog = ({
               <Button
                 onClick={() => handlePayment('monthly')}
                 disabled={isInitiating}
-                className="w-full bg-secondary hover:bg-secondary-glow text-white shadow-glow-secondary transition-smooth rounded-xl font-semibold text-base py-6"
+                className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground shadow-glow-secondary transition-smooth rounded-xl font-semibold text-base py-6"
               >
                 {isInitiating && selectedPlan === 'monthly' ? (
                   <>
@@ -180,7 +180,7 @@ const PromotionDialog = ({
 
           {/* Plan Annuel */}
           <Card className="border-accent/30 shadow-glow-accent relative overflow-hidden">
-            <div className="absolute top-0 right-0 bg-accent text-white px-4 py-1 text-xs font-bold uppercase rounded-bl-lg flex items-center gap-1">
+            <div className="absolute top-0 right-0 bg-accent text-accent-foreground px-4 py-1 text-xs font-bold uppercase rounded-bl-lg flex items-center gap-1">
               <Crown className="h-3 w-3" />
               Meilleur choix
             </div>
@@ -266,7 +266,7 @@ const PromotionDialog = ({
               <Button
                 onClick={() => handlePayment('yearly')}
                 disabled={isInitiating}
-                className="w-full bg-accent hover:bg-accent/90 text-white shadow-glow-accent transition-smooth rounded-xl font-semibold text-base py-6"
+                className="w-full bg-accent hover:bg-accent/90 text-accent-foreground shadow-glow-accent transition-smooth rounded-xl font-semibold text-base py-6"
               >
                 {isInitiating && selectedPlan === 'yearly' ? (
                   <>

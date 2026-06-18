@@ -158,7 +158,7 @@ const Articles = () => {
                             </div>
                           )}
                           {article.is_featured && (
-                            <Badge className="absolute top-3 left-3 bg-accent text-white border-0">
+                            <Badge className="absolute top-3 left-3 bg-accent text-accent-foreground border-0">
                               À la une
                             </Badge>
                           )}
@@ -189,7 +189,7 @@ const Articles = () => {
                         </div>
 
                         <Link to={`/articles/${article.slug}`}>
-                          <Button className="bg-secondary hover:bg-secondary-glow text-white">
+                          <Button className="bg-secondary hover:bg-secondary/90 text-secondary-foreground">
                             Lire la suite
                           </Button>
                         </Link>

@@ -218,7 +218,7 @@ const ArticleDetail = () => {
         <div className="text-center">
           <p className="text-muted-foreground mb-4">Article introuvable</p>
           <Link to="/articles">
-            <Button className="bg-secondary hover:bg-secondary-glow text-white">
+            <Button className="bg-secondary hover:bg-secondary/90 text-secondary-foreground">
               Retour aux articles
             </Button>
           </Link>
@@ -261,7 +261,7 @@ const ArticleDetail = () => {
           {/* Article Header */}
           <div className="mb-8">
             {article.is_featured && (
-              <Badge className="mb-4 bg-accent text-white border-0">
+              <Badge className="mb-4 bg-accent text-accent-foreground border-0">
                 À la une
               </Badge>
             )}
@@ -330,7 +330,7 @@ const ArticleDetail = () => {
                   <Button 
                     type="submit" 
                     disabled={isSubmitting}
-                    className="bg-secondary hover:bg-secondary-glow text-white"
+                    className="bg-secondary hover:bg-secondary/90 text-secondary-foreground"
                   >
                     <Send className="h-4 w-4 mr-2" />
                     {isSubmitting ? "Envoi..." : "Publier le commentaire"}
