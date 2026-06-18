@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, MapPin, Home, Sparkles, ArrowDown } from "lucide-react";
-import heroImage from "@/assets/hero-senegal-futuriste.jpg";
+import heroImageDesktop from "@/assets/hero-senegal-futuriste.jpg";
+import heroImageMobile from "@/assets/hero-senegal-futuriste-mobile.jpg";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -26,11 +27,15 @@ const Hero = () => {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Full Background Image - much more visible */}
       <div className="absolute inset-0 z-0">
-        <img 
-          src={heroImage} 
-          alt="Dakar futuriste - Immobilier moderne au Sénégal" 
-          className="w-full h-full object-cover object-[center_40%] sm:object-center" 
-        />
+        <picture className="w-full h-full">
+          <source media="(max-width: 768px)" srcSet={heroImageMobile} />
+          <source media="(min-width: 769px)" srcSet={heroImageDesktop} />
+          <img 
+            src={heroImageDesktop} 
+            alt="Dakar futuriste - Immobilier moderne au Sénégal" 
+            className="w-full h-full object-cover object-[center_35%] sm:object-center" 
+          />
+        </picture>
         {/* Lighter overlay for better image visibility */}
         <div className="absolute inset-0 bg-gradient-to-b from-background/85 via-background/70 to-background/95"></div>
         {/* Subtle color tints from logo */}
