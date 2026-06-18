@@ -219,7 +219,7 @@ const Contact = () => {
 
                 <Button 
                   type="submit" 
-                  className="w-full bg-secondary hover:bg-secondary-glow text-white"
+                  className="w-full bg-gradient-to-r from-primary via-accent to-secondary hover:opacity-90 text-primary-foreground shadow-lg transition-smooth rounded-xl font-semibold h-12"
                   disabled={isSubmitting}
                 >
                   <Send className="h-4 w-4 mr-2" />
