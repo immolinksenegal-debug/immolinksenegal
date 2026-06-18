@@ -353,7 +353,7 @@ const FreeEstimation = () => {
               {lastSubmittedData && (
                 <Button 
                   onClick={() => generatePDF(lastSubmittedData)} 
-                  className="w-full bg-secondary hover:bg-secondary-glow h-11 md:h-12 text-sm md:text-base"
+                  className="w-full bg-gradient-to-r from-primary to-secondary hover:opacity-90 h-11 md:h-12 text-sm md:text-base text-primary-foreground font-semibold rounded-xl transition-all duration-300 shadow-lg"
                   disabled={isGeneratingPdf}
                 >
                   {isGeneratingPdf ? (
