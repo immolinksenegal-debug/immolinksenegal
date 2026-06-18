@@ -229,6 +229,13 @@ export const PropertyImageGallery = ({ images, title }: PropertyImageGalleryProp
               </Button>
             </div>
 
+            {/* Centered Counter - visible during swipes */}
+            <div className="absolute top-[82%] left-1/2 -translate-x-1/2 z-50">
+              <div className="bg-white/90 backdrop-blur-sm text-black px-4 py-2 rounded-full text-sm sm:text-base font-bold shadow-xl border border-white">
+                {currentIndex + 1} / {images.length}
+              </div>
+            </div>
+
             {/* Thumbnail Strip - compact on mobile, safe-area padding */}
             <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-4 pb-[max(0.5rem,env(safe-area-inset-bottom))] bg-gradient-to-t from-black/90 via-black/70 to-transparent pt-6 sm:pt-10">
               <div className="flex gap-2 overflow-x-auto scrollbar-hide justify-start sm:justify-center">
