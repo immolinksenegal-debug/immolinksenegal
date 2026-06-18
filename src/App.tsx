@@ -15,6 +15,7 @@ import UserManagement from "./pages/UserManagement";
 import AdminDashboard from "./pages/AdminDashboard";
 import Articles from "./pages/Articles";
 import ArticleDetail from "./pages/ArticleDetail";
+import LandPurchaseGuide from "./pages/LandPurchaseGuide";
 import About from "./pages/About";
 import HowItWorks from "./pages/HowItWorks";
 import Contact from "./pages/Contact";
@@ -44,6 +45,7 @@ const App = () => (
           <Route path="/admin/estimations" element={<EstimationManagement />} />
           <Route path="/admin/users" element={<UserManagement />} />
           <Route path="/articles" element={<Articles />} />
+          <Route path="/articles/guide-achat-terrain-senegal" element={<LandPurchaseGuide />} />
           <Route path="/articles/:slug" element={<ArticleDetail />} />
           <Route path="/a-propos" element={<About />} />
           <Route path="/comment-ca-marche" element={<HowItWorks />} />
