@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, MapPin, Home, Sparkles, ArrowDown } from "lucide-react";
-import heroImage from "@/assets/hero-immobilier-senegal.jpg";
+import heroImage from "@/assets/hero-senegal-futuriste.jpg";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -28,7 +28,7 @@ const Hero = () => {
       <div className="absolute inset-0 z-0">
         <img 
           src={heroImage} 
-          alt="Villas modernes au Sénégal - Gestion locative professionnelle" 
+          alt="Dakar futuriste - Immobilier moderne au Sénégal" 
           className="w-full h-full object-cover object-[center_40%] sm:object-center" 
         />
         {/* Lighter overlay for better image visibility */}
