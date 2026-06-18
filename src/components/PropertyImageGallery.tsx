@@ -89,10 +89,10 @@ export const PropertyImageGallery = ({ images, title }: PropertyImageGalleryProp
     <>
       {/* Gallery Grid */}
       <div className="mb-4 xs:mb-6 md:mb-8 animate-fade-in">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 xs:gap-4 rounded-xl xs:rounded-2xl overflow-hidden shadow-elegant border-2 border-primary">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 xs:gap-4 rounded-xl xs:rounded-2xl overflow-hidden shadow-elegant">
           {/* Main Image */}
           <div 
-            className="md:col-span-2 aspect-video md:aspect-[21/9] overflow-hidden group cursor-pointer relative"
+            className="md:col-span-2 aspect-video md:aspect-[21/9] overflow-hidden group cursor-pointer relative border-2 border-primary"
             onClick={() => openGallery(0)}
           >
             <img
