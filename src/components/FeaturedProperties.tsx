@@ -84,10 +84,11 @@ const FeaturedProperties = () => {
   }
 
   return (
-    <section className="py-20 md:py-28 relative overflow-hidden">
-      {/* Subtle background accents */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary/5 rounded-full blur-[120px] pointer-events-none"></div>
+    <section className="py-20 md:py-28 relative overflow-hidden bg-mesh">
+      {/* Brand background accents - logo palette */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary/10 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-accent/8 rounded-full blur-[140px] pointer-events-none"></div>
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-14 flex flex-col items-center">
