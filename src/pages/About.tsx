@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import BannerHeading from "@/components/BannerHeading";
 import { Building2, Users, Target, Award, Globe, Shield, Zap, Heart } from "lucide-react";
 import bannerImage from "@/assets/banner-fiscalite-senegal.jpg";
 
@@ -23,14 +24,10 @@ const About = () => {
             loading="eager"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-primary/50 via-primary/20 to-background/80">
-            <div className="container mx-auto px-4 h-full flex flex-col justify-center items-center text-center pt-16 sm:pt-20">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 sm:mb-3 md:mb-4 px-2 text-primary-foreground drop-shadow-2xl">
-                À propos de <span className="text-secondary drop-shadow-lg">Immo Link Sénégal</span>
-              </h1>
-              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-primary-foreground/90 max-w-2xl mx-auto px-2 drop-shadow-lg">
-                La plateforme immobilière moderne qui révolutionne le marché de l'immobilier au Sénégal
-              </p>
-            </div>
+            <BannerHeading
+              title={<>À propos de <span className="text-secondary drop-shadow-lg">Immo Link Sénégal</span></>}
+              subtitle="La plateforme immobilière moderne qui révolutionne le marché de l'immobilier au Sénégal"
+            />
           </div>
         </div>
 
