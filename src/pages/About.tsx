@@ -8,30 +8,33 @@ const About = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
-      <main className="flex-grow pt-24 xs:pt-28 md:pt-32 lg:pt-36 pb-16 relative overflow-hidden">
+      <main className="flex-grow pb-16 relative overflow-hidden">
         {/* Background decorations */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,hsl(25_85%_55%/0.08),transparent_50%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_60%,hsl(145_55%_38%/0.08),transparent_50%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_90%,hsl(42_90%_52%/0.06),transparent_40%)]" />
 
-        <div className="container mx-auto px-4 relative z-10">
-          {/* Hero Section */}
-          <div className="text-center mb-16 animate-fade-in-up">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-effect border border-primary/20 mb-6">
-              <Zap className="h-4 w-4 text-accent" />
-              <span className="text-sm font-medium text-accent">Qui sommes-nous ?</span>
+        {/* Hero Banner */}
+        <div className="relative w-full h-48 sm:h-64 md:h-80 lg:h-96 overflow-hidden bg-muted">
+          <img 
+            src={bannerImage} 
+            alt="À propos de Immo Link Sénégal" 
+            className="w-full h-full object-cover"
+            loading="eager"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/40 via-primary/20 to-background/80">
+            <div className="container mx-auto px-4 h-full flex flex-col justify-center items-center text-center pt-20">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-4 px-2 text-white drop-shadow-2xl">
+                À propos de <span className="text-secondary drop-shadow-lg">Immo Link Sénégal</span>
+              </h1>
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white max-w-2xl mx-auto px-2 drop-shadow-lg">
+                La plateforme immobilière moderne qui révolutionne le marché de l'immobilier au Sénégal
+              </p>
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-              <span className="text-foreground">À propos de </span>
-              <span className="bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
-                Immo Link Sénégal
-              </span>
-            </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              La plateforme immobilière moderne qui révolutionne le marché de l'immobilier au Sénégal
-            </p>
           </div>
+        </div>
 
+        <div className="container mx-auto px-4 relative z-10 pt-12 md:pt-16">
           {/* Mission */}
           <div className="mb-20 animate-fade-in">
             <div className="relative glass-effect rounded-3xl p-8 md:p-12 border border-primary/15 overflow-hidden group hover:border-primary/30 transition-all duration-500">

@@ -94,18 +94,28 @@ const Contact = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
-      <main className="flex-grow pt-24 xs:pt-28 md:pt-32 lg:pt-36 pb-16">
-        <div className="container mx-auto px-4">
-          {/* Hero */}
-          <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-              Contactez-<span className="text-secondary">nous</span>
-            </h1>
-            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              Une question ? Une suggestion ? Notre équipe est là pour vous aider
-            </p>
+      <main className="flex-grow pb-16">
+        {/* Hero Banner */}
+        <div className="relative w-full h-48 sm:h-64 md:h-80 lg:h-96 overflow-hidden bg-muted">
+          <img 
+            src={bannerImage} 
+            alt="Contactez Immo Link Sénégal" 
+            className="w-full h-full object-cover"
+            loading="eager"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/40 via-primary/20 to-background/80">
+            <div className="container mx-auto px-4 h-full flex flex-col justify-center items-center text-center pt-20">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-4 px-2 text-white drop-shadow-2xl">
+                Contactez-<span className="text-secondary drop-shadow-lg">nous</span>
+              </h1>
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white max-w-2xl mx-auto px-2 drop-shadow-lg">
+                Une question ? Une suggestion ? Notre équipe est là pour vous aider
+              </p>
+            </div>
           </div>
+        </div>
 
+        <div className="container mx-auto px-4 pt-12 md:pt-16">
           <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
             {/* Contact Info */}
             <div className="space-y-8">
