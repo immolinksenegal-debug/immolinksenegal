@@ -91,25 +91,26 @@ const Articles = () => {
   return (
     <div className="min-h-screen">
       <Navbar />
-      <main className="pt-24 xs:pt-28 md:pt-32 lg:pt-36">
-      {/* Hero Banner */}
-      <div className="relative h-[400px] md:h-[500px] overflow-hidden">
-        <img 
-          src={bannerFiscalite} 
-          alt="Fiscalité Immobilière au Sénégal" 
-          className="w-full h-full object-cover brightness-90"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-primary/20 to-transparent flex items-center justify-center">
-          <div className="text-center px-4">
-            <h1 className="text-4xl md:text-6xl font-bold mb-4 text-primary-foreground drop-shadow-2xl">
-              Actualités Immobilières
-            </h1>
-            <p className="text-primary-foreground text-lg md:text-xl max-w-2xl mx-auto drop-shadow-lg">
-              Restez informé des dernières tendances du marché immobilier sénégalais
-            </p>
+      <main>
+        {/* Hero Banner */}
+        <div className="relative w-full h-56 sm:h-72 md:h-80 lg:h-96 overflow-hidden bg-muted">
+          <img 
+            src={bannerFiscalite} 
+            alt="Fiscalité Immobilière au Sénégal" 
+            className="w-full h-full object-cover"
+            loading="eager"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/50 via-primary/20 to-background/80">
+            <div className="container mx-auto px-4 h-full flex flex-col justify-center items-center text-center pt-16 sm:pt-20">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 sm:mb-3 md:mb-4 px-2 text-primary-foreground drop-shadow-2xl">
+                Actualités Immobilières
+              </h1>
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-primary-foreground/90 max-w-2xl mx-auto px-2 drop-shadow-lg">
+                Restez informé des dernières tendances du marché immobilier sénégalais
+              </p>
+            </div>
           </div>
         </div>
-      </div>
 
       <div className="container mx-auto px-4 -mt-16 relative z-10 pb-16">
 
