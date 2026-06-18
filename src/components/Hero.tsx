@@ -37,12 +37,15 @@ const Hero = () => {
           />
         </picture>
         {/* Color-tinted overlay: lighter so the image shows through, with brand color hints */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/45 to-background/75 sm:from-background/50 sm:via-background/35 sm:to-background/70"></div>
-        <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-secondary/10"></div>
+        {/* Stronger overlay for text readability on any background image */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/65 to-background/85 sm:from-background/70 sm:via-background/55 sm:to-background/80"></div>
+        <div className="absolute inset-0 bg-gradient-to-tr from-primary/15 via-transparent to-secondary/15"></div>
         {/* Subtle color tints from logo */}
         <div className="absolute inset-0 bg-mesh opacity-70"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,hsl(var(--primary)/0.12)_0%,transparent_60%)]"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,hsl(var(--secondary)/0.1)_0%,transparent_60%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,hsl(var(--primary)/0.15)_0%,transparent_60%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,hsl(var(--secondary)/0.12)_0%,transparent_60%)]"></div>
+        {/* Central radial darkener to lift title contrast */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,hsl(var(--background)/0.5)_0%,transparent_70%)]"></div>
       </div>
 
       {/* Content */}
