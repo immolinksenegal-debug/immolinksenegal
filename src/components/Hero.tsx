@@ -57,7 +57,7 @@ const Hero = () => {
           </div>
 
           <div className="mb-6 px-2">
-            <h1 className="text-3xl xs:text-4xl md:text-6xl lg:text-7xl font-black leading-[1.15] tracking-tight text-foreground drop-shadow-sm">
+            <h1 className="text-3xl xs:text-4xl md:text-6xl lg:text-7xl font-black leading-[1.15] tracking-tight text-foreground">
               Trouvez votre
             </h1>
             <h1 className="text-3xl xs:text-4xl md:text-6xl lg:text-7xl font-black leading-[1.15] tracking-tight bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
@@ -141,7 +141,7 @@ const Hero = () => {
                 <div className="sm:col-span-2 lg:col-span-1">
                   <Button 
                     onClick={handleSearch} 
-                    className="w-full h-12 bg-gradient-to-r from-primary via-accent to-secondary !text-primary-foreground shadow-lg hover:shadow-[0_0_30px_hsl(var(--accent)/0.5)] transition-all duration-300 rounded-xl font-bold text-sm group"
+                    className="w-full h-12 bg-gradient-to-r from-primary via-accent to-secondary !text-primary-foreground shadow-[0_10px_25px_hsl(var(--primary)/0.25)] hover:shadow-[0_0_30px_hsl(var(--accent)/0.5)] transition-all duration-300 rounded-xl font-bold text-sm group"
                   >
                     <Search className="h-5 w-5 mr-2 group-hover:scale-110 transition-transform" />
                     Rechercher
@@ -161,7 +161,7 @@ const Hero = () => {
             ].map((stat, index) => (
               <div
                 key={index}
-                className="group relative overflow-hidden rounded-2xl bg-card/95 backdrop-blur-xl border border-border p-4 xs:p-5 hover:-translate-y-1 hover:border-primary/50 hover:shadow-lg transition-all duration-500"
+                className="group relative overflow-hidden rounded-2xl bg-card/95 backdrop-blur-xl border border-border p-4 xs:p-5 hover:-translate-y-1 hover:border-primary/50 hover:shadow-card transition-all duration-500"
                 style={{ animationDelay: `${index * 80}ms` }}
               >
                 <div className={`absolute -top-8 -right-8 w-24 h-24 rounded-full blur-2xl transition-all duration-500 ${
