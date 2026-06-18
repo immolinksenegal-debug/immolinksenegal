@@ -60,15 +60,15 @@ const Hero = () => {
           </div>
 
           <div className="mb-6 px-2">
-            <h1 className="text-3xl xs:text-4xl md:text-6xl lg:text-7xl font-black leading-[1.15] tracking-tight text-foreground">
+            <h1 className="text-3xl xs:text-4xl md:text-6xl lg:text-7xl font-black leading-[1.15] tracking-tight text-foreground [text-shadow:0_2px_20px_hsl(var(--background)/0.8),0_1px_3px_hsl(var(--background)/0.9)]">
               Trouvez votre
             </h1>
-            <h1 className="text-3xl xs:text-4xl md:text-6xl lg:text-7xl font-black leading-[1.15] tracking-tight bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
+            <h1 className="text-3xl xs:text-4xl md:text-6xl lg:text-7xl font-black leading-[1.15] tracking-tight bg-gradient-to-r from-primary via-primary to-secondary bg-clip-text text-transparent drop-shadow-[0_2px_12px_hsl(var(--primary)/0.5)]">
               bien idéal
             </h1>
           </div>
           
-          <p className="text-lg xs:text-xl md:text-2xl mb-10 max-w-2xl mx-auto px-4 text-muted-foreground font-medium">
+          <p className="text-lg xs:text-xl md:text-2xl mb-10 max-w-2xl mx-auto px-4 text-foreground/90 font-semibold [text-shadow:0_1px_12px_hsl(var(--background)/0.85),0_1px_2px_hsl(var(--background)/0.9)]">
             Gestion locative, vente et estimation — votre partenaire de confiance au Sénégal
           </p>
 
