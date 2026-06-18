@@ -123,7 +123,7 @@ const FeaturedProperties = () => {
           <Link to="/properties">
             <Button
               size="lg"
-              className="bg-secondary hover:bg-secondary/90 text-secondary-foreground rounded-2xl font-semibold text-base px-8 py-6 shadow-lg hover:shadow-[0_0_30px_hsl(var(--secondary)/0.3)] transition-all duration-300 group"
+              className="bg-gradient-to-r from-primary via-accent to-secondary hover:opacity-90 text-white rounded-2xl font-semibold text-base px-8 py-6 shadow-lg hover:shadow-elevated transition-all duration-300 group"
             >
               Voir tous les biens
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
