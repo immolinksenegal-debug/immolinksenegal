@@ -9,10 +9,11 @@ import SEOHead from "@/components/SEOHead";
 const Index = () => {
   return (
     <div className="min-h-screen">
-      <SEOHead 
-        title="Immobilier Sénégal - Terrain, Villa, Maison à Vendre & Louer"
-        description="Plateforme immobilière N°1 au Sénégal. Trouvez terrain à vendre Dakar, villa à vendre Saly, maison à louer Mbour. Estimation gratuite avec IA. Annonces vérifiées."
+      <SEOHead
+        title="Terrains, villas & maisons au Sénégal"
+        description="Plateforme immobilière au Sénégal. Terrains, villas et maisons à vendre ou louer à Dakar, Saly, Mbour, Thiès. Estimation gratuite par IA."
         type="website"
+        url="https://immolinksenegal.lovable.app/"
       />
       <Navbar />
       <main>

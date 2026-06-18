@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BannerHeading from "@/components/BannerHeading";
+import SEOHead from "@/components/SEOHead";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -93,6 +94,11 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead
+        title="Contact"
+        description="Contactez l'équipe Immo Link Sénégal : téléphone, email et formulaire pour vos questions immobilières à Dakar, Saly et Mbour."
+        url="https://immolinksenegal.lovable.app/contact"
+      />
       <Navbar />
       
       <main className="flex-grow pb-16">

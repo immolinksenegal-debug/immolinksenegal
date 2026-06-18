@@ -67,8 +67,13 @@ const PropertyCard = ({
         </div>
 
         {/* Favorite Button */}
-        <button onClick={() => setIsFavorite(!isFavorite)} className="absolute top-4 right-4 w-10 h-10 rounded-full glass-effect flex items-center justify-center transition-smooth hover:scale-110">
-          <Heart className={`h-5 w-5 transition-smooth ${isFavorite ? "fill-destructive text-destructive" : "text-foreground"}`} />
+        <button
+          onClick={() => setIsFavorite(!isFavorite)}
+          aria-label={isFavorite ? `Retirer ${title} des favoris` : `Ajouter ${title} aux favoris`}
+          aria-pressed={isFavorite}
+          className="absolute top-4 right-4 w-10 h-10 rounded-full glass-effect flex items-center justify-center transition-smooth hover:scale-110"
+        >
+          <Heart aria-hidden="true" className={`h-5 w-5 transition-smooth ${isFavorite ? "fill-destructive text-destructive" : "text-foreground"}`} />
         </button>
       </div>
 

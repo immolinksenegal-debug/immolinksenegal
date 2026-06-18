@@ -1,8 +1,15 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEOHead from "@/components/SEOHead";
 const Terms = () => {
   return <div className="min-h-screen flex flex-col">
+      <SEOHead
+        title="Conditions d'utilisation"
+        description="Conditions générales d'utilisation de la plateforme Immo Link Sénégal pour les annonces et services immobiliers."
+        url="https://immolinksenegal.lovable.app/conditions"
+      />
       <Navbar />
+      
       
       <main className="flex-grow pt-20 pb-16">
         <div className="container mx-auto px-4 max-w-4xl">

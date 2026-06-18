@@ -1,12 +1,18 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BannerHeading from "@/components/BannerHeading";
+import SEOHead from "@/components/SEOHead";
 import { Building2, Users, Target, Award, Globe, Shield, Zap, Heart } from "lucide-react";
 import bannerImage from "@/assets/banner-fiscalite-senegal.jpg";
 
 const About = () => {
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead
+        title="À propos"
+        description="Découvrez Immo Link Sénégal, la plateforme immobilière moderne qui connecte acheteurs, vendeurs et investisseurs au Sénégal."
+        url="https://immolinksenegal.lovable.app/a-propos"
+      />
       <Navbar />
       
       <main className="flex-grow pb-16 relative overflow-hidden">
