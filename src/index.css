@@ -104,10 +104,10 @@
     --primary-foreground: 140 100% 8%;
     --primary-glow: 140 80% 60%;
 
-    /* Secondary - Rouge éclairci */
-    --secondary: 0 85% 60%;
+    /* Secondary - Rouge ajusté pour AA contre texte blanc en mode sombre */
+    --secondary: 0 80% 48%;
     --secondary-foreground: 0 0% 100%;
-    --secondary-glow: 0 90% 70%;
+    --secondary-glow: 0 90% 62%;
 
     /* Accent - Or doré (déjà vibrant, légèrement adouci) */
     --accent: 45 95% 60%;
@@ -122,7 +122,7 @@
     --muted: 140 15% 14%;
     --muted-foreground: 45 15% 70%;
 
-    --destructive: 0 75% 55%;
+    --destructive: 0 80% 48%;
     --destructive-foreground: 0 0% 100%;
 
     --border: 140 20% 18%;
