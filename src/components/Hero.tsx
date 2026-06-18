@@ -102,11 +102,11 @@ const Hero = () => {
                     </div>
                   ) : (
                     <Select value={propertyType} onValueChange={setPropertyType}>
-                      <SelectTrigger className="w-full bg-primary/[0.06] border-primary/20 h-12 rounded-xl text-sm hover:border-primary/50 transition-all focus:ring-primary/50">
+                      <SelectTrigger className="w-full bg-primary/[0.08] border-primary/30 h-12 rounded-xl text-sm hover:border-primary/60 focus:border-primary focus:ring-2 focus:ring-primary/60 transition-all text-foreground font-medium">
                         <Home className="h-4 w-4 mr-2 text-primary flex-shrink-0" />
                         <SelectValue placeholder="Type de bien" />
                       </SelectTrigger>
-                      <SelectContent position="popper" sideOffset={4} align="start" className="glass-effect border-primary/20">
+                      <SelectContent position="popper" sideOffset={4} align="start" className="glass-effect border-primary/30">
                         <SelectItem value="Appartement">Appartement</SelectItem>
                         <SelectItem value="Maison">Maison</SelectItem>
                         <SelectItem value="Villa">Villa</SelectItem>
