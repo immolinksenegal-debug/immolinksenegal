@@ -119,12 +119,12 @@ const Hero = () => {
 
                 <div className="sm:col-span-1">
                 <div className="relative">
-                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-secondary" />
+                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-primary" />
                     <Input 
                       placeholder="Ville" 
                       value={city} 
                       onChange={e => setCity(e.target.value)} 
-                      className="pl-10 bg-primary/[0.06] border-primary/20 h-12 rounded-xl text-sm hover:border-secondary/50 focus:border-secondary focus:ring-secondary/50 transition-all" 
+                      className="pl-10 bg-primary/[0.08] border-primary/30 h-12 rounded-xl text-sm text-foreground font-medium placeholder:text-foreground/60 hover:border-primary/60 focus:border-primary focus-visible:ring-2 focus-visible:ring-primary/60 transition-all" 
                     />
                   </div>
                 </div>
@@ -136,7 +136,7 @@ const Hero = () => {
                       type="number" 
                       value={maxPrice} 
                       onChange={e => setMaxPrice(e.target.value)} 
-                      className="px-4 bg-primary/[0.06] border-primary/20 h-12 rounded-xl text-sm hover:border-accent/50 focus:border-accent focus:ring-accent/50 transition-all" 
+                      className="px-4 bg-primary/[0.08] border-primary/30 h-12 rounded-xl text-sm text-foreground font-medium placeholder:text-foreground/60 hover:border-secondary/60 focus:border-secondary focus-visible:ring-2 focus-visible:ring-secondary/60 transition-all" 
                     />
                   </div>
                 </div>
