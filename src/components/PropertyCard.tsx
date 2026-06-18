@@ -40,7 +40,9 @@ const PropertyCard = ({
 }: PropertyCardProps) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [imageError, setImageError] = useState(false);
-  return <Card className="group overflow-hidden hover-lift bg-card shadow-card border-primary/10 hover:border-primary/30 rounded-2xl transition-all duration-500">
+  return <Card className="group relative overflow-hidden hover-lift bg-card shadow-card border border-border hover:border-transparent rounded-2xl transition-all duration-500">
+      {/* Top brand gradient separator */}
+      <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-primary via-accent to-secondary opacity-80 z-10" />
       <div className="relative overflow-hidden aspect-[4/3] bg-muted">
         <img src={imageError ? '/placeholder.svg' : image || '/placeholder.svg'} alt={title} className="w-full h-full object-cover transition-smooth group-hover:scale-110" onError={e => {
         setImageError(true);
