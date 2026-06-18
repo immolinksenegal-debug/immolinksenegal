@@ -71,7 +71,7 @@ const Hero = () => {
 
           {/* Search Bar - Modern floating card */}
           <div className="w-full max-w-4xl mx-auto mb-12">
-            <div className="bg-background/70 backdrop-blur-2xl rounded-3xl p-4 xs:p-6 border border-border/40 shadow-[0_20px_60px_rgba(0,0,0,0.4)]">
+            <div className="bg-card/95 backdrop-blur-2xl rounded-3xl p-4 xs:p-6 border border-border shadow-[0_20px_60px_rgba(0,0,0,0.15)]">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                 <div className="sm:col-span-1">
                   {isMobile ? (
