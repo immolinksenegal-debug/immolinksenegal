@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import bannerFiscalite from "@/assets/banner-fiscalite-senegal.jpg";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import BannerHeading from "@/components/BannerHeading";
 
 interface Article {
   id: string;
