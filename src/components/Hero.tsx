@@ -36,10 +36,12 @@ const Hero = () => {
             className="w-full h-full object-cover object-[center_35%] sm:object-center" 
           />
         </picture>
-        {/* Lighter overlay for better image visibility */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/85 via-background/70 to-background/95"></div>
+        {/* Adaptive overlay: denser on mobile for portrait image readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/92 via-background/80 to-background/95 sm:from-background/85 sm:via-background/70 sm:to-background/95"></div>
+        {/* Mobile-focused radial dim around text area */}
+        <div className="absolute inset-0 sm:hidden bg-[radial-gradient(ellipse_at_center,hsl(var(--background)/0.55)_0%,transparent_70%)]"></div>
         {/* Subtle color tints from logo */}
-        <div className="absolute inset-0 bg-mesh opacity-80"></div>
+        <div className="absolute inset-0 bg-mesh opacity-80 sm:opacity-80"></div>
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,hsl(var(--primary)/0.12)_0%,transparent_60%)]"></div>
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,hsl(var(--secondary)/0.1)_0%,transparent_60%)]"></div>
 
