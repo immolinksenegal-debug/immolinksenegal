@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, MapPin, Home, Sparkles, ArrowDown } from "lucide-react";
-import heroImage from "@/assets/hero-senegal-futuriste.jpg";
+import heroImageDesktop from "@/assets/hero-senegal-futuriste.jpg";
+import heroImageMobile from "@/assets/hero-senegal-futuriste-mobile.jpg";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
