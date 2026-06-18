@@ -112,7 +112,7 @@ export const PropertyImageGallery = ({ images, title }: PropertyImageGalleryProp
           {images.slice(1, 5).map((image, index) => (
             <div 
               key={index} 
-              className="aspect-video overflow-hidden group cursor-pointer relative"
+              className="aspect-video overflow-hidden group cursor-pointer relative border-2 border-primary"
               onClick={() => openGallery(index + 1)}
             >
               <img
