@@ -28,7 +28,7 @@ const Hero = () => {
       <div className="absolute inset-0 z-0">
         <img 
           src={heroImage} 
-          alt="Villas modernes au Sénégal - Gestion locative professionnelle" 
+          alt="Dakar futuriste - Immobilier moderne au Sénégal" 
           className="w-full h-full object-cover object-[center_40%] sm:object-center" 
         />
         {/* Lighter overlay for better image visibility */}
