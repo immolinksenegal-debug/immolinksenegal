@@ -37,12 +37,15 @@ const Hero = () => {
           />
         </picture>
         {/* Color-tinted overlay: lighter so the image shows through, with brand color hints */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/45 to-background/75 sm:from-background/50 sm:via-background/35 sm:to-background/70"></div>
-        <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-secondary/10"></div>
+        {/* Stronger overlay for text readability on any background image */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/65 to-background/85 sm:from-background/70 sm:via-background/55 sm:to-background/80"></div>
+        <div className="absolute inset-0 bg-gradient-to-tr from-primary/15 via-transparent to-secondary/15"></div>
         {/* Subtle color tints from logo */}
         <div className="absolute inset-0 bg-mesh opacity-70"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,hsl(var(--primary)/0.12)_0%,transparent_60%)]"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,hsl(var(--secondary)/0.1)_0%,transparent_60%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,hsl(var(--primary)/0.15)_0%,transparent_60%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,hsl(var(--secondary)/0.12)_0%,transparent_60%)]"></div>
+        {/* Central radial darkener to lift title contrast */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,hsl(var(--background)/0.5)_0%,transparent_70%)]"></div>
       </div>
 
       {/* Content */}
@@ -57,15 +60,15 @@ const Hero = () => {
           </div>
 
           <div className="mb-6 px-2">
-            <h1 className="text-3xl xs:text-4xl md:text-6xl lg:text-7xl font-black leading-[1.15] tracking-tight text-foreground">
+            <h1 className="text-3xl xs:text-4xl md:text-6xl lg:text-7xl font-black leading-[1.15] tracking-tight text-foreground [text-shadow:0_2px_20px_hsl(var(--background)/0.8),0_1px_3px_hsl(var(--background)/0.9)]">
               Trouvez votre
             </h1>
-            <h1 className="text-3xl xs:text-4xl md:text-6xl lg:text-7xl font-black leading-[1.15] tracking-tight bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
+            <h1 className="text-3xl xs:text-4xl md:text-6xl lg:text-7xl font-black leading-[1.15] tracking-tight bg-gradient-to-r from-primary via-primary to-secondary bg-clip-text text-transparent drop-shadow-[0_2px_12px_hsl(var(--primary)/0.5)]">
               bien idéal
             </h1>
           </div>
           
-          <p className="text-lg xs:text-xl md:text-2xl mb-10 max-w-2xl mx-auto px-4 text-muted-foreground font-medium">
+          <p className="text-lg xs:text-xl md:text-2xl mb-10 max-w-2xl mx-auto px-4 text-foreground/90 font-semibold [text-shadow:0_1px_12px_hsl(var(--background)/0.85),0_1px_2px_hsl(var(--background)/0.9)]">
             Gestion locative, vente et estimation — votre partenaire de confiance au Sénégal
           </p>
 
@@ -81,7 +84,7 @@ const Hero = () => {
                       <select 
                         value={propertyType} 
                         onChange={e => setPropertyType(e.target.value)} 
-                        className="w-full bg-primary/[0.06] border border-primary/20 h-12 rounded-xl text-sm pl-10 pr-3 appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all text-foreground"
+                        className="w-full bg-primary/[0.08] border border-primary/30 h-12 rounded-xl text-sm pl-10 pr-3 appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/60 focus:border-primary active:border-primary transition-all text-foreground font-medium"
                         style={{
                           backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23005C00' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
                           backgroundRepeat: 'no-repeat',
@@ -99,11 +102,11 @@ const Hero = () => {
                     </div>
                   ) : (
                     <Select value={propertyType} onValueChange={setPropertyType}>
-                      <SelectTrigger className="w-full bg-primary/[0.06] border-primary/20 h-12 rounded-xl text-sm hover:border-primary/50 transition-all focus:ring-primary/50">
+                      <SelectTrigger className="w-full bg-primary/[0.08] border-primary/30 h-12 rounded-xl text-sm hover:border-primary/60 focus:border-primary focus:ring-2 focus:ring-primary/60 transition-all text-foreground font-medium">
                         <Home className="h-4 w-4 mr-2 text-primary flex-shrink-0" />
                         <SelectValue placeholder="Type de bien" />
                       </SelectTrigger>
-                      <SelectContent position="popper" sideOffset={4} align="start" className="glass-effect border-primary/20">
+                      <SelectContent position="popper" sideOffset={4} align="start" className="glass-effect border-primary/30">
                         <SelectItem value="Appartement">Appartement</SelectItem>
                         <SelectItem value="Maison">Maison</SelectItem>
                         <SelectItem value="Villa">Villa</SelectItem>
@@ -116,12 +119,12 @@ const Hero = () => {
 
                 <div className="sm:col-span-1">
                 <div className="relative">
-                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-secondary" />
+                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-primary" />
                     <Input 
                       placeholder="Ville" 
                       value={city} 
                       onChange={e => setCity(e.target.value)} 
-                      className="pl-10 bg-primary/[0.06] border-primary/20 h-12 rounded-xl text-sm hover:border-secondary/50 focus:border-secondary focus:ring-secondary/50 transition-all" 
+                      className="pl-10 bg-primary/[0.08] border-primary/30 h-12 rounded-xl text-sm text-foreground font-medium placeholder:text-foreground/60 hover:border-primary/60 focus:border-primary focus-visible:ring-2 focus-visible:ring-primary/60 transition-all" 
                     />
                   </div>
                 </div>
@@ -133,7 +136,7 @@ const Hero = () => {
                       type="number" 
                       value={maxPrice} 
                       onChange={e => setMaxPrice(e.target.value)} 
-                      className="px-4 bg-primary/[0.06] border-primary/20 h-12 rounded-xl text-sm hover:border-accent/50 focus:border-accent focus:ring-accent/50 transition-all" 
+                      className="px-4 bg-primary/[0.08] border-primary/30 h-12 rounded-xl text-sm text-foreground font-medium placeholder:text-foreground/60 hover:border-secondary/60 focus:border-secondary focus-visible:ring-2 focus-visible:ring-secondary/60 transition-all" 
                     />
                   </div>
                 </div>
@@ -141,7 +144,7 @@ const Hero = () => {
                 <div className="sm:col-span-2 lg:col-span-1">
                   <Button 
                     onClick={handleSearch} 
-                    className="w-full h-12 bg-gradient-to-r from-primary via-accent to-secondary !text-primary-foreground shadow-[0_10px_25px_hsl(var(--primary)/0.25)] hover:shadow-[0_0_30px_hsl(var(--accent)/0.5)] transition-all duration-300 rounded-xl font-bold text-sm group"
+                    className="w-full h-12 bg-gradient-to-r from-primary to-secondary !text-primary-foreground shadow-[0_10px_25px_hsl(var(--primary)/0.35)] hover:shadow-[0_0_30px_hsl(var(--secondary)/0.5)] transition-all duration-300 rounded-xl font-bold text-sm group"
                   >
                     <Search className="h-5 w-5 mr-2 group-hover:scale-110 transition-transform" />
                     Rechercher
@@ -155,29 +158,27 @@ const Hero = () => {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 xs:gap-4 w-full max-w-4xl mx-auto px-2">
             {[
               { label: "Biens disponibles", value: "500+", color: "primary" as const },
-              { label: "Villes couvertes", value: "15+", color: "accent" as const },
-              { label: "Clients satisfaits", value: "1000+", color: "secondary" as const },
-              { label: "Agences partenaires", value: "50+", color: "primary" as const },
+              { label: "Villes couvertes", value: "15+", color: "secondary" as const },
+              { label: "Clients satisfaits", value: "1000+", color: "primary" as const },
+              { label: "Agences partenaires", value: "50+", color: "secondary" as const },
             ].map((stat, index) => (
               <div
                 key={index}
-                className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/[0.07] to-secondary/[0.04] backdrop-blur-xl border border-primary/20 p-4 xs:p-5 hover:-translate-y-1 hover:border-primary/50 hover:shadow-card transition-all duration-500"
+                className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/[0.08] to-secondary/[0.06] backdrop-blur-xl border border-primary/30 p-4 xs:p-5 hover:-translate-y-1 hover:border-primary/60 hover:shadow-card transition-all duration-500"
                 style={{ animationDelay: `${index * 80}ms` }}
               >
                 <div className={`absolute -top-8 -right-8 w-24 h-24 rounded-full blur-2xl transition-all duration-500 ${
-                  stat.color === 'primary' ? 'bg-primary/15 group-hover:bg-primary/25' :
-                  stat.color === 'accent' ? 'bg-accent/15 group-hover:bg-accent/25' :
-                  'bg-secondary/15 group-hover:bg-secondary/25'
+                  stat.color === 'primary'
+                    ? 'bg-primary/20 group-hover:bg-primary/30'
+                    : 'bg-secondary/20 group-hover:bg-secondary/30'
                 }`} />
                 <div className="relative flex flex-col items-start">
-                  <span className={`text-3xl xs:text-4xl font-black leading-none ${
-                    stat.color === 'primary' ? 'text-primary' :
-                    stat.color === 'accent' ? 'text-accent' :
-                    'text-secondary'
+                  <span className={`text-3xl xs:text-4xl font-black leading-none drop-shadow-[0_2px_8px_hsl(var(--background)/0.6)] ${
+                    stat.color === 'primary' ? 'text-primary' : 'text-secondary'
                   }`}>
                     {stat.value}
                   </span>
-                  <span className="mt-2 text-xs xs:text-sm font-semibold text-foreground/80 text-left">
+                  <span className="mt-2 text-xs xs:text-sm font-semibold text-foreground text-left [text-shadow:0_1px_8px_hsl(var(--background)/0.7)]">
                     {stat.label}
                   </span>
                 </div>
