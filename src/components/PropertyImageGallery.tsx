@@ -95,13 +95,13 @@ export const PropertyImageGallery = ({ images, title }: PropertyImageGalleryProp
 
       {/* Fullscreen Gallery Dialog */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="max-w-[95vw] w-full h-[95vh] p-0 bg-black/95 border-none">
+        <DialogContent className="max-w-[100vw] sm:max-w-[95vw] w-full h-[100vh] sm:h-[95vh] p-0 bg-black/95 border-none rounded-none sm:rounded-lg">
           <div className="relative w-full h-full flex flex-col">
-            {/* Header */}
-            <div className="absolute top-0 left-0 right-0 z-50 flex items-center justify-between p-4 bg-gradient-to-b from-black/80 to-transparent">
-              <div className="text-white">
-                <h3 className="font-semibold text-lg">{title}</h3>
-                <p className="text-sm text-white/70">
+            {/* Header - solid gradient for guaranteed legibility */}
+            <div className="absolute top-0 left-0 right-0 z-50 flex items-start justify-between gap-3 p-3 sm:p-4 pt-[max(0.75rem,env(safe-area-inset-top))] bg-gradient-to-b from-black/90 via-black/60 to-transparent pb-8 sm:pb-10">
+              <div className="text-white min-w-0 flex-1">
+                <h3 className="font-semibold text-sm sm:text-lg truncate [text-shadow:0_1px_4px_rgba(0,0,0,0.9)]">{title}</h3>
+                <p className="text-xs sm:text-sm text-white/80 [text-shadow:0_1px_3px_rgba(0,0,0,0.9)]">
                   {currentIndex + 1} / {images.length}
                 </p>
               </div>
@@ -109,14 +109,15 @@ export const PropertyImageGallery = ({ images, title }: PropertyImageGalleryProp
                 variant="ghost"
                 size="icon"
                 onClick={() => setIsOpen(false)}
-                className="text-white hover:bg-white/20 rounded-full"
+                className="text-white hover:bg-white/20 rounded-full h-9 w-9 sm:h-10 sm:w-10 flex-shrink-0 bg-black/40 backdrop-blur-sm"
+                aria-label="Fermer la galerie"
               >
-                <X className="h-6 w-6" />
+                <X className="h-5 w-5 sm:h-6 sm:w-6" />
               </Button>
             </div>
 
-            {/* Main Image */}
-            <div className="flex-1 flex items-center justify-center p-4 overflow-hidden">
+            {/* Main Image - reserve space for header (top) and thumb strip (bottom) */}
+            <div className="flex-1 flex items-center justify-center px-2 sm:px-4 pt-16 sm:pt-20 pb-28 sm:pb-32 overflow-hidden">
               <div 
                 className="relative transition-transform duration-300 ease-out"
                 style={{ transform: `scale(${zoomLevel})` }}
@@ -124,58 +125,62 @@ export const PropertyImageGallery = ({ images, title }: PropertyImageGalleryProp
                 <img
                   src={images[currentIndex]}
                   alt={`${title} - Image ${currentIndex + 1}`}
-                  className="max-w-full max-h-[80vh] object-contain"
+                  className="max-w-full max-h-[60vh] sm:max-h-[75vh] object-contain"
                 />
               </div>
             </div>
 
-            {/* Navigation Controls */}
-            <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-4 pointer-events-none">
+            {/* Navigation Controls - smaller on mobile, never overlap header */}
+            <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex items-center justify-between px-2 sm:px-4 pointer-events-none">
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={handlePrevious}
-                className="pointer-events-auto text-white hover:bg-white/20 rounded-full h-12 w-12 backdrop-blur-sm"
+                className="pointer-events-auto text-white hover:bg-white/20 rounded-full h-10 w-10 sm:h-12 sm:w-12 bg-black/40 backdrop-blur-sm"
                 disabled={images.length <= 1}
+                aria-label="Image précédente"
               >
-                <ChevronLeft className="h-8 w-8" />
+                <ChevronLeft className="h-6 w-6 sm:h-8 sm:w-8" />
               </Button>
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={handleNext}
-                className="pointer-events-auto text-white hover:bg-white/20 rounded-full h-12 w-12 backdrop-blur-sm"
+                className="pointer-events-auto text-white hover:bg-white/20 rounded-full h-10 w-10 sm:h-12 sm:w-12 bg-black/40 backdrop-blur-sm"
                 disabled={images.length <= 1}
+                aria-label="Image suivante"
               >
-                <ChevronRight className="h-8 w-8" />
+                <ChevronRight className="h-6 w-6 sm:h-8 sm:w-8" />
               </Button>
             </div>
 
-            {/* Zoom Controls */}
-            <div className="absolute bottom-24 right-4 flex flex-col gap-2">
+            {/* Zoom Controls - positioned safely above the thumbnail strip */}
+            <div className="absolute bottom-28 sm:bottom-32 right-2 sm:right-4 flex flex-col gap-2 z-40">
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={handleZoomIn}
                 disabled={zoomLevel >= 3}
-                className="text-white hover:bg-white/20 rounded-full backdrop-blur-sm"
+                className="text-white hover:bg-white/20 rounded-full bg-black/40 backdrop-blur-sm h-9 w-9 sm:h-10 sm:w-10"
+                aria-label="Zoom avant"
               >
-                <ZoomIn className="h-5 w-5" />
+                <ZoomIn className="h-4 w-4 sm:h-5 sm:w-5" />
               </Button>
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={handleZoomOut}
                 disabled={zoomLevel <= 1}
-                className="text-white hover:bg-white/20 rounded-full backdrop-blur-sm"
+                className="text-white hover:bg-white/20 rounded-full bg-black/40 backdrop-blur-sm h-9 w-9 sm:h-10 sm:w-10"
+                aria-label="Zoom arrière"
               >
-                <ZoomOut className="h-5 w-5" />
+                <ZoomOut className="h-4 w-4 sm:h-5 sm:w-5" />
               </Button>
             </div>
 
-            {/* Thumbnail Strip */}
-            <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
-              <div className="flex gap-2 overflow-x-auto scrollbar-hide justify-center">
+            {/* Thumbnail Strip - compact on mobile, safe-area padding */}
+            <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-4 pb-[max(0.5rem,env(safe-area-inset-bottom))] bg-gradient-to-t from-black/90 via-black/70 to-transparent pt-6 sm:pt-10">
+              <div className="flex gap-2 overflow-x-auto scrollbar-hide justify-start sm:justify-center">
                 {images.map((image, index) => (
                   <button
                     key={index}
@@ -184,11 +189,12 @@ export const PropertyImageGallery = ({ images, title }: PropertyImageGalleryProp
                       setZoomLevel(1);
                     }}
                     className={cn(
-                      "relative flex-shrink-0 w-16 h-16 xs:w-20 xs:h-20 rounded-lg overflow-hidden transition-all",
+                      "relative flex-shrink-0 w-14 h-14 sm:w-20 sm:h-20 rounded-lg overflow-hidden transition-all",
                       currentIndex === index
-                        ? "ring-2 ring-primary scale-110"
+                        ? "ring-2 ring-primary scale-105 sm:scale-110"
                         : "opacity-60 hover:opacity-100"
                     )}
+                    aria-label={`Afficher l'image ${index + 1}`}
                   >
                     <img
                       src={image}
