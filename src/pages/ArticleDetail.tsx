@@ -357,7 +357,7 @@ const ArticleDetail = () => {
                   comments.map((comment) => (
                     <div key={comment.id} className="border-b border-border pb-6 last:border-0">
                       <div className="flex items-start gap-4">
-                        <div className="w-10 h-10 rounded-full bg-gradient-modern flex items-center justify-center text-white font-bold flex-shrink-0">
+                        <div className="w-10 h-10 rounded-full bg-gradient-modern flex items-center justify-center text-primary-foreground font-bold flex-shrink-0">
                           {comment.user_name?.[0] || "U"}
                         </div>
                         <div className="flex-1">

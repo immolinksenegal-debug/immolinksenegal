@@ -102,7 +102,7 @@ const FreeEstimation = () => {
         let yPosition = 20;
 
         // En-tête avec couleurs Immo Link
-        doc.setFillColor(11, 47, 100); // Bleu foncé #0b2f64
+        doc.setFillColor(0, 92, 0); // Vert logo (primary)
         doc.rect(0, 0, pageWidth, 50, 'F');
         
         doc.setTextColor(255, 255, 255);
@@ -124,7 +124,7 @@ const FreeEstimation = () => {
         // Section Informations Client
         doc.setFontSize(16);
         doc.setFont('helvetica', 'bold');
-        doc.setTextColor(107, 74, 43); // Marron #6b4a2b
+        doc.setTextColor(0, 92, 0); // Vert logo (primary)
         doc.text('INFORMATIONS CLIENT', margin, yPosition);
         yPosition += 10;
 
@@ -399,13 +399,13 @@ const FreeEstimation = () => {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-primary/50 via-primary/30 to-background/80">
             <div className="container mx-auto px-4 h-full flex flex-col justify-center items-center text-center">
-              <div className="inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16 bg-white/20 backdrop-blur-sm rounded-full mb-3 md:mb-4 shadow-lg">
-                <Calculator className="w-6 h-6 md:w-8 md:h-8 text-white" />
+              <div className="inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16 bg-primary-foreground/20 backdrop-blur-sm rounded-full mb-3 md:mb-4 shadow-lg">
+                <Calculator className="w-6 h-6 md:w-8 md:h-8 text-primary-foreground" />
               </div>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-4 px-2 text-white drop-shadow-2xl">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-4 px-2 text-primary-foreground drop-shadow-2xl">
                 Estimation Gratuite
               </h1>
-              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white max-w-2xl mx-auto px-2 drop-shadow-xl">
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-primary-foreground max-w-2xl mx-auto px-2 drop-shadow-xl">
                 Obtenez une estimation précise et gratuite de votre bien immobilier en moins de 24-48h
               </p>
             </div>

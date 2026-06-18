@@ -101,10 +101,10 @@ const Articles = () => {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-primary/20 to-transparent flex items-center justify-center">
           <div className="text-center px-4">
-            <h1 className="text-4xl md:text-6xl font-bold mb-4 text-white drop-shadow-2xl">
+            <h1 className="text-4xl md:text-6xl font-bold mb-4 text-primary-foreground drop-shadow-2xl">
               Actualités Immobilières
             </h1>
-            <p className="text-white text-lg md:text-xl max-w-2xl mx-auto drop-shadow-lg">
+            <p className="text-primary-foreground text-lg md:text-xl max-w-2xl mx-auto drop-shadow-lg">
               Restez informé des dernières tendances du marché immobilier sénégalais
             </p>
           </div>
@@ -154,7 +154,7 @@ const Articles = () => {
                             />
                           ) : (
                             <div className="w-full h-full bg-gradient-modern flex items-center justify-center">
-                              <span className="text-white text-4xl">📰</span>
+                              <span className="text-primary-foreground text-4xl">📰</span>
                             </div>
                           )}
                           {article.is_featured && (
@@ -226,7 +226,7 @@ const Articles = () => {
                               className="w-full h-full object-cover"
                             />
                           ) : (
-                            <div className="w-full h-full bg-gradient-modern flex items-center justify-center text-white">
+                            <div className="w-full h-full bg-gradient-modern flex items-center justify-center text-primary-foreground">
                               📰
                             </div>
                           )}
@@ -270,7 +270,7 @@ const Articles = () => {
                               className="w-full h-full object-cover"
                             />
                           ) : (
-                            <div className="w-full h-full bg-gradient-modern flex items-center justify-center text-white">
+                            <div className="w-full h-full bg-gradient-modern flex items-center justify-center text-primary-foreground">
                               📰
                             </div>
                           )}
