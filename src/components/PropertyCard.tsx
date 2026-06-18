@@ -78,7 +78,7 @@ const PropertyCard = ({
         </h3>
         
         <div className="flex items-center text-muted-foreground mb-3">
-          <MapPin className="h-4 w-4 mr-1 text-secondary" />
+          <MapPin className="h-4 w-4 mr-1 text-primary" />
           <span className="text-sm line-clamp-1">{location}</span>
         </div>
 
@@ -101,18 +101,21 @@ const PropertyCard = ({
           </div>
         </div>
 
+        {/* Brand gradient divider */}
+        <div className="h-px w-full bg-gradient-to-r from-transparent via-accent/40 to-transparent my-3" />
+
         <div className="flex items-center gap-4 mb-3 text-xs text-muted-foreground">
           {views > 0 && <div className="flex items-center gap-1">
-              <Eye className="h-3 w-3" />
+              <Eye className="h-3 w-3 text-secondary" />
               <span>{views} vues</span>
             </div>}
           {createdAt && <div className="flex items-center gap-1">
-              <Calendar className="h-3 w-3" />
+              <Calendar className="h-3 w-3 text-accent" />
               <span>{new Date(createdAt).toLocaleDateString('fr-FR')}</span>
             </div>}
         </div>
 
-        <div className="text-2xl font-bold text-accent">
+        <div className="text-2xl font-bold bg-gradient-to-r from-secondary via-accent to-primary bg-clip-text text-transparent">
           {price} <span className="text-lg font-normal text-muted-foreground">FCFA</span>
         </div>
       </CardContent>
