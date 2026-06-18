@@ -92,13 +92,13 @@ const FeaturedProperties = () => {
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-14 flex flex-col items-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full bg-primary/10 border border-primary/20">
-            <Flame className="w-4 h-4 text-primary" />
-            <span className="text-sm font-semibold text-primary">Annonces en vedette</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full bg-gradient-to-r from-primary/10 via-accent/10 to-secondary/10 border border-accent/30">
+            <Flame className="w-4 h-4 text-secondary" />
+            <span className="text-sm font-semibold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Annonces en vedette</span>
           </div>
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4">
             Nos meilleures{" "}
-            <span className="bg-gradient-to-r from-secondary to-accent bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
               offres
             </span>
           </h2>
