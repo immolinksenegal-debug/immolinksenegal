@@ -36,8 +36,9 @@ const Hero = () => {
             className="w-full h-full object-cover object-[center_35%] sm:object-center" 
           />
         </picture>
-        {/* Adaptive overlay: bright white wash for legibility on light theme */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/95 via-background/88 to-background/98 sm:from-background/88 sm:via-background/78 sm:to-background/96"></div>
+        {/* Color-tinted overlay: lighter so the image shows through, with brand color hints */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/45 to-background/75 sm:from-background/50 sm:via-background/35 sm:to-background/70"></div>
+        <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-secondary/10"></div>
         {/* Subtle color tints from logo */}
         <div className="absolute inset-0 bg-mesh opacity-70"></div>
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,hsl(var(--primary)/0.12)_0%,transparent_60%)]"></div>
