@@ -94,6 +94,11 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead
+        title="Contact"
+        description="Contactez l'équipe Immo Link Sénégal : téléphone, email et formulaire pour vos questions immobilières à Dakar, Saly et Mbour."
+        url="https://immolinksenegal.lovable.app/contact"
+      />
       <Navbar />
       
       <main className="flex-grow pb-16">
