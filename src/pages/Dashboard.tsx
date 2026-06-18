@@ -321,7 +321,7 @@ const Dashboard = () => {
                     <CardTitle className="text-lg xs:text-xl md:text-2xl">Mes annonces</CardTitle>
                     <Button 
                       onClick={() => setShowPropertyForm(true)}
-                      className="bg-secondary hover:bg-secondary-glow text-white shadow-glow-secondary transition-smooth rounded-xl text-xs xs:text-sm px-3 xs:px-4 py-2 w-full xs:w-auto"
+                      className="bg-gradient-to-r from-primary via-accent to-secondary hover:opacity-90 text-primary-foreground shadow-lg hover:shadow-[0_0_20px_hsl(var(--accent)/0.4)] transition-smooth rounded-xl text-xs xs:text-sm px-3 xs:px-4 py-2 w-full xs:w-auto font-semibold"
                     >
                       <PlusCircle className="h-3 w-3 xs:h-4 xs:w-4 mr-1 xs:mr-2" />
                       Nouvelle annonce
