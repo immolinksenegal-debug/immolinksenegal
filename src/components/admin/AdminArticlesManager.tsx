@@ -198,10 +198,10 @@ export const AdminArticlesManager = ({ onStatsUpdate }: AdminArticlesManagerProp
 
   const getStatusBadge = (status: string) => {
     const variants: Record<string, string> = {
-      pending: "bg-orange-500/10 text-accent border-orange-500/20",
+      pending: "bg-accent/10 text-accent border-accent/30",
       published: "bg-primary/10 text-primary border-primary/20",
       rejected: "bg-destructive/10 text-destructive border-destructive/20",
-      draft: "bg-muted0/10 text-gray-500 border-gray-500/20",
+      draft: "bg-muted text-muted-foreground border-border",
     };
 
     const labels: Record<string, string> = {
@@ -300,7 +300,7 @@ export const AdminArticlesManager = ({ onStatsUpdate }: AdminArticlesManagerProp
                                 size="sm"
                                 variant="default"
                                 onClick={() => handleStatusChange(article.id, 'published')}
-                                className="bg-primary/100 hover:bg-green-600"
+                                className="bg-primary hover:bg-primary/90"
                               >
                                 <CheckCircle className="h-3 w-3 mr-1" />
                                 Publier
