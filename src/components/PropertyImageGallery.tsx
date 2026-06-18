@@ -162,7 +162,13 @@ export const PropertyImageGallery = ({ images, title }: PropertyImageGalleryProp
             </div>
 
             {/* Main Image - reserve space for header (top) and thumb strip (bottom) */}
-            <div className="flex-1 flex items-center justify-center px-2 sm:px-4 pt-16 sm:pt-20 pb-28 sm:pb-32 overflow-hidden">
+            <div
+              className="flex-1 flex items-center justify-center px-2 sm:px-4 pt-16 sm:pt-20 pb-28 sm:pb-32 overflow-hidden select-none"
+              style={{ touchAction: zoomLevel === 1 ? "pan-y" : "auto" }}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+            >
               <div 
                 className="relative transition-transform duration-300 ease-out"
                 style={{ transform: `scale(${zoomLevel})` }}
