@@ -158,29 +158,27 @@ const Hero = () => {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 xs:gap-4 w-full max-w-4xl mx-auto px-2">
             {[
               { label: "Biens disponibles", value: "500+", color: "primary" as const },
-              { label: "Villes couvertes", value: "15+", color: "accent" as const },
-              { label: "Clients satisfaits", value: "1000+", color: "secondary" as const },
-              { label: "Agences partenaires", value: "50+", color: "primary" as const },
+              { label: "Villes couvertes", value: "15+", color: "secondary" as const },
+              { label: "Clients satisfaits", value: "1000+", color: "primary" as const },
+              { label: "Agences partenaires", value: "50+", color: "secondary" as const },
             ].map((stat, index) => (
               <div
                 key={index}
-                className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/[0.07] to-secondary/[0.04] backdrop-blur-xl border border-primary/20 p-4 xs:p-5 hover:-translate-y-1 hover:border-primary/50 hover:shadow-card transition-all duration-500"
+                className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/[0.08] to-secondary/[0.06] backdrop-blur-xl border border-primary/30 p-4 xs:p-5 hover:-translate-y-1 hover:border-primary/60 hover:shadow-card transition-all duration-500"
                 style={{ animationDelay: `${index * 80}ms` }}
               >
                 <div className={`absolute -top-8 -right-8 w-24 h-24 rounded-full blur-2xl transition-all duration-500 ${
-                  stat.color === 'primary' ? 'bg-primary/15 group-hover:bg-primary/25' :
-                  stat.color === 'accent' ? 'bg-accent/15 group-hover:bg-accent/25' :
-                  'bg-secondary/15 group-hover:bg-secondary/25'
+                  stat.color === 'primary'
+                    ? 'bg-primary/20 group-hover:bg-primary/30'
+                    : 'bg-secondary/20 group-hover:bg-secondary/30'
                 }`} />
                 <div className="relative flex flex-col items-start">
-                  <span className={`text-3xl xs:text-4xl font-black leading-none ${
-                    stat.color === 'primary' ? 'text-primary' :
-                    stat.color === 'accent' ? 'text-accent' :
-                    'text-secondary'
+                  <span className={`text-3xl xs:text-4xl font-black leading-none drop-shadow-[0_2px_8px_hsl(var(--background)/0.6)] ${
+                    stat.color === 'primary' ? 'text-primary' : 'text-secondary'
                   }`}>
                     {stat.value}
                   </span>
-                  <span className="mt-2 text-xs xs:text-sm font-semibold text-foreground/80 text-left">
+                  <span className="mt-2 text-xs xs:text-sm font-semibold text-foreground text-left [text-shadow:0_1px_8px_hsl(var(--background)/0.7)]">
                     {stat.label}
                   </span>
                 </div>
