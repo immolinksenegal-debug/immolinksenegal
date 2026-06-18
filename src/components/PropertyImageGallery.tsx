@@ -14,6 +14,51 @@ export const PropertyImageGallery = ({ images, title }: PropertyImageGalleryProp
   const [currentIndex, setCurrentIndex] = useState(0);
   const [zoomLevel, setZoomLevel] = useState(1);
 
+  // Swipe gesture state (mobile)
+  const touchStartRef = useRef<{ x: number; y: number; time: number } | null>(null);
+  const isHorizontalSwipeRef = useRef<boolean>(false);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (zoomLevel !== 1 || e.touches.length !== 1) {
+      touchStartRef.current = null;
+      return;
+    }
+    const t = e.touches[0];
+    touchStartRef.current = { x: t.clientX, y: t.clientY, time: Date.now() };
+    isHorizontalSwipeRef.current = false;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    const start = touchStartRef.current;
+    if (!start || e.touches.length !== 1) return;
+    const t = e.touches[0];
+    const dx = t.clientX - start.x;
+    const dy = t.clientY - start.y;
+    // Decide direction once movement is significant enough
+    if (!isHorizontalSwipeRef.current && (Math.abs(dx) > 10 || Math.abs(dy) > 10)) {
+      isHorizontalSwipeRef.current = Math.abs(dx) > Math.abs(dy);
+    }
+    // Block vertical scroll bleed only when we own the gesture horizontally
+    if (isHorizontalSwipeRef.current && e.cancelable) {
+      e.preventDefault();
+    }
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const start = touchStartRef.current;
+    touchStartRef.current = null;
+    if (!start || !isHorizontalSwipeRef.current) return;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - start.x;
+    const dt = Date.now() - start.time;
+    const SWIPE_THRESHOLD = 50;
+    const FAST_SWIPE = dt < 300 && Math.abs(dx) > 30;
+    if (Math.abs(dx) > SWIPE_THRESHOLD || FAST_SWIPE) {
+      if (dx < 0) handleNext();
+      else handlePrevious();
+    }
+  };
+
   const handlePrevious = () => {
     setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
     setZoomLevel(1);
