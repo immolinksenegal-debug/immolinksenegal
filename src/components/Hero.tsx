@@ -84,7 +84,7 @@ const Hero = () => {
                       <select 
                         value={propertyType} 
                         onChange={e => setPropertyType(e.target.value)} 
-                        className="w-full bg-primary/[0.06] border border-primary/20 h-12 rounded-xl text-sm pl-10 pr-3 appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all text-foreground"
+                        className="w-full bg-primary/[0.08] border border-primary/30 h-12 rounded-xl text-sm pl-10 pr-3 appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/60 focus:border-primary active:border-primary transition-all text-foreground font-medium"
                         style={{
                           backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23005C00' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
                           backgroundRepeat: 'no-repeat',
