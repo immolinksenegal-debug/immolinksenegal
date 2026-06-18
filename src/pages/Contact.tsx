@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { supabase } from "@/integrations/supabase/client";
+import bannerImage from "@/assets/banner-fiscalite-senegal.jpg";
 
 const contactSchema = z.object({
   full_name: z.string()
