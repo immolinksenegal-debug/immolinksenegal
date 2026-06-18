@@ -345,7 +345,7 @@ const PropertyForm = ({ onSuccess, initialData }: PropertyFormProps) => {
           </p>
           <Button 
             onClick={() => navigate("/auth")}
-            className="bg-secondary hover:bg-secondary-glow text-white"
+            className="bg-gradient-to-r from-primary via-accent to-secondary text-primary-foreground hover:opacity-90 shadow-md hover:shadow-[0_0_20px_hsl(var(--accent)/0.4)] transition-all"
           >
             Se connecter
           </Button>
@@ -653,7 +653,7 @@ const PropertyForm = ({ onSuccess, initialData }: PropertyFormProps) => {
                       <button
                         type="button"
                         onClick={() => removeExistingImage(index)}
-                        className="absolute top-1 right-1 bg-destructive text-white rounded-full p-1.5 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+                        className="absolute top-1 right-1 bg-destructive text-destructive-foreground rounded-full p-1.5 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
                         aria-label="Supprimer l'image"
                       >
                         <X className="h-4 w-4" />
@@ -678,7 +678,7 @@ const PropertyForm = ({ onSuccess, initialData }: PropertyFormProps) => {
                       <button
                         type="button"
                         onClick={() => removeImage(index)}
-                        className="absolute top-1 right-1 bg-destructive text-white rounded-full p-1.5 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+                        className="absolute top-1 right-1 bg-destructive text-destructive-foreground rounded-full p-1.5 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
                         aria-label="Supprimer la photo"
                       >
                         <X className="h-4 w-4" />
@@ -694,7 +694,7 @@ const PropertyForm = ({ onSuccess, initialData }: PropertyFormProps) => {
             <Button
               type="submit"
               disabled={isLoading}
-              className="flex-1 bg-secondary hover:bg-secondary-glow text-white"
+              className="flex-1 bg-gradient-to-r from-primary via-accent to-secondary text-primary-foreground hover:opacity-90 shadow-md hover:shadow-[0_0_25px_hsl(var(--accent)/0.45)] transition-all font-semibold"
             >
               {isLoading ? (
                 <>
