@@ -157,10 +157,16 @@ const PropertyDetail = () => {
     <div className="min-h-screen flex flex-col">
       <SEOHead
         title={property.title}
-        description={`${property.type} à ${property.city} - ${property.price.toLocaleString('fr-FR')} FCFA. ${property.description.substring(0, 100)}...`}
+        description={`${property.type} à ${property.city} — ${property.price.toLocaleString('fr-FR')} FCFA. ${(property.description || '').substring(0, 100)}`}
         image={images[0]}
-        url={`https://immolinksenegal.com/property/${property.id}`}
-        type="website"
+        url={`https://immolinksenegal.lovable.app/property/${property.id}`}
+        type="realestate"
+        schemaType="realestate"
+        schema={{
+          price: property.price,
+          priceCurrency: 'XOF',
+          location: { city: property.city, country: 'SN' },
+        }}
       />
       <Navbar />
       
