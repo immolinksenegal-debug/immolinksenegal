@@ -22,6 +22,7 @@ import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
 import AIChatbot from "./components/AIChatbot";
+import PerfOverlay from "./components/PerfOverlay";
 
 const queryClient = new QueryClient();
 
@@ -53,6 +54,7 @@ const App = () => (
           <Route path="*" element={<NotFound />} />
           </Routes>
           <AIChatbot />
+          {import.meta.env.DEV && <PerfOverlay />}
         </BrowserRouter>
       </TooltipProvider>
     </HelmetProvider>
