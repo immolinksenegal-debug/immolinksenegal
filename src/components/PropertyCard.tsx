@@ -122,7 +122,7 @@ const PropertyCard = ({
 
       <CardFooter className="p-5 pt-0">
         <Link to={`/property/${id}`} className="w-full">
-          <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground transition-smooth rounded-xl font-semibold shadow-[0_0_15px_hsl(var(--primary)/0.3)] hover:shadow-[0_0_25px_hsl(var(--primary)/0.5)]">
+          <Button className="w-full bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-primary-foreground transition-smooth rounded-xl font-semibold shadow-[0_0_15px_hsl(var(--primary)/0.3)] hover:shadow-[0_0_25px_hsl(var(--secondary)/0.4)]">
             Voir les détails
           </Button>
         </Link>

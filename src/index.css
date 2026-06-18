@@ -322,19 +322,19 @@
   /* Bordures */
   .border-neon-cyan {
     @apply border-2;
-    border-color: hsl(25 85% 55%);
+    border-color: hsl(var(--primary));
     box-shadow: var(--shadow-neon-cyan);
   }
-  
+
   .border-neon-violet {
     @apply border-2;
-    border-color: hsl(145 55% 38%);
+    border-color: hsl(var(--primary));
     box-shadow: var(--shadow-neon-violet);
   }
-  
+
   .border-neon-orange {
     @apply border-2;
-    border-color: hsl(42 90% 52%);
+    border-color: hsl(var(--accent));
     box-shadow: var(--shadow-neon-orange);
   }
 
@@ -346,7 +346,7 @@
     content: '';
     position: absolute;
     inset: -2px;
-    background: linear-gradient(90deg, hsl(25 85% 55%), hsl(42 90% 52%), hsl(145 55% 38%), hsl(12 70% 45%));
+    background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--accent)), hsl(var(--primary)), hsl(var(--secondary)));
     border-radius: inherit;
     z-index: -1;
     animation: border-rotate 4s linear infinite;
@@ -360,12 +360,12 @@
   /* Animations */
   @keyframes cyber-pulse {
     0%, 100% {
-      box-shadow: 0 0 20px hsl(25 85% 55% / 0.5), 0 0 40px hsl(25 85% 55% / 0.2);
-      border-color: hsl(25 85% 55% / 0.6);
+      box-shadow: 0 0 20px hsl(var(--primary) / 0.5), 0 0 40px hsl(var(--primary) / 0.2);
+      border-color: hsl(var(--primary) / 0.6);
     }
     50% {
-      box-shadow: 0 0 40px hsl(25 85% 55% / 0.8), 0 0 80px hsl(25 85% 55% / 0.4), 0 0 120px hsl(25 85% 55% / 0.2);
-      border-color: hsl(25 85% 55% / 1);
+      box-shadow: 0 0 40px hsl(var(--primary) / 0.8), 0 0 80px hsl(var(--primary) / 0.4), 0 0 120px hsl(var(--primary) / 0.2);
+      border-color: hsl(var(--primary) / 1);
     }
   }
   
@@ -459,41 +459,41 @@
   
   /* Text Glow Effects */
   .text-glow-cyan {
-    text-shadow: 0 0 10px hsl(25 85% 55% / 0.8),
-                 0 0 20px hsl(25 85% 55% / 0.5),
-                 0 0 40px hsl(25 85% 55% / 0.3);
+    text-shadow: 0 0 10px hsl(var(--primary) / 0.8),
+                 0 0 20px hsl(var(--primary) / 0.5),
+                 0 0 40px hsl(var(--primary) / 0.3);
   }
-  
+
   .text-glow-violet {
-    text-shadow: 0 0 10px hsl(145 55% 38% / 0.8),
-                 0 0 20px hsl(145 55% 38% / 0.5),
-                 0 0 40px hsl(145 55% 38% / 0.3);
+    text-shadow: 0 0 10px hsl(var(--secondary) / 0.8),
+                 0 0 20px hsl(var(--secondary) / 0.5),
+                 0 0 40px hsl(var(--secondary) / 0.3);
   }
-  
+
   .text-glow-orange {
-    text-shadow: 0 0 10px hsl(42 90% 52% / 0.8),
-                 0 0 20px hsl(42 90% 52% / 0.5),
-                 0 0 40px hsl(42 90% 52% / 0.3);
+    text-shadow: 0 0 10px hsl(var(--accent) / 0.8),
+                 0 0 20px hsl(var(--accent) / 0.5),
+                 0 0 40px hsl(var(--accent) / 0.3);
   }
 
   .text-glow-magenta {
-    text-shadow: 0 0 10px hsl(12 70% 45% / 0.8),
-                 0 0 20px hsl(12 70% 45% / 0.5),
-                 0 0 40px hsl(12 70% 45% / 0.3);
+    text-shadow: 0 0 10px hsl(var(--secondary) / 0.8),
+                 0 0 20px hsl(var(--secondary) / 0.5),
+                 0 0 40px hsl(var(--secondary) / 0.3);
   }
 
   /* Neon Button Effect */
   .btn-neon {
     @apply relative overflow-hidden;
-    background: linear-gradient(135deg, hsl(25 85% 55%), hsl(42 90% 52%));
-    box-shadow: 0 0 20px hsl(25 85% 55% / 0.4);
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.4);
   }
 
   .btn-neon::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, hsl(25 90% 62%), hsl(42 95% 60%));
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
     opacity: 0;
     transition: opacity 0.3s ease;
   }
@@ -503,7 +503,7 @@
   }
 
   .btn-neon:hover {
-    box-shadow: 0 0 40px hsl(25 85% 55% / 0.6), 0 0 80px hsl(42 90% 52% / 0.4);
+    box-shadow: 0 0 40px hsl(var(--primary) / 0.6), 0 0 80px hsl(var(--accent) / 0.4);
     transform: translateY(-2px);
   }
 

@@ -353,7 +353,7 @@ const FreeEstimation = () => {
               {lastSubmittedData && (
                 <Button 
                   onClick={() => generatePDF(lastSubmittedData)} 
-                  className="w-full bg-secondary hover:bg-secondary-glow h-11 md:h-12 text-sm md:text-base"
+                  className="w-full bg-gradient-to-r from-primary to-secondary hover:opacity-90 h-11 md:h-12 text-sm md:text-base text-primary-foreground font-semibold rounded-xl transition-all duration-300 shadow-lg"
                   disabled={isGeneratingPdf}
                 >
                   {isGeneratingPdf ? (
@@ -679,7 +679,7 @@ const FreeEstimation = () => {
 
                 <Button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-accent via-secondary to-accent hover:shadow-glow-accent text-white py-4 md:py-6 text-base md:text-lg font-semibold"
+                  className="w-full bg-gradient-to-r from-primary via-accent to-secondary hover:shadow-[0_0_30px_hsl(var(--accent)/0.4)] text-primary-foreground py-4 md:py-6 text-base md:text-lg font-semibold rounded-xl transition-all duration-300"
                   disabled={isSubmitting || isGeneratingPdf}
                 >
                   {isSubmitting || isGeneratingPdf ? (

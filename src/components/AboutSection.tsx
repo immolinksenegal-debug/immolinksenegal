@@ -102,7 +102,7 @@ const AboutSection = () => {
               <Link to="/dashboard">
                 <Button
                   size="lg"
-                  className="bg-white text-primary hover:bg-white/90 rounded-2xl font-bold text-lg px-10 py-6 shadow-xl hover:shadow-2xl transition-all duration-300 group"
+                  className="bg-gradient-to-r from-primary via-accent to-secondary text-primary-foreground hover:opacity-90 rounded-2xl font-bold text-lg px-10 py-6 shadow-xl hover:shadow-[0_0_30px_hsl(var(--accent)/0.4)] transition-all duration-300 group"
                 >
                   <Sparkles className="mr-2 h-5 w-5" />
                   Publier une annonce

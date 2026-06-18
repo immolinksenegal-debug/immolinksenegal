@@ -145,11 +145,11 @@ const Navbar = () => {
               </Button>
             ) : (
               <Link to="/dashboard">
-                <Button className="relative overflow-hidden bg-gradient-to-r from-secondary to-primary text-primary-foreground font-semibold text-xs lg:text-sm px-3 lg:px-5 shadow-[0_0_20px_hsl(var(--secondary)/0.3)] hover:shadow-[0_0_30px_hsl(var(--secondary)/0.5)] transition-all duration-500 border border-secondary/30">
+                <Button className="relative overflow-hidden bg-gradient-to-r from-primary via-accent to-secondary text-primary-foreground font-semibold text-xs lg:text-sm px-3 lg:px-5 shadow-[0_0_20px_hsl(var(--accent)/0.3)] hover:shadow-[0_0_30px_hsl(var(--accent)/0.5)] transition-all duration-500 border border-accent/30">
                   <Zap className="h-3 w-3 lg:h-4 lg:w-4 mr-1 lg:mr-2" />
                   <span className="hidden xl:inline">Publier une annonce</span>
                   <span className="xl:hidden">Publier</span>
-                  <span className="absolute inset-0 bg-gradient-to-r from-primary to-secondary opacity-0 hover:opacity-100 transition-opacity duration-500" />
+                  <span className="absolute inset-0 bg-gradient-to-r from-secondary to-primary opacity-0 hover:opacity-100 transition-opacity duration-500" />
                 </Button>
               </Link>
             )}
@@ -196,7 +196,7 @@ const Navbar = () => {
                   </Button>
                 ) : (
                   <Link to="/dashboard" onClick={() => setIsOpen(false)}>
-                    <Button className="w-full bg-gradient-to-r from-secondary to-primary text-primary-foreground font-semibold shadow-[0_0_20px_hsl(var(--secondary)/0.3)] transition-all duration-500 text-sm xs:text-base border border-secondary/30">
+                    <Button className="w-full bg-gradient-to-r from-primary via-accent to-secondary text-primary-foreground font-semibold shadow-[0_0_20px_hsl(var(--accent)/0.3)] transition-all duration-500 text-sm xs:text-base border border-accent/30">
                       <Zap className="h-4 w-4 mr-2" />
                       Publier une annonce
                     </Button>
