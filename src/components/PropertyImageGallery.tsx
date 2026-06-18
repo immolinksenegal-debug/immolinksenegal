@@ -230,7 +230,7 @@ export const PropertyImageGallery = ({ images, title }: PropertyImageGalleryProp
             </div>
 
             {/* Centered Counter - visible during swipes */}
-            <div className="absolute bottom-28 sm:bottom-32 left-1/2 -translate-x-1/2 z-50">
+            <div className="absolute top-[75%] left-1/2 -translate-x-1/2 z-50">
               <div className="bg-white/90 backdrop-blur-sm text-black px-4 py-2 rounded-full text-sm sm:text-base font-bold shadow-xl border border-white">
                 {currentIndex + 1} / {images.length}
               </div>
