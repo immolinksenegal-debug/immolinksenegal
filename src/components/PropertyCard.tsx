@@ -40,7 +40,9 @@ const PropertyCard = ({
 }: PropertyCardProps) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [imageError, setImageError] = useState(false);
-  return <Card className="group overflow-hidden hover-lift bg-card shadow-card border-primary/10 hover:border-primary/30 rounded-2xl transition-all duration-500">
+  return <Card className="group relative overflow-hidden hover-lift bg-card shadow-card border border-border hover:border-transparent rounded-2xl transition-all duration-500">
+      {/* Top brand gradient separator */}
+      <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-primary via-accent to-secondary opacity-80 z-10" />
       <div className="relative overflow-hidden aspect-[4/3] bg-muted">
         <img src={imageError ? '/placeholder.svg' : image || '/placeholder.svg'} alt={title} className="w-full h-full object-cover transition-smooth group-hover:scale-110" onError={e => {
         setImageError(true);
@@ -76,7 +78,7 @@ const PropertyCard = ({
         </h3>
         
         <div className="flex items-center text-muted-foreground mb-3">
-          <MapPin className="h-4 w-4 mr-1 text-secondary" />
+          <MapPin className="h-4 w-4 mr-1 text-primary" />
           <span className="text-sm line-clamp-1">{location}</span>
         </div>
 
@@ -99,18 +101,21 @@ const PropertyCard = ({
           </div>
         </div>
 
+        {/* Brand gradient divider */}
+        <div className="h-px w-full bg-gradient-to-r from-transparent via-accent/40 to-transparent my-3" />
+
         <div className="flex items-center gap-4 mb-3 text-xs text-muted-foreground">
           {views > 0 && <div className="flex items-center gap-1">
-              <Eye className="h-3 w-3" />
+              <Eye className="h-3 w-3 text-secondary" />
               <span>{views} vues</span>
             </div>}
           {createdAt && <div className="flex items-center gap-1">
-              <Calendar className="h-3 w-3" />
+              <Calendar className="h-3 w-3 text-accent" />
               <span>{new Date(createdAt).toLocaleDateString('fr-FR')}</span>
             </div>}
         </div>
 
-        <div className="text-2xl font-bold text-accent">
+        <div className="text-2xl font-bold bg-gradient-to-r from-secondary via-accent to-primary bg-clip-text text-transparent">
           {price} <span className="text-lg font-normal text-muted-foreground">FCFA</span>
         </div>
       </CardContent>

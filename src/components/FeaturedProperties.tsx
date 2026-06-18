@@ -84,20 +84,21 @@ const FeaturedProperties = () => {
   }
 
   return (
-    <section className="py-20 md:py-28 relative overflow-hidden">
-      {/* Subtle background accents */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary/5 rounded-full blur-[120px] pointer-events-none"></div>
+    <section className="py-20 md:py-28 relative overflow-hidden bg-mesh">
+      {/* Brand background accents - logo palette */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary/10 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-accent/8 rounded-full blur-[140px] pointer-events-none"></div>
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-14 flex flex-col items-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full bg-primary/10 border border-primary/20">
-            <Flame className="w-4 h-4 text-primary" />
-            <span className="text-sm font-semibold text-primary">Annonces en vedette</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full bg-gradient-to-r from-primary/10 via-accent/10 to-secondary/10 border border-accent/30">
+            <Flame className="w-4 h-4 text-secondary" />
+            <span className="text-sm font-semibold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Annonces en vedette</span>
           </div>
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4">
             Nos meilleures{" "}
-            <span className="bg-gradient-to-r from-secondary to-accent bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
               offres
             </span>
           </h2>
@@ -122,7 +123,7 @@ const FeaturedProperties = () => {
           <Link to="/properties">
             <Button
               size="lg"
-              className="bg-secondary hover:bg-secondary/90 text-secondary-foreground rounded-2xl font-semibold text-base px-8 py-6 shadow-lg hover:shadow-[0_0_30px_hsl(var(--secondary)/0.3)] transition-all duration-300 group"
+              className="bg-gradient-to-r from-primary via-accent to-secondary hover:opacity-90 text-white rounded-2xl font-semibold text-base px-8 py-6 shadow-lg hover:shadow-elevated transition-all duration-300 group"
             >
               Voir tous les biens
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
