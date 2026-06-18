@@ -241,7 +241,7 @@ const Dashboard = () => {
               <div className="mt-6 flex gap-3 justify-center flex-wrap">
                 <Button
                   onClick={() => navigate('/admin')}
-                  className="bg-primary hover:bg-primary-glow text-white shadow-glow transition-smooth rounded-xl"
+                  className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-primary-foreground shadow-lg hover:shadow-[0_0_20px_hsl(var(--primary)/0.4)] transition-smooth rounded-xl font-semibold"
                 >
                   <Shield className="h-4 w-4 mr-2" />
                   Panneau d'administration
