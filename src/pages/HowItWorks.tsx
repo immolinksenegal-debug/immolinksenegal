@@ -75,7 +75,7 @@ const HowItWorks = () => {
             <div className="max-w-4xl mx-auto">
               <div className="space-y-6">
                 {sellerSteps.map((step, index) => <div key={index} className="glass-effect rounded-xl p-6 flex items-start gap-6 hover-lift">
-                    <div className="flex-shrink-0 w-12 h-12 rounded-full bg-secondary text-white flex items-center justify-center text-xl font-bold">
+                    <div className="flex-shrink-0 w-12 h-12 rounded-full bg-secondary text-secondary-foreground flex items-center justify-center text-xl font-bold">
                       {step.number}
                     </div>
                     <div>

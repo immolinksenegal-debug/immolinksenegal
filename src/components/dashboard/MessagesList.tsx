@@ -243,7 +243,7 @@ export const MessagesList = () => {
                       <Button
                         size="sm"
                         onClick={() => updateStatus(message.id, 'contacted')}
-                        className="bg-primary hover:bg-primary/90 text-white"
+                        className="bg-primary hover:bg-primary/90 text-primary-foreground"
                       >
                         <Check className="h-4 w-4 mr-2" />
                         Marquer comme contacté

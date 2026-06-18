@@ -121,9 +121,9 @@ export const AdminCommentsManager = ({ onStatsUpdate }: AdminCommentsManagerProp
 
   const getStatusBadge = (status: string) => {
     const variants: Record<string, string> = {
-      pending: "bg-orange-500/10 text-orange-500 border-orange-500/20",
-      approved: "bg-green-500/10 text-green-500 border-green-500/20",
-      rejected: "bg-red-500/10 text-red-500 border-red-500/20",
+      pending: "bg-accent/10 text-accent border-accent/30",
+      approved: "bg-primary/10 text-primary border-primary/20",
+      rejected: "bg-destructive/10 text-destructive border-destructive/20",
     };
 
     return (
@@ -206,7 +206,7 @@ export const AdminCommentsManager = ({ onStatsUpdate }: AdminCommentsManagerProp
                               size="sm"
                               variant="default"
                               onClick={() => handleStatusChange(comment.id, 'approved')}
-                              className="bg-green-500 hover:bg-green-600"
+                              className="bg-primary hover:bg-primary/90"
                             >
                               <CheckCircle className="h-3 w-3 mr-1" />
                               Approuver

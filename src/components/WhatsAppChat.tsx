@@ -215,7 +215,7 @@ const WhatsAppChat = ({ phoneNumber, propertyTitle, propertyId }: WhatsAppChatPr
               <div>
                 <CardTitle className="text-sm sm:text-base font-semibold">Chat WhatsApp</CardTitle>
                 <p className="text-xs opacity-90 flex items-center gap-1">
-                  <span className="inline-block h-2 w-2 bg-green-400 rounded-full animate-pulse"></span>
+                  <span className="inline-block h-2 w-2 bg-primary rounded-full animate-pulse"></span>
                   En ligne
                 </p>
               </div>
@@ -243,12 +243,12 @@ const WhatsAppChat = ({ phoneNumber, propertyTitle, propertyId }: WhatsAppChatPr
                     <div
                       className={`max-w-[80%] sm:max-w-[85%] rounded-2xl px-3 py-2 sm:px-4 sm:py-2.5 ${
                         message.sender === "user"
-                          ? "bg-[#DCF8C6] text-gray-900"
-                          : "bg-white border border-border text-gray-900"
+                          ? "bg-[#DCF8C6] text-foreground"
+                          : "bg-white border border-border text-foreground"
                       }`}
                     >
                       <p className="text-xs sm:text-sm leading-relaxed break-words">{message.text}</p>
-                      <p className="text-[10px] sm:text-xs text-gray-500 mt-1">
+                      <p className="text-[10px] sm:text-xs text-muted-foreground mt-1">
                         {message.timestamp.toLocaleTimeString("fr-FR", {
                           hour: "2-digit",
                           minute: "2-digit",

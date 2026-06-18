@@ -247,9 +247,9 @@ const UserManagement = () => {
 
   const getRoleBadge = (role: string) => {
     const variants: Record<string, { color: string; icon: any }> = {
-      admin: { color: "bg-red-500/10 text-red-500 border-red-500/20", icon: Shield },
-      moderator: { color: "bg-blue-500/10 text-blue-500 border-blue-500/20", icon: UserCheck },
-      user: { color: "bg-green-500/10 text-green-500 border-green-500/20", icon: Users },
+      admin: { color: "bg-destructive/10 text-destructive border-destructive/20", icon: Shield },
+      moderator: { color: "bg-primary/10 text-primary border-primary/20", icon: UserCheck },
+      user: { color: "bg-primary/10 text-primary border-primary/20", icon: Users },
     };
 
     const variant = variants[role] || variants.user;
@@ -313,8 +313,8 @@ const UserManagement = () => {
                       {stats.activeUsers}
                     </p>
                   </div>
-                  <div className="w-14 h-14 bg-green-500/10 rounded-xl flex items-center justify-center">
-                    <CheckCircle className="h-7 w-7 text-green-500" />
+                  <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center">
+                    <CheckCircle className="h-7 w-7 text-primary" />
                   </div>
                 </div>
               </CardContent>
@@ -331,8 +331,8 @@ const UserManagement = () => {
                       {stats.bannedUsers}
                     </p>
                   </div>
-                  <div className="w-14 h-14 bg-red-500/10 rounded-xl flex items-center justify-center">
-                    <Ban className="h-7 w-7 text-red-500" />
+                  <div className="w-14 h-14 bg-destructive/10 rounded-xl flex items-center justify-center">
+                    <Ban className="h-7 w-7 text-destructive" />
                   </div>
                 </div>
               </CardContent>
@@ -406,12 +406,12 @@ const UserManagement = () => {
                           </TableCell>
                           <TableCell>
                             {user.is_banned ? (
-                              <Badge className="bg-red-500/10 text-red-500 border-red-500/20 border">
+                              <Badge className="bg-destructive/10 text-destructive border-destructive/20 border">
                                 <Ban className="h-3 w-3 mr-1" />
                                 Banni
                               </Badge>
                             ) : (
-                              <Badge className="bg-green-500/10 text-green-500 border-green-500/20 border">
+                              <Badge className="bg-primary/10 text-primary border-primary/20 border">
                                 <CheckCircle className="h-3 w-3 mr-1" />
                                 Actif
                               </Badge>
@@ -511,7 +511,7 @@ const UserManagement = () => {
             <Button
               onClick={handleRoleChange}
               disabled={!selectedRole}
-              className="bg-secondary hover:bg-secondary-glow text-white"
+              className="bg-secondary hover:bg-secondary/90 text-secondary-foreground"
             >
               {selectedRole && selectedUser?.roles.includes(selectedRole) ? "Retirer le rôle" : "Ajouter le rôle"}
             </Button>

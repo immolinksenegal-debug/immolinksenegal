@@ -178,7 +178,7 @@ export const SignatureDialog = ({
 
           <div className="space-y-2">
             <Label>Signature *</Label>
-            <div className="border-2 border-dashed border-gray-300 rounded-lg bg-white">
+            <div className="border-2 border-dashed border-border rounded-lg bg-white">
               <SignatureCanvas
                 ref={sigPadRef}
                 canvasProps={{

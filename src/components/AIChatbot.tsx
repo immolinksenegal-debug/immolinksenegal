@@ -194,7 +194,7 @@ const AIChatbot = () => {
       {isOpen && (
         <Card className="fixed inset-4 md:bottom-6 md:right-6 md:left-auto md:top-auto md:w-[400px] md:h-[600px] shadow-2xl flex flex-col z-50 animate-in slide-in-from-bottom-4">
           {/* Header */}
-          <div className="bg-primary text-white p-4 rounded-t-lg flex items-center justify-between">
+          <div className="bg-gradient-to-r from-primary via-accent to-secondary text-primary-foreground p-4 rounded-t-lg flex items-center justify-between">
             <div className="flex items-center gap-2">
               <MessageCircle className="h-5 w-5" />
               <div>
@@ -206,14 +206,14 @@ const AIChatbot = () => {
               variant="ghost"
               size="icon"
               onClick={() => setIsOpen(false)}
-              className="text-white hover:bg-white/20"
+              className="text-primary-foreground hover:bg-primary-foreground/20"
             >
               <X className="h-5 w-5" />
             </Button>
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-muted">
             {messages.map((msg, idx) => (
               <div
                 key={idx}
@@ -222,8 +222,8 @@ const AIChatbot = () => {
                 <div
                   className={`max-w-[80%] rounded-lg p-3 ${
                     msg.role === "user"
-                      ? "bg-primary text-white"
-                      : "bg-white text-gray-800 shadow-sm border"
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-card text-card-foreground shadow-sm border border-border"
                   }`}
                 >
                   <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
@@ -232,7 +232,7 @@ const AIChatbot = () => {
             ))}
             {isLoading && (
               <div className="flex justify-start">
-                <div className="bg-white rounded-lg p-3 shadow-sm border">
+                <div className="bg-card rounded-lg p-3 shadow-sm border border-border">
                   <Loader2 className="h-4 w-4 animate-spin text-primary" />
                 </div>
               </div>
@@ -241,7 +241,7 @@ const AIChatbot = () => {
           </div>
 
           {/* Input */}
-          <div className="p-4 border-t bg-white rounded-b-lg">
+          <div className="p-4 border-t bg-card rounded-b-lg">
             <div className="flex gap-2">
               <Input
                 value={input}

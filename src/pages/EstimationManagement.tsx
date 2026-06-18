@@ -190,9 +190,9 @@ const EstimationManagement = () => {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "pending":
-        return <Badge variant="outline" className="bg-yellow-50"><Clock className="w-3 h-3 mr-1" />En attente</Badge>;
+        return <Badge variant="outline" className="bg-accent/10"><Clock className="w-3 h-3 mr-1" />En attente</Badge>;
       case "responded":
-        return <Badge variant="outline" className="bg-green-50"><CheckCircle className="w-3 h-3 mr-1" />Répondu</Badge>;
+        return <Badge variant="outline" className="bg-primary/10"><CheckCircle className="w-3 h-3 mr-1" />Répondu</Badge>;
       default:
         return <Badge variant="outline">{status}</Badge>;
     }
@@ -428,7 +428,7 @@ const EstimationManagement = () => {
                 <Button
                   onClick={handleSubmitResponse}
                   disabled={isSubmitting}
-                  className="bg-secondary hover:bg-secondary-glow"
+                  className="bg-secondary hover:bg-secondary/90"
                 >
                   {isSubmitting ? (
                     <>

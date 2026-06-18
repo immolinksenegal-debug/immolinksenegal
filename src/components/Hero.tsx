@@ -140,7 +140,7 @@ const Hero = () => {
                 <div className="sm:col-span-2 lg:col-span-1">
                   <Button 
                     onClick={handleSearch} 
-                    className="w-full h-12 bg-gradient-to-r from-primary via-accent to-secondary !text-white shadow-lg hover:shadow-[0_0_30px_hsl(var(--accent)/0.5)] transition-all duration-300 rounded-xl font-bold text-sm group"
+                    className="w-full h-12 bg-gradient-to-r from-primary via-accent to-secondary !text-primary-foreground shadow-lg hover:shadow-[0_0_30px_hsl(var(--accent)/0.5)] transition-all duration-300 rounded-xl font-bold text-sm group"
                   >
                     <Search className="h-5 w-5 mr-2 group-hover:scale-110 transition-transform" />
                     Rechercher
