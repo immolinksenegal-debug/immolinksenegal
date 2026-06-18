@@ -36,15 +36,12 @@ const Hero = () => {
             className="w-full h-full object-cover object-[center_35%] sm:object-center" 
           />
         </picture>
-        {/* Adaptive overlay: denser on mobile for portrait image readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/92 via-background/80 to-background/95 sm:from-background/85 sm:via-background/70 sm:to-background/95"></div>
-        {/* Mobile-focused radial dim around text area */}
-        <div className="absolute inset-0 sm:hidden bg-[radial-gradient(ellipse_at_center,hsl(var(--background)/0.55)_0%,transparent_70%)]"></div>
+        {/* Adaptive overlay: bright white wash for legibility on light theme */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/95 via-background/88 to-background/98 sm:from-background/88 sm:via-background/78 sm:to-background/96"></div>
         {/* Subtle color tints from logo */}
-        <div className="absolute inset-0 bg-mesh opacity-80 sm:opacity-80"></div>
+        <div className="absolute inset-0 bg-mesh opacity-70"></div>
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,hsl(var(--primary)/0.12)_0%,transparent_60%)]"></div>
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,hsl(var(--secondary)/0.1)_0%,transparent_60%)]"></div>
-
       </div>
 
       {/* Content */}
@@ -74,7 +71,7 @@ const Hero = () => {
 
           {/* Search Bar - Modern floating card */}
           <div className="w-full max-w-4xl mx-auto mb-12">
-            <div className="bg-background/70 backdrop-blur-2xl rounded-3xl p-4 xs:p-6 border border-border/40 shadow-[0_20px_60px_rgba(0,0,0,0.4)]">
+            <div className="bg-card/95 backdrop-blur-2xl rounded-3xl p-4 xs:p-6 border border-border shadow-[0_20px_60px_rgba(0,0,0,0.15)]">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                 <div className="sm:col-span-1">
                   {isMobile ? (
@@ -143,7 +140,7 @@ const Hero = () => {
                 <div className="sm:col-span-2 lg:col-span-1">
                   <Button 
                     onClick={handleSearch} 
-                    className="w-full h-12 bg-gradient-to-r from-primary via-accent to-secondary text-primary-foreground shadow-lg hover:shadow-[0_0_30px_hsl(var(--accent)/0.4)] transition-all duration-300 rounded-xl font-bold text-sm group"
+                    className="w-full h-12 bg-gradient-to-r from-primary via-accent to-secondary !text-white shadow-lg hover:shadow-[0_0_30px_hsl(var(--accent)/0.5)] transition-all duration-300 rounded-xl font-bold text-sm group"
                   >
                     <Search className="h-5 w-5 mr-2 group-hover:scale-110 transition-transform" />
                     Rechercher
@@ -156,22 +153,30 @@ const Hero = () => {
           {/* Stats - Modern bento grid */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 xs:gap-4 w-full max-w-4xl mx-auto px-2">
             {[
-              { label: "Biens disponibles", value: "500+", color: "primary" },
-              { label: "Villes couvertes", value: "15+", color: "accent" },
-              { label: "Clients satisfaits", value: "1000+", color: "secondary" },
-              { label: "Agences partenaires", value: "50+", color: "primary" },
+              { label: "Biens disponibles", value: "500+", color: "primary" as const },
+              { label: "Villes couvertes", value: "15+", color: "accent" as const },
+              { label: "Clients satisfaits", value: "1000+", color: "secondary" as const },
+              { label: "Agences partenaires", value: "50+", color: "primary" as const },
             ].map((stat, index) => (
               <div
                 key={index}
-                className="group relative overflow-hidden rounded-2xl bg-background/85 backdrop-blur-xl border border-border/50 p-4 xs:p-5 hover:-translate-y-1 hover:border-primary/40 transition-all duration-500"
+                className="group relative overflow-hidden rounded-2xl bg-card/95 backdrop-blur-xl border border-border p-4 xs:p-5 hover:-translate-y-1 hover:border-primary/50 hover:shadow-lg transition-all duration-500"
                 style={{ animationDelay: `${index * 80}ms` }}
               >
-                <div className={`absolute -top-8 -right-8 w-24 h-24 rounded-full bg-${stat.color}/10 blur-2xl group-hover:bg-${stat.color}/20 transition-all duration-500`} />
+                <div className={`absolute -top-8 -right-8 w-24 h-24 rounded-full blur-2xl transition-all duration-500 ${
+                  stat.color === 'primary' ? 'bg-primary/15 group-hover:bg-primary/25' :
+                  stat.color === 'accent' ? 'bg-accent/15 group-hover:bg-accent/25' :
+                  'bg-secondary/15 group-hover:bg-secondary/25'
+                }`} />
                 <div className="relative flex flex-col items-start">
-                  <span className={`text-3xl xs:text-4xl font-black bg-gradient-to-br from-${stat.color} to-${stat.color}/60 bg-clip-text text-transparent leading-none`}>
+                  <span className={`text-3xl xs:text-4xl font-black leading-none ${
+                    stat.color === 'primary' ? 'text-primary' :
+                    stat.color === 'accent' ? 'text-accent' :
+                    'text-secondary'
+                  }`}>
                     {stat.value}
                   </span>
-                  <span className="mt-2 text-xs xs:text-sm font-medium text-muted-foreground text-left">
+                  <span className="mt-2 text-xs xs:text-sm font-semibold text-foreground/80 text-left">
                     {stat.label}
                   </span>
                 </div>
