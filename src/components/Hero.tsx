@@ -81,7 +81,7 @@ const Hero = () => {
                       <select 
                         value={propertyType} 
                         onChange={e => setPropertyType(e.target.value)} 
-                        className="w-full bg-muted/50 border border-border/50 h-12 rounded-xl text-sm pl-10 pr-3 appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all text-foreground"
+                        className="w-full bg-primary/[0.06] border border-primary/20 h-12 rounded-xl text-sm pl-10 pr-3 appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all text-foreground"
                         style={{
                           backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23005C00' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
                           backgroundRepeat: 'no-repeat',
@@ -99,7 +99,7 @@ const Hero = () => {
                     </div>
                   ) : (
                     <Select value={propertyType} onValueChange={setPropertyType}>
-                      <SelectTrigger className="w-full bg-muted/50 border-border/50 h-12 rounded-xl text-sm hover:border-primary/50 transition-all focus:ring-primary/50">
+                      <SelectTrigger className="w-full bg-primary/[0.06] border-primary/20 h-12 rounded-xl text-sm hover:border-primary/50 transition-all focus:ring-primary/50">
                         <Home className="h-4 w-4 mr-2 text-primary flex-shrink-0" />
                         <SelectValue placeholder="Type de bien" />
                       </SelectTrigger>
@@ -115,25 +115,25 @@ const Hero = () => {
                 </div>
 
                 <div className="sm:col-span-1">
-                  <div className="relative">
+                <div className="relative">
                     <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-secondary" />
                     <Input 
                       placeholder="Ville" 
                       value={city} 
                       onChange={e => setCity(e.target.value)} 
-                      className="pl-10 bg-muted/50 border-border/50 h-12 rounded-xl text-sm hover:border-secondary/50 focus:border-secondary focus:ring-secondary/50 transition-all" 
+                      className="pl-10 bg-primary/[0.06] border-primary/20 h-12 rounded-xl text-sm hover:border-secondary/50 focus:border-secondary focus:ring-secondary/50 transition-all" 
                     />
                   </div>
                 </div>
 
                 <div className="sm:col-span-1">
-                  <div className="relative">
+                <div className="relative">
                     <Input 
                       placeholder="Prix max (XOF)" 
                       type="number" 
                       value={maxPrice} 
                       onChange={e => setMaxPrice(e.target.value)} 
-                      className="px-4 bg-muted/50 border-border/50 h-12 rounded-xl text-sm hover:border-accent/50 focus:border-accent focus:ring-accent/50 transition-all" 
+                      className="px-4 bg-primary/[0.06] border-primary/20 h-12 rounded-xl text-sm hover:border-accent/50 focus:border-accent focus:ring-accent/50 transition-all" 
                     />
                   </div>
                 </div>
@@ -161,7 +161,7 @@ const Hero = () => {
             ].map((stat, index) => (
               <div
                 key={index}
-                className="group relative overflow-hidden rounded-2xl bg-card/95 backdrop-blur-xl border border-border p-4 xs:p-5 hover:-translate-y-1 hover:border-primary/50 hover:shadow-card transition-all duration-500"
+                className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/[0.07] to-secondary/[0.04] backdrop-blur-xl border border-primary/20 p-4 xs:p-5 hover:-translate-y-1 hover:border-primary/50 hover:shadow-card transition-all duration-500"
                 style={{ animationDelay: `${index * 80}ms` }}
               >
                 <div className={`absolute -top-8 -right-8 w-24 h-24 rounded-full blur-2xl transition-all duration-500 ${
@@ -190,11 +190,11 @@ const Hero = () => {
 
       {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce">
-        <ArrowDown className="w-6 h-6 text-foreground/40" />
+        <ArrowDown className="w-6 h-6 text-primary/40" />
       </div>
 
       {/* Bottom gradient fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background to-transparent pointer-events-none"></div>
+      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-primary/10 to-transparent pointer-events-none"></div>
     </section>
   );
 };
