@@ -61,10 +61,10 @@ const Hero = () => {
 
           <div className="mb-6 px-2">
             <h1 className="text-3xl xs:text-4xl md:text-6xl lg:text-7xl font-black leading-[1.15] tracking-tight text-foreground [text-shadow:0_2px_20px_hsl(var(--background)/0.8),0_1px_3px_hsl(var(--background)/0.9)]">
-              Trouvez votre{" "}
-              <span className="block text-secondary [text-shadow:0_2px_20px_hsl(var(--background)/0.9),0_0_30px_hsl(var(--secondary)/0.4),0_1px_3px_hsl(var(--background))]">
-                bien idéal
-              </span>
+              Trouvez votre
+            </h1>
+            <h1 className="text-3xl xs:text-4xl md:text-6xl lg:text-7xl font-black leading-[1.15] tracking-tight text-secondary [text-shadow:0_2px_20px_hsl(var(--background)/0.9),0_0_30px_hsl(var(--secondary)/0.4),0_1px_3px_hsl(var(--background))]">
+              bien idéal
             </h1>
           </div>
           

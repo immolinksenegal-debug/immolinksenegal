@@ -15,7 +15,6 @@ import UserManagement from "./pages/UserManagement";
 import AdminDashboard from "./pages/AdminDashboard";
 import Articles from "./pages/Articles";
 import ArticleDetail from "./pages/ArticleDetail";
-import LandPurchaseGuide from "./pages/LandPurchaseGuide";
 import About from "./pages/About";
 import HowItWorks from "./pages/HowItWorks";
 import Contact from "./pages/Contact";
@@ -23,7 +22,6 @@ import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
 import AIChatbot from "./components/AIChatbot";
-import PerfOverlay from "./components/PerfOverlay";
 
 const queryClient = new QueryClient();
 
@@ -45,7 +43,6 @@ const App = () => (
           <Route path="/admin/estimations" element={<EstimationManagement />} />
           <Route path="/admin/users" element={<UserManagement />} />
           <Route path="/articles" element={<Articles />} />
-          <Route path="/articles/guide-achat-terrain-senegal" element={<LandPurchaseGuide />} />
           <Route path="/articles/:slug" element={<ArticleDetail />} />
           <Route path="/a-propos" element={<About />} />
           <Route path="/comment-ca-marche" element={<HowItWorks />} />
@@ -56,7 +53,6 @@ const App = () => (
           <Route path="*" element={<NotFound />} />
           </Routes>
           <AIChatbot />
-          {import.meta.env.DEV && <PerfOverlay />}
         </BrowserRouter>
       </TooltipProvider>
     </HelmetProvider>

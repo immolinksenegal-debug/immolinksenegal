@@ -1,28 +1,14 @@
 import { Helmet } from 'react-helmet-async';
 
-type SchemaType = 'website' | 'article' | 'realestate';
-
 interface SEOHeadProps {
   title: string;
   description: string;
   image?: string;
   url?: string;
-  /** Open Graph type. 'article' uses the Article OG type; 'realestate' falls back to 'website'. */
-  type?: 'website' | 'article' | 'realestate';
+  type?: 'website' | 'article';
   publishedTime?: string;
   modifiedTime?: string;
-  /** Which JSON-LD schema to emit. Defaults to a sitewide RealEstateAgent (website type). */
-  schemaType?: SchemaType;
-  /** Schema-specific extras (price/currency for realestate, author for article, etc.) */
-  schema?: {
-    price?: number | string;
-    priceCurrency?: string;
-    author?: string;
-    location?: { city?: string; region?: string; country?: string };
-  };
 }
-
-const SITE_URL = 'https://immolinksenegal.lovable.app';
 
 const SEOHead = ({
   title,
@@ -31,114 +17,116 @@ const SEOHead = ({
   url,
   type = 'website',
   publishedTime,
-  modifiedTime,
-  schemaType,
-  schema,
+  modifiedTime
 }: SEOHeadProps) => {
-  const fullUrl = url || (typeof window !== 'undefined' ? window.location.href : SITE_URL);
-  const fullImage = image?.startsWith('http')
-    ? image
-    : image
-      ? `${SITE_URL}${image}`
-      : `${SITE_URL}/hero-immobilier-senegal.jpg`;
-
-  const truncatedDescription = description.length > 160
-    ? description.substring(0, 157) + '...'
+  const siteUrl = 'https://immolinksenegal.com';
+  const fullUrl = url || window.location.href;
+  const fullImage = image?.startsWith('http') ? image : image ? `${siteUrl}${image}` : `${siteUrl}/hero-immobilier-senegal.jpg`;
+  
+  // Truncate description to 160 characters for optimal SEO
+  const truncatedDescription = description.length > 160 
+    ? description.substring(0, 157) + '...' 
     : description;
 
-  // OG type — Schema.org "realestate" isn't a valid og:type, fall back to website
-  const ogType = type === 'article' ? 'article' : 'website';
+  // Rich keywords for SEO
+  const keywords = [
+    "immobilier Sénégal",
+    "terrain à vendre Dakar",
+    "villa à vendre Saly",
+    "maison à louer Mbour",
+    "appartement Thiès",
+    "agence immobilière Sénégal",
+    "plateforme immobilière",
+    "estimation immobilière gratuite",
+    "investissement immobilier Sénégal",
+    "terrain viabilisé",
+    "titre foncier",
+    "immobilier Dakar",
+    "villa à louer Saly",
+    "terrain à vendre Mbour",
+    "maison à vendre Somone",
+    "terrain Ngaparou",
+    "immobilier Petite Côte",
+    "terrain bord de mer Sénégal",
+    "villa de luxe Sénégal",
+    "immobilier haut standing",
+    "résidence sécurisée",
+    "projet immobilier Sénégal",
+    "annonces immobilières Sénégal",
+    "site immobilier moderne",
+    "agence immobilière digitale",
+    "promotion immobilière",
+    "terrain loti",
+    "parcelle à vendre",
+    "immo Sénégal",
+    "acheter terrain Dakar",
+    "vendre maison Sénégal",
+    "louer appartement Dakar",
+    "investir immobilier Afrique"
+  ].join(", ");
 
-  // Default JSON-LD: sitewide RealEstateAgent (used on listing / informational pages)
-  const inferredSchema: SchemaType = schemaType
-    ?? (type === 'article' ? 'article' : 'website');
-
-  let structuredData: Record<string, unknown>;
-  if (inferredSchema === 'article') {
-    structuredData = {
-      '@context': 'https://schema.org',
-      '@type': 'Article',
-      headline: title,
-      description: truncatedDescription,
-      image: fullImage,
-      url: fullUrl,
-      datePublished: publishedTime,
-      dateModified: modifiedTime || publishedTime,
-      author: { '@type': 'Organization', name: schema?.author || 'Immo Link Sénégal' },
-      publisher: {
-        '@type': 'Organization',
-        name: 'Immo Link Sénégal',
-        logo: { '@type': 'ImageObject', url: `${SITE_URL}/favicon.png` },
-      },
-      mainEntityOfPage: { '@type': 'WebPage', '@id': fullUrl },
-    };
-  } else if (inferredSchema === 'realestate') {
-    structuredData = {
-      '@context': 'https://schema.org',
-      '@type': 'Product',
-      name: title,
-      description: truncatedDescription,
-      image: fullImage,
-      url: fullUrl,
-      ...(schema?.price && {
-        offers: {
-          '@type': 'Offer',
-          price: String(schema.price),
-          priceCurrency: schema.priceCurrency || 'XOF',
-          availability: 'https://schema.org/InStock',
-          url: fullUrl,
-        },
-      }),
-      ...(schema?.location && {
-        areaServed: {
-          '@type': 'Place',
-          address: {
-            '@type': 'PostalAddress',
-            addressLocality: schema.location.city,
-            addressRegion: schema.location.region,
-            addressCountry: schema.location.country || 'SN',
-          },
-        },
-      }),
-    };
-  } else {
-    structuredData = {
-      '@context': 'https://schema.org',
-      '@type': 'RealEstateAgent',
-      name: 'Immo Link Sénégal',
-      description: truncatedDescription,
-      url: SITE_URL,
-      logo: `${SITE_URL}/favicon.png`,
-      image: fullImage,
-      address: {
-        '@type': 'PostalAddress',
-        addressCountry: 'SN',
-        addressLocality: 'Dakar',
-      },
-    };
-  }
+  // JSON-LD structured data for better SEO
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "RealEstateAgent",
+    "name": "Immo Link Sénégal",
+    "description": truncatedDescription,
+    "url": siteUrl,
+    "logo": `${siteUrl}/logo-immo-link-main.png`,
+    "image": fullImage,
+    "priceRange": "$$",
+    "telephone": "+221 XX XXX XX XX",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "SN",
+      "addressLocality": "Dakar"
+    },
+    "areaServed": [
+      { "@type": "City", "name": "Dakar" },
+      { "@type": "City", "name": "Saly" },
+      { "@type": "City", "name": "Mbour" },
+      { "@type": "City", "name": "Thiès" },
+      { "@type": "City", "name": "Somone" },
+      { "@type": "City", "name": "Ngaparou" }
+    ],
+    "serviceType": [
+      "Vente de terrains",
+      "Vente de villas",
+      "Location de maisons",
+      "Location d'appartements",
+      "Estimation immobilière",
+      "Conseil en investissement immobilier"
+    ]
+  };
 
   return (
     <Helmet>
+      {/* Primary Meta Tags */}
       <title>{title} | Immo Link Sénégal</title>
+      <meta name="title" content={`${title} | Immo Link Sénégal`} />
       <meta name="description" content={truncatedDescription} />
+      <meta name="keywords" content={keywords} />
       <meta name="author" content="Immo Link Sénégal" />
-      <meta name="robots" content="index, follow, max-image-preview:large" />
+      <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
       <meta name="language" content="French" />
       <meta name="geo.region" content="SN" />
       <meta name="geo.placename" content="Dakar, Sénégal" />
+      <meta name="geo.position" content="14.6937;-17.4441" />
+      <meta name="ICBM" content="14.6937, -17.4441" />
 
-      <meta property="og:type" content={ogType} />
+      {/* Open Graph / Facebook */}
+      <meta property="og:type" content={type} />
       <meta property="og:url" content={fullUrl} />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={truncatedDescription} />
       <meta property="og:image" content={fullImage} />
+      <meta property="og:image:secure_url" content={fullImage} />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
-      <meta property="og:image:alt" content={title} />
       <meta property="og:site_name" content="Immo Link Sénégal" />
       <meta property="og:locale" content="fr_SN" />
 
+      {/* Article specific meta tags */}
       {type === 'article' && publishedTime && (
         <meta property="article:published_time" content={publishedTime} />
       )}
@@ -146,18 +134,32 @@ const SEOHead = ({
         <meta property="article:modified_time" content={modifiedTime} />
       )}
 
+      {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:url" content={fullUrl} />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={truncatedDescription} />
       <meta name="twitter:image" content={fullImage} />
 
+      {/* LinkedIn */}
+      <meta property="og:image:alt" content={title} />
+      
+      {/* WhatsApp */}
+      <meta property="og:image:type" content="image/jpeg" />
+      
+      {/* Canonical URL */}
       <link rel="canonical" href={fullUrl} />
 
+      {/* JSON-LD Structured Data */}
       <script type="application/ld+json">
         {JSON.stringify(structuredData)}
       </script>
 
+      {/* Additional SEO Meta Tags */}
       <meta name="theme-color" content="#005C00" />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+      <meta name="format-detection" content="telephone=no" />
     </Helmet>
   );
 };

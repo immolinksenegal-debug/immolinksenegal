@@ -1,15 +1,8 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import SEOHead from "@/components/SEOHead";
 const Privacy = () => {
   return <div className="min-h-screen flex flex-col">
-      <SEOHead
-        title="Politique de confidentialité"
-        description="Politique de confidentialité d'Immo Link Sénégal : collecte, utilisation et protection de vos données personnelles."
-        url="https://immolinksenegal.lovable.app/confidentialite"
-      />
       <Navbar />
-      
       
       <main className="flex-grow pt-20 pb-16">
         <div className="container mx-auto px-4 max-w-4xl">

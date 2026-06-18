@@ -233,9 +233,8 @@ const ArticleDetail = () => {
         title={article.title}
         description={article.excerpt || article.title}
         image={article.featured_image || undefined}
-        url={`https://immolinksenegal.lovable.app/articles/${article.slug}`}
+        url={`https://immolinksenegal.com/articles/${article.slug}`}
         type="article"
-        schemaType="article"
         publishedTime={article.published_at || article.created_at}
         modifiedTime={article.created_at}
       />

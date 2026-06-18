@@ -1,6 +1,5 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import BannerHeading from "@/components/BannerHeading";
 import { Search, FileText, CheckCircle, Home } from "lucide-react";
 import bannerImage from "@/assets/banner-fiscalite-senegal.jpg";
 
@@ -52,10 +51,14 @@ const HowItWorks = () => {
             loading="eager"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-primary/50 via-primary/20 to-background/80">
-            <BannerHeading
-              title={<>Comment ça <span className="text-secondary drop-shadow-lg">marche</span> ?</>}
-              subtitle="Découvrez comment Immo Link Sénégal simplifie vos transactions immobilières"
-            />
+            <div className="container mx-auto px-4 h-full flex flex-col justify-center items-center text-center pt-16 sm:pt-20">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 sm:mb-3 md:mb-4 px-2 text-primary-foreground drop-shadow-2xl">
+                Comment ça <span className="text-secondary drop-shadow-lg">marche</span> ?
+              </h1>
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-primary-foreground/90 max-w-2xl mx-auto px-2 drop-shadow-lg">
+                Découvrez comment Immo Link Sénégal simplifie vos transactions immobilières
+              </p>
+            </div>
           </div>
         </div>
 
