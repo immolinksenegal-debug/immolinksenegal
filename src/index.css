@@ -399,7 +399,7 @@
     box-shadow: var(--shadow-neon-orange);
   }
 
-  .border-glow {
+  .textare  .border-glow {
     position: relative;
   }
 
@@ -416,6 +416,18 @@
   @keyframes border-rotate {
     0% { filter: hue-rotate(0deg); }
     100% { filter: hue-rotate(360deg); }
+  }
+
+  /* === DESIGN TOKENS UTILITIES - Bordures photos biens === */
+  .property-image-border {
+    border: var(--property-image-border-width) solid var(--property-image-border-color--fallback, var(--property-image-border-color));
+    border-radius: var(--property-image-border-radius);
+  }
+
+  .property-image-border-top {
+    border: var(--property-image-border-width) solid var(--property-image-border-color);
+    border-bottom: none;
+    border-radius: var(--property-image-border-radius) var(--property-image-border-radius) 0 0;
   }
   
   /* Animations */
