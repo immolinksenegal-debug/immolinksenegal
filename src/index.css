@@ -420,7 +420,7 @@
 
   /* === DESIGN TOKENS UTILITIES - Bordures photos biens === */
   .property-image-border {
-    border: var(--property-image-border-width) solid var(--property-image-border-color--fallback, var(--property-image-border-color));
+    border: var(--property-image-border-width) solid var(--property-image-border-color);
     border-radius: var(--property-image-border-radius);
   }
 
