@@ -157,6 +157,11 @@
     --shadow-soft: 0 2px 10px hsl(0 0% 0% / 0.35);
     --shadow-logo: 0 10px 40px -10px hsl(140 70% 50% / 0.35), 0 4px 20px hsl(45 95% 60% / 0.2);
 
+    /* === DESIGN TOKENS - Bordures photos biens (dark mode) === */
+    --property-image-border-color: hsl(var(--primary));
+    --property-image-border-width: 2px;
+    --property-image-border-radius: 1rem;
+
     --sidebar-background: 140 25% 8%;
     --sidebar-foreground: 45 30% 96%;
     --sidebar-primary: 140 70% 50%;
