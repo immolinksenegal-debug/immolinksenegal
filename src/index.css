@@ -78,6 +78,11 @@
     --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     --transition-glow: all 0.4s ease-out;
 
+    /* === DESIGN TOKENS - Bordures photos biens === */
+    --property-image-border-color: hsl(var(--primary));
+    --property-image-border-width: 2px;
+    --property-image-border-radius: 1rem;
+
     --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 140 100% 12%;
     --sidebar-primary: 140 100% 18%;
@@ -151,6 +156,11 @@
     --shadow-card: 0 4px 24px hsl(0 0% 0% / 0.4), 0 1px 2px hsl(0 0% 0% / 0.3);
     --shadow-soft: 0 2px 10px hsl(0 0% 0% / 0.35);
     --shadow-logo: 0 10px 40px -10px hsl(140 70% 50% / 0.35), 0 4px 20px hsl(45 95% 60% / 0.2);
+
+    /* === DESIGN TOKENS - Bordures photos biens (dark mode) === */
+    --property-image-border-color: hsl(var(--primary));
+    --property-image-border-width: 2px;
+    --property-image-border-radius: 1rem;
 
     --sidebar-background: 140 25% 8%;
     --sidebar-foreground: 45 30% 96%;
@@ -406,6 +416,18 @@
   @keyframes border-rotate {
     0% { filter: hue-rotate(0deg); }
     100% { filter: hue-rotate(360deg); }
+  }
+
+  /* === DESIGN TOKENS UTILITIES - Bordures photos biens === */
+  .property-image-border {
+    border: var(--property-image-border-width) solid var(--property-image-border-color);
+    border-radius: var(--property-image-border-radius);
+  }
+
+  .property-image-border-top {
+    border: var(--property-image-border-width) solid var(--property-image-border-color);
+    border-bottom: none;
+    border-radius: var(--property-image-border-radius) var(--property-image-border-radius) 0 0;
   }
   
   /* Animations */
