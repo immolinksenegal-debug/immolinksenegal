@@ -418,6 +418,17 @@
     100% { filter: hue-rotate(360deg); }
   }
 
+  /* === DESIGN TOKENS UTILITIES - Carte 3D tilt === */
+  .property-card-3d {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.5s ease;
+    will-change: transform;
+  }
+  .property-card-3d:hover {
+    transform: translateY(-6px) rotateX(2deg) rotateY(-2deg);
+  }
+
   /* === DESIGN TOKENS UTILITIES - Ombres photos biens === */
   .property-image-shadow {
     border-radius: var(--property-image-border-radius);
