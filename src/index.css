@@ -418,16 +418,27 @@
     100% { filter: hue-rotate(360deg); }
   }
 
-  /* === DESIGN TOKENS UTILITIES - Bordures photos biens === */
-  .property-image-border {
-    border: var(--property-image-border-width) solid var(--property-image-border-color);
+  /* === DESIGN TOKENS UTILITIES - Ombres photos biens === */
+  .property-image-shadow {
     border-radius: var(--property-image-border-radius);
+    box-shadow:
+      0 1px 2px hsl(var(--primary) / 0.06),
+      0 8px 20px -8px hsl(var(--primary) / 0.18),
+      0 20px 40px -20px hsl(var(--foreground) / 0.18);
+    transition: box-shadow 0.4s ease, transform 0.4s ease;
+  }
+  .property-image-shadow:hover {
+    box-shadow:
+      0 2px 4px hsl(var(--primary) / 0.08),
+      0 14px 28px -10px hsl(var(--primary) / 0.28),
+      0 28px 56px -22px hsl(var(--secondary) / 0.22);
   }
 
-  .property-image-border-top {
-    border: var(--property-image-border-width) solid var(--property-image-border-color);
-    border-bottom: none;
+  .property-image-shadow-top {
     border-radius: var(--property-image-border-radius) var(--property-image-border-radius) 0 0;
+    box-shadow:
+      0 1px 2px hsl(var(--primary) / 0.06),
+      0 10px 24px -12px hsl(var(--primary) / 0.20);
   }
   
   /* Animations */
