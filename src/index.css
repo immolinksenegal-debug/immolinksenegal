@@ -80,7 +80,7 @@
 
     /* === DESIGN TOKENS - Bordures photos biens === */
     --property-image-border-color: hsl(var(--primary));
-    --property-image-border-width: 2px;
+    --property-image-border-width: 0px;
     --property-image-border-radius: 1rem;
 
     --sidebar-background: 0 0% 100%;
@@ -159,7 +159,7 @@
 
     /* === DESIGN TOKENS - Bordures photos biens (dark mode) === */
     --property-image-border-color: hsl(var(--primary));
-    --property-image-border-width: 2px;
+    --property-image-border-width: 0px;
     --property-image-border-radius: 1rem;
 
     --sidebar-background: 140 25% 8%;
