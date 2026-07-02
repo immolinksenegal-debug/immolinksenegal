@@ -212,6 +212,62 @@
     background: linear-gradient(180deg, hsl(var(--primary-glow)) 0%, hsl(var(--secondary-glow)) 100%);
   }
 
+  /* === Focus visible accessible et cohérent === */
+  :focus {
+    outline: none;
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+    border-radius: calc(var(--radius) - 0.25rem);
+    box-shadow: 0 0 0 4px hsl(var(--ring) / 0.2);
+    transition: box-shadow 0.15s ease, outline-offset 0.15s ease;
+  }
+
+  /* Boutons / liens / éléments interactifs */
+  button:focus-visible,
+  a:focus-visible,
+  [role="button"]:focus-visible,
+  [role="link"]:focus-visible,
+  [role="menuitem"]:focus-visible,
+  [role="option"]:focus-visible,
+  [role="tab"]:focus-visible,
+  summary:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 3px;
+    box-shadow: 0 0 0 4px hsl(var(--ring) / 0.25);
+  }
+
+  /* Champs de formulaire */
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible,
+  [contenteditable="true"]:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 0;
+    border-color: hsl(var(--ring));
+    box-shadow: 0 0 0 3px hsl(var(--ring) / 0.25);
+  }
+
+  /* Cartes cliquables (Card, property-card-3d, glass-card, futuristic-card) */
+  .property-card-3d:focus-visible,
+  .futuristic-card:focus-visible,
+  .glass-card:focus-visible,
+  [data-slot="card"]:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 4px;
+    box-shadow:
+      0 0 0 5px hsl(var(--ring) / 0.2),
+      var(--shadow-elevated);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :focus-visible {
+      transition: none;
+    }
+  }
+
   @keyframes fade-in-up {
     0% { opacity: 0; transform: translateY(24px); }
     100% { opacity: 1; transform: translateY(0); }
