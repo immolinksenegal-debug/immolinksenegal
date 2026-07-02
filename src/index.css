@@ -673,3 +673,35 @@
     box-shadow: 0 0 20px hsl(25 85% 55% / 0.2);
   }
 }
+
+/* === Accessibilité : prefers-reduced-motion === */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Désactive les transformations décoratives (tilt, lift, scale, float) */
+  .property-card-3d:hover,
+  .property-card-3d:active,
+  .hover-lift:hover,
+  .hover-scale:hover {
+    transform: none !important;
+  }
+
+  .animate-float,
+  .animate-float-subtle,
+  .animate-scan,
+  .animate-glow-pulse,
+  .animate-shimmer,
+  .animate-gradient,
+  .animate-cyber-pulse,
+  .animate-neon-flicker,
+  .animate-fade-in-up {
+    animation: none !important;
+  }
+}
