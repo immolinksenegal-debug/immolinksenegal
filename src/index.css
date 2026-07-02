@@ -424,9 +424,19 @@
     perspective: 1000px;
     transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.5s ease;
     will-change: transform;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
-  .property-card-3d:hover {
-    transform: translateY(-6px) rotateX(2deg) rotateY(-2deg);
+  @media (hover: hover) {
+    .property-card-3d:hover {
+      transform: translateY(-6px) rotateX(2deg) rotateY(-2deg);
+    }
+  }
+  @media (hover: none) {
+    .property-card-3d:active {
+      transform: translateY(-4px) rotateX(1.5deg) rotateY(-1.5deg) scale(0.99);
+      transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease;
+    }
   }
 
   /* === DESIGN TOKENS UTILITIES - Ombres photos biens === */
