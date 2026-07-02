@@ -677,27 +677,49 @@ const FreeEstimation = () => {
                   </div>
                 </div>
 
-                <Button
-                  type="submit"
-                  className="w-full bg-gradient-to-r from-primary via-accent to-secondary hover:shadow-[0_0_30px_hsl(var(--accent)/0.4)] text-primary-foreground py-4 md:py-6 text-base md:text-lg font-semibold rounded-xl transition-all duration-300"
-                  disabled={isSubmitting || isGeneratingPdf}
-                >
-                  {isSubmitting || isGeneratingPdf ? (
-                    <>
-                      <Sparkles className="w-4 h-4 md:w-5 md:h-5 mr-2 animate-spin" />
-                      <span className="text-sm md:text-base">
-                        {isGeneratingPdf ? 'Analyse IA en cours...' : 'Envoi en cours...'}
-                      </span>
-                    </>
-                  ) : (
-                    <>
-                      <Sparkles className="w-4 h-4 md:w-5 md:h-5 mr-2" />
-                      <span className="text-sm md:text-base">
-                        Obtenir mon estimation gratuite + PDF
-                      </span>
-                    </>
-                  )}
-                </Button>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <Button
+                    type="button"
+                    onClick={handleSubmit(generatePDF)}
+                    variant="outline"
+                    className="w-full sm:flex-1 border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground py-4 md:py-6 text-base md:text-lg font-semibold rounded-xl transition-all duration-300"
+                    disabled={isSubmitting || isGeneratingPdf}
+                  >
+                    {isGeneratingPdf ? (
+                      <>
+                        <Sparkles className="w-4 h-4 md:w-5 md:h-5 mr-2 animate-spin" />
+                        <span className="text-sm md:text-base">Génération en cours...</span>
+                      </>
+                    ) : (
+                      <>
+                        <CheckCircle className="w-4 h-4 md:w-5 md:h-5 mr-2" />
+                        <span className="text-sm md:text-base">Valider et générer l'estimation</span>
+                      </>
+                    )}
+                  </Button>
+
+                  <Button
+                    type="submit"
+                    className="w-full sm:flex-1 bg-gradient-to-r from-primary via-accent to-secondary hover:shadow-[0_0_30px_hsl(var(--accent)/0.4)] text-primary-foreground py-4 md:py-6 text-base md:text-lg font-semibold rounded-xl transition-all duration-300"
+                    disabled={isSubmitting || isGeneratingPdf}
+                  >
+                    {isSubmitting || isGeneratingPdf ? (
+                      <>
+                        <Sparkles className="w-4 h-4 md:w-5 md:h-5 mr-2 animate-spin" />
+                        <span className="text-sm md:text-base">
+                          {isGeneratingPdf ? 'Analyse IA en cours...' : 'Envoi en cours...'}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="w-4 h-4 md:w-5 md:h-5 mr-2" />
+                        <span className="text-sm md:text-base">
+                          Envoyer la demande + PDF
+                        </span>
+                      </>
+                    )}
+                  </Button>
+                </div>
 
                 <div className="text-center space-y-1.5 md:space-y-2 px-2">
                   <div className="flex items-center justify-center gap-2 text-xs md:text-sm text-secondary font-medium">
