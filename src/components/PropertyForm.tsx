@@ -120,16 +120,31 @@ const PropertyForm = ({ onSuccess, initialData }: PropertyFormProps) => {
         bedrooms: initialData.bedrooms?.toString() || '',
         bathrooms: initialData.bathrooms?.toString() || '',
         surface: initialData.surface?.toString() || '',
-        contact_phone: initialData.contact_phone || '',
-        contact_email: initialData.contact_email || '',
-        contact_whatsapp: initialData.contact_whatsapp || '',
+        contact_phone: '',
+        contact_email: '',
+        contact_whatsapp: '',
       });
-      
+
+      // Fetch contact info from separate table (RLS restricts to owner/admin)
+      supabase
+        .from('property_contacts')
+        .select('contact_phone, contact_email, contact_whatsapp')
+        .eq('property_id', initialData.id)
+        .maybeSingle()
+        .then(({ data }) => {
+          if (data) {
+            setValue('contact_phone', data.contact_phone || '');
+            setValue('contact_email', data.contact_email || '');
+            setValue('contact_whatsapp', data.contact_whatsapp || '');
+          }
+        });
+
       if (initialData.image) {
         setExistingImages([initialData.image]);
       }
     }
-  }, [initialData, reset]);
+  }, [initialData, reset, setValue]);
+
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
@@ -274,10 +289,15 @@ const PropertyForm = ({ onSuccess, initialData }: PropertyFormProps) => {
         surface: parseFloat(data.surface),
         images: imageUrls,
         status: 'active',
+      };
+
+      const contactData = {
         contact_phone: data.contact_phone || null,
         contact_email: data.contact_email || null,
         contact_whatsapp: data.contact_whatsapp || null,
       };
+
+      let propertyId: string;
 
       if (isEditing) {
         const { error: updateError } = await supabase
@@ -286,23 +306,39 @@ const PropertyForm = ({ onSuccess, initialData }: PropertyFormProps) => {
           .eq('id', initialData.id);
 
         if (updateError) throw updateError;
+        propertyId = initialData.id;
 
         toast({
           title: "Succès",
           description: "Votre annonce a été modifiée avec succès",
         });
       } else {
-        const { error: insertError } = await supabase
+        const { data: inserted, error: insertError } = await supabase
           .from('properties')
-          .insert(propertyData);
+          .insert(propertyData)
+          .select('id')
+          .single();
 
         if (insertError) throw insertError;
+        propertyId = inserted.id;
 
         toast({
           title: "Succès",
           description: "Votre annonce a été créée avec succès",
         });
       }
+
+      // Save contact info to separate, owner-protected table
+      const hasAnyContact = contactData.contact_phone || contactData.contact_email || contactData.contact_whatsapp;
+      if (hasAnyContact) {
+        const { error: contactError } = await supabase
+          .from('property_contacts')
+          .upsert({ property_id: propertyId, ...contactData }, { onConflict: 'property_id' });
+        if (contactError) console.error('Error saving contact info:', contactError);
+      } else if (isEditing) {
+        await supabase.from('property_contacts').delete().eq('property_id', propertyId);
+      }
+
 
       if (onSuccess) {
         onSuccess();

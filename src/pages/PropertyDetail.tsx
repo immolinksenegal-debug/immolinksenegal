@@ -60,13 +60,24 @@ const PropertyDetail = () => {
         return;
       }
 
-      setProperty(data);
-
-      // Check if current user is the property owner
+      // Check owner status
       const { data: { user } } = await supabase.auth.getUser();
-      if (user && data.user_id === user.id) {
-        setIsOwner(true);
-      }
+      const owner = !!(user && data.user_id === user.id);
+      setIsOwner(owner);
+
+      // Fetch contact info from restricted table (RLS returns row only to owner/admin)
+      const { data: contacts } = await supabase
+        .from('property_contacts')
+        .select('contact_phone, contact_email, contact_whatsapp')
+        .eq('property_id', id!)
+        .maybeSingle();
+
+      setProperty({
+        ...data,
+        contact_phone: contacts?.contact_phone ?? null,
+        contact_email: contacts?.contact_email ?? null,
+        contact_whatsapp: contacts?.contact_whatsapp ?? null,
+      });
     } catch (error) {
       console.error("Error fetching property:", error);
       setError(true);
@@ -79,6 +90,7 @@ const PropertyDetail = () => {
       setIsLoading(false);
     }
   };
+
 
   const incrementViews = async () => {
     try {
