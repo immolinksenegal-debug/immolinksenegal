@@ -326,6 +326,35 @@ const PropertyForm = ({ onSuccess, initialData }: PropertyFormProps) => {
           title: "Succès",
           description: "Votre annonce a été créée avec succès",
         });
+
+        // Notification admin de la nouvelle annonce
+        const esc = (s: string) => String(s).replace(/[<>&]/g, (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" }[c]!));
+        supabase.functions.invoke("send-email", {
+          body: {
+            to: "immolinksenegal@gmail.com",
+            subject: `[Nouvelle annonce] ${esc(data.title)}`,
+            html: `<h2>Nouvelle annonce à modérer</h2>
+              <p><strong>Titre:</strong> ${esc(data.title)}</p>
+              <p><strong>Type:</strong> ${esc(data.type)}</p>
+              <p><strong>Prix:</strong> ${esc(data.price)} FCFA</p>
+              <p><strong>Ville:</strong> ${esc(data.city)}</p>
+              <p><strong>Localisation:</strong> ${esc(data.location)}</p>
+              <p><strong>ID:</strong> ${propertyId}</p>`,
+          },
+        }).catch((e) => console.error("Admin notification failed:", e));
+
+        // Confirmation à l'auteur si email connu
+        if (user.email) {
+          supabase.functions.invoke("send-email", {
+            body: {
+              to: user.email,
+              subject: "Votre annonce a été soumise – Immo Link Sénégal",
+              html: `<h2>Merci pour votre annonce !</h2>
+                <p>Votre annonce <strong>${esc(data.title)}</strong> a bien été enregistrée et sera publiée après validation par notre équipe.</p>
+                <p>— L'équipe Immo Link Sénégal</p>`,
+            },
+          }).catch((e) => console.error("User confirmation failed:", e));
+        }
       }
 
       // Save contact info to separate, owner-protected table
