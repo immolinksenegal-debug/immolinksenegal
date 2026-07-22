@@ -302,13 +302,13 @@ const AdminContactMessages = () => {
 
               <div>
                 <p className="text-sm font-medium text-muted-foreground mb-2">
-                  Réponse administrative (interne)
+                  Votre réponse (envoyée par email au visiteur)
                 </p>
                 <Textarea
                   value={adminResponse}
                   onChange={(e) => setAdminResponse(e.target.value)}
-                  placeholder="Écrivez une note interne ou une réponse..."
-                  rows={4}
+                  placeholder="Écrivez votre réponse au visiteur..."
+                  rows={6}
                   className="resize-y"
                 />
               </div>
@@ -323,17 +323,17 @@ const AdminContactMessages = () => {
                 <Button
                   onClick={handleSubmitResponse}
                   disabled={isSubmitting || !adminResponse.trim()}
-                  className="bg-secondary hover:bg-secondary/90"
+                  className="bg-primary hover:bg-primary/90"
                 >
                   {isSubmitting ? (
                     <>
                       <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                      Enregistrement...
+                      Envoi en cours...
                     </>
                   ) : (
                     <>
                       <Send className="h-4 w-4 mr-2" />
-                      Enregistrer la réponse
+                      Envoyer la réponse
                     </>
                   )}
                 </Button>
