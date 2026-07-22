@@ -98,6 +98,41 @@ const AdminContactMessages = () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
 
+      // Envoi de l'email au visiteur via Resend
+      const htmlBody = `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <div style="background: linear-gradient(135deg, #005A1E, #F0B41E); padding: 20px; color: white; border-radius: 8px 8px 0 0;">
+            <h2 style="margin: 0;">Immo Link Sénégal</h2>
+          </div>
+          <div style="padding: 24px; background: #fff; border: 1px solid #eee; border-top: none; border-radius: 0 0 8px 8px;">
+            <p>Bonjour ${selectedMessage.full_name},</p>
+            <p>Nous vous remercions pour votre message concernant : <strong>${selectedMessage.subject}</strong>.</p>
+            <p>Voici notre réponse :</p>
+            <div style="background: #f8f8f8; padding: 16px; border-left: 4px solid #005A1E; margin: 16px 0; white-space: pre-wrap;">${adminResponse.replace(/</g, "&lt;")}</div>
+            <p style="margin-top: 24px;">Cordialement,<br/>L'équipe Immo Link Sénégal</p>
+          </div>
+        </div>
+      `;
+
+      const { error: emailError } = await supabase.functions.invoke('send-email', {
+        body: {
+          to: selectedMessage.email,
+          subject: `Re: ${selectedMessage.subject}`,
+          html: htmlBody,
+          from: 'Immo Link Sénégal <contact@immolinksenegal.com>',
+          reply_to: 'immolinksenegal@gmail.com',
+        },
+      });
+
+      if (emailError) {
+        console.error('Email send error:', emailError);
+        toast({
+          title: "⚠️ Email non envoyé",
+          description: "La réponse est enregistrée mais l'email n'a pas pu être envoyé.",
+          variant: "destructive",
+        });
+      }
+
       const { error } = await supabase
         .from("contact_messages")
         .update({
@@ -110,10 +145,12 @@ const AdminContactMessages = () => {
 
       if (error) throw error;
 
-      toast({
-        title: "✅ Réponse enregistrée",
-        description: "La réponse a été enregistrée avec succès",
-      });
+      if (!emailError) {
+        toast({
+          title: "✅ Réponse envoyée",
+          description: `Email envoyé à ${selectedMessage.email}`,
+        });
+      }
 
       setIsResponseDialogOpen(false);
       loadMessages();
