@@ -3,7 +3,7 @@
 // supabase function: mcp
 // Bundled from src/lib/mcp/index.ts by @lovable.dev/mcp-js.
 // src/lib/mcp/index.ts
-import { defineMcp } from "npm:@lovable.dev/mcp-js@0.20.1";
+import { auth, defineMcp } from "npm:@lovable.dev/mcp-js@0.20.1";
 
 // src/lib/mcp/tools/search-properties.ts
 import { createClient } from "npm:@supabase/supabase-js@^2.75.0";
@@ -138,11 +138,16 @@ var get_article_default = defineTool4({
 });
 
 // src/lib/mcp/index.ts
+var projectRef = "uccblgllyezbfsubfqin";
 var mcp_default = defineMcp({
   name: "immo-link-senegal-mcp",
   title: "Immo Link S\xE9n\xE9gal MCP",
   version: "0.1.0",
   instructions: "Tools to search and read public real-estate listings and articles from Immo Link S\xE9n\xE9gal (immolinksenegal.com). Use `search_properties` to find listings, `get_property` for full details, `list_articles` and `get_article` for the blog.",
+  auth: auth.oauth.issuer({
+    issuer: `https://${projectRef}.supabase.co/auth/v1`,
+    acceptedAudiences: "authenticated"
+  }),
   tools: [search_properties_default, get_property_default, list_articles_default, get_article_default]
 });
 
