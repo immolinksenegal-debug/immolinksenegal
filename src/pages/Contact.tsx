@@ -76,30 +76,25 @@ const Contact = () => {
       const safe = (s: string) => s.replace(/[<>&]/g, (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" }[c]!));
       supabase.functions.invoke("send-email", {
         body: {
-          to: "immolinksenegal@gmail.com",
-          subject: `[Contact] ${safe(data.subject)}`,
-          html: `<h2>Nouveau message de contact</h2>
-            <p><strong>Nom:</strong> ${safe(data.full_name)}</p>
-            <p><strong>Email:</strong> ${safe(data.email)}</p>
-            <p><strong>Téléphone:</strong> ${safe(data.phone || "-")}</p>
-            <p><strong>Sujet:</strong> ${safe(data.subject)}</p>
-            <p><strong>Message:</strong></p>
-            <p>${safe(data.message).replace(/\n/g, "<br/>")}</p>`,
-          reply_to: data.email,
+          purpose: "contact_admin",
+          full_name: data.full_name,
+          email: data.email,
+          phone: data.phone || null,
+          subject: data.subject,
+          message: data.message,
         },
       }).catch((e) => console.error("Admin notification failed:", e));
 
       supabase.functions.invoke("send-email", {
         body: {
-          to: data.email,
-          subject: "Nous avons bien reçu votre message – Immo Link Sénégal",
-          html: `<h2>Merci ${safe(data.full_name)} !</h2>
-            <p>Nous avons bien reçu votre message et notre équipe vous répondra dans les plus brefs délais.</p>
-            <p><strong>Sujet:</strong> ${safe(data.subject)}</p>
-            <blockquote style="border-left:3px solid #005A1E;padding-left:12px;color:#555;">${safe(data.message).replace(/\n/g, "<br/>")}</blockquote>
-            <p>— L'équipe Immo Link Sénégal</p>`,
+          purpose: "contact_receipt",
+          full_name: data.full_name,
+          email: data.email,
+          subject: data.subject,
+          message: data.message,
         },
       }).catch((e) => console.error("User confirmation failed:", e));
+
 
       toast({
         title: "✅ Message envoyé !",
