@@ -116,13 +116,13 @@ const AdminContactMessages = () => {
 
       const { error: emailError } = await supabase.functions.invoke('send-email', {
         body: {
+          purpose: 'admin_reply',
           to: selectedMessage.email,
           subject: `Re: ${selectedMessage.subject}`,
           html: htmlBody,
-          from: 'Immo Link Sénégal <contact@immolinksenegal.com>',
-          reply_to: 'immolinksenegal@gmail.com',
         },
       });
+
 
       if (emailError) {
         console.error('Email send error:', emailError);
