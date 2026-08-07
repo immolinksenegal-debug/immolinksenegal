@@ -12,14 +12,37 @@ serve(async (req) => {
   }
 
   try {
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader?.startsWith('Bearer ')) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+        status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
     const { contractId } = await req.json();
 
-    if (!contractId) {
+    if (!contractId || typeof contractId !== 'string') {
       throw new Error('Contract ID is required');
     }
 
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+    const anonKey = Deno.env.get('SUPABASE_ANON_KEY')!;
+
+    // Authenticate the caller
+    const userClient = createClient(supabaseUrl, anonKey, {
+      global: { headers: { Authorization: authHeader } },
+    });
+    const { data: userData, error: userError } = await userClient.auth.getUser(
+      authHeader.replace('Bearer ', '')
+    );
+    if (userError || !userData?.user) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+        status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+    const callerId = userData.user.id;
+
     const supabase = createClient(supabaseUrl, supabaseKey);
 
     // Get contract data with signatures
@@ -35,6 +58,22 @@ serve(async (req) => {
     if (contractError || !contract) {
       throw new Error('Contract not found');
     }
+
+    // Authorization: owner of the contract or admin only
+    if (contract.user_id !== callerId) {
+      const { data: adminRole } = await supabase
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', callerId)
+        .eq('role', 'admin')
+        .maybeSingle();
+      if (!adminRole) {
+        return new Response(JSON.stringify({ error: 'Forbidden' }), {
+          status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
+    }
+
 
     // Generate HTML for PDF
     const html = generateContractHTML(contract);
