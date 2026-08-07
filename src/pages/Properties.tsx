@@ -36,8 +36,13 @@ const Properties = () => {
 
       // Apply filters
       if (searchQuery) {
-        query = query.or(`title.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%`);
+        // Escape PostgREST filter special characters to avoid filter injection
+        const safeSearch = searchQuery.replace(/[,()\\"*]/g, ' ').trim();
+        if (safeSearch) {
+          query = query.or(`title.ilike.%${safeSearch}%,description.ilike.%${safeSearch}%`);
+        }
       }
+
       if (typeFilter) {
         query = query.eq('type', typeFilter);
       }

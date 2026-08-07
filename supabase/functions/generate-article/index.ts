@@ -12,11 +12,19 @@ serve(async (req) => {
   }
 
   try {
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader?.startsWith('Bearer ')) {
+      return new Response(
+        JSON.stringify({ error: 'Unauthorized' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
     const { idea } = await req.json();
 
-    if (!idea) {
+    if (!idea || typeof idea !== 'string' || idea.trim().length === 0 || idea.length > 500) {
       return new Response(
-        JSON.stringify({ error: 'Idée d\'article requise' }),
+        JSON.stringify({ error: 'Idée d\'article requise (max 500 caractères)' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
@@ -28,12 +36,42 @@ serve(async (req) => {
 
     const SUPABASE_URL = Deno.env.get('SUPABASE_URL');
     const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
-    
-    if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
+    const SUPABASE_ANON_KEY = Deno.env.get('SUPABASE_ANON_KEY');
+
+    if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY || !SUPABASE_ANON_KEY) {
       throw new Error('Supabase configuration missing');
     }
 
+    // Authenticate caller and require admin role
+    const userClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      global: { headers: { Authorization: authHeader } },
+    });
+    const { data: userData, error: userError } = await userClient.auth.getUser(
+      authHeader.replace('Bearer ', '')
+    );
+    if (userError || !userData?.user) {
+      return new Response(
+        JSON.stringify({ error: 'Unauthorized' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
     const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+
+    const { data: adminRole } = await supabase
+      .from('user_roles')
+      .select('role')
+      .eq('user_id', userData.user.id)
+      .eq('role', 'admin')
+      .maybeSingle();
+
+    if (!adminRole) {
+      return new Response(
+        JSON.stringify({ error: 'Forbidden' }),
+        { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
 
     // Étape 1: Générer le texte de l'article
     const aiResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
