@@ -39,7 +39,8 @@ const AuthConfirm = () => {
   const [isSending, setIsSending] = useState(false);
   const [sent, setSent] = useState(false);
   const [countdown, setCountdown] = useState(Math.ceil(REDIRECT_DELAY_MS / 1000));
-  const [redirectTarget, setRedirectTarget] = useState("/dashboard");
+  const [redirectTarget, setRedirectTarget] = useState("/auth");
+  const [hasSession, setHasSession] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const params = useMemo(() => {
