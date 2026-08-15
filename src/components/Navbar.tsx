@@ -222,7 +222,7 @@ const Navbar = () => {
 
               <div className="flex-1 overflow-y-auto overscroll-contain px-3 py-4">
                 <div className="flex flex-col gap-1.5">
-                  {navLinks.map((link) => {
+                  {navLinks.map((link, index) => {
                     const active = isLinkActive(link.to);
                     return (
                       <Link
@@ -230,16 +230,22 @@ const Navbar = () => {
                         to={link.to}
                         onClick={() => setIsOpen(false)}
                         aria-current={active ? "page" : undefined}
+                        className="motion-safe:animate-fade-in opacity-0 [animation-fill-mode:forwards]"
+                        style={{ animationDelay: `${120 + index * 45}ms` }}
                       >
                         <Button
                           variant="ghost"
-                          className={`w-full justify-start h-12 text-base rounded-lg relative ${
+                          className={`group w-full justify-start h-12 text-base rounded-lg relative overflow-hidden transition-all duration-300 active:scale-[0.98] ${
                             active
-                              ? "font-semibold text-primary bg-primary/10 before:absolute before:left-0 before:top-2 before:bottom-2 before:w-1 before:rounded-full before:bg-primary"
-                              : "font-medium text-foreground/85 hover:text-primary hover:bg-muted"
+                              ? "font-semibold text-primary bg-primary/10 before:absolute before:left-0 before:top-2 before:bottom-2 before:w-1 before:rounded-full before:bg-primary before:origin-center motion-safe:before:animate-scale-in"
+                              : "font-medium text-foreground/85 hover:text-primary hover:bg-muted hover:translate-x-1"
                           }`}
                         >
-                          <link.icon className="h-5 w-5 mr-3 text-primary shrink-0" />
+                          <link.icon
+                            className={`h-5 w-5 mr-3 text-primary shrink-0 transition-transform duration-300 ${
+                              active ? "scale-110" : "group-hover:scale-110"
+                            }`}
+                          />
                           {link.label}
                         </Button>
                       </Link>
