@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Building2, Users, Target, Award, Globe, Shield, Zap, Heart } from "lucide-react";
+import PageBanner from "@/components/PageBanner";
 import bannerImage from "@/assets/banner-about.jpg";
 
 const About = () => {
