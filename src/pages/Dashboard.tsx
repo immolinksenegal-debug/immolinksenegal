@@ -17,8 +17,10 @@ import {
   Users,
   Shield,
   FileText,
+  CreditCard,
 } from "lucide-react";
 import PropertyCard from "@/components/PropertyCard";
+import PackOrdersHistory from "@/components/PackOrdersHistory";
 import PropertyForm from "@/components/PropertyForm";
 import PromotionDialog from "@/components/PromotionDialog";
 import { ProfileSettings } from "@/components/settings/ProfileSettings";
