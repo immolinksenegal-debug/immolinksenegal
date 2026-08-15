@@ -66,31 +66,32 @@ Deno.serve(async (req) => {
     await supabase.rpc('expire_old_pack_subscriptions')
 
     const amount = billing === 'yearly' ? pack.yearly : pack.monthly
+    const mode = body?.mode === 'status' ? 'status' : 'start'
+    const forceNew = body?.forceNew === true
 
-    // IDEMPOTENCE: une même intention d'achat ne doit créer qu'une seule commande.
-    const rawKey = typeof body?.idempotencyKey === 'string' ? body.idempotencyKey.trim() : ''
-    const clientKey = /^[A-Za-z0-9_-]{8,80}$/.test(rawKey) ? rawKey : ''
-    const idempotencyKey = `${user.id}:${packId}:${billing}:${clientKey || 'default'}`
+    const json = (payload: unknown, status = 200) =>
+      new Response(JSON.stringify(payload), {
+        status,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      })
 
-    // 1) Même clé déjà utilisée -> on renvoie le lien de paiement existant
-    const { data: existingByKey } = await supabase
+    // Abonnement déjà actif pour ce pack ?
+    const { data: activeSub } = await supabase
       .from('pack_subscriptions')
-      .select('payment_url, payment_token, status')
-      .eq('idempotency_key', idempotencyKey)
+      .select('expires_at')
+      .eq('user_id', user.id)
+      .eq('pack_id', packId)
+      .eq('status', 'active')
+      .order('expires_at', { ascending: false })
+      .limit(1)
       .maybeSingle()
 
-    if (existingByKey?.payment_url && existingByKey.status === 'pending') {
-      return new Response(
-        JSON.stringify({ success: true, reused: true, paymentUrl: existingByKey.payment_url, token: existingByKey.payment_token }),
-        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
-      )
-    }
-
-    // 2) Commande identique déjà en attente (< 30 min) -> réutilisation
     const thirtyMinAgo = new Date(Date.now() - 30 * 60 * 1000).toISOString()
+
+    // Paiement en attente encore valable (< 30 min)
     const { data: recentPending } = await supabase
       .from('pack_subscriptions')
-      .select('payment_url, payment_token')
+      .select('payment_url, payment_token, created_at')
       .eq('user_id', user.id)
       .eq('pack_id', packId)
       .eq('billing', billing)
@@ -100,12 +101,82 @@ Deno.serve(async (req) => {
       .limit(1)
       .maybeSingle()
 
-    if (recentPending?.payment_url) {
-      return new Response(
-        JSON.stringify({ success: true, reused: true, paymentUrl: recentPending.payment_url, token: recentPending.payment_token }),
-        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
-      )
+    // Dernier paiement expiré (lien périmé) pour ce pack/billing
+    const { data: lastExpired } = await supabase
+      .from('pack_subscriptions')
+      .select('created_at')
+      .eq('user_id', user.id)
+      .eq('pack_id', packId)
+      .eq('billing', billing)
+      .eq('status', 'expired')
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+
+    const state = activeSub
+      ? 'active'
+      : recentPending
+        ? 'pending'
+        : lastExpired
+          ? 'expired'
+          : 'none'
+
+    if (mode === 'status') {
+      return json({
+        success: true,
+        state,
+        expiresAt: activeSub?.expires_at ?? null,
+        paymentUrl: recentPending?.payment_url ?? null,
+        pendingSince: recentPending?.created_at ?? null,
+      })
     }
+
+    // IDEMPOTENCE: une même intention d'achat ne doit créer qu'une seule commande.
+    const rawKey = typeof body?.idempotencyKey === 'string' ? body.idempotencyKey.trim() : ''
+    const clientKey = /^[A-Za-z0-9_-]{8,80}$/.test(rawKey) ? rawKey : ''
+    let idempotencyKey = `${user.id}:${packId}:${billing}:${clientKey || 'default'}`
+
+    // 1) Même clé déjà utilisée -> lien existant si toujours en attente,
+    //    sinon rotation de la clé pour relancer un nouveau lien (pack/billing inchangés).
+    const { data: existingByKey } = await supabase
+      .from('pack_subscriptions')
+      .select('payment_url, payment_token, status')
+      .eq('idempotency_key', idempotencyKey)
+      .maybeSingle()
+
+    if (existingByKey && (existingByKey.status !== 'pending' || forceNew)) {
+      idempotencyKey = `${idempotencyKey}:${Date.now()}`
+    } else if (existingByKey?.payment_url && existingByKey.status === 'pending') {
+      return json({
+        success: true,
+        reused: true,
+        state: 'pending',
+        paymentUrl: existingByKey.payment_url,
+        token: existingByKey.payment_token,
+      })
+    }
+
+    if (recentPending?.payment_url && !forceNew) {
+      return json({
+        success: true,
+        reused: true,
+        state: 'pending',
+        paymentUrl: recentPending.payment_url,
+        token: recentPending.payment_token,
+      })
+    }
+
+    // Relance manuelle: on clôture les liens en attente devenus inutiles
+    if (forceNew) {
+      await supabase
+        .from('pack_subscriptions')
+        .update({ status: 'expired', updated_at: new Date().toISOString() })
+        .eq('user_id', user.id)
+        .eq('pack_id', packId)
+        .eq('billing', billing)
+        .eq('status', 'pending')
+    }
+
 
     const refCommand = `PACK_${packId}_${user.id.substring(0, 8)}_${Date.now()}`
     const frontendUrl = origin ?? 'https://immolinksenegal.com'
