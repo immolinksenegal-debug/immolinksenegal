@@ -222,17 +222,29 @@ const Navbar = () => {
 
               <div className="flex-1 overflow-y-auto overscroll-contain px-3 py-4">
                 <div className="flex flex-col gap-1.5">
-                  {navLinks.map((link) => (
-                    <Link key={link.to} to={link.to} onClick={() => setIsOpen(false)}>
-                      <Button
-                        variant="ghost"
-                        className="w-full justify-start h-12 text-base font-medium text-foreground/85 hover:text-primary hover:bg-muted rounded-lg"
+                  {navLinks.map((link) => {
+                    const active = isLinkActive(link.to);
+                    return (
+                      <Link
+                        key={link.to}
+                        to={link.to}
+                        onClick={() => setIsOpen(false)}
+                        aria-current={active ? "page" : undefined}
                       >
-                        <link.icon className="h-5 w-5 mr-3 text-primary shrink-0" />
-                        {link.label}
-                      </Button>
-                    </Link>
-                  ))}
+                        <Button
+                          variant="ghost"
+                          className={`w-full justify-start h-12 text-base rounded-lg relative ${
+                            active
+                              ? "font-semibold text-primary bg-primary/10 before:absolute before:left-0 before:top-2 before:bottom-2 before:w-1 before:rounded-full before:bg-primary"
+                              : "font-medium text-foreground/85 hover:text-primary hover:bg-muted"
+                          }`}
+                        >
+                          <link.icon className="h-5 w-5 mr-3 text-primary shrink-0" />
+                          {link.label}
+                        </Button>
+                      </Link>
+                    );
+                  })}
                 </div>
               </div>
 
