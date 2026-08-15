@@ -506,31 +506,13 @@
     }
   }
 
-  /* Bouton : reflet balayant au survol */
+  /* Bouton : effet plat (vert uni, aucun dégradé) */
   .btn-sheen {
     position: relative;
     overflow: hidden;
+    transition: background-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
   }
-  .btn-sheen::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: -60%;
-    width: 40%;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      hsl(var(--primary-foreground) / 0.28),
-      transparent
-    );
-    transform: skewX(-20deg);
-    transition: left 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
-    pointer-events: none;
-  }
-  .btn-sheen:hover::after {
-    left: 130%;
-  }
+
   .btn-sheen:active {
     transform: translateY(1px);
   }
