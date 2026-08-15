@@ -455,8 +455,10 @@ export type Database = {
           full_name: string | null
           id: string
           is_banned: boolean | null
+          notification_account_emails: boolean
           notification_email: boolean | null
           notification_new_messages: boolean | null
+          notification_pack_expiry: boolean
           notification_property_updates: boolean | null
           notification_sms: boolean | null
           phone: string | null
@@ -469,8 +471,10 @@ export type Database = {
           full_name?: string | null
           id: string
           is_banned?: boolean | null
+          notification_account_emails?: boolean
           notification_email?: boolean | null
           notification_new_messages?: boolean | null
+          notification_pack_expiry?: boolean
           notification_property_updates?: boolean | null
           notification_sms?: boolean | null
           phone?: string | null
@@ -483,8 +487,10 @@ export type Database = {
           full_name?: string | null
           id?: string
           is_banned?: boolean | null
+          notification_account_emails?: boolean
           notification_email?: boolean | null
           notification_new_messages?: boolean | null
+          notification_pack_expiry?: boolean
           notification_property_updates?: boolean | null
           notification_sms?: boolean | null
           phone?: string | null
