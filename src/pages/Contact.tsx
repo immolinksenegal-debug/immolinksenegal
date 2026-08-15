@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { supabase } from "@/integrations/supabase/client";
+import PageBanner from "@/components/PageBanner";
 import bannerImage from "@/assets/banner-contact.jpg";
 
 const contactSchema = z.object({
@@ -120,24 +121,15 @@ const Contact = () => {
       
       <main className="flex-grow pb-16">
         {/* Hero Banner */}
-        <div className="relative w-full h-56 sm:h-72 md:h-80 lg:h-96 overflow-hidden bg-muted">
-          <img 
-            src={bannerImage} 
-            alt="Contactez Immo Link Sénégal" 
-            className="w-full h-full object-cover"
-            loading="eager"
-          />
-          <div className="absolute inset-0 bg-primary/30">
-            <div className="container mx-auto px-4 h-full flex flex-col justify-center items-center text-center pt-16 sm:pt-20">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 sm:mb-3 md:mb-4 px-2 text-primary-foreground drop-shadow-2xl">
-                Contactez-<span className="text-secondary drop-shadow-lg">nous</span>
-              </h1>
-              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-primary-foreground/90 max-w-2xl mx-auto px-2 drop-shadow-lg">
-                Une question ? Une suggestion ? Notre équipe est là pour vous aider
-              </p>
-            </div>
-          </div>
-        </div>
+        <PageBanner
+          image={bannerImage}
+          alt="Conseillers Immo Link Sénégal en train de répondre aux clients depuis leur bureau à Dakar"
+          title={<>Contactez-<span className="text-secondary drop-shadow-lg">nous</span></>}
+          subtitle="Une question ? Une suggestion ? Notre équipe est là pour vous aider"
+          focal="50% 40%"
+          focalMobile="50% 32%"
+          eager
+        />
 
         <div className="container mx-auto px-4 pt-12 md:pt-16">
           <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">

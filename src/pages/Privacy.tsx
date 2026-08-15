@@ -8,7 +8,9 @@ const Privacy = () => {
 
       <PageBanner
         image={bannerLegal}
-        alt="Politique de confidentialité"
+        alt="Bureau notarial avec documents juridiques et balance de la justice illustrant la politique de confidentialité d'Immo Link Sénégal"
+        focal="50% 50%"
+        focalMobile="50% 40%"
         title="Politique de confidentialité"
         subtitle="Comment Immo Link Sénégal protège et utilise vos données personnelles"
         eager
