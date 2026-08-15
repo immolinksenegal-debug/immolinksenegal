@@ -1,6 +1,9 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 import { Check, Sparkles, Zap, Crown, Building2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -19,6 +22,7 @@ const packs = [
     icon: Sparkles,
     cta: "Publier gratuitement",
     to: "/dashboard",
+    payable: false,
     features: ["1 annonce active", "Visibilité standard", "7 jours de diffusion", "Messagerie de contact"],
     excluded: ["Mise en avant", "Badge vérifié", "Statistiques avancées"],
     highlighted: false,
@@ -32,6 +36,7 @@ const packs = [
     icon: Zap,
     cta: "Choisir Boost",
     to: "/dashboard",
+    payable: true,
     features: ["5 annonces actives", "Mise en avant 7 jours", "Statistiques de vues", "Badge Boost", "Support prioritaire"],
     excluded: ["Top position permanente", "Multi-utilisateurs"],
     highlighted: false,
@@ -45,6 +50,7 @@ const packs = [
     icon: Crown,
     cta: "Choisir Premium",
     to: "/dashboard",
+    payable: true,
     features: ["20 annonces actives", "Top position 14 jours/mois", "Badge Vérifié", "Estimation IA illimitée", "Statistiques avancées", "Support prioritaire"],
     excluded: ["Multi-utilisateurs"],
     highlighted: true,
@@ -58,6 +64,7 @@ const packs = [
     icon: Building2,
     cta: "Contacter l’équipe commerciale",
     to: "/contact",
+    payable: false,
     features: ["Annonces illimitées", "Top position permanente", "CRM & gestion des prospects", "Jusqu’à 10 collaborateurs", "API & exports", "Account manager dédié"],
     excluded: [],
     highlighted: false,
@@ -70,6 +77,35 @@ const formatPrice = (price: number) => {
 
 const PacksSection = () => {
   const [billing, setBilling] = useState<"monthly" | "yearly">("monthly");
+  const [loadingPack, setLoadingPack] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  const handleSubscribe = async (packId: string) => {
+    try {
+      setLoadingPack(packId);
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        toast.error("Connectez-vous pour souscrire à un pack");
+        navigate("/auth");
+        return;
+      }
+
+      const { data, error } = await supabase.functions.invoke("initiate-pack-payment", {
+        body: { packId, billing, origin: window.location.origin },
+      });
+
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      if (!data?.paymentUrl) throw new Error("Lien de paiement indisponible");
+
+      window.location.href = data.paymentUrl;
+    } catch (err) {
+      console.error(err);
+      toast.error(err instanceof Error ? err.message : "Le paiement n'a pas pu être lancé");
+    } finally {
+      setLoadingPack(null);
+    }
+  };
 
   return (
     <section id="packs" className="py-16 sm:py-24 bg-muted/40 relative overflow-hidden">
@@ -198,8 +234,10 @@ const PacksSection = () => {
                   ))}
                 </ul>
 
-                <Link to={pack.to} className="block">
+                {pack.payable ? (
                   <Button
+                    onClick={() => handleSubscribe(pack.id)}
+                    disabled={loadingPack === pack.id}
                     className={cn(
                       "w-full h-12 rounded-xl font-semibold transition-all",
                       pack.highlighted
@@ -207,9 +245,29 @@ const PacksSection = () => {
                         : "bg-primary text-primary-foreground hover:bg-primary/90"
                     )}
                   >
-                    {pack.cta}
+                    {loadingPack === pack.id ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                        Redirection...
+                      </>
+                    ) : (
+                      pack.cta
+                    )}
                   </Button>
-                </Link>
+                ) : (
+                  <Link to={pack.to} className="block">
+                    <Button
+                      className={cn(
+                        "w-full h-12 rounded-xl font-semibold transition-all",
+                        pack.highlighted
+                          ? "bg-secondary text-secondary-foreground hover:bg-secondary/90 shadow-[0_12px_30px_-12px_hsl(var(--secondary)/0.9)]"
+                          : "bg-primary text-primary-foreground hover:bg-primary/90"
+                      )}
+                    >
+                      {pack.cta}
+                    </Button>
+                  </Link>
+                )}
               </div>
             );
           })}

@@ -345,6 +345,54 @@ export type Database = {
         }
         Relationships: []
       }
+      pack_subscriptions: {
+        Row: {
+          amount: number
+          billing: string
+          created_at: string
+          currency: string
+          expires_at: string | null
+          id: string
+          pack_id: string
+          payment_ref: string | null
+          payment_token: string | null
+          starts_at: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          billing: string
+          created_at?: string
+          currency?: string
+          expires_at?: string | null
+          id?: string
+          pack_id: string
+          payment_ref?: string | null
+          payment_token?: string | null
+          starts_at?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          billing?: string
+          created_at?: string
+          currency?: string
+          expires_at?: string | null
+          id?: string
+          pack_id?: string
+          payment_ref?: string | null
+          payment_token?: string | null
+          starts_at?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
