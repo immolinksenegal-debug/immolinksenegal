@@ -277,7 +277,7 @@
 }
 
 @layer utilities {
-  /* Gradients */
+  /* Gradients (now solid colors to match the logo palette) */
   .gradient-hero {
     background: var(--gradient-hero);
   }
@@ -306,13 +306,13 @@
     background: var(--gradient-card);
   }
 
-  /* Texte avec gradient */
+  /* Texte sans gradient - couleurs solides de la charte */
   .text-gradient-cyber {
-    @apply bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent;
+    @apply text-primary;
   }
 
   .text-gradient-neon {
-    @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
+    @apply text-primary;
   }
   
   /* Ombres */
