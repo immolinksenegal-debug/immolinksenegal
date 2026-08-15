@@ -76,10 +76,22 @@ export const persistImages = (urls: string[]) => {
 
 /**
  * Déclare la liste des bannières de la version courante : le service worker
- * supprime toutes les bannières en cache qui n'en font plus partie.
+ * supprime toutes les bannières en cache qui n'en font plus partie. Si la
+ * signature globale change (nouveau build), le cache image est purgé.
  */
 export const syncBannerCache = (urls: string[]) => {
   if (typeof window === "undefined" || !("serviceWorker" in navigator)) return;
+
+  cacheVersion = urls.slice().sort().join("|");
+  try {
+    if (localStorage.getItem(VERSION_KEY) !== cacheVersion) {
+      pendingPurge = true;
+      localStorage.setItem(VERSION_KEY, cacheVersion);
+    }
+  } catch {
+    /* stockage indisponible : la synchro par URL suffit */
+  }
+
   pendingSync = urls;
   flush();
 };
