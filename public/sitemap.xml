@@ -1,87 +1,408 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-  
-  <!-- Page d'accueil -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://immolinksenegal.com/</loc>
-    <lastmod>2025-01-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
-  
-  <!-- Page Biens -->
   <url>
     <loc>https://immolinksenegal.com/properties</loc>
-    <lastmod>2025-01-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
-  
-  <!-- Page Estimation gratuite -->
+  <url>
+    <loc>https://immolinksenegal.com/articles</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
   <url>
     <loc>https://immolinksenegal.com/estimation-gratuite</loc>
-    <lastmod>2025-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
-  
-  <!-- Page Tableau de bord -->
   <url>
-    <loc>https://immolinksenegal.com/dashboard</loc>
-    <lastmod>2025-01-20</lastmod>
+    <loc>https://immolinksenegal.com/a-propos</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/comment-ca-marche</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/contact</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/conditions</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/confidentialite</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/d7f4ca9a-c066-4081-b054-3ea4518b8056</loc>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
-  
-  <!-- Page À propos -->
   <url>
-    <loc>https://immolinksenegal.com/a-propos</loc>
-    <lastmod>2025-01-20</lastmod>
+    <loc>https://immolinksenegal.com/property/4b0af2fa-8a0c-472d-8831-b13b5f89028c</loc>
+    <lastmod>2026-03-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/5d5e60ea-4b38-42bc-826b-22a4990744e4</loc>
+    <lastmod>2025-10-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/7c908c04-2820-4c54-a487-911ffd81f025</loc>
+    <lastmod>2026-07-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/f156358a-b8bf-40f0-9269-bf4e169ecb72</loc>
+    <lastmod>2025-11-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/6b3f5309-a8db-49ea-ad7f-7bcfa7c566b0</loc>
+    <lastmod>2026-03-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/13a964a5-d6f8-4f64-8c83-487c2a4b0fb9</loc>
+    <lastmod>2025-10-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/e28f38bf-853b-4f8c-baf4-cc62895396e3</loc>
+    <lastmod>2025-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/6f058e73-c0fb-46c3-b36d-f50762a69321</loc>
+    <lastmod>2025-10-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/531090cf-03de-4d74-ac41-92bc85f0b753</loc>
+    <lastmod>2025-11-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/4b12372c-2d91-481a-a68f-c29df814f175</loc>
+    <lastmod>2025-10-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/d48b4c6d-baf5-4e17-8317-73ad13a1779a</loc>
+    <lastmod>2025-10-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/aef7620e-2632-4d83-a418-91e1db7de84e</loc>
+    <lastmod>2026-04-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/7ca18a82-581f-4926-a3c8-d9d34e3b4dd1</loc>
+    <lastmod>2025-10-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/c4858179-bdcc-48a7-a1a3-fe0df59d3550</loc>
+    <lastmod>2026-07-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/4110a182-5681-4366-9ef5-e273a1c4d541</loc>
+    <lastmod>2025-10-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/2c2d47fa-6930-4d07-b561-9e0308b16def</loc>
+    <lastmod>2025-11-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/68453d4b-2aa3-4013-9ba9-97f1f7478a31</loc>
+    <lastmod>2026-04-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/d640cc1f-6507-4833-bba1-357b4c5124f2</loc>
+    <lastmod>2025-10-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/308e512e-f4f3-44b6-8416-e0d69f800090</loc>
+    <lastmod>2025-11-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/f6312caa-f6b5-4d3b-95bb-26237122892e</loc>
+    <lastmod>2025-10-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/c05a33de-6a5e-4a72-a4e9-17b1ac3655e8</loc>
+    <lastmod>2025-10-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/3864b405-3326-4203-a9e3-ef1407379f6b</loc>
+    <lastmod>2025-10-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/ce54f68c-a548-4f5e-a044-820cc1dcc96f</loc>
+    <lastmod>2025-10-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/23b227f8-d044-4022-befa-f5726fb40751</loc>
+    <lastmod>2025-10-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/6b2fbd7b-543f-4a1d-b417-a71173d0e5f8</loc>
+    <lastmod>2025-11-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/886c9020-f560-438f-a53e-33258a2d20c1</loc>
+    <lastmod>2026-04-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/a99ec9b5-76e2-41b5-8dea-c4e235099285</loc>
+    <lastmod>2025-10-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/b6dd16d4-fb80-43a2-9b8a-e6f7b3965828</loc>
+    <lastmod>2025-12-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/c962c31c-4c8d-4b2b-b1bc-38d60d4b03cc</loc>
+    <lastmod>2025-11-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/8e365e7a-0683-486e-9de5-89aeea98984d</loc>
+    <lastmod>2026-04-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/5463fee0-d22a-4ce7-ba31-18098a4c4b16</loc>
+    <lastmod>2026-05-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/5b2e966f-0449-4d18-8cee-1269adf41134</loc>
+    <lastmod>2026-03-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/031f064e-ca25-4416-92c7-789bb9a543c5</loc>
+    <lastmod>2025-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/1b6b6160-84fa-4803-871c-4480b1c5b2b9</loc>
+    <lastmod>2025-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/3f4c15ca-9bf4-4931-abc8-37a98a3f44dd</loc>
+    <lastmod>2026-07-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/a9ff8324-f301-48f2-8c1d-001f1d51f27d</loc>
+    <lastmod>2025-11-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/d794ed68-3a98-4c53-87b4-ed0f7946efd1</loc>
+    <lastmod>2026-03-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/property/e3cdcb13-c1b9-467c-9a36-2d0111839253</loc>
+    <lastmod>2026-07-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/articles/decrypter-les-contrats-de-location-au-senegal-un-guide-essentiel-pour-la-gestion-locative</loc>
+    <lastmod>2025-10-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-  
-  <!-- Page Comment ça marche -->
   <url>
-    <loc>https://immolinksenegal.com/comment-ca-marche</loc>
-    <lastmod>2025-01-20</lastmod>
+    <loc>https://immolinksenegal.com/articles/droit-et-devoir-du-proprietaire-immobilier-au-senegal-naviguer-dans-le-cadre-legal</loc>
+    <lastmod>2025-10-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-  
-  <!-- Page Contact -->
   <url>
-    <loc>https://immolinksenegal.com/contact</loc>
-    <lastmod>2025-01-20</lastmod>
+    <loc>https://immolinksenegal.com/articles/saly-du-senegal-votre-prochain-investissement-immobilier-ou-residence-de-reve</loc>
+    <lastmod>2025-10-31</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.6</priority>
   </url>
-  
-  <!-- Page Conditions -->
   <url>
-    <loc>https://immolinksenegal.com/conditions</loc>
-    <lastmod>2025-01-20</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  
-  <!-- Page Confidentialité -->
-  <url>
-    <loc>https://immolinksenegal.com/confidentialite</loc>
-    <lastmod>2025-01-20</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  
-  <!-- Page Connexion -->
-  <url>
-    <loc>https://immolinksenegal.com/auth</loc>
-    <lastmod>2025-01-20</lastmod>
+    <loc>https://immolinksenegal.com/articles/fiscalite-immobiliere-au-senegal-comprendre-et-payer-vos-impots-en-toute-serenite</loc>
+    <lastmod>2025-10-30</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
+    <priority>0.6</priority>
   </url>
-  
+  <url>
+    <loc>https://immolinksenegal.com/articles/maitriser-le-marche-senegalais-les-informations-cles-pour-un-gestionnaire-d-agence-immobiliere-performant</loc>
+    <lastmod>2025-10-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/articles/l-assurance-immobiliere-au-senegal-un-guide-complet-pour-proteger-votre-patrimoine</loc>
+    <lastmod>2025-10-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/articles/enregistrement-du-contrat-de-location-au-senegal-une-necessite-strategique-pour-le-locataire</loc>
+    <lastmod>2025-10-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/articles/permis-de-construire-au-senegal-votre-guide-complet-pour-une-construction-reussie-et-legale</loc>
+    <lastmod>2025-10-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/articles/acheter-au-senegal-les-10-verifications-indispensables-avant-de-payer</loc>
+    <lastmod>2025-11-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/articles/l-assurance-immobiliere-au-senegal-un-bouclier-essentiel-pour-votre-patrimoine</loc>
+    <lastmod>2025-11-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/articles/locataire-impaye-au-senegal-procedure-delais-et-conseils-pour-les-proprietaires</loc>
+    <lastmod>2025-11-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/articles/decrypter-les-documents-essentiels-de-la-propriete-immobiliere-au-senegal-titre-foncier-acte-administratif-et-au-dela</loc>
+    <lastmod>2025-11-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/articles/retard-de-paiement-de-loyer-au-senegal-comprendre-les-droits-des-locataires-et-les-obligations-de-chacun</loc>
+    <lastmod>2025-11-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/articles/pourquoi-enregistrer-nos-biens-immobiliers-aux-impots-au-senegal-guide-complet-pour-les-proprietaires</loc>
+    <lastmod>2025-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/articles/la-gestion-de-copropriete-au-senegal-enjeux-defis-et-meilleures-pratiques</loc>
+    <lastmod>2025-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/articles/mandat-de-gestion-et-prospection-immobiliere-au-senegal-guides-essentiels-pour-proprietaires-et-professionnels</loc>
+    <lastmod>2025-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/articles/l-historique-d-archivage-immobilier-au-senegal-votre-bouclier-avant-l-achat</loc>
+    <lastmod>2025-11-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/articles/la-copropriete-au-senegal-un-guide-complet-pour-une-gestion-reussie</loc>
+    <lastmod>2025-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/articles/permis-de-construire-au-senegal-le-guide-complet-des-demarches-administratives-et-procedures</loc>
+    <lastmod>2025-11-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/articles/droits-et-devoirs-du-locataire-au-senegal-un-guide-complet-pour-une-location-sereine</loc>
+    <lastmod>2025-11-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://immolinksenegal.com/articles/achat-immobilier-au-senegal-le-guide-complet-des-etapes-essentielles-pour-un-investissement-reussi</loc>
+    <lastmod>2025-11-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
 </urlset>
