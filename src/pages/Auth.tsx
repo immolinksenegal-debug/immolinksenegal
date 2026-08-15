@@ -46,7 +46,7 @@ const Auth = () => {
     // Écouter les changements d'authentification AVANT de vérifier la session
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN' && session) {
-        navigate(nextPath);
+        navigate(nextPath, { replace: true });
       }
     });
 
@@ -60,7 +60,7 @@ const Auth = () => {
         // Nettoyer la session invalide
         await supabase.auth.signOut();
       } else if (session) {
-        navigate(nextPath);
+        navigate(nextPath, { replace: true });
       }
     };
     checkSession();
