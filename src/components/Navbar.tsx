@@ -204,7 +204,9 @@ const Navbar = () => {
                 variant="ghost"
                 size="icon"
                 aria-label="Ouvrir le menu"
-                className={`h-11 w-11 ${scrolled ? "text-foreground" : "text-primary-foreground"}`}
+                className={`h-11 w-11 transition-transform duration-300 active:scale-90 ${
+                  scrolled ? "text-foreground" : "text-primary-foreground"
+                } ${isOpen ? "rotate-90" : "rotate-0"}`}
               >
                 <Menu className="h-6 w-6" />
               </Button>
