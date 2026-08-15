@@ -653,26 +653,15 @@
     transform: translateY(-2px);
   }
 
-  /* Grid Background */
+  /* Grid Background (sans gradient) */
   .cyber-grid {
-    background-image: 
-      linear-gradient(hsl(25 85% 55% / 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(25 85% 55% / 0.03) 1px, transparent 1px);
-    background-size: 50px 50px;
+    background-color: hsl(var(--muted) / 0.5);
+    background-image: none;
   }
 
-  /* Holographic Effect */
+  /* Holographic Effect (sans gradient) */
   .holographic {
-    background: linear-gradient(
-      45deg,
-      hsl(25 85% 55% / 0.1),
-      hsl(42 90% 52% / 0.1),
-      hsl(145 55% 38% / 0.1),
-      hsl(12 70% 45% / 0.1),
-      hsl(25 85% 55% / 0.1)
-    );
-    background-size: 400% 400%;
-    animation: gradient-shift 8s ease infinite;
+    background: hsl(var(--muted));
   }
   
   /* Scrollbar Hide */
@@ -685,10 +674,10 @@
     display: none;
   }
 
-  /* Futuristic Card Styles - fond blanc */
+  /* Futuristic Card Styles - fond blanc (sans gradient) */
   .futuristic-card {
     @apply relative overflow-hidden rounded-2xl;
-    background: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(0 0% 98%) 100%);
+    background: hsl(var(--card));
     border: 1px solid hsl(150 100% 26% / 0.15);
     box-shadow: 0 4px 24px hsl(0 0% 0% / 0.06), inset 0 1px 0 hsl(0 0% 100% / 0.6);
   }
@@ -701,7 +690,7 @@
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, hsl(25 85% 55% / 0.5), transparent);
+    background: hsl(var(--primary) / 0.5);
   }
 
   /* Input Style */
@@ -711,7 +700,7 @@
   }
 
   .input-futuristic:focus {
-    box-shadow: 0 0 20px hsl(25 85% 55% / 0.2);
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.2);
   }
 }
 
