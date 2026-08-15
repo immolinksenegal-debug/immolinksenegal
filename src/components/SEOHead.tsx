@@ -110,6 +110,17 @@ const SEOHead = ({
     ]
   };
 
+  const breadcrumbData = breadcrumbs && breadcrumbs.length > 0 ? {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": breadcrumbs.map((b, i) => ({
+      "@type": "ListItem",
+      "position": i + 1,
+      "name": b.name,
+      "item": `${siteUrl}${b.path}`
+    }))
+  } : null;
+
   return (
     <Helmet>
       {/* Primary Meta Tags */}
@@ -118,7 +129,13 @@ const SEOHead = ({
       <meta name="description" content={truncatedDescription} />
       <meta name="keywords" content={keywords} />
       <meta name="author" content="Immo Link Sénégal" />
-      <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+      <meta
+        name="robots"
+        content={noindex
+          ? "noindex, nofollow"
+          : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"}
+      />
+
       <meta name="language" content="French" />
       <meta name="geo.region" content="SN" />
       <meta name="geo.placename" content="Dakar, Sénégal" />
