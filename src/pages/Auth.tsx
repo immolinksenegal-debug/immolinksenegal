@@ -40,6 +40,8 @@ const Auth = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [loginData, setLoginData] = useState({ email: "", password: "" });
   const [signupData, setSignupData] = useState({ name: "", email: "", password: "" });
+  const [pendingConfirmationEmail, setPendingConfirmationEmail] = useState<string | null>(null);
+
 
   // Vérifier si l'utilisateur est déjà connecté
   useEffect(() => {
@@ -169,11 +171,13 @@ const Auth = () => {
         });
         // La redirection sera gérée par onAuthStateChange
       } else {
+        setPendingConfirmationEmail(validatedData.email);
         toast({
           title: "Vérifiez votre email",
-          description: "Un email de confirmation a été envoyé à votre adresse",
+          description: `Un email de confirmation a été envoyé à ${validatedData.email}. Confirmez-le pour accéder à la plateforme.`,
         });
       }
+
     } catch (error) {
       if (error instanceof z.ZodError) {
         toast({
@@ -289,7 +293,17 @@ const Auth = () => {
             </TabsContent>
 
             <TabsContent value="signup">
+              {pendingConfirmationEmail && (
+                <div className="mb-5 rounded-xl border border-primary/30 bg-primary/10 p-4 text-sm text-foreground">
+                  <p className="font-semibold">Confirmez votre adresse email</p>
+                  <p className="mt-1 text-muted-foreground">
+                    Un lien de confirmation a été envoyé à <span className="font-medium text-foreground">{pendingConfirmationEmail}</span>.
+                    Cliquez dessus pour activer votre compte et accéder à la plateforme.
+                  </p>
+                </div>
+              )}
               <form onSubmit={handleSignup} className="space-y-5">
+
                 <div className="space-y-2">
                   <Label htmlFor="name" className="text-foreground font-medium">
                     Nom complet
