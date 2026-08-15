@@ -53,14 +53,6 @@
 
     --radius: 0.875rem;
 
-    --gradient-hero: hsl(146 80% 20%);
-    --gradient-cyber: hsl(146 84% 26%);
-    --gradient-neon: hsl(146 84% 26% / 0.07);
-    --gradient-dark: hsl(154 20% 7%);
-    --gradient-glow: transparent;
-    --gradient-holographic: transparent;
-    --gradient-card: hsl(0 0% 100%);
-    --gradient-mesh: transparent;
 
     --shadow-neon-cyan: 0 4px 20px hsl(146 84% 26% / 0.14);
     --shadow-neon-violet: 0 4px 20px hsl(0 77% 46% / 0.16);
