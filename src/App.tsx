@@ -22,6 +22,7 @@ import HowItWorks from "./pages/HowItWorks";
 import Contact from "./pages/Contact";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
+import NotificationPreferences from "./pages/NotificationPreferences";
 import NotFound from "./pages/NotFound";
 import AIChatbot from "./components/AIChatbot";
 
@@ -41,6 +42,7 @@ const App = () => (
           <Route path="/auth" element={<Auth />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/checkout" element={<PackCheckout />} />
+          <Route path="/preferences-notifications" element={<NotificationPreferences />} />
           <Route path="/estimation-gratuite" element={<FreeEstimation />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/estimations" element={<EstimationManagement />} />

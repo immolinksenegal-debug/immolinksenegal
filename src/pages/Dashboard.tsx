@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,7 @@ import {
   Shield,
   FileText,
   CreditCard,
+  Bell,
 } from "lucide-react";
 import PropertyCard from "@/components/PropertyCard";
 import PackOrdersHistory from "@/components/PackOrdersHistory";
@@ -443,6 +445,14 @@ const Dashboard = () => {
             </TabsContent>
 
             <TabsContent value="settings">
+              <div className="mb-6">
+                <Button variant="outline" asChild>
+                  <Link to="/preferences-notifications">
+                    <Bell className="mr-2 h-4 w-4" />
+                    Écran dédié : préférences d'emails
+                  </Link>
+                </Button>
+              </div>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div className="space-y-6">
                   <ProfileSettings />
