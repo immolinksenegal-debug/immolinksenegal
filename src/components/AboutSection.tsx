@@ -61,13 +61,11 @@ const AboutSection = () => {
                   key={index}
                   className="group relative overflow-hidden p-6 md:p-8 rounded-3xl bg-card border border-border hover:border-transparent transition-all duration-500 hover:-translate-y-1 shadow-card hover:shadow-elevated"
                 >
-                  {/* Gradient halo */}
-                  <div className={`absolute -top-20 -right-20 w-48 h-48 rounded-full bg-${feature.color}/10 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700`} />
-                  {/* Top gradient line */}
-                  <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-${feature.color} via-accent to-${feature.color} scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500`} />
+                  {/* Accent line */}
+                  <div className={`absolute top-0 left-0 right-0 h-1 bg-${feature.color} scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500`} />
 
                   <div className="relative flex items-start gap-5">
-                    <div className={`relative w-16 h-16 rounded-2xl bg-gradient-to-br from-${feature.color} to-${feature.color}/70 flex items-center justify-center flex-shrink-0 shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-500`}>
+                    <div className={`relative w-16 h-16 rounded-2xl bg-${feature.color}/80 flex items-center justify-center flex-shrink-0 shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-500`}>
                       <Icon className={`h-8 w-8 text-${feature.color}-foreground`} />
                       <span className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-background border border-border text-[11px] font-bold flex items-center justify-center text-foreground shadow-soft">
                         {String(index + 1).padStart(2, '0')}

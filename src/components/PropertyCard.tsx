@@ -48,14 +48,14 @@ const PropertyCard = ({
         setImageError(true);
         e.currentTarget.src = '/placeholder.svg';
       }} loading="lazy" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-smooth"></div>
+        <div className="absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-smooth"></div>
         
         {/* Badges */}
         <div className="absolute top-4 left-4 flex gap-2 flex-wrap">
           <Badge className="bg-primary text-primary-foreground font-semibold shadow-soft">
             {type}
           </Badge>
-          {isPremium && <Badge className="bg-gradient-to-r from-accent to-primary text-accent-foreground font-semibold shadow-glow-accent animate-pulse">
+          {isPremium && <Badge className="bg-accent text-accent-foreground font-semibold shadow-glow-accent animate-pulse">
               ⭐ Premium
             </Badge>}
           {featured && <Badge className="bg-accent text-accent-foreground font-semibold shadow-soft">
@@ -101,8 +101,8 @@ const PropertyCard = ({
           </div>
         </div>
 
-        {/* Brand gradient divider */}
-        <div className="h-px w-full bg-gradient-to-r from-transparent via-accent/40 to-transparent my-3" />
+        {/* Brand divider */}
+        <div className="h-px w-full bg-accent/30 my-3" />
 
         <div className="flex items-center gap-4 mb-3 text-xs text-muted-foreground">
           {views > 0 && <div className="flex items-center gap-1">
@@ -115,7 +115,7 @@ const PropertyCard = ({
             </div>}
         </div>
 
-        <div className="text-2xl font-bold bg-gradient-to-r from-secondary via-accent to-primary bg-clip-text text-transparent">
+        <div className="text-2xl font-bold text-secondary">
           {price} <span className="text-lg font-normal text-muted-foreground">FCFA</span>
         </div>
       </CardContent>

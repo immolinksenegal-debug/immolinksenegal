@@ -112,7 +112,7 @@ const PacksSection = () => {
       {/* Background mesh */}
       <div
         className="absolute inset-0 pointer-events-none opacity-70"
-        style={{ background: "var(--gradient-mesh)" }}
+        style={{ background: "transparent" }}
       />
 
       <div className="container mx-auto px-4 sm:px-6 relative">

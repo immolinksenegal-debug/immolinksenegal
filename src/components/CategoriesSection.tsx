@@ -33,7 +33,7 @@ const CategoriesSection = () => {
               to={`/properties?type=${encodeURIComponent(type)}`}
               className="group relative rounded-2xl border border-border bg-card p-5 sm:p-6 shadow-soft hover:shadow-elevated hover:-translate-y-1 transition-all duration-300 overflow-hidden"
             >
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br from-primary/5 to-secondary/10" />
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-primary/5" />
               <div className="relative">
                 <div className="w-11 h-11 rounded-xl bg-primary/5 border border-border flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:border-secondary transition-colors duration-300">
                   <Icon className="h-5 w-5 text-primary group-hover:text-secondary-foreground transition-colors duration-300" />
