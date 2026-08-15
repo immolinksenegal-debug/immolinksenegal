@@ -79,7 +79,7 @@ const Footer = () => {
 
           {columns.map((col) => (
             <div key={col.title}>
-              <h3 className="font-display text-sm font-bold uppercase tracking-[0.14em] text-accent mb-4">
+              <h3 className="font-display text-sm font-bold uppercase tracking-[0.14em] text-primary-foreground mb-4">
                 {col.title}
               </h3>
               <ul className="space-y-2.5">
@@ -118,7 +118,7 @@ const Footer = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.label}
-                  className="w-10 h-10 rounded-xl border border-primary-foreground/20 bg-primary-foreground/5 flex items-center justify-center hover:bg-secondary hover:border-secondary transition-colors"
+                  className="w-10 h-10 rounded-xl border border-primary-foreground/20 bg-primary-foreground/5 flex items-center justify-center hover:bg-accent hover:border-accent transition-colors"
                 >
                   <Icon className="h-4 w-4" />
                 </a>

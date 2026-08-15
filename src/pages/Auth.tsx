@@ -273,7 +273,7 @@ const Auth = () => {
                     <input type="checkbox" className="mr-2 rounded accent-primary" />
                     Se souvenir de moi
                   </label>
-                  <a href="#" className="text-secondary hover:text-secondary-glow font-medium transition-base">
+                  <a href="#" className="text-primary hover:text-primary-glow font-medium transition-base">
                     Mot de passe oublié ?
                   </a>
                 </div>
