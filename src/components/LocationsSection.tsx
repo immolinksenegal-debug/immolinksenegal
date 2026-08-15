@@ -39,7 +39,7 @@ const LocationsSection = () => {
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[42vw] xs:auto-rows-[150px] sm:auto-rows-[170px] md:auto-rows-[180px] lg:auto-rows-[200px] gap-3 sm:gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[40vw] sm:auto-rows-[170px] md:auto-rows-[180px] lg:auto-rows-[200px] gap-3 sm:gap-4">
           {locations.map(({ city, span, image, alt, focal, sizes }) => (
             <Link
               key={city}
