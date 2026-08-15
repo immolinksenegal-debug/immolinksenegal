@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Home, PlusCircle, User, Menu, LogOut, Building2, Calculator, Newspaper, Shield, Zap } from "lucide-react";
 import logo from "@/assets/logo-immo-link-main.png";
@@ -17,6 +17,7 @@ const Navbar = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const { toast } = useToast();
 
   useEffect(() => {
@@ -24,6 +25,23 @@ const Navbar = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Ferme automatiquement le menu mobile à chaque changement de page
+  useEffect(() => {
+    setIsOpen(false);
+  }, [location.pathname, location.search]);
+
+  const isLinkActive = (to: string) => {
+    const [path, query] = to.split("?");
+    if (location.pathname !== path) return false;
+    if (!query) return true;
+    const target = new URLSearchParams(query);
+    const current = new URLSearchParams(location.search);
+    for (const [key, value] of target.entries()) {
+      if (current.get(key) !== value) return false;
+    }
+    return true;
+  };
 
   useEffect(() => {
     const checkAdminStatus = async (userId: string) => {
@@ -122,20 +140,27 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <Link key={link.to} to={link.to}>
-                <Button
-                  variant="ghost"
-                  className={`text-sm font-medium rounded-lg transition-colors ${
-                    scrolled
-                      ? "text-foreground/80 hover:text-primary hover:bg-muted"
-                      : "text-primary-foreground/85 hover:text-primary-foreground hover:bg-primary-foreground/10"
-                  }`}
-                >
-                  {link.label}
-                </Button>
-              </Link>
-            ))}
+            {navLinks.map((link) => {
+              const active = isLinkActive(link.to);
+              return (
+                <Link key={link.to} to={link.to} aria-current={active ? "page" : undefined}>
+                  <Button
+                    variant="ghost"
+                    className={`text-sm font-medium rounded-lg transition-colors ${
+                      scrolled
+                        ? active
+                          ? "text-primary bg-muted font-semibold"
+                          : "text-foreground/80 hover:text-primary hover:bg-muted"
+                        : active
+                          ? "text-primary-foreground bg-primary-foreground/15 font-semibold"
+                          : "text-primary-foreground/85 hover:text-primary-foreground hover:bg-primary-foreground/10"
+                    }`}
+                  >
+                    {link.label}
+                  </Button>
+                </Link>
+              );
+            })}
 
             {user ? (
               <Button
@@ -197,17 +222,29 @@ const Navbar = () => {
 
               <div className="flex-1 overflow-y-auto overscroll-contain px-3 py-4">
                 <div className="flex flex-col gap-1.5">
-                  {navLinks.map((link) => (
-                    <Link key={link.to} to={link.to} onClick={() => setIsOpen(false)}>
-                      <Button
-                        variant="ghost"
-                        className="w-full justify-start h-12 text-base font-medium text-foreground/85 hover:text-primary hover:bg-muted rounded-lg"
+                  {navLinks.map((link) => {
+                    const active = isLinkActive(link.to);
+                    return (
+                      <Link
+                        key={link.to}
+                        to={link.to}
+                        onClick={() => setIsOpen(false)}
+                        aria-current={active ? "page" : undefined}
                       >
-                        <link.icon className="h-5 w-5 mr-3 text-primary shrink-0" />
-                        {link.label}
-                      </Button>
-                    </Link>
-                  ))}
+                        <Button
+                          variant="ghost"
+                          className={`w-full justify-start h-12 text-base rounded-lg relative ${
+                            active
+                              ? "font-semibold text-primary bg-primary/10 before:absolute before:left-0 before:top-2 before:bottom-2 before:w-1 before:rounded-full before:bg-primary"
+                              : "font-medium text-foreground/85 hover:text-primary hover:bg-muted"
+                          }`}
+                        >
+                          <link.icon className="h-5 w-5 mr-3 text-primary shrink-0" />
+                          {link.label}
+                        </Button>
+                      </Link>
+                    );
+                  })}
                 </div>
               </div>
 
