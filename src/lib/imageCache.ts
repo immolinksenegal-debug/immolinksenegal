@@ -9,10 +9,8 @@
  */
 
 const VERSION_KEY = "immolink:image-cache-version";
-/** Change à chaque build (hash Vite) ; en dev, valeur stable. */
-const BUILD_VERSION: string =
-  (import.meta as unknown as { env?: Record<string, string> }).env?.VITE_BUILD_ID ??
-  (import.meta.env.DEV ? "dev" : __BUILD_ID__);
+/** Version du cache : dérivée des URLs (hashées au build) des bannières. */
+let cacheVersion = "";
 
 let registration: ServiceWorkerRegistration | null = null;
 const pendingCache: string[] = [];
