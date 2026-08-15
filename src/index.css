@@ -153,6 +153,11 @@
     border-color: hsl(var(--border));
   }
 
+  html, body {
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+
   body {
     font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     background: hsl(var(--background));
@@ -160,6 +165,17 @@
     color: hsl(var(--foreground));
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Zones tactiles confortables sur mobile */
+  @media (max-width: 767px) {
+    button, a[role="button"], [role="tab"] {
+      touch-action: manipulation;
+    }
+    input, select, textarea {
+      font-size: 16px; /* évite le zoom auto iOS */
+    }
   }
   
   h1, h2, h3, h4, h5, h6 {
