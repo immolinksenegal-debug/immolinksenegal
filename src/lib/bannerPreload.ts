@@ -31,7 +31,10 @@ const addLink = (href: string, rel: "preload" | "prefetch") => {
 };
 
 /** Précharge immédiatement une bannière (image LCP de la page courante). */
-export const preloadBanner = (href: string) => addLink(href, "preload");
+export const preloadBanner = (href: string) => {
+  addLink(href, "preload");
+  persistImages([href]);
+};
 
 /**
  * Précharge en tâche de fond (idle) toutes les bannières pour que la navigation
