@@ -1,14 +1,21 @@
 import Navbar from "@/components/Navbar";
+import PageBanner from "@/components/PageBanner";
+import bannerLegal from "@/assets/banner-legal.jpg";
 import Footer from "@/components/Footer";
 const Terms = () => {
   return <div className="min-h-screen flex flex-col">
       <Navbar />
-      
-      <main className="flex-grow pt-20 pb-16">
+
+      <PageBanner
+        image={bannerLegal}
+        alt="Conditions d'utilisation"
+        title="Conditions d'utilisation"
+        subtitle="Les règles d'utilisation de la plateforme Immo Link Sénégal"
+        eager
+      />
+
+      <main className="flex-grow pt-10 pb-16">
         <div className="container mx-auto px-4 max-w-4xl">
-          <h1 className="text-4xl md:text-5xl font-bold text-primary mb-8 mx-0 px-[155px] py-[30px]">
-            Conditions d'utilisation
-          </h1>
 
           <div className="glass-effect rounded-2xl p-8 space-y-8">
             <section>

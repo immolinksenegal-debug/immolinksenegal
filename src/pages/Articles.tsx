@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Search, Calendar, Eye, TrendingUp, Clock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import bannerFiscalite from "@/assets/banner-fiscalite-senegal.jpg";
+import bannerFiscalite from "@/assets/banner-articles.jpg";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
