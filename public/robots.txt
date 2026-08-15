@@ -12,3 +12,11 @@ Allow: /
 
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /checkout
+Disallow: /preferences-notifications
+Disallow: /auth
+Disallow: /.lovable/
+
+Sitemap: https://immolinksenegal.com/sitemap.xml
