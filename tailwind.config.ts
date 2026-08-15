@@ -68,10 +68,12 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        sans: ['Inter', 'Poppins', 'system-ui', 'sans-serif'],
+        sans: ['Inter', 'Manrope', 'system-ui', 'sans-serif'],
+        display: ['Manrope', 'Inter', 'sans-serif'],
+        manrope: ['Manrope', 'sans-serif'],
         inter: ['Inter', 'sans-serif'],
         poppins: ['Poppins', 'sans-serif'],
-        futuristic: ['Orbitron', 'Inter', 'sans-serif'],
+        futuristic: ['Manrope', 'Inter', 'sans-serif'],
       },
       colors: {
         tertiary: {
