@@ -191,7 +191,7 @@ const Navbar = () => {
                       variant="ghost"
                       className="w-full justify-start text-base font-medium text-foreground/85 hover:text-primary hover:bg-muted rounded-lg"
                     >
-                      <link.icon className="h-4 w-4 mr-3 text-secondary" />
+                      <link.icon className="h-4 w-4 mr-3 text-primary" />
                       {link.label}
                     </Button>
                   </Link>

@@ -88,7 +88,7 @@ const Hero = () => {
                 >
                   {tab.label}
                   {mode === tab.key && (
-                    <span className="absolute bottom-0 left-4 right-4 h-[3px] rounded-full bg-secondary" />
+                    <span className="absolute bottom-0 left-4 right-4 h-[3px] rounded-full bg-primary" />
                   )}
                 </button>
               ))}
