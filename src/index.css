@@ -502,11 +502,6 @@
     100% { background-position: 200% 0; }
   }
 
-  @keyframes gradient-shift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
   
   .animate-cyber-pulse {
     animation: cyber-pulse 3s ease-in-out infinite;
@@ -538,9 +533,6 @@
     animation: shimmer 2s infinite;
   }
 
-  .animate-gradient {
-    background: hsl(var(--primary));
-  }
   
   /* Text Glow Effects */
   .text-glow-cyan {
@@ -667,7 +659,6 @@
   .animate-scan,
   .animate-glow-pulse,
   .animate-shimmer,
-  .animate-gradient,
   .animate-cyber-pulse,
   .animate-neon-flicker,
   .animate-fade-in-up {
