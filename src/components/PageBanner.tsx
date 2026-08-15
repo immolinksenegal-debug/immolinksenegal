@@ -4,19 +4,22 @@ import { preloadBanner, prefetchBanners } from "@/lib/bannerPreload";
 
 interface PageBannerProps {
   image: string;
+  /** Texte alternatif descriptif (SEO + lecteurs d'écran). */
   alt: string;
   title: React.ReactNode;
   subtitle?: string;
   eager?: boolean;
-  /** Point focal de l'image (recadrage intelligent). Ex: "50% 35%" */
+  /** Point focal par défaut (écrans paysage). Ex: "50% 35%" */
   focal?: string;
-  /** Point focal spécifique mobile (par défaut identique au focal). */
+  /** Point focal mobile / portrait — garde les visages et points clés visibles. */
   focalMobile?: string;
+  /** Contenu optionnel affiché au-dessus du titre (icône, badge). */
+  topSlot?: React.ReactNode;
 }
 
 /**
- * Bannière d'en-tête uniforme (hauteur, overlay et typographie identiques sur toutes les pages).
- * Optimisée mobile : recadrage focal, chargement progressif (blur-up), préchargement et cache.
+ * Bannière d'en-tête uniforme : recadrage focal adaptatif (portrait/paysage),
+ * chargement progressif (blur-up), préchargement, alt descriptif et H1 unique.
  */
 const PageBanner = ({
   image,
@@ -26,9 +29,21 @@ const PageBanner = ({
   eager = false,
   focal = "50% 45%",
   focalMobile,
+  topSlot,
 }: PageBannerProps) => {
   const blur = getBannerBlur(image);
   const [loaded, setLoaded] = useState(false);
+
+  // Fallback automatique : en portrait on remonte le cadrage pour conserver
+  // les visages et sujets principaux (souvent dans le tiers supérieur).
+  const portraitFocal = focalMobile ?? focal.replace(/(\d+)%\s*$/, (_m, y) =>
+    `${Math.max(0, Math.min(100, Number(y) - 10))}%`
+  );
+
+  const focalVars = {
+    "--banner-focal": focal,
+    "--banner-focal-mobile": portraitFocal,
+  } as React.CSSProperties;
 
   useEffect(() => {
     if (eager) preloadBanner(image);
@@ -36,7 +51,7 @@ const PageBanner = ({
   }, [eager, image]);
 
   return (
-    <div className="relative w-full h-56 sm:h-72 md:h-80 lg:h-96 overflow-hidden bg-muted">
+    <header className="relative w-full h-56 sm:h-72 md:h-80 lg:h-96 overflow-hidden bg-muted">
       {blur && (
         <img
           src={blur}
@@ -45,12 +60,7 @@ const PageBanner = ({
           className={`page-banner-img page-banner-blur absolute inset-0 w-full h-full object-cover ${
             loaded ? "opacity-0" : "opacity-100"
           }`}
-          style={
-            {
-              "--banner-focal": focal,
-              "--banner-focal-mobile": focalMobile ?? focal,
-            } as React.CSSProperties
-          }
+          style={focalVars}
         />
       )}
       <img
@@ -62,12 +72,7 @@ const PageBanner = ({
         className={`page-banner-img relative w-full h-full object-cover transition-opacity duration-700 ${
           loaded || !blur ? "opacity-100" : "opacity-0"
         }`}
-        style={
-          {
-            "--banner-focal": focal,
-            "--banner-focal-mobile": focalMobile ?? focal,
-          } as React.CSSProperties
-        }
+        style={focalVars}
         loading={eager ? "eager" : "lazy"}
         fetchPriority={eager ? "high" : "auto"}
         decoding="async"
@@ -79,6 +84,7 @@ const PageBanner = ({
       />
       <div className="absolute inset-0 bg-primary/40">
         <div className="container mx-auto px-4 h-full flex flex-col justify-center items-center text-center pt-16 sm:pt-20">
+          {topSlot}
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 sm:mb-3 md:mb-4 px-2 text-primary-foreground drop-shadow-2xl">
             {title}
           </h1>
@@ -89,7 +95,7 @@ const PageBanner = ({
           )}
         </div>
       </div>
-    </div>
+    </header>
   );
 };
 
