@@ -31,6 +31,7 @@ import { SecuritySettings } from "@/components/settings/SecuritySettings";
 import { MessagesList } from "@/components/dashboard/MessagesList";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import SEOHead from "@/components/SEOHead";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -230,6 +231,7 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead title="Tableau de bord" description="Espace personnel Immo Link Sénégal." noindex />
       <Navbar />
       
       <main className="flex-1 pt-24 xs:pt-28 md:pt-32 pb-8 xs:pb-12 bg-background">

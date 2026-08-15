@@ -12,6 +12,7 @@ import * as z from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import PageBanner from "@/components/PageBanner";
 import bannerImage from "@/assets/banner-contact.jpg";
+import SEOHead from "@/components/SEOHead";
 
 const contactSchema = z.object({
   full_name: z.string()
@@ -117,6 +118,7 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead title="Contactez Immo Link Sénégal" description="Contactez notre équipe pour vendre, acheter ou louer un bien immobilier au Sénégal. Réponse rapide par email ou téléphone." url="https://immolinksenegal.com/contact" breadcrumbs={[{"name": "Accueil", "path": "/"}, {"name": "Contact", "path": "/contact"}]} />
       <Navbar />
       
       <main className="flex-grow pb-16">

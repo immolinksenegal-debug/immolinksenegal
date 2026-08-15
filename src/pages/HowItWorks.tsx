@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import { Search, FileText, CheckCircle, Home } from "lucide-react";
 import PageBanner from "@/components/PageBanner";
 import bannerImage from "@/assets/banner-how-it-works.jpg";
+import SEOHead from "@/components/SEOHead";
 
 const HowItWorks = () => {
   const steps = [{
@@ -40,6 +41,7 @@ const HowItWorks = () => {
     description: "Optez pour une annonce premium pour plus de visibilité"
   }];
   return <div className="min-h-screen flex flex-col">
+      <SEOHead title="Comment ça marche" description="Découvrez comment publier une annonce, contacter un vendeur et sécuriser votre transaction immobilière au Sénégal avec Immo Link." url="https://immolinksenegal.com/comment-ca-marche" breadcrumbs={[{"name": "Accueil", "path": "/"}, {"name": "Comment ça marche", "path": "/comment-ca-marche"}]} />
       <Navbar />
       
       <main className="flex-grow pb-16">

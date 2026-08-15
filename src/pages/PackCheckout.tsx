@@ -7,6 +7,7 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEOHead from "@/components/SEOHead";
 
 const PACK_LABELS: Record<string, string> = {
   boost: "Boost",
@@ -215,6 +216,7 @@ const PackCheckout = () => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      <SEOHead title="Paiement de votre pack" description="Finalisez le paiement de votre pack Immo Link Sénégal." noindex />
       <Navbar />
       <main className="flex-1 container mx-auto px-4 py-20 flex items-center justify-center">
         <div className="w-full max-w-md rounded-3xl border border-border bg-card p-8 text-center shadow-card">
