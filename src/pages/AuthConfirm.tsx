@@ -1,10 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Mail, AlertTriangle, CheckCircle2, Loader2 } from "lucide-react";
+import { Mail, AlertTriangle, CheckCircle2, Loader2, ArrowRight, Home, LogIn } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
@@ -27,6 +27,9 @@ const MESSAGES: Record<Exclude<Status, "checking" | "valid">, { title: string; d
   },
 };
 
+const REDIRECT_DELAY_MS = 5000;
+
+
 const AuthConfirm = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -35,6 +38,10 @@ const AuthConfirm = () => {
   const [email, setEmail] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [sent, setSent] = useState(false);
+  const [countdown, setCountdown] = useState(Math.ceil(REDIRECT_DELAY_MS / 1000));
+  const [redirectTarget, setRedirectTarget] = useState("/auth");
+  const [hasSession, setHasSession] = useState(false);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const params = useMemo(() => {
     const hash = new URLSearchParams(window.location.hash.replace(/^#/, ""));
@@ -43,6 +50,7 @@ const AuthConfirm = () => {
       errorCode: searchParams.get("error_code") ?? hash.get("error_code"),
       errorDescription: searchParams.get("error_description") ?? hash.get("error_description"),
       emailHint: searchParams.get("email") ?? "",
+      next: searchParams.get("next") ?? hash.get("next") ?? "",
     };
   }, [searchParams]);
 
@@ -58,15 +66,51 @@ const AuthConfirm = () => {
 
       const { data } = await supabase.auth.getSession();
       if (data.session) {
-        setStatus("valid");
-        setTimeout(() => navigate("/dashboard", { replace: true }), 1500);
+        setHasSession(true);
+        const next =
+          params.next && params.next.startsWith("/") && !params.next.startsWith("//")
+            ? params.next
+            : "/dashboard";
+        setRedirectTarget(next);
       } else {
-        setStatus("invalid");
+        setHasSession(false);
+        const loginNext =
+          params.next && params.next.startsWith("/") && !params.next.startsWith("//")
+            ? params.next
+            : "/dashboard";
+        setRedirectTarget(`/auth?next=${encodeURIComponent(loginNext)}`);
       }
+      setStatus("valid");
     };
 
     resolve();
   }, [params, navigate]);
+
+  useEffect(() => {
+    if (status !== "valid") return;
+
+    setCountdown(Math.ceil(REDIRECT_DELAY_MS / 1000));
+    let remaining = REDIRECT_DELAY_MS;
+
+    timerRef.current = setInterval(() => {
+      remaining -= 1000;
+      setCountdown(Math.max(0, Math.ceil(remaining / 1000)));
+      if (remaining <= 0) {
+        if (timerRef.current) clearInterval(timerRef.current);
+        navigate(redirectTarget, { replace: true });
+      }
+    }, 1000);
+
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [status, redirectTarget, navigate]);
+
+  const cancelRedirect = () => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    setCountdown(0);
+  };
+
 
   const handleResend = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -125,10 +169,69 @@ const AuthConfirm = () => {
         )}
 
         {status === "valid" && (
-          <div className="text-center space-y-3">
-            <CheckCircle2 className="h-10 w-10 text-primary mx-auto" />
-            <h1 className="text-xl font-bold text-foreground">Votre compte est confirmé</h1>
-            <p className="text-sm text-muted-foreground">Redirection vers votre espace en cours…</p>
+          <div className="text-center space-y-5 py-4">
+            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-primary/10">
+              <CheckCircle2 className="h-10 w-10 text-primary" />
+            </div>
+            <div className="space-y-2">
+              <h1 className="text-2xl font-bold text-foreground">Votre compte est activé !</h1>
+              <p className="text-sm text-muted-foreground">
+                Votre adresse email a été confirmée avec succès.{" "}
+                {hasSession
+                  ? "Vous allez être redirigé vers votre espace personnel."
+                  : "Connectez-vous pour accéder à votre espace personnel."}
+              </p>
+            </div>
+
+            <div className="rounded-xl border border-primary/20 bg-primary/5 p-4">
+              <p className="text-sm text-foreground">
+                Redirection automatique dans{" "}
+                <span className="font-semibold text-primary">{countdown}s</span>
+              </p>
+              <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-primary/10">
+                <div
+                  className="h-full rounded-full bg-primary transition-all duration-1000 ease-linear"
+                  style={{ width: `${(countdown / Math.ceil(REDIRECT_DELAY_MS / 1000)) * 100}%` }}
+                />
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              {hasSession ? (
+                <Button
+                  onClick={() => {
+                    cancelRedirect();
+                    navigate(redirectTarget, { replace: true });
+                  }}
+                  className="w-full h-12 rounded-xl font-semibold bg-primary text-primary-foreground hover:opacity-90"
+                >
+                  Accéder à mon espace
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              ) : (
+                <Button
+                  onClick={() => {
+                    cancelRedirect();
+                    navigate(redirectTarget, { replace: true });
+                  }}
+                  className="w-full h-12 rounded-xl font-semibold bg-primary text-primary-foreground hover:opacity-90"
+                >
+                  Se connecter
+                  <LogIn className="ml-2 h-4 w-4" />
+                </Button>
+              )}
+              <Button
+                variant="outline"
+                onClick={() => {
+                  cancelRedirect();
+                  navigate("/", { replace: true });
+                }}
+                className="w-full h-12 rounded-xl font-semibold border-border hover:bg-muted"
+              >
+                <Home className="mr-2 h-4 w-4" />
+                Retour à l'accueil
+              </Button>
+            </div>
           </div>
         )}
 
@@ -177,7 +280,14 @@ const AuthConfirm = () => {
             )}
 
             <p className="text-center text-sm text-muted-foreground">
-              <Link to="/auth" className="text-primary font-medium hover:underline">
+              <Link
+                to={
+                  params.next && params.next.startsWith("/") && !params.next.startsWith("//")
+                    ? `/auth?next=${encodeURIComponent(params.next)}`
+                    : "/auth"
+                }
+                className="text-primary font-medium hover:underline"
+              >
                 Retour à la connexion
               </Link>
             </p>
