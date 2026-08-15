@@ -1,5 +1,6 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.7.1'
 import { getUserEmail, sendPackExpiredEmail } from '../_shared/pack-emails.ts'
+import { shouldSendEmail } from '../_shared/email-prefs.ts'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',

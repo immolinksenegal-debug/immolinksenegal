@@ -1,5 +1,6 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.7.1'
 import { getUserEmail, sendPackActivatedEmail } from '../_shared/pack-emails.ts'
+import { shouldSendEmail } from '../_shared/email-prefs.ts'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -168,8 +169,10 @@ Deno.serve(async (req) => {
 
     // Notification client : le paiement passe de « en attente » à « actif »
     try {
-      const email = await getUserEmail(supabase, sub.user_id)
+      const allowed = await shouldSendEmail(supabase, sub.user_id, 'notification_pack_expiry')
+      const email = allowed ? await getUserEmail(supabase, sub.user_id) : null
       if (email) {
+
         const sent = await sendPackActivatedEmail({
           to: email,
           packId: sub.pack_id,
