@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import Properties from "./pages/Properties";
 import PropertyDetail from "./pages/PropertyDetail";
 import Auth from "./pages/Auth";
+import AuthConfirm from "./pages/AuthConfirm";
 import Dashboard from "./pages/Dashboard";
 import PackCheckout from "./pages/PackCheckout";
 import FreeEstimation from "./pages/FreeEstimation";
@@ -25,6 +26,7 @@ import Privacy from "./pages/Privacy";
 import NotificationPreferences from "./pages/NotificationPreferences";
 import NotFound from "./pages/NotFound";
 import AIChatbot from "./components/AIChatbot";
+import AuthLinkErrorWatcher from "./components/AuthLinkErrorWatcher";
 
 const queryClient = new QueryClient();
 
@@ -35,11 +37,13 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <AuthLinkErrorWatcher />
           <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/properties" element={<Properties />} />
           <Route path="/property/:id" element={<PropertyDetail />} />
           <Route path="/auth" element={<Auth />} />
+          <Route path="/auth/confirm" element={<AuthConfirm />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/checkout" element={<PackCheckout />} />
           <Route path="/preferences-notifications" element={<NotificationPreferences />} />
