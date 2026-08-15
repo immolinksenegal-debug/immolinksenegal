@@ -162,10 +162,53 @@ const AuthConfirm = () => {
         )}
 
         {status === "valid" && (
-          <div className="text-center space-y-3">
-            <CheckCircle2 className="h-10 w-10 text-primary mx-auto" />
-            <h1 className="text-xl font-bold text-foreground">Votre compte est confirmé</h1>
-            <p className="text-sm text-muted-foreground">Redirection vers votre espace en cours…</p>
+          <div className="text-center space-y-5 py-4">
+            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-primary/10">
+              <CheckCircle2 className="h-10 w-10 text-primary" />
+            </div>
+            <div className="space-y-2">
+              <h1 className="text-2xl font-bold text-foreground">Votre compte est activé !</h1>
+              <p className="text-sm text-muted-foreground">
+                Votre adresse email a été confirmée avec succès. Vous pouvez maintenant accéder à votre espace.
+              </p>
+            </div>
+
+            <div className="rounded-xl border border-primary/20 bg-primary/5 p-4">
+              <p className="text-sm text-foreground">
+                Redirection automatique dans{" "}
+                <span className="font-semibold text-primary">{countdown}s</span>
+              </p>
+              <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-primary/10">
+                <div
+                  className="h-full rounded-full bg-primary transition-all duration-1000 ease-linear"
+                  style={{ width: `${(countdown / Math.ceil(REDIRECT_DELAY_MS / 1000)) * 100}%` }}
+                />
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <Button
+                onClick={() => {
+                  cancelRedirect();
+                  navigate(redirectTarget, { replace: true });
+                }}
+                className="w-full h-12 rounded-xl font-semibold bg-primary text-primary-foreground hover:opacity-90"
+              >
+                Accéder à mon espace
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  cancelRedirect();
+                  navigate("/", { replace: true });
+                }}
+                className="w-full h-12 rounded-xl font-semibold border-border hover:bg-muted"
+              >
+                <Home className="mr-2 h-4 w-4" />
+                Retour à l'accueil
+              </Button>
+            </div>
           </div>
         )}
 
