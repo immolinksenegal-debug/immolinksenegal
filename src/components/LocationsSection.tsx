@@ -11,16 +11,17 @@ import thiesImg from "@/assets/loc-thies.jpg";
 import saintLouisImg from "@/assets/loc-saint-louis.jpg";
 
 const locations = [
-  { city: "Dakar", span: "md:col-span-2 md:row-span-2", image: dakarImg, alt: "Vue aérienne de Dakar au coucher du soleil" },
-  { city: "Almadies", span: "", image: almadiesImg, alt: "Villas modernes en bord de mer aux Almadies" },
-  { city: "Mermoz", span: "", image: mermozImg, alt: "Immeubles résidentiels du quartier Mermoz à Dakar" },
-  { city: "Ngor", span: "", image: ngorImg, alt: "Île de Ngor et eaux turquoise" },
-  { city: "Saly", span: "md:col-span-2", image: salyImg, alt: "Plage de Saly bordée de palmiers" },
-  { city: "Mbour", span: "", image: mbourImg, alt: "Pirogues colorées sur la plage de Mbour" },
-  { city: "Diamniadio", span: "", image: diamniadioImg, alt: "Nouvelle ville moderne de Diamniadio" },
-  { city: "Thiès", span: "", image: thiesImg, alt: "Rue arborée de la ville de Thiès" },
-  { city: "Saint-Louis", span: "", image: saintLouisImg, alt: "Architecture coloniale de Saint-Louis et pont Faidherbe" },
+  { city: "Dakar", span: "col-span-2 row-span-2 md:col-span-2 md:row-span-2", image: dakarImg, alt: "Vue aérienne de Dakar au coucher du soleil", focal: "object-center", sizes: "(min-width: 768px) 50vw, 100vw" },
+  { city: "Almadies", span: "", image: almadiesImg, alt: "Villas modernes en bord de mer aux Almadies", focal: "object-center", sizes: "(min-width: 768px) 25vw, 50vw" },
+  { city: "Mermoz", span: "", image: mermozImg, alt: "Immeubles résidentiels du quartier Mermoz à Dakar", focal: "object-center", sizes: "(min-width: 768px) 25vw, 50vw" },
+  { city: "Ngor", span: "", image: ngorImg, alt: "Île de Ngor et eaux turquoise", focal: "object-center", sizes: "(min-width: 768px) 25vw, 50vw" },
+  { city: "Saly", span: "col-span-2 md:col-span-2", image: salyImg, alt: "Plage de Saly bordée de palmiers", focal: "object-[center_60%]", sizes: "(min-width: 768px) 50vw, 100vw" },
+  { city: "Mbour", span: "", image: mbourImg, alt: "Pirogues colorées sur la plage de Mbour", focal: "object-[center_55%]", sizes: "(min-width: 768px) 25vw, 50vw" },
+  { city: "Diamniadio", span: "", image: diamniadioImg, alt: "Nouvelle ville moderne de Diamniadio", focal: "object-center", sizes: "(min-width: 768px) 25vw, 50vw" },
+  { city: "Thiès", span: "", image: thiesImg, alt: "Rue arborée de la ville de Thiès", focal: "object-center", sizes: "(min-width: 768px) 25vw, 50vw" },
+  { city: "Saint-Louis", span: "", image: saintLouisImg, alt: "Architecture coloniale de Saint-Louis et pont Faidherbe", focal: "object-[center_45%]", sizes: "(min-width: 768px) 25vw, 50vw" },
 ];
+
 
 const LocationsSection = () => {
   return (
