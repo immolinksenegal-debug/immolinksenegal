@@ -34,9 +34,39 @@ self.addEventListener("activate", (event) => {
   );
 });
 
+/** Détecte une bannière (nom de fichier `banner-*`, hash de build inclus). */
+const isBannerUrl = (url) => /\/banner-[^/]*\.(?:jpg|jpeg|png|webp|avif)$/i.test(new URL(url).pathname);
+
+/**
+ * Invalidation : supprime du cache toutes les bannières dont l'URL (donc le hash
+ * de build) ne fait plus partie de la version courante de l'app.
+ */
+const syncBanners = async (urls) => {
+  const cache = await caches.open(CACHE_NAME);
+  const keep = new Set(urls.map((u) => new URL(u, self.location.origin).href));
+  const keys = await cache.keys();
+  await Promise.all(
+    keys
+      .filter((req) => isBannerUrl(req.url) && !keep.has(req.url))
+      .map((req) => cache.delete(req)),
+  );
+};
+
 self.addEventListener("message", (event) => {
   const data = event.data;
-  if (!data || data.type !== "CACHE_IMAGES" || !Array.isArray(data.urls)) return;
+  if (!data) return;
+
+  if (data.type === "SYNC_BANNERS" && Array.isArray(data.urls)) {
+    event.waitUntil(syncBanners(data.urls));
+    return;
+  }
+
+  if (data.type === "PURGE_IMAGES") {
+    event.waitUntil(caches.delete(CACHE_NAME));
+    return;
+  }
+
+  if (data.type !== "CACHE_IMAGES" || !Array.isArray(data.urls)) return;
   event.waitUntil(
     (async () => {
       const cache = await caches.open(CACHE_NAME);
