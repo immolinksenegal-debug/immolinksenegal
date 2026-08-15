@@ -280,7 +280,14 @@ const AuthConfirm = () => {
             )}
 
             <p className="text-center text-sm text-muted-foreground">
-              <Link to="/auth" className="text-primary font-medium hover:underline">
+              <Link
+                to={
+                  params.next && params.next.startsWith("/") && !params.next.startsWith("//")
+                    ? `/auth?next=${encodeURIComponent(params.next)}`
+                    : "/auth"
+                }
+                className="text-primary font-medium hover:underline"
+              >
                 Retour à la connexion
               </Link>
             </p>
