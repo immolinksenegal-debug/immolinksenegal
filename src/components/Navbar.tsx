@@ -178,46 +178,62 @@ const Navbar = () => {
               <Button
                 variant="ghost"
                 size="icon"
-                className={scrolled ? "text-foreground" : "text-primary-foreground"}
+                aria-label="Ouvrir le menu"
+                className={`h-11 w-11 ${scrolled ? "text-foreground" : "text-primary-foreground"}`}
               >
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-72 bg-background border-l border-border">
-              <div className="flex flex-col gap-2 mt-10">
-                {navLinks.map((link) => (
-                  <Link key={link.to} to={link.to} onClick={() => setIsOpen(false)}>
-                    <Button
-                      variant="ghost"
-                      className="w-full justify-start text-base font-medium text-foreground/85 hover:text-primary hover:bg-muted rounded-lg"
-                    >
-                      <link.icon className="h-4 w-4 mr-3 text-primary" />
-                      {link.label}
-                    </Button>
-                  </Link>
-                ))}
+            <SheetContent
+              side="right"
+              className="w-[88vw] max-w-sm p-0 bg-background border-l border-border flex flex-col"
+            >
+              <div className="flex items-center gap-2.5 px-4 h-16 border-b border-border shrink-0">
+                <img src={logo} alt="Immo Link Sénégal" className="h-9 w-9 object-contain" />
+                <span className="font-display text-base font-extrabold tracking-tight text-foreground">
+                  IMMO LINK
+                </span>
+              </div>
 
-                <div className="h-px bg-border my-2" />
+              <div className="flex-1 overflow-y-auto overscroll-contain px-3 py-4">
+                <div className="flex flex-col gap-1.5">
+                  {navLinks.map((link) => (
+                    <Link key={link.to} to={link.to} onClick={() => setIsOpen(false)}>
+                      <Button
+                        variant="ghost"
+                        className="w-full justify-start h-12 text-base font-medium text-foreground/85 hover:text-primary hover:bg-muted rounded-lg"
+                      >
+                        <link.icon className="h-5 w-5 mr-3 text-primary shrink-0" />
+                        {link.label}
+                      </Button>
+                    </Link>
+                  ))}
+                </div>
+              </div>
 
+              <div
+                className="shrink-0 border-t border-border px-3 py-4 flex flex-col gap-2 bg-background"
+                style={{ paddingBottom: "calc(1rem + env(safe-area-inset-bottom))" }}
+              >
                 {user ? (
                   <Button
                     onClick={handleLogout}
                     variant="ghost"
-                    className="w-full justify-start text-base text-foreground/85 hover:text-destructive hover:bg-muted rounded-lg"
+                    className="w-full justify-start h-12 text-base text-foreground/85 hover:text-destructive hover:bg-muted rounded-lg"
                   >
-                    <LogOut className="h-4 w-4 mr-3" />
+                    <LogOut className="h-5 w-5 mr-3" />
                     Déconnexion
                   </Button>
                 ) : (
                   <Link to="/auth" onClick={() => setIsOpen(false)}>
-                    <Button variant="outline" className="w-full rounded-xl border-primary/25 text-primary font-semibold">
+                    <Button variant="outline" className="w-full h-12 rounded-xl border-primary/25 text-primary font-semibold">
                       Créer un compte
                     </Button>
                   </Link>
                 )}
 
                 <Link to="/dashboard" onClick={() => setIsOpen(false)}>
-                  <Button className="w-full rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 font-semibold">
+                  <Button className="w-full h-12 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 font-semibold">
                     <Zap className="h-4 w-4 mr-2" />
                     Publier une annonce
                   </Button>
