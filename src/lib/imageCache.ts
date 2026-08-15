@@ -51,16 +51,6 @@ const onReady = (reg: ServiceWorkerRegistration) => {
 export const registerImageCache = () => {
   if (typeof window === "undefined" || !("serviceWorker" in navigator)) return;
 
-  // Nouvelle version du site → on invalide entièrement le cache d'images.
-  try {
-    if (localStorage.getItem(VERSION_KEY) !== BUILD_VERSION) {
-      pendingPurge = true;
-      localStorage.setItem(VERSION_KEY, BUILD_VERSION);
-    }
-  } catch {
-    /* stockage indisponible : on garde la synchro par URL */
-  }
-
   window.addEventListener("load", () => {
     navigator.serviceWorker
       .register("/sw.js", { scope: "/", updateViaCache: "none" })
