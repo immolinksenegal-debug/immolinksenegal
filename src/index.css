@@ -743,10 +743,21 @@
   /* Désactive les transformations décoratives (tilt, lift, scale, float) */
   .property-card-3d:hover,
   .property-card-3d:active,
+  .pack-card:hover,
+  .pack-card:active,
+  .pack-card-featured:hover,
+  .group:hover .icon-pop,
+  .group:hover .reveal-up,
+  .btn-sheen:active,
   .hover-lift:hover,
   .hover-scale:hover {
     transform: none !important;
   }
+
+  .btn-sheen::after {
+    display: none !important;
+  }
+
 
   .animate-float,
   .animate-float-subtle,
