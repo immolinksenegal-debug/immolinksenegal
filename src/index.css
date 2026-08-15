@@ -252,52 +252,7 @@
     animation: fade-in-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
-  /* Gradient mesh background utility */
-  .bg-mesh {
-    background-image: var(--gradient-mesh);
-  }
-
-
 }
-
-@layer utilities {
-  /* Gradients (now solid colors to match the logo palette) */
-  .gradient-hero {
-    background: var(--gradient-hero);
-  }
-  
-  .gradient-cyber {
-    background: var(--gradient-cyber);
-  }
-  
-  .gradient-neon {
-    background: var(--gradient-neon);
-  }
-  
-  .gradient-dark {
-    background: var(--gradient-dark);
-  }
-  
-  .gradient-glow {
-    background: var(--gradient-glow);
-  }
-
-  .gradient-holographic {
-    background: var(--gradient-holographic);
-  }
-
-  .gradient-card {
-    background: var(--gradient-card);
-  }
-
-  /* Texte sans gradient - couleurs solides de la charte */
-  .text-gradient-cyber {
-    @apply text-primary;
-  }
-
-  .text-gradient-neon {
-    @apply text-primary;
-  }
   
   /* Ombres */
   .shadow-neon-cyan {
