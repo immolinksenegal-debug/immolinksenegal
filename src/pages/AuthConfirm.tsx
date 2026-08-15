@@ -38,6 +38,9 @@ const AuthConfirm = () => {
   const [email, setEmail] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [sent, setSent] = useState(false);
+  const [countdown, setCountdown] = useState(Math.ceil(REDIRECT_DELAY_MS / 1000));
+  const [redirectTarget, setRedirectTarget] = useState("/dashboard");
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const params = useMemo(() => {
     const hash = new URLSearchParams(window.location.hash.replace(/^#/, ""));
@@ -46,6 +49,7 @@ const AuthConfirm = () => {
       errorCode: searchParams.get("error_code") ?? hash.get("error_code"),
       errorDescription: searchParams.get("error_description") ?? hash.get("error_description"),
       emailHint: searchParams.get("email") ?? "",
+      next: searchParams.get("next") ?? hash.get("next") ?? "",
     };
   }, [searchParams]);
 
@@ -61,8 +65,12 @@ const AuthConfirm = () => {
 
       const { data } = await supabase.auth.getSession();
       if (data.session) {
+        const next =
+          params.next && params.next.startsWith("/") && !params.next.startsWith("//")
+            ? params.next
+            : "/dashboard";
+        setRedirectTarget(next);
         setStatus("valid");
-        setTimeout(() => navigate("/dashboard", { replace: true }), 1500);
       } else {
         setStatus("invalid");
       }
@@ -70,6 +78,32 @@ const AuthConfirm = () => {
 
     resolve();
   }, [params, navigate]);
+
+  useEffect(() => {
+    if (status !== "valid") return;
+
+    setCountdown(Math.ceil(REDIRECT_DELAY_MS / 1000));
+    let remaining = REDIRECT_DELAY_MS;
+
+    timerRef.current = setInterval(() => {
+      remaining -= 1000;
+      setCountdown(Math.max(0, Math.ceil(remaining / 1000)));
+      if (remaining <= 0) {
+        if (timerRef.current) clearInterval(timerRef.current);
+        navigate(redirectTarget, { replace: true });
+      }
+    }, 1000);
+
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [status, redirectTarget, navigate]);
+
+  const cancelRedirect = () => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    setCountdown(0);
+  };
+
 
   const handleResend = async (e: React.FormEvent) => {
     e.preventDefault();
