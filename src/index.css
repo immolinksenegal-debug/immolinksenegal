@@ -120,14 +120,6 @@
     --input-foreground: 43 28% 94%;
     --ring: 146 60% 46%;
 
-    --gradient-hero: hsl(154 20% 7%);
-    --gradient-cyber: hsl(146 60% 46%);
-    --gradient-neon: hsl(146 60% 46% / 0.12);
-    --gradient-dark: hsl(154 22% 5%);
-    --gradient-glow: transparent;
-    --gradient-holographic: transparent;
-    --gradient-card: hsl(152 18% 11%);
-    --gradient-mesh: transparent;
 
     --shadow-neon-cyan: 0 4px 20px hsl(146 60% 46% / 0.22);
     --shadow-neon-violet: 0 4px 20px hsl(0 74% 58% / 0.25);
