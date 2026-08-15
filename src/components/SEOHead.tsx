@@ -8,6 +8,8 @@ interface SEOHeadProps {
   type?: 'website' | 'article';
   publishedTime?: string;
   modifiedTime?: string;
+  noindex?: boolean;
+  breadcrumbs?: { name: string; path: string }[];
 }
 
 const SEOHead = ({
@@ -17,16 +19,25 @@ const SEOHead = ({
   url,
   type = 'website',
   publishedTime,
-  modifiedTime
+  modifiedTime,
+  noindex = false,
+  breadcrumbs
 }: SEOHeadProps) => {
   const siteUrl = 'https://immolinksenegal.com';
-  const fullUrl = url || window.location.href;
+  // Canonical: always self-referencing and free of query strings / hashes
+  const canonicalUrl =
+    url ||
+    (typeof window !== 'undefined'
+      ? `${siteUrl}${window.location.pathname.replace(/\/+$/, '') || '/'}`
+      : siteUrl);
+  const fullUrl = canonicalUrl;
   const fullImage = image?.startsWith('http') ? image : image ? `${siteUrl}${image}` : `${siteUrl}/hero-immobilier-senegal.jpg`;
   
   // Truncate description to 160 characters for optimal SEO
   const truncatedDescription = description.length > 160 
     ? description.substring(0, 157) + '...' 
     : description;
+
 
   // Rich keywords for SEO
   const keywords = [
