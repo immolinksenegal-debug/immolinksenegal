@@ -128,17 +128,14 @@
     --input-foreground: 43 28% 94%;
     --ring: 146 60% 46%;
 
-    --gradient-hero: linear-gradient(135deg, hsl(154 20% 7%) 0%, hsl(150 25% 11%) 60%, hsl(146 40% 15%) 100%);
-    --gradient-cyber: linear-gradient(90deg, hsl(146 60% 46%) 0%, hsl(47 92% 58%) 55%, hsl(0 74% 58%) 100%);
-    --gradient-neon: linear-gradient(145deg, hsl(146 60% 46% / 0.12) 0%, hsl(47 92% 58% / 0.12) 100%);
-    --gradient-dark: linear-gradient(180deg, hsl(154 20% 7%) 0%, hsl(154 22% 5%) 100%);
-    --gradient-glow: radial-gradient(ellipse at center, hsl(47 92% 58% / 0.18) 0%, transparent 70%);
-    --gradient-holographic: linear-gradient(45deg, hsl(146 60% 46% / 0.1), hsl(47 92% 58% / 0.1), hsl(0 74% 58% / 0.1));
-    --gradient-card: linear-gradient(145deg, hsl(152 18% 12%) 0%, hsl(152 18% 10%) 100%);
-    --gradient-mesh:
-      radial-gradient(at 15% 15%, hsl(146 60% 46% / 0.14) 0px, transparent 55%),
-      radial-gradient(at 85% 10%, hsl(47 92% 58% / 0.16) 0px, transparent 50%),
-      radial-gradient(at 80% 85%, hsl(0 74% 58% / 0.12) 0px, transparent 55%);
+    --gradient-hero: hsl(154 20% 7%);
+    --gradient-cyber: hsl(146 60% 46%);
+    --gradient-neon: hsl(146 60% 46% / 0.12);
+    --gradient-dark: hsl(154 22% 5%);
+    --gradient-glow: transparent;
+    --gradient-holographic: transparent;
+    --gradient-card: hsl(152 18% 11%);
+    --gradient-mesh: transparent;
 
     --shadow-neon-cyan: 0 4px 20px hsl(146 60% 46% / 0.22);
     --shadow-neon-violet: 0 4px 20px hsl(0 74% 58% / 0.25);
