@@ -140,7 +140,7 @@ const Auth = () => {
         email: validatedData.email,
         password: validatedData.password,
         options: {
-          emailRedirectTo: `${window.location.origin}${nextPath}`,
+          emailRedirectTo: `${window.location.origin}/auth/confirm`,
           data: {
             name: validatedData.name,
           }
