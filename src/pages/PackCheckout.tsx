@@ -15,6 +15,7 @@ const PACK_LABELS: Record<string, string> = {
 const BILLINGS = ["monthly", "yearly"] as const;
 type Billing = (typeof BILLINGS)[number];
 const PENDING_KEY = "pending_pack_checkout";
+const LINK_VALIDITY_MS = 30 * 60 * 1000;
 
 type PaymentState = "loading" | "active" | "pending" | "expired" | "none" | "error";
 
@@ -30,6 +31,9 @@ const PackCheckout = () => {
 
   const [state, setState] = useState<PaymentState>("loading");
   const [expiresAt, setExpiresAt] = useState<string | null>(null);
+  const [pendingSince, setPendingSince] = useState<string | null>(null);
+  const [paymentUrl, setPaymentUrl] = useState<string | null>(null);
+  const [remaining, setRemaining] = useState<number>(0);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const started = useRef(false);
@@ -126,6 +130,20 @@ const PackCheckout = () => {
         return;
       }
 
+      // Lien de paiement déjà en attente : on affiche le compte à rebours
+      if (data?.state === "pending" && data?.paymentUrl && data?.pendingSince) {
+        const left = new Date(data.pendingSince).getTime() + LINK_VALIDITY_MS - Date.now();
+        if (left > 0) {
+          setPendingSince(data.pendingSince);
+          setPaymentUrl(data.paymentUrl);
+          setRemaining(left);
+          setState("pending");
+          return;
+        }
+        setState("expired");
+        return;
+      }
+
       // 2) Aucun lien valide connu -> on lance (ou réutilise) le paiement
       setState("pending");
       await startPayment(false);
@@ -139,6 +157,30 @@ const PackCheckout = () => {
 
     return () => subscription.unsubscribe();
   }, [packId, billing, navigate, startPayment]);
+
+  // Compte à rebours temps réel : un lien de paiement est valable 30 minutes
+  useEffect(() => {
+    if (state !== "pending" || !pendingSince) return;
+    const deadline = new Date(pendingSince).getTime() + LINK_VALIDITY_MS;
+    const tick = () => {
+      const left = deadline - Date.now();
+      setRemaining(left > 0 ? left : 0);
+      if (left <= 0) {
+        setPaymentUrl(null);
+        setState("expired");
+      }
+    };
+    tick();
+    const id = window.setInterval(tick, 1000);
+    return () => window.clearInterval(id);
+  }, [state, pendingSince]);
+
+  const formatRemaining = (ms: number) => {
+    const total = Math.max(0, Math.floor(ms / 1000));
+    const m = String(Math.floor(total / 60)).padStart(2, "0");
+    const sec = String(total % 60).padStart(2, "0");
+    return `${m}:${sec}`;
+  };
 
   const packLabel = PACK_LABELS[packId] ?? "";
   const billingLabel = billing === "yearly" ? "annuel" : "mensuel";
@@ -213,6 +255,34 @@ const PackCheckout = () => {
               </Link>
             </>
           ) : (
+            state === "pending" && paymentUrl ? (
+            <>
+              <Clock className="h-10 w-10 mx-auto text-primary mb-4" />
+              <h1 className="text-2xl font-bold mb-2">Paiement en attente</h1>
+              <p className="text-muted-foreground mb-4">
+                Votre lien de paiement pour le pack {packLabel} ({billingLabel}) est encore valable.
+              </p>
+              <div className="mb-6 rounded-2xl border border-border bg-muted/40 p-4">
+                <p className="text-sm text-muted-foreground mb-1">Temps restant avant expiration</p>
+                <p className="text-4xl font-bold tabular-nums text-primary">{formatRemaining(remaining)}</p>
+              </div>
+              <Button
+                onClick={() => window.location.replace(paymentUrl)}
+                className="w-full h-12 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 font-semibold mb-3"
+              >
+                Continuer le paiement
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => startPayment(true)}
+                disabled={busy}
+                className="w-full h-12 rounded-xl font-semibold"
+              >
+                {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4 mr-2" />}
+                Générer un nouveau lien
+              </Button>
+            </>
+            ) : (
             <>
               <Loader2 className="h-10 w-10 mx-auto text-primary animate-spin mb-4" />
               <h1 className="text-2xl font-bold mb-2">Pack {packLabel}</h1>
@@ -226,6 +296,7 @@ const PackCheckout = () => {
                 Paiement sécurisé
               </p>
             </>
+            )
           )}
         </div>
       </main>
