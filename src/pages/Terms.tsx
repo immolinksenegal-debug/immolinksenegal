@@ -2,8 +2,10 @@ import Navbar from "@/components/Navbar";
 import PageBanner from "@/components/PageBanner";
 import bannerLegal from "@/assets/banner-legal.jpg";
 import Footer from "@/components/Footer";
+import SEOHead from "@/components/SEOHead";
 const Terms = () => {
   return <div className="min-h-screen flex flex-col">
+      <SEOHead title="Conditions d'utilisation" description="Conditions générales d'utilisation de la plateforme immobilière Immo Link Sénégal." url="https://immolinksenegal.com/conditions" />
       <Navbar />
 
       <PageBanner

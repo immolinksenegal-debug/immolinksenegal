@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import { NotificationSettings } from "@/components/settings/NotificationSettings";
 import { supabase } from "@/integrations/supabase/client";
 import { Loader2 } from "lucide-react";
+import SEOHead from "@/components/SEOHead";
 
 const NotificationPreferences = () => {
   const navigate = useNavigate();
@@ -29,6 +30,7 @@ const NotificationPreferences = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      <SEOHead title="Préférences de notifications" description="Gérez vos préférences de notifications par email." noindex />
       <Navbar />
 
       <main className="flex-1 pt-24 pb-16">

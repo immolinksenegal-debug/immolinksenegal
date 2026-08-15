@@ -3,10 +3,12 @@ import Footer from "@/components/Footer";
 import { Building2, Users, Target, Award, Globe, Shield, Zap, Heart } from "lucide-react";
 import PageBanner from "@/components/PageBanner";
 import bannerImage from "@/assets/banner-about.jpg";
+import SEOHead from "@/components/SEOHead";
 
 const About = () => {
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead title="À propos d'Immo Link Sénégal" description="Immo Link Sénégal, plateforme immobilière digitale : annonces vérifiées, estimation gratuite et accompagnement pour acheter, vendre ou louer." url="https://immolinksenegal.com/a-propos" breadcrumbs={[{"name": "Accueil", "path": "/"}, {"name": "À propos", "path": "/a-propos"}]} />
       <Navbar />
       
       <main className="flex-grow pb-16 relative overflow-hidden">

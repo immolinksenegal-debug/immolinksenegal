@@ -11,6 +11,7 @@ import PageBanner from "@/components/PageBanner";
 import bannerFiscalite from "@/assets/banner-articles.jpg";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEOHead from "@/components/SEOHead";
 
 interface Article {
   id: string;
@@ -91,6 +92,7 @@ const Articles = () => {
 
   return (
     <div className="min-h-screen">
+      <SEOHead title="Actualités et conseils immobiliers au Sénégal" description="Guides, conseils et actualités sur l'immobilier au Sénégal : achat de terrain, titre foncier, investissement, fiscalité et location." url="https://immolinksenegal.com/articles" breadcrumbs={[{"name": "Accueil", "path": "/"}, {"name": "Articles", "path": "/articles"}]} />
       <Navbar />
       <main>
         {/* Hero Banner */}

@@ -2,8 +2,10 @@ import Navbar from "@/components/Navbar";
 import PageBanner from "@/components/PageBanner";
 import bannerLegal from "@/assets/banner-legal.jpg";
 import Footer from "@/components/Footer";
+import SEOHead from "@/components/SEOHead";
 const Privacy = () => {
   return <div className="min-h-screen flex flex-col">
+      <SEOHead title="Politique de confidentialité" description="Politique de confidentialité et protection des données personnelles sur Immo Link Sénégal." url="https://immolinksenegal.com/confidentialite" />
       <Navbar />
 
       <PageBanner

@@ -11,6 +11,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Search, SlidersHorizontal, MapPin, Home as HomeIcon } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import SEOHead from "@/components/SEOHead";
 const Properties = () => {
   const {
     toast
@@ -107,6 +108,7 @@ const Properties = () => {
     setSearchParams({});
   };
   return <div className="min-h-screen flex flex-col">
+      <SEOHead title="Biens immobiliers à vendre et à louer au Sénégal" description="Découvrez toutes les annonces immobilières vérifiées au Sénégal : terrains, villas, maisons et appartements à Dakar, Saly, Mbour, Thiès." url="https://immolinksenegal.com/properties" breadcrumbs={[{"name": "Accueil", "path": "/"}, {"name": "Biens", "path": "/properties"}]} />
       <Navbar />
       
       <PageBanner

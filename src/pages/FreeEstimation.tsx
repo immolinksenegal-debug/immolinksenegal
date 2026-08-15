@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import PageBanner from "@/components/PageBanner";
 import bannerEstimation from "@/assets/banner-estimation.jpg";
 import jsPDF from "jspdf";
+import SEOHead from "@/components/SEOHead";
 
 const estimationSchema = z.object({
   transaction_type: z.enum(["vente", "achat"], {
@@ -338,6 +339,7 @@ const FreeEstimation = () => {
   if (isSuccess) {
     return (
       <div className="min-h-screen flex flex-col">
+      <SEOHead title="Estimation immobilière gratuite au Sénégal" description="Estimez gratuitement la valeur de votre terrain, villa ou appartement au Sénégal grâce à notre outil d'estimation intelligent." url="https://immolinksenegal.com/estimation-gratuite" breadcrumbs={[{"name": "Accueil", "path": "/"}, {"name": "Estimation gratuite", "path": "/estimation-gratuite"}]} />
         <Navbar />
         <main className="flex-1 flex items-center justify-center py-8 md:py-12 px-4">
           <Card className="max-w-lg w-full text-center">

@@ -8,6 +8,8 @@ interface SEOHeadProps {
   type?: 'website' | 'article';
   publishedTime?: string;
   modifiedTime?: string;
+  noindex?: boolean;
+  breadcrumbs?: { name: string; path: string }[];
 }
 
 const SEOHead = ({
@@ -17,16 +19,25 @@ const SEOHead = ({
   url,
   type = 'website',
   publishedTime,
-  modifiedTime
+  modifiedTime,
+  noindex = false,
+  breadcrumbs
 }: SEOHeadProps) => {
   const siteUrl = 'https://immolinksenegal.com';
-  const fullUrl = url || window.location.href;
+  // Canonical: always self-referencing and free of query strings / hashes
+  const canonicalUrl =
+    url ||
+    (typeof window !== 'undefined'
+      ? `${siteUrl}${window.location.pathname.replace(/\/+$/, '') || '/'}`
+      : siteUrl);
+  const fullUrl = canonicalUrl;
   const fullImage = image?.startsWith('http') ? image : image ? `${siteUrl}${image}` : `${siteUrl}/hero-immobilier-senegal.jpg`;
   
   // Truncate description to 160 characters for optimal SEO
   const truncatedDescription = description.length > 160 
     ? description.substring(0, 157) + '...' 
     : description;
+
 
   // Rich keywords for SEO
   const keywords = [
@@ -99,6 +110,17 @@ const SEOHead = ({
     ]
   };
 
+  const breadcrumbData = breadcrumbs && breadcrumbs.length > 0 ? {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": breadcrumbs.map((b, i) => ({
+      "@type": "ListItem",
+      "position": i + 1,
+      "name": b.name,
+      "item": `${siteUrl}${b.path}`
+    }))
+  } : null;
+
   return (
     <Helmet>
       {/* Primary Meta Tags */}
@@ -107,7 +129,13 @@ const SEOHead = ({
       <meta name="description" content={truncatedDescription} />
       <meta name="keywords" content={keywords} />
       <meta name="author" content="Immo Link Sénégal" />
-      <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+      <meta
+        name="robots"
+        content={noindex
+          ? "noindex, nofollow"
+          : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"}
+      />
+
       <meta name="language" content="French" />
       <meta name="geo.region" content="SN" />
       <meta name="geo.placename" content="Dakar, Sénégal" />
@@ -154,6 +182,12 @@ const SEOHead = ({
       <script type="application/ld+json">
         {JSON.stringify(structuredData)}
       </script>
+      {breadcrumbData && (
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbData)}
+        </script>
+      )}
+
 
       {/* Additional SEO Meta Tags */}
       <meta name="theme-color" content="#005C00" />
