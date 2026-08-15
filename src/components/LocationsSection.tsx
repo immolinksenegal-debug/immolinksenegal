@@ -39,8 +39,8 @@ const LocationsSection = () => {
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[130px] sm:auto-rows-[160px] gap-4">
-          {locations.map(({ city, span, image, alt }) => (
+        <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[42vw] xs:auto-rows-[150px] sm:auto-rows-[170px] md:auto-rows-[180px] lg:auto-rows-[200px] gap-3 sm:gap-4">
+          {locations.map(({ city, span, image, alt, focal, sizes }) => (
             <Link
               key={city}
               to={`/properties?city=${encodeURIComponent(city)}`}
@@ -50,8 +50,13 @@ const LocationsSection = () => {
                 src={image}
                 alt={alt}
                 loading="lazy"
-                className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                decoding="async"
+                sizes={sizes}
+                width={800}
+                height={600}
+                className={`absolute inset-0 h-full w-full object-cover ${focal} transition-transform duration-500 group-hover:scale-105`}
               />
+
               <div className="absolute inset-0 bg-primary/45 group-hover:bg-primary/35 transition-colors duration-300" />
               <div className="absolute inset-x-0 bottom-0 h-2/3 bg-[linear-gradient(to_top,hsl(var(--primary)/0.9),transparent)]" />
               <div className="absolute inset-0 flex flex-col justify-end p-4 sm:p-5">
