@@ -241,7 +241,7 @@ const PacksSection = () => {
                     className={cn(
                       "btn-sheen w-full h-12 rounded-xl font-semibold transition-all duration-300 active:translate-y-px",
                       pack.highlighted
-                        ? "bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_12px_30px_-12px_hsl(var(--primary)/0.9)]"
+                        ? "bg-primary text-primary-foreground border-2 border-primary-foreground/70 hover:bg-primary-foreground hover:text-primary shadow-[0_12px_30px_-12px_hsl(var(--foreground)/0.5)]"
                         : "bg-primary text-primary-foreground hover:bg-primary/90"
                     )}
                   >
@@ -260,7 +260,7 @@ const PacksSection = () => {
                       className={cn(
                         "btn-sheen w-full h-12 rounded-xl font-semibold transition-all duration-300 active:translate-y-px",
                         pack.highlighted
-                          ? "bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_12px_30px_-12px_hsl(var(--primary)/0.9)]"
+                          ? "bg-primary text-primary-foreground border-2 border-primary-foreground/70 hover:bg-primary-foreground hover:text-primary shadow-[0_12px_30px_-12px_hsl(var(--foreground)/0.5)]"
                           : "bg-primary text-primary-foreground hover:bg-primary/90"
                       )}
                     >
