@@ -24,19 +24,11 @@ const PackCheckout = () => {
     if (started.current) return;
     started.current = true;
 
-    const run = async () => {
-      if (!PACK_LABELS[packId]) {
-        setError("Pack invalide. Choisissez un pack depuis la page d'accueil.");
-        return;
-      }
+    const nextPath = `/checkout?pack=${encodeURIComponent(packId)}&billing=${billing}`;
+    const goToAuth = () =>
+      navigate(`/auth?next=${encodeURIComponent(nextPath)}`, { replace: true });
 
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        const next = `/checkout?pack=${encodeURIComponent(packId)}&billing=${billing}`;
-        navigate(`/auth?next=${encodeURIComponent(next)}`, { replace: true });
-        return;
-      }
-
+    const startPayment = async () => {
       try {
         const { data, error: fnError } = await supabase.functions.invoke("initiate-pack-payment", {
           body: { packId, billing, origin: window.location.origin },
@@ -50,7 +42,30 @@ const PackCheckout = () => {
       }
     };
 
+    const run = async () => {
+      if (!PACK_LABELS[packId]) {
+        setError("Pack invalide. Choisissez un pack depuis la page d'accueil.");
+        return;
+      }
+
+      // Session vérifiée côté serveur d'auth (évite les faux négatifs à l'hydratation)
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        goToAuth();
+        return;
+      }
+
+      await startPayment();
+    };
+
+    // Écouter l'auth avant toute vérification
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+      if (event === "SIGNED_OUT") goToAuth();
+    });
+
     run();
+
+    return () => subscription.unsubscribe();
   }, [packId, billing, navigate]);
 
   return (
