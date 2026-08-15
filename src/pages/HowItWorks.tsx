@@ -1,7 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Search, FileText, CheckCircle, Home } from "lucide-react";
-import bannerImage from "@/assets/banner-fiscalite-senegal.jpg";
+import bannerImage from "@/assets/banner-how-it-works.jpg";
 
 const HowItWorks = () => {
   const steps = [{

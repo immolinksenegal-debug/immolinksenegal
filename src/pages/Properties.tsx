@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import Navbar from "@/components/Navbar";
+import PageBanner from "@/components/PageBanner";
+import bannerProperties from "@/assets/banner-properties.jpg";
 import Footer from "@/components/Footer";
 import PropertyCard from "@/components/PropertyCard";
 import { Button } from "@/components/ui/button";
@@ -107,16 +109,18 @@ const Properties = () => {
   return <div className="min-h-screen flex flex-col">
       <Navbar />
       
-      <main className="flex-1 pt-24 xs:pt-28 md:pt-32 lg:pt-36 pb-8 xs:pb-12 bg-background">
+      <PageBanner
+        image={bannerProperties}
+        alt="Annonces immobilières au Sénégal"
+        title={<>Annonces Immobilières <span className="text-secondary drop-shadow-lg">Sénégal</span></>}
+        subtitle="Terrain à vendre, villa, maison, appartement à Dakar, Saly, Mbour, Thiès"
+        eager
+      />
+
+      <main className="flex-1 pt-8 xs:pt-10 md:pt-12 pb-8 xs:pb-12 bg-background">
         <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="mb-8 xs:mb-10 md:mb-12 text-center animate-fade-in-up">
-            <h1 className="text-3xl xs:text-4xl md:text-5xl font-bold mb-3 md:mb-4 text-primary lg:text-6xl">
-              Annonces Immobilières Sénégal
-            </h1>
-            <p className="text-base xs:text-lg md:text-xl max-w-3xl mx-auto mb-2 text-foreground">
-              Terrain à vendre, villa, maison, appartement à Dakar, Saly, Mbour, Thiès
-            </p>
             <p className="text-sm text-muted-foreground">
               {properties.length} {properties.length > 1 ? 'biens immobiliers disponibles' : 'bien immobilier disponible'}
             </p>

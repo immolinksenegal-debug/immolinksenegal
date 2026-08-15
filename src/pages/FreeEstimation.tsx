@@ -14,7 +14,7 @@ import { Calculator, CheckCircle, Home, MessageSquare, Download, Sparkles } from
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
-import bannerEstimation from "@/assets/banner-fiscalite-senegal.jpg";
+import bannerEstimation from "@/assets/banner-estimation.jpg";
 import jsPDF from "jspdf";
 
 const estimationSchema = z.object({

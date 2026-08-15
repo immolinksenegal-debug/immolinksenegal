@@ -1,14 +1,21 @@
 import Navbar from "@/components/Navbar";
+import PageBanner from "@/components/PageBanner";
+import bannerLegal from "@/assets/banner-legal.jpg";
 import Footer from "@/components/Footer";
 const Privacy = () => {
   return <div className="min-h-screen flex flex-col">
       <Navbar />
-      
-      <main className="flex-grow pt-20 pb-16">
+
+      <PageBanner
+        image={bannerLegal}
+        alt="Politique de confidentialité"
+        title="Politique de confidentialité"
+        subtitle="Comment Immo Link Sénégal protège et utilise vos données personnelles"
+        eager
+      />
+
+      <main className="flex-grow pt-10 pb-16">
         <div className="container mx-auto px-4 max-w-4xl">
-          <h1 className="text-4xl md:text-5xl font-bold text-primary mb-8 py-[35px] px-[150px]">
-            Politique de confidentialité
-          </h1>
 
           <div className="glass-effect rounded-2xl p-8 space-y-8">
             <section>
