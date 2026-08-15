@@ -21,10 +21,11 @@ const MESSAGES: Record<Exclude<Status, "checking" | "valid" | "already_confirmed
       "Pour votre sécurité, les liens de confirmation ne restent valides que quelques heures. Indiquez votre adresse email ci-dessous pour recevoir un nouveau lien.",
   },
   invalid: {
-    title: "Ce lien de validation n'est pas valide",
+    title: "Ce lien de validation n'est plus valide",
     description:
-      "Le lien a peut-être déjà été utilisé, ou il a été tronqué par votre messagerie. Demandez un nouveau lien pour activer votre compte.",
+      "Le lien a peut-être déjà été utilisé ou a été tronqué par votre messagerie. Si votre email est déjà confirmé, connectez-vous directement. Sinon, demandez un nouveau lien pour activer votre compte.",
   },
+
 };
 
 
