@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Home, PlusCircle, User, Menu, LogOut, Building2, Calculator, Newspaper, Shield, Zap } from "lucide-react";
 import logo from "@/assets/logo-immo-link-main.png";
@@ -17,6 +17,7 @@ const Navbar = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const { toast } = useToast();
 
   useEffect(() => {
@@ -24,6 +25,23 @@ const Navbar = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Ferme automatiquement le menu mobile à chaque changement de page
+  useEffect(() => {
+    setIsOpen(false);
+  }, [location.pathname, location.search]);
+
+  const isLinkActive = (to: string) => {
+    const [path, query] = to.split("?");
+    if (location.pathname !== path) return false;
+    if (!query) return true;
+    const target = new URLSearchParams(query);
+    const current = new URLSearchParams(location.search);
+    for (const [key, value] of target.entries()) {
+      if (current.get(key) !== value) return false;
+    }
+    return true;
+  };
 
   useEffect(() => {
     const checkAdminStatus = async (userId: string) => {
