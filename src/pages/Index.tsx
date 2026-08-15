@@ -6,6 +6,7 @@ import LocationsSection from "@/components/LocationsSection";
 import OwnerSection from "@/components/OwnerSection";
 import BuyerRenterSection from "@/components/BuyerRenterSection";
 import AgenciesSection from "@/components/AgenciesSection";
+import PacksSection from "@/components/PacksSection";
 import SEOContent from "@/components/SEOContent";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
@@ -27,6 +28,7 @@ const Index = () => {
         <OwnerSection />
         <BuyerRenterSection />
         <AgenciesSection />
+        <PacksSection />
         <SEOContent />
       </main>
       <Footer />
