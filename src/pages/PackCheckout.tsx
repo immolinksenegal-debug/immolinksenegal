@@ -12,11 +12,19 @@ const PACK_LABELS: Record<string, string> = {
   agence: "Agence",
 };
 
+const BILLINGS = ["monthly", "yearly"] as const;
+type Billing = (typeof BILLINGS)[number];
+const PENDING_KEY = "pending_pack_checkout";
+
 const PackCheckout = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const packId = searchParams.get("pack") || "";
-  const billing = searchParams.get("billing") === "yearly" ? "yearly" : "monthly";
+  const rawPack = (searchParams.get("pack") || "").trim().toLowerCase();
+  const rawBilling = (searchParams.get("billing") || "").trim().toLowerCase();
+  const packId = Object.prototype.hasOwnProperty.call(PACK_LABELS, rawPack) ? rawPack : "";
+  const billing: Billing | "" = (BILLINGS as readonly string[]).includes(rawBilling)
+    ? (rawBilling as Billing)
+    : "";
   const [error, setError] = useState<string | null>(null);
   const started = useRef(false);
 
@@ -24,9 +32,23 @@ const PackCheckout = () => {
     if (started.current) return;
     started.current = true;
 
+    // Paramètres invalides -> retour propre à l'écran de choix des packs
+    if (!packId || !billing) {
+      try {
+        sessionStorage.removeItem(PENDING_KEY);
+      } catch { /* ignore */ }
+      navigate("/#packs", { replace: true });
+      return;
+    }
+
     const nextPath = `/checkout?pack=${encodeURIComponent(packId)}&billing=${billing}`;
-    const goToAuth = () =>
+    const goToAuth = () => {
+      // Mémorise l'intention pour reprendre exactement le même pack après connexion
+      try {
+        sessionStorage.setItem(PENDING_KEY, JSON.stringify({ packId, billing }));
+      } catch { /* ignore */ }
       navigate(`/auth?next=${encodeURIComponent(nextPath)}`, { replace: true });
+    };
 
     const startPayment = async () => {
       try {
@@ -36,29 +58,25 @@ const PackCheckout = () => {
         if (fnError) throw fnError;
         if (data?.error) throw new Error(data.error);
         if (!data?.paymentUrl) throw new Error("Lien de paiement indisponible");
-        window.location.href = data.paymentUrl;
+        try {
+          sessionStorage.removeItem(PENDING_KEY);
+        } catch { /* ignore */ }
+        window.location.replace(data.paymentUrl);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Le paiement n'a pas pu être lancé");
       }
     };
 
     const run = async () => {
-      if (!PACK_LABELS[packId]) {
-        setError("Pack invalide. Choisissez un pack depuis la page d'accueil.");
-        return;
-      }
-
       // Session vérifiée côté serveur d'auth (évite les faux négatifs à l'hydratation)
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
         goToAuth();
         return;
       }
-
       await startPayment();
     };
 
-    // Écouter l'auth avant toute vérification
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
       if (event === "SIGNED_OUT") goToAuth();
     });
@@ -67,6 +85,7 @@ const PackCheckout = () => {
 
     return () => subscription.unsubscribe();
   }, [packId, billing, navigate]);
+
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
