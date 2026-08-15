@@ -8,7 +8,9 @@ const Terms = () => {
 
       <PageBanner
         image={bannerLegal}
-        alt="Conditions d'utilisation"
+        alt="Documents contractuels et stylo sur un bureau illustrant les conditions d'utilisation de la plateforme immobilière Immo Link Sénégal"
+        focal="50% 50%"
+        focalMobile="50% 40%"
         title="Conditions d'utilisation"
         subtitle="Les règles d'utilisation de la plateforme Immo Link Sénégal"
         eager

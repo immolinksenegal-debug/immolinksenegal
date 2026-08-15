@@ -111,7 +111,9 @@ const Properties = () => {
       
       <PageBanner
         image={bannerProperties}
-        alt="Annonces immobilières au Sénégal"
+        alt="Villas modernes avec piscine à Dakar illustrant les annonces immobilières à vendre et à louer au Sénégal"
+        focal="50% 45%"
+        focalMobile="50% 38%"
         title={<>Annonces Immobilières <span className="text-secondary drop-shadow-lg">Sénégal</span></>}
         subtitle="Terrain à vendre, villa, maison, appartement à Dakar, Saly, Mbour, Thiès"
         eager
