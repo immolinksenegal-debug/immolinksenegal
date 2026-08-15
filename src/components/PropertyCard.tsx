@@ -44,14 +44,14 @@ const PropertyCard = ({
       {/* Top brand gradient separator */}
       <div className="absolute top-0 left-0 right-0 h-[3px] bg-primary opacity-80 z-10" />
       <div className="relative overflow-hidden aspect-[4/3] bg-muted property-image-shadow-top">
-        <img src={imageError ? '/placeholder.svg' : image || '/placeholder.svg'} alt={title} className="w-full h-full object-cover transition-smooth group-hover:scale-110" onError={e => {
+        <img src={imageError ? '/placeholder.svg' : image || '/placeholder.svg'} alt={title} className="w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)] group-hover:scale-[1.07]" onError={e => {
         setImageError(true);
         e.currentTarget.src = '/placeholder.svg';
       }} loading="lazy" />
-        <div className="absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-smooth"></div>
+        <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
         
         {/* Badges */}
-        <div className="absolute top-4 left-4 flex gap-2 flex-wrap">
+        <div className="absolute top-4 left-4 flex gap-2 flex-wrap reveal-up">
           <Badge className="bg-primary text-primary-foreground font-semibold shadow-soft">
             {type}
           </Badge>
@@ -67,8 +67,8 @@ const PropertyCard = ({
         </div>
 
         {/* Favorite Button */}
-        <button onClick={() => setIsFavorite(!isFavorite)} className="absolute top-4 right-4 w-10 h-10 rounded-full glass-effect flex items-center justify-center transition-smooth hover:scale-110">
-          <Heart className={`h-5 w-5 transition-smooth ${isFavorite ? "fill-destructive text-destructive" : "text-foreground"}`} />
+        <button onClick={() => setIsFavorite(!isFavorite)} className="absolute top-4 right-4 w-10 h-10 rounded-full glass-effect flex items-center justify-center transition-transform duration-300 hover:scale-110 active:scale-95">
+          <Heart className={`h-5 w-5 transition-all duration-300 ${isFavorite ? "fill-destructive text-destructive scale-110" : "text-foreground"}`} />
         </button>
       </div>
 
@@ -78,7 +78,7 @@ const PropertyCard = ({
         </h3>
         
         <div className="flex items-center text-muted-foreground mb-3">
-          <MapPin className="h-4 w-4 mr-1 text-primary" />
+          <MapPin className="h-4 w-4 mr-1 text-primary icon-pop" />
           <span className="text-sm line-clamp-1">{location}</span>
         </div>
 
@@ -102,7 +102,7 @@ const PropertyCard = ({
         </div>
 
         {/* Brand divider */}
-        <div className="h-px w-full bg-accent/30 my-3" />
+        <div className="h-px w-full bg-accent/30 my-3 origin-left scale-x-100 transition-colors duration-500 group-hover:bg-primary/50" />
 
         <div className="flex items-center gap-4 mb-3 text-xs text-muted-foreground">
           {views > 0 && <div className="flex items-center gap-1">
@@ -122,7 +122,7 @@ const PropertyCard = ({
 
       <CardFooter className="p-5 pt-0">
         <Link to={`/property/${id}`} className="w-full">
-          <Button className="w-full bg-primary hover:opacity-90 text-primary-foreground transition-smooth rounded-xl font-semibold shadow-[0_0_15px_hsl(var(--primary)/0.3)] hover:shadow-[0_0_25px_hsl(var(--secondary)/0.4)]">
+          <Button className="btn-sheen w-full bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 rounded-xl font-semibold shadow-[0_8px_20px_-12px_hsl(var(--primary)/0.8)] hover:shadow-[0_14px_30px_-12px_hsl(var(--primary)/0.9)] active:translate-y-px">
             Voir les détails
           </Button>
         </Link>

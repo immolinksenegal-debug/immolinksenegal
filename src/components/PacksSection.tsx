@@ -163,10 +163,10 @@ const PacksSection = () => {
               <div
                 key={pack.id}
                 className={cn(
-                  "relative rounded-3xl border p-6 sm:p-7 flex flex-col transition-all duration-300",
+                  "group relative rounded-3xl border p-6 sm:p-7 flex flex-col pack-card",
                   pack.highlighted
-                    ? "bg-primary border-primary text-primary-foreground shadow-[0_24px_60px_-20px_hsl(var(--primary)/0.35)] scale-[1.02]"
-                    : "bg-card border-border shadow-card hover:shadow-elevated hover:-translate-y-1"
+                    ? "pack-card-featured bg-primary border-primary text-primary-foreground shadow-[0_24px_60px_-20px_hsl(var(--primary)/0.35)] scale-[1.02]"
+                    : "bg-card border-border shadow-card"
                 )}
               >
                 {pack.highlighted && (
@@ -181,11 +181,11 @@ const PacksSection = () => {
                 <div className="mb-5">
                   <div
                     className={cn(
-                      "w-11 h-11 rounded-2xl flex items-center justify-center mb-4",
+                      "w-11 h-11 rounded-2xl flex items-center justify-center mb-4 icon-pop",
                       pack.highlighted ? "bg-primary text-primary-foreground" : "bg-primary/10 text-primary"
                     )}
                   >
-                    <Icon className="h-5 w-5" />
+                    <Icon className="h-5 w-5 transition-transform duration-300" />
                   </div>
                   <h3 className={cn("font-display text-xl sm:text-2xl font-bold", pack.highlighted ? "text-primary-foreground" : "text-foreground")}>
                     {pack.name}
@@ -216,7 +216,7 @@ const PacksSection = () => {
                 <ul className="space-y-3 mb-8 flex-1">
                   {pack.features.map((feature) => (
                     <li key={feature} className="flex items-start gap-3">
-                      <Check className={cn("h-4 w-4 mt-0.5 shrink-0", pack.highlighted ? "text-secondary" : "text-secondary")} />
+                      <Check className={cn("h-4 w-4 mt-0.5 shrink-0 transition-transform duration-300 group-hover:scale-110", pack.highlighted ? "text-secondary" : "text-secondary")} />
                       <span className={cn("text-sm", pack.highlighted ? "text-primary-foreground/90" : "text-foreground")}>
                         {feature}
                       </span>
@@ -239,7 +239,7 @@ const PacksSection = () => {
                     onClick={() => handleSubscribe(pack.id)}
                     disabled={loadingPack === pack.id}
                     className={cn(
-                      "w-full h-12 rounded-xl font-semibold transition-all",
+                      "btn-sheen w-full h-12 rounded-xl font-semibold transition-all duration-300 active:translate-y-px",
                       pack.highlighted
                         ? "bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_12px_30px_-12px_hsl(var(--primary)/0.9)]"
                         : "bg-primary text-primary-foreground hover:bg-primary/90"
@@ -258,7 +258,7 @@ const PacksSection = () => {
                   <Link to={pack.to} className="block">
                     <Button
                       className={cn(
-                        "w-full h-12 rounded-xl font-semibold transition-all",
+                        "btn-sheen w-full h-12 rounded-xl font-semibold transition-all duration-300 active:translate-y-px",
                         pack.highlighted
                           ? "bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_12px_30px_-12px_hsl(var(--primary)/0.9)]"
                           : "bg-primary text-primary-foreground hover:bg-primary/90"
