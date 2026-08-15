@@ -5,7 +5,7 @@ import bannerEstimation from "@/assets/banner-estimation.jpg";
 import bannerHowItWorks from "@/assets/banner-how-it-works.jpg";
 import bannerLegal from "@/assets/banner-legal.jpg";
 import bannerProperties from "@/assets/banner-properties.jpg";
-import { persistImages } from "@/lib/imageCache";
+import { persistImages, syncBannerCache } from "@/lib/imageCache";
 
 /** Toutes les bannières du site, préchargées puis mises en cache par le navigateur. */
 export const BANNER_IMAGES = [
@@ -43,6 +43,8 @@ export const preloadBanner = (href: string) => {
 export const prefetchBanners = () => {
   if (typeof window === "undefined") return;
   const run = () => {
+    // Invalide d'abord les bannières obsolètes (URLs hashées d'un ancien build)
+    syncBannerCache(BANNER_IMAGES);
     BANNER_IMAGES.forEach((src) => addLink(src, "prefetch"));
     // Cache persistant (survit à la fermeture de l'onglet)
     persistImages(BANNER_IMAGES);
