@@ -228,7 +228,7 @@ const Dashboard = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
-      <main className="flex-1 pt-24 xs:pt-28 md:pt-32 pb-8 xs:pb-12 bg-gradient-subtle">
+      <main className="flex-1 pt-24 xs:pt-28 md:pt-32 pb-8 xs:pb-12 bg-background">
         <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-8">
           <div className="mb-8 xs:mb-10 md:mb-12 text-center animate-fade-in-up">
             <h1 className="text-3xl xs:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-3 md:mb-4">
@@ -241,7 +241,7 @@ const Dashboard = () => {
               <div className="mt-6 flex gap-3 justify-center flex-wrap">
                 <Button
                   onClick={() => navigate('/admin')}
-                  className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-primary-foreground shadow-lg hover:shadow-[0_0_20px_hsl(var(--primary)/0.4)] transition-smooth rounded-xl font-semibold"
+                  className="bg-primary hover:opacity-90 text-primary-foreground shadow-lg hover:shadow-[0_0_20px_hsl(var(--primary)/0.4)] transition-smooth rounded-xl font-semibold"
                 >
                   <Shield className="h-4 w-4 mr-2" />
                   Panneau d'administration
@@ -321,7 +321,7 @@ const Dashboard = () => {
                     <CardTitle className="text-lg xs:text-xl md:text-2xl">Mes annonces</CardTitle>
                     <Button 
                       onClick={() => setShowPropertyForm(true)}
-                      className="bg-gradient-to-r from-primary via-accent to-secondary hover:opacity-90 text-primary-foreground shadow-lg hover:shadow-[0_0_20px_hsl(var(--accent)/0.4)] transition-smooth rounded-xl text-xs xs:text-sm px-3 xs:px-4 py-2 w-full xs:w-auto font-semibold"
+                      className="bg-primary hover:opacity-90 text-primary-foreground shadow-lg hover:shadow-[0_0_20px_hsl(var(--accent)/0.4)] transition-smooth rounded-xl text-xs xs:text-sm px-3 xs:px-4 py-2 w-full xs:w-auto font-semibold"
                     >
                       <PlusCircle className="h-3 w-3 xs:h-4 xs:w-4 mr-1 xs:mr-2" />
                       Nouvelle annonce

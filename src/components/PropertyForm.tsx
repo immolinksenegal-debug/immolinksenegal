@@ -406,7 +406,7 @@ const PropertyForm = ({ onSuccess, initialData }: PropertyFormProps) => {
           </p>
           <Button 
             onClick={() => navigate("/auth")}
-            className="bg-gradient-to-r from-primary via-accent to-secondary text-primary-foreground hover:opacity-90 shadow-md hover:shadow-[0_0_20px_hsl(var(--accent)/0.4)] transition-all"
+            className="bg-primary text-primary-foreground hover:opacity-90 shadow-md hover:shadow-[0_0_20px_hsl(var(--accent)/0.4)] transition-all"
           >
             Se connecter
           </Button>
@@ -755,7 +755,7 @@ const PropertyForm = ({ onSuccess, initialData }: PropertyFormProps) => {
             <Button
               type="submit"
               disabled={isLoading}
-              className="flex-1 bg-gradient-to-r from-primary via-accent to-secondary text-primary-foreground hover:opacity-90 shadow-md hover:shadow-[0_0_25px_hsl(var(--accent)/0.45)] transition-all font-semibold"
+              className="flex-1 bg-primary text-primary-foreground hover:opacity-90 shadow-md hover:shadow-[0_0_25px_hsl(var(--accent)/0.45)] transition-all font-semibold"
             >
               {isLoading ? (
                 <>

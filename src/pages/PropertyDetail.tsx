@@ -130,7 +130,7 @@ const PropertyDetail = () => {
     return (
       <div className="min-h-screen flex flex-col">
         <Navbar />
-        <main className="flex-1 pt-16 xs:pt-20 pb-8 xs:pb-12 bg-gradient-subtle">
+        <main className="flex-1 pt-16 xs:pt-20 pb-8 xs:pb-12 bg-background">
           <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-8">
             <Card className="shadow-card border-border/50 max-w-2xl mx-auto">
               <CardContent className="text-center py-12">

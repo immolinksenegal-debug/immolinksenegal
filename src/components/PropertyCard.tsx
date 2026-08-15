@@ -42,7 +42,7 @@ const PropertyCard = ({
   const [imageError, setImageError] = useState(false);
   return <Card className="group relative overflow-hidden property-card-3d bg-card shadow-card rounded-2xl">
       {/* Top brand gradient separator */}
-      <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-primary via-accent to-secondary opacity-80 z-10" />
+      <div className="absolute top-0 left-0 right-0 h-[3px] bg-primary opacity-80 z-10" />
       <div className="relative overflow-hidden aspect-[4/3] bg-muted property-image-shadow-top">
         <img src={imageError ? '/placeholder.svg' : image || '/placeholder.svg'} alt={title} className="w-full h-full object-cover transition-smooth group-hover:scale-110" onError={e => {
         setImageError(true);
@@ -122,7 +122,7 @@ const PropertyCard = ({
 
       <CardFooter className="p-5 pt-0">
         <Link to={`/property/${id}`} className="w-full">
-          <Button className="w-full bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-primary-foreground transition-smooth rounded-xl font-semibold shadow-[0_0_15px_hsl(var(--primary)/0.3)] hover:shadow-[0_0_25px_hsl(var(--secondary)/0.4)]">
+          <Button className="w-full bg-primary hover:opacity-90 text-primary-foreground transition-smooth rounded-xl font-semibold shadow-[0_0_15px_hsl(var(--primary)/0.3)] hover:shadow-[0_0_25px_hsl(var(--secondary)/0.4)]">
             Voir les détails
           </Button>
         </Link>

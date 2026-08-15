@@ -31,7 +31,7 @@ const AboutSection = () => {
   ];
 
   return (
-    <section className="py-20 md:py-28 relative overflow-hidden bg-mesh">
+    <section className="py-20 md:py-28 relative overflow-hidden bg-transparent">
       {/* Brand background accents - logo palette */}
       <div className="absolute top-20 right-10 w-[400px] h-[400px] bg-primary/8 rounded-full blur-[130px] pointer-events-none"></div>
       <div className="absolute bottom-20 left-10 w-[400px] h-[400px] bg-secondary/8 rounded-full blur-[130px] pointer-events-none"></div>
@@ -42,7 +42,7 @@ const AboutSection = () => {
           <div className="text-center mb-16 flex flex-col items-center">
             <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
               Pourquoi choisir{" "}
-              <span className="bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
+              <span className="text-primary">
                 Immo Link
               </span>
               {" "}?
@@ -90,7 +90,7 @@ const AboutSection = () => {
 
           {/* CTA Card */}
           <div className="relative rounded-3xl overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-secondary opacity-90"></div>
+            <div className="absolute inset-0 bg-primary opacity-90"></div>
             <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.05%22%3E%3Cpath%20d%3D%22M36%2034v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6%2034v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6%204V0H4v4H0v2h4v4h2V6h4V4H6z%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E')] opacity-30"></div>
             <div className="relative z-10 text-center p-10 md:p-16">
               <h3 className="text-2xl md:text-4xl font-bold text-primary-foreground mb-4">
@@ -102,7 +102,7 @@ const AboutSection = () => {
               <Link to="/dashboard">
                 <Button
                   size="lg"
-                  className="bg-gradient-to-r from-primary via-accent to-secondary text-primary-foreground hover:opacity-90 rounded-2xl font-bold text-lg px-10 py-6 shadow-xl hover:shadow-[0_0_30px_hsl(var(--accent)/0.4)] transition-all duration-300 group"
+                  className="bg-primary text-primary-foreground hover:opacity-90 rounded-2xl font-bold text-lg px-10 py-6 shadow-xl hover:shadow-[0_0_30px_hsl(var(--accent)/0.4)] transition-all duration-300 group"
                 >
                   <Sparkles className="mr-2 h-5 w-5" />
                   Publier une annonce

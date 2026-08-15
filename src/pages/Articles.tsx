@@ -100,7 +100,7 @@ const Articles = () => {
             className="w-full h-full object-cover"
             loading="eager"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-primary/50 via-primary/20 to-background/80">
+          <div className="absolute inset-0 bg-primary/30">
             <div className="container mx-auto px-4 h-full flex flex-col justify-center items-center text-center pt-16 sm:pt-20">
               <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 sm:mb-3 md:mb-4 px-2 text-primary-foreground drop-shadow-2xl">
                 Actualités Immobilières
@@ -154,7 +154,7 @@ const Articles = () => {
                               className="w-full h-full object-cover"
                             />
                           ) : (
-                            <div className="w-full h-full bg-gradient-modern flex items-center justify-center">
+                            <div className="w-full h-full bg-primary flex items-center justify-center">
                               <span className="text-primary-foreground text-4xl">📰</span>
                             </div>
                           )}
@@ -227,7 +227,7 @@ const Articles = () => {
                               className="w-full h-full object-cover"
                             />
                           ) : (
-                            <div className="w-full h-full bg-gradient-modern flex items-center justify-center text-primary-foreground">
+                            <div className="w-full h-full bg-primary flex items-center justify-center text-primary-foreground">
                               📰
                             </div>
                           )}
@@ -271,7 +271,7 @@ const Articles = () => {
                               className="w-full h-full object-cover"
                             />
                           ) : (
-                            <div className="w-full h-full bg-gradient-modern flex items-center justify-center text-primary-foreground">
+                            <div className="w-full h-full bg-primary flex items-center justify-center text-primary-foreground">
                               📰
                             </div>
                           )}
