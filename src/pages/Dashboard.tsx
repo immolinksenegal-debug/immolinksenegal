@@ -443,6 +443,14 @@ const Dashboard = () => {
             </TabsContent>
 
             <TabsContent value="settings">
+              <div className="mb-6">
+                <Button variant="outline" asChild>
+                  <Link to="/preferences-notifications">
+                    <Bell className="mr-2 h-4 w-4" />
+                    Écran dédié : préférences d'emails
+                  </Link>
+                </Button>
+              </div>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div className="space-y-6">
                   <ProfileSettings />
