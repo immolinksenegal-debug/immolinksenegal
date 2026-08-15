@@ -353,9 +353,11 @@ export type Database = {
           currency: string
           expires_at: string | null
           id: string
+          idempotency_key: string | null
           pack_id: string
           payment_ref: string | null
           payment_token: string | null
+          payment_url: string | null
           starts_at: string | null
           status: string
           updated_at: string
@@ -368,9 +370,11 @@ export type Database = {
           currency?: string
           expires_at?: string | null
           id?: string
+          idempotency_key?: string | null
           pack_id: string
           payment_ref?: string | null
           payment_token?: string | null
+          payment_url?: string | null
           starts_at?: string | null
           status?: string
           updated_at?: string
@@ -383,9 +387,11 @@ export type Database = {
           currency?: string
           expires_at?: string | null
           id?: string
+          idempotency_key?: string | null
           pack_id?: string
           payment_ref?: string | null
           payment_token?: string | null
+          payment_url?: string | null
           starts_at?: string | null
           status?: string
           updated_at?: string
