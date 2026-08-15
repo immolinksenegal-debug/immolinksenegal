@@ -9,6 +9,8 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
 import logoAuth from "@/assets/logo-immo-link-main.png";
+import SEOHead from "@/components/SEOHead";
+
 
 const loginSchema = z.object({
   email: z.string().trim().email({ message: "Email invalide" }),
