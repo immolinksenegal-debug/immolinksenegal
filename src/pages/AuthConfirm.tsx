@@ -59,33 +59,41 @@ const AuthConfirm = () => {
     if (params.emailHint) setEmail(params.emailHint);
 
     const resolve = async () => {
+      // Always check session first: if the user is already signed in,
+      // their email is confirmed by definition.
+      const { data } = await supabase.auth.getSession();
+      const hasExistingSession = !!data.session;
+      setHasSession(hasExistingSession);
+
+      const safeNext =
+        params.next && params.next.startsWith("/") && !params.next.startsWith("//")
+          ? params.next
+          : "/dashboard";
+
+      if (hasExistingSession) {
+        // Already confirmed and logged in: either the link is valid but
+        // the session was already active, or they clicked an already-used link.
+        setRedirectTarget(safeNext);
+        setStatus(params.error || params.errorCode ? "already_confirmed" : "valid");
+        return;
+      }
+
       if (params.error || params.errorCode) {
         const code = `${params.errorCode ?? ""} ${params.errorDescription ?? ""}`.toLowerCase();
         setStatus(code.includes("expired") ? "expired" : "invalid");
         return;
       }
 
-      const { data } = await supabase.auth.getSession();
-      if (data.session) {
-        setHasSession(true);
-        const next =
-          params.next && params.next.startsWith("/") && !params.next.startsWith("//")
-            ? params.next
-            : "/dashboard";
-        setRedirectTarget(next);
-      } else {
-        setHasSession(false);
-        const loginNext =
-          params.next && params.next.startsWith("/") && !params.next.startsWith("//")
-            ? params.next
-            : "/dashboard";
-        setRedirectTarget(`/auth?next=${encodeURIComponent(loginNext)}`);
-      }
+      // No session but no error: the link may have been processed elsewhere
+      // or the user arrived directly. We still treat the page as valid,
+      // but redirect them to the login page so they can reach their destination.
+      setRedirectTarget(`/auth?next=${encodeURIComponent(safeNext)}`);
       setStatus("valid");
     };
 
     resolve();
   }, [params, navigate]);
+
 
   useEffect(() => {
     if (status !== "valid") return;
