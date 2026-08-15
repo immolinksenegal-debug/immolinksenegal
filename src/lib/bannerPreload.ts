@@ -5,6 +5,7 @@ import bannerEstimation from "@/assets/banner-estimation.jpg";
 import bannerHowItWorks from "@/assets/banner-how-it-works.jpg";
 import bannerLegal from "@/assets/banner-legal.jpg";
 import bannerProperties from "@/assets/banner-properties.jpg";
+import { persistImages } from "@/lib/imageCache";
 
 /** Toutes les bannières du site, préchargées puis mises en cache par le navigateur. */
 export const BANNER_IMAGES = [
@@ -30,7 +31,10 @@ const addLink = (href: string, rel: "preload" | "prefetch") => {
 };
 
 /** Précharge immédiatement une bannière (image LCP de la page courante). */
-export const preloadBanner = (href: string) => addLink(href, "preload");
+export const preloadBanner = (href: string) => {
+  addLink(href, "preload");
+  persistImages([href]);
+};
 
 /**
  * Précharge en tâche de fond (idle) toutes les bannières pour que la navigation
@@ -38,7 +42,11 @@ export const preloadBanner = (href: string) => addLink(href, "preload");
  */
 export const prefetchBanners = () => {
   if (typeof window === "undefined") return;
-  const run = () => BANNER_IMAGES.forEach((src) => addLink(src, "prefetch"));
+  const run = () => {
+    BANNER_IMAGES.forEach((src) => addLink(src, "prefetch"));
+    // Cache persistant (survit à la fermeture de l'onglet)
+    persistImages(BANNER_IMAGES);
+  };
   const ric = (window as unknown as {
     requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
   }).requestIdleCallback;
