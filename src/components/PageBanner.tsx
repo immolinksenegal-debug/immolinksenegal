@@ -74,7 +74,7 @@ const PageBanner = ({
         }`}
         style={focalVars}
         loading={eager ? "eager" : "lazy"}
-        fetchPriority={eager ? "high" : "auto"}
+        {...({ fetchpriority: eager ? "high" : "auto" } as Record<string, string>)}
         decoding="async"
         draggable={false}
         onLoad={() => setLoaded(true)}
