@@ -166,6 +166,8 @@
     font-family: 'Archivo', 'Manrope', sans-serif;
     font-weight: 800;
     letter-spacing: -0.03em;
+    /* Couleur de titre unique (vert IMMO) — surchargeable via classe utilitaire */
+    color: hsl(var(--primary));
   }
 
   /* Scrollbar élégante (theme-aware) */

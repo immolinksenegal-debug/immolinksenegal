@@ -171,7 +171,7 @@ const PacksSection = () => {
               >
                 {pack.highlighted && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider bg-secondary text-secondary-foreground px-3 py-1 rounded-full shadow-neon-orange">
+                    <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider bg-primary text-primary-foreground px-3 py-1 rounded-full shadow-glow">
                       <Sparkles className="h-3 w-3" />
                       Le plus populaire
                     </span>
@@ -182,7 +182,7 @@ const PacksSection = () => {
                   <div
                     className={cn(
                       "w-11 h-11 rounded-2xl flex items-center justify-center mb-4",
-                      pack.highlighted ? "bg-secondary text-secondary-foreground" : "bg-primary/10 text-primary"
+                      pack.highlighted ? "bg-primary text-primary-foreground" : "bg-primary/10 text-primary"
                     )}
                   >
                     <Icon className="h-5 w-5" />
@@ -241,7 +241,7 @@ const PacksSection = () => {
                     className={cn(
                       "w-full h-12 rounded-xl font-semibold transition-all",
                       pack.highlighted
-                        ? "bg-secondary text-secondary-foreground hover:bg-secondary/90 shadow-[0_12px_30px_-12px_hsl(var(--secondary)/0.9)]"
+                        ? "bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_12px_30px_-12px_hsl(var(--primary)/0.9)]"
                         : "bg-primary text-primary-foreground hover:bg-primary/90"
                     )}
                   >
@@ -260,7 +260,7 @@ const PacksSection = () => {
                       className={cn(
                         "w-full h-12 rounded-xl font-semibold transition-all",
                         pack.highlighted
-                          ? "bg-secondary text-secondary-foreground hover:bg-secondary/90 shadow-[0_12px_30px_-12px_hsl(var(--secondary)/0.9)]"
+                          ? "bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_12px_30px_-12px_hsl(var(--primary)/0.9)]"
                           : "bg-primary text-primary-foreground hover:bg-primary/90"
                       )}
                     >

@@ -24,7 +24,7 @@ const LocationsSection = () => {
               Explorez les zones les plus recherchées
             </h2>
           </div>
-          <Link to="/properties" className="text-sm font-semibold text-primary hover:text-secondary transition-colors">
+          <Link to="/properties" className="text-sm font-semibold text-primary hover:text-primary transition-colors">
             Voir toutes les zones →
           </Link>
         </div>

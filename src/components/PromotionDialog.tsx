@@ -95,7 +95,7 @@ const PromotionDialog = ({
 
         <div className="grid md:grid-cols-2 gap-6 py-4">
           {/* Plan Mensuel */}
-          <Card className="border-secondary/20 shadow-glow-secondary relative overflow-hidden">
+          <Card className="border-secondary/20 shadow-glow relative overflow-hidden">
             <CardContent className="pt-6">
               <div className="text-center mb-6">
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-secondary/10 mb-4">
@@ -161,7 +161,7 @@ const PromotionDialog = ({
               <Button
                 onClick={() => handlePayment('monthly')}
                 disabled={isInitiating}
-                className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground shadow-glow-secondary transition-smooth rounded-xl font-semibold text-base py-6"
+                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-glow transition-smooth rounded-xl font-semibold text-base py-6"
               >
                 {isInitiating && selectedPlan === 'monthly' ? (
                   <>

@@ -278,42 +278,42 @@ const AdminDashboard = () => {
             <TabsList className="mb-4 xs:mb-6 bg-card shadow-soft flex-wrap h-auto p-1 gap-1">
               <TabsTrigger
                 value="properties"
-                className="data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
+                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
               >
                 <Home className="h-3 w-3 xs:h-4 xs:w-4 mr-1 xs:mr-2" />
                 Annonces
               </TabsTrigger>
               <TabsTrigger
                 value="articles"
-                className="data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
+                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
               >
                 <FileText className="h-3 w-3 xs:h-4 xs:w-4 mr-1 xs:mr-2" />
                 Articles
               </TabsTrigger>
               <TabsTrigger
                 value="comments"
-                className="data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
+                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
               >
                 <MessageSquare className="h-3 w-3 xs:h-4 xs:w-4 mr-1 xs:mr-2" />
                 Commentaires
               </TabsTrigger>
               <TabsTrigger
                 value="contact"
-                className="data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
+                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
               >
                 <Mail className="h-3 w-3 xs:h-4 xs:w-4 mr-1 xs:mr-2" />
                 Messages
               </TabsTrigger>
               <TabsTrigger
                 value="contracts"
-                className="data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
+                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
               >
                 <FileText className="h-3 w-3 xs:h-4 xs:w-4 mr-1 xs:mr-2" />
                 Contrats
               </TabsTrigger>
               <TabsTrigger
                 value="settings"
-                className="data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
+                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
               >
                 <Settings className="h-3 w-3 xs:h-4 xs:w-4 mr-1 xs:mr-2" />
                 Paramètres

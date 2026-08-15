@@ -169,7 +169,7 @@ const Articles = () => {
                       {/* Content */}
                       <CardContent className="md:col-span-2 p-6">
                         <Link to={`/articles/${article.slug}`}>
-                          <h3 className="text-2xl font-bold mb-3 hover:text-secondary transition-base">
+                          <h3 className="text-2xl font-bold mb-3 hover:text-primary transition-base">
                             {article.title}
                           </h3>
                         </Link>
@@ -190,7 +190,7 @@ const Articles = () => {
                         </div>
 
                         <Link to={`/articles/${article.slug}`}>
-                          <Button className="bg-secondary hover:bg-secondary/90 text-secondary-foreground">
+                          <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
                             Lire la suite
                           </Button>
                         </Link>
@@ -233,7 +233,7 @@ const Articles = () => {
                           )}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h4 className="font-medium text-sm line-clamp-2 group-hover:text-secondary transition-base">
+                          <h4 className="font-medium text-sm line-clamp-2 group-hover:text-primary transition-base">
                             {article.title}
                           </h4>
                           <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
@@ -277,7 +277,7 @@ const Articles = () => {
                           )}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h4 className="font-medium text-sm line-clamp-2 group-hover:text-secondary transition-base">
+                          <h4 className="font-medium text-sm line-clamp-2 group-hover:text-primary transition-base">
                             {article.title}
                           </h4>
                           <p className="text-xs text-muted-foreground mt-1">

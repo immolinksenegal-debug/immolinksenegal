@@ -135,7 +135,7 @@ const Properties = () => {
                   <SlidersHorizontal className="h-4 w-4 mr-2" />
                   Filtres
                 </Button>
-                <Button onClick={handleSearch} className="w-full sm:w-auto bg-secondary hover:bg-secondary/90 text-secondary-foreground">
+                <Button onClick={handleSearch} className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground">
                   <Search className="h-4 w-4 mr-2" />
                   Rechercher
                 </Button>
@@ -202,7 +202,7 @@ const Properties = () => {
                 <p className="text-muted-foreground mb-6">
                   Essayez de modifier vos critères de recherche
                 </p>
-                <Button onClick={clearFilters} variant="outline" className="border-secondary text-secondary hover:bg-secondary hover:text-secondary-foreground">
+                <Button onClick={clearFilters} variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
                   Réinitialiser les filtres
                 </Button>
               </CardContent>

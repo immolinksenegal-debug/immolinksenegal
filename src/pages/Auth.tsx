@@ -224,7 +224,7 @@ const Auth = () => {
               </TabsTrigger>
               <TabsTrigger
                 value="signup"
-                className="rounded-lg data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground data-[state=active]:shadow-md transition-smooth"
+                className="rounded-lg data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md transition-smooth"
               >
                 Inscription
               </TabsTrigger>
@@ -273,7 +273,7 @@ const Auth = () => {
                     <input type="checkbox" className="mr-2 rounded accent-primary" />
                     Se souvenir de moi
                   </label>
-                  <a href="#" className="text-secondary hover:text-secondary-glow font-medium transition-base">
+                  <a href="#" className="text-primary hover:text-primary-glow font-medium transition-base">
                     Mot de passe oublié ?
                   </a>
                 </div>
@@ -361,7 +361,7 @@ const Auth = () => {
 
                 <Button
                   type="submit"
-                  className="w-full bg-secondary hover:opacity-90 text-secondary-foreground shadow-[0_8px_24px_-8px_hsl(var(--secondary)/0.5)] transition-smooth rounded-xl font-semibold h-12"
+                  className="w-full bg-primary hover:opacity-90 text-primary-foreground shadow-[0_8px_24px_-8px_hsl(var(--secondary)/0.5)] transition-smooth rounded-xl font-semibold h-12"
                   disabled={isLoading}
                 >
                   {isLoading ? "Inscription..." : "Créer un compte"}

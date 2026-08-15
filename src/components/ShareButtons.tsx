@@ -57,7 +57,7 @@ const ShareButtons = ({ title, description, url, imageUrl }: ShareButtonsProps) 
         <Button
           variant="outline"
           size="sm"
-          className="gap-2 rounded-xl transition-smooth hover:shadow-glow-secondary"
+          className="gap-2 rounded-xl transition-smooth hover:shadow-glow"
         >
           <Share2 className="h-4 w-4" />
           Partager
