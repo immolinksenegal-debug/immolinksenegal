@@ -83,10 +83,11 @@ const PacksSection = () => {
   const handleSubscribe = async (packId: string) => {
     try {
       setLoadingPack(packId);
+      const checkoutPath = `/checkout?pack=${encodeURIComponent(packId)}&billing=${billing}`;
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) {
-        toast.error("Connectez-vous pour souscrire à un pack");
-        navigate("/auth");
+        toast.info("Connectez-vous pour finaliser votre pack");
+        navigate(`/auth?next=${encodeURIComponent(checkoutPath)}`);
         return;
       }
 

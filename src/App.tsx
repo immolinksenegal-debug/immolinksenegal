@@ -10,6 +10,7 @@ import Properties from "./pages/Properties";
 import PropertyDetail from "./pages/PropertyDetail";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
+import PackCheckout from "./pages/PackCheckout";
 import FreeEstimation from "./pages/FreeEstimation";
 import EstimationManagement from "./pages/EstimationManagement";
 import UserManagement from "./pages/UserManagement";
@@ -39,6 +40,7 @@ const App = () => (
           <Route path="/property/:id" element={<PropertyDetail />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/checkout" element={<PackCheckout />} />
           <Route path="/estimation-gratuite" element={<FreeEstimation />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/estimations" element={<EstimationManagement />} />
