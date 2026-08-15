@@ -132,7 +132,7 @@ const Hero = () => {
                 </Select>
               </div>
 
-              <div className="md:col-span-1.5 md:col-span-2">
+              <div className="md:col-span-2">
                 <Input
                   placeholder="Budget max"
                   type="number"
