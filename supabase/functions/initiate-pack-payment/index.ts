@@ -63,6 +63,47 @@ Deno.serve(async (req) => {
     }
 
     const amount = billing === 'yearly' ? pack.yearly : pack.monthly
+
+    // IDEMPOTENCE: une même intention d'achat ne doit créer qu'une seule commande.
+    const rawKey = typeof body?.idempotencyKey === 'string' ? body.idempotencyKey.trim() : ''
+    const clientKey = /^[A-Za-z0-9_-]{8,80}$/.test(rawKey) ? rawKey : ''
+    const idempotencyKey = `${user.id}:${packId}:${billing}:${clientKey || 'default'}`
+
+    // 1) Même clé déjà utilisée -> on renvoie le lien de paiement existant
+    const { data: existingByKey } = await supabase
+      .from('pack_subscriptions')
+      .select('payment_url, payment_token, status')
+      .eq('idempotency_key', idempotencyKey)
+      .maybeSingle()
+
+    if (existingByKey?.payment_url && existingByKey.status === 'pending') {
+      return new Response(
+        JSON.stringify({ success: true, reused: true, paymentUrl: existingByKey.payment_url, token: existingByKey.payment_token }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
+      )
+    }
+
+    // 2) Commande identique déjà en attente (< 30 min) -> réutilisation
+    const thirtyMinAgo = new Date(Date.now() - 30 * 60 * 1000).toISOString()
+    const { data: recentPending } = await supabase
+      .from('pack_subscriptions')
+      .select('payment_url, payment_token')
+      .eq('user_id', user.id)
+      .eq('pack_id', packId)
+      .eq('billing', billing)
+      .eq('status', 'pending')
+      .gte('created_at', thirtyMinAgo)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+
+    if (recentPending?.payment_url) {
+      return new Response(
+        JSON.stringify({ success: true, reused: true, paymentUrl: recentPending.payment_url, token: recentPending.payment_token }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
+      )
+    }
+
     const refCommand = `PACK_${packId}_${user.id.substring(0, 8)}_${Date.now()}`
     const frontendUrl = origin ?? 'https://immolinksenegal.com'
 
@@ -106,9 +147,26 @@ Deno.serve(async (req) => {
       status: 'pending',
       payment_token: paymentData.token,
       payment_ref: refCommand,
+      payment_url: paymentData.redirect_url,
+      idempotency_key: idempotencyKey,
     })
     if (insertError) {
-      console.error('Insert error', insertError)
+      // 23505 = clé d'idempotence déjà présente (double appel concurrent)
+      if ((insertError as { code?: string }).code === '23505') {
+        const { data: winner } = await supabase
+          .from('pack_subscriptions')
+          .select('payment_url, payment_token')
+          .eq('idempotency_key', idempotencyKey)
+          .maybeSingle()
+        if (winner?.payment_url) {
+          return new Response(
+            JSON.stringify({ success: true, reused: true, paymentUrl: winner.payment_url, token: winner.payment_token }),
+            { headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
+          )
+        }
+      } else {
+        console.error('Insert error', insertError)
+      }
     }
 
     return new Response(
