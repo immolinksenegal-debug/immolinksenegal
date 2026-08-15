@@ -140,20 +140,27 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <Link key={link.to} to={link.to}>
-                <Button
-                  variant="ghost"
-                  className={`text-sm font-medium rounded-lg transition-colors ${
-                    scrolled
-                      ? "text-foreground/80 hover:text-primary hover:bg-muted"
-                      : "text-primary-foreground/85 hover:text-primary-foreground hover:bg-primary-foreground/10"
-                  }`}
-                >
-                  {link.label}
-                </Button>
-              </Link>
-            ))}
+            {navLinks.map((link) => {
+              const active = isLinkActive(link.to);
+              return (
+                <Link key={link.to} to={link.to} aria-current={active ? "page" : undefined}>
+                  <Button
+                    variant="ghost"
+                    className={`text-sm font-medium rounded-lg transition-colors ${
+                      scrolled
+                        ? active
+                          ? "text-primary bg-muted font-semibold"
+                          : "text-foreground/80 hover:text-primary hover:bg-muted"
+                        : active
+                          ? "text-primary-foreground bg-primary-foreground/15 font-semibold"
+                          : "text-primary-foreground/85 hover:text-primary-foreground hover:bg-primary-foreground/10"
+                    }`}
+                  >
+                    {link.label}
+                  </Button>
+                </Link>
+              );
+            })}
 
             {user ? (
               <Button
