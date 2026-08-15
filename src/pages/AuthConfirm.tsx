@@ -176,7 +176,10 @@ const AuthConfirm = () => {
             <div className="space-y-2">
               <h1 className="text-2xl font-bold text-foreground">Votre compte est activé !</h1>
               <p className="text-sm text-muted-foreground">
-                Votre adresse email a été confirmée avec succès. Vous pouvez maintenant accéder à votre espace.
+                Votre adresse email a été confirmée avec succès.{" "}
+                {hasSession
+                  ? "Vous allez être redirigé vers votre espace personnel."
+                  : "Connectez-vous pour accéder à votre espace personnel."}
               </p>
             </div>
 
@@ -194,16 +197,29 @@ const AuthConfirm = () => {
             </div>
 
             <div className="flex flex-col gap-3">
-              <Button
-                onClick={() => {
-                  cancelRedirect();
-                  navigate(redirectTarget, { replace: true });
-                }}
-                className="w-full h-12 rounded-xl font-semibold bg-primary text-primary-foreground hover:opacity-90"
-              >
-                Accéder à mon espace
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+              {hasSession ? (
+                <Button
+                  onClick={() => {
+                    cancelRedirect();
+                    navigate(redirectTarget, { replace: true });
+                  }}
+                  className="w-full h-12 rounded-xl font-semibold bg-primary text-primary-foreground hover:opacity-90"
+                >
+                  Accéder à mon espace
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              ) : (
+                <Button
+                  onClick={() => {
+                    cancelRedirect();
+                    navigate(redirectTarget, { replace: true });
+                  }}
+                  className="w-full h-12 rounded-xl font-semibold bg-primary text-primary-foreground hover:opacity-90"
+                >
+                  Se connecter
+                  <LogIn className="ml-2 h-4 w-4" />
+                </Button>
+              )}
               <Button
                 variant="outline"
                 onClick={() => {
