@@ -66,15 +66,21 @@ const AuthConfirm = () => {
 
       const { data } = await supabase.auth.getSession();
       if (data.session) {
+        setHasSession(true);
         const next =
           params.next && params.next.startsWith("/") && !params.next.startsWith("//")
             ? params.next
             : "/dashboard";
         setRedirectTarget(next);
-        setStatus("valid");
       } else {
-        setStatus("invalid");
+        setHasSession(false);
+        const loginNext =
+          params.next && params.next.startsWith("/") && !params.next.startsWith("//")
+            ? params.next
+            : "/dashboard";
+        setRedirectTarget(`/auth?next=${encodeURIComponent(loginNext)}`);
       }
+      setStatus("valid");
     };
 
     resolve();
