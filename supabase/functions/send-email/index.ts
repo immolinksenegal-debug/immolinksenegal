@@ -159,6 +159,23 @@ Deno.serve(async (req) => {
     const mail = compose(payload, user?.email ?? null);
     if (!mail) return json({ error: 'Unable to compose email' }, 400);
 
+    // Envoi conditionnel selon les préférences du destinataire (emails automatiques uniquement)
+    const PREF_BY_PURPOSE: Partial<Record<Parsed['purpose'], EmailPreference>> = {
+      listing_receipt: 'notification_property_updates',
+      contact_receipt: 'notification_account_emails',
+    };
+    const preference = PREF_BY_PURPOSE[payload.purpose];
+    if (preference) {
+      const admin = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+      const recipientId =
+        payload.purpose === 'listing_receipt'
+          ? user?.id ?? null
+          : await getUserIdByEmail(admin, mail.to);
+      const allowed = await shouldSendEmail(admin, recipientId, preference);
+      if (!allowed) return json({ success: true, skipped: 'user_preferences' });
+    }
+
+
     const response = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
