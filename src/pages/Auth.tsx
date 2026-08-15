@@ -171,11 +171,13 @@ const Auth = () => {
         });
         // La redirection sera gérée par onAuthStateChange
       } else {
+        setPendingConfirmationEmail(validatedData.email);
         toast({
           title: "Vérifiez votre email",
-          description: "Un email de confirmation a été envoyé à votre adresse",
+          description: `Un email de confirmation a été envoyé à ${validatedData.email}. Confirmez-le pour accéder à la plateforme.`,
         });
       }
+
     } catch (error) {
       if (error instanceof z.ZodError) {
         toast({
