@@ -204,7 +204,9 @@ const Navbar = () => {
                 variant="ghost"
                 size="icon"
                 aria-label="Ouvrir le menu"
-                className={`h-11 w-11 ${scrolled ? "text-foreground" : "text-primary-foreground"}`}
+                className={`h-11 w-11 transition-transform duration-300 active:scale-90 ${
+                  scrolled ? "text-foreground" : "text-primary-foreground"
+                } ${isOpen ? "rotate-90" : "rotate-0"}`}
               >
                 <Menu className="h-6 w-6" />
               </Button>
@@ -222,7 +224,7 @@ const Navbar = () => {
 
               <div className="flex-1 overflow-y-auto overscroll-contain px-3 py-4">
                 <div className="flex flex-col gap-1.5">
-                  {navLinks.map((link) => {
+                  {navLinks.map((link, index) => {
                     const active = isLinkActive(link.to);
                     return (
                       <Link
@@ -230,16 +232,22 @@ const Navbar = () => {
                         to={link.to}
                         onClick={() => setIsOpen(false)}
                         aria-current={active ? "page" : undefined}
+                        className="motion-safe:animate-fade-in opacity-0 [animation-fill-mode:forwards]"
+                        style={{ animationDelay: `${120 + index * 45}ms` }}
                       >
                         <Button
                           variant="ghost"
-                          className={`w-full justify-start h-12 text-base rounded-lg relative ${
+                          className={`group w-full justify-start h-12 text-base rounded-lg relative overflow-hidden transition-all duration-300 active:scale-[0.98] ${
                             active
-                              ? "font-semibold text-primary bg-primary/10 before:absolute before:left-0 before:top-2 before:bottom-2 before:w-1 before:rounded-full before:bg-primary"
-                              : "font-medium text-foreground/85 hover:text-primary hover:bg-muted"
+                              ? "font-semibold text-primary bg-primary/10 before:absolute before:left-0 before:top-2 before:bottom-2 before:w-1 before:rounded-full before:bg-primary before:origin-center motion-safe:before:animate-scale-in"
+                              : "font-medium text-foreground/85 hover:text-primary hover:bg-muted hover:translate-x-1"
                           }`}
                         >
-                          <link.icon className="h-5 w-5 mr-3 text-primary shrink-0" />
+                          <link.icon
+                            className={`h-5 w-5 mr-3 text-primary shrink-0 transition-transform duration-300 ${
+                              active ? "scale-110" : "group-hover:scale-110"
+                            }`}
+                          />
                           {link.label}
                         </Button>
                       </Link>
@@ -249,29 +257,29 @@ const Navbar = () => {
               </div>
 
               <div
-                className="shrink-0 border-t border-border px-3 py-4 flex flex-col gap-2 bg-background"
+                className="shrink-0 border-t border-border px-3 py-4 flex flex-col gap-2 bg-background motion-safe:animate-fade-in opacity-0 [animation-fill-mode:forwards] [animation-delay:220ms]"
                 style={{ paddingBottom: "calc(1rem + env(safe-area-inset-bottom))" }}
               >
                 {user ? (
                   <Button
                     onClick={handleLogout}
                     variant="ghost"
-                    className="w-full justify-start h-12 text-base text-foreground/85 hover:text-destructive hover:bg-muted rounded-lg"
+                    className="w-full justify-start h-12 text-base text-foreground/85 hover:text-destructive hover:bg-muted rounded-lg transition-all duration-300 active:scale-[0.98]"
                   >
                     <LogOut className="h-5 w-5 mr-3" />
                     Déconnexion
                   </Button>
                 ) : (
                   <Link to="/auth" onClick={() => setIsOpen(false)}>
-                    <Button variant="outline" className="w-full h-12 rounded-xl border-primary/25 text-primary font-semibold">
+                    <Button variant="outline" className="w-full h-12 rounded-xl border-primary/25 text-primary font-semibold transition-all duration-300 hover:border-primary/50 active:scale-[0.98]">
                       Créer un compte
                     </Button>
                   </Link>
                 )}
 
                 <Link to="/dashboard" onClick={() => setIsOpen(false)}>
-                  <Button className="w-full h-12 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 font-semibold">
-                    <Zap className="h-4 w-4 mr-2" />
+                  <Button className="group w-full h-12 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 font-semibold transition-all duration-300 hover:shadow-[0_12px_28px_-14px_hsl(var(--primary))] active:scale-[0.98]">
+                    <Zap className="h-4 w-4 mr-2 transition-transform duration-300 group-hover:scale-110" />
                     Publier une annonce
                   </Button>
                 </Link>
