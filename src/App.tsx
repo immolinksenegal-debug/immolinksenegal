@@ -42,7 +42,8 @@ const App = () => (
           <Route path="/auth" element={<Auth />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/checkout" element={<PackCheckout />} />
-          <Route path="/estimation-gratuite" element={<FreeEstimation />} />
+          <Route path="/preferences-notifications" element={<NotificationPreferences />} />
+          <Route path="/estimation-gratuite" element={<FreeEstimation />} />న
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/estimations" element={<EstimationManagement />} />
           <Route path="/admin/users" element={<UserManagement />} />
