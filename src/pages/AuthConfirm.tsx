@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Mail, AlertTriangle, CheckCircle2, Loader2, ArrowRight, Home } from "lucide-react";
+import { Mail, AlertTriangle, CheckCircle2, Loader2, ArrowRight, Home, LogIn } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
