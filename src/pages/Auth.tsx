@@ -40,6 +40,8 @@ const Auth = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [loginData, setLoginData] = useState({ email: "", password: "" });
   const [signupData, setSignupData] = useState({ name: "", email: "", password: "" });
+  const [pendingConfirmationEmail, setPendingConfirmationEmail] = useState<string | null>(null);
+
 
   // Vérifier si l'utilisateur est déjà connecté
   useEffect(() => {
