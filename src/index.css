@@ -2,175 +2,166 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Design System IMMO LINK SÉNÉGAL
-   Palette basée sur le logo: Vert nature + Rouge intense + Or doré
-   Esthétique: Glassmorphism + Gradients chauds + Élégance africaine
+/* Design System IMMO LINK — SaaS immobilier premium
+   Palette: Bleu nuit (confiance) + Orange/Doré (accent CTA) + Blanc cassé
 */
 
 @layer base {
   :root {
-    /* Backgrounds - Blanc pur */
-    --background: 0 0% 100%;
-    --foreground: 140 100% 8%;
+    /* Backgrounds - Blanc cassé premium */
+    --background: 210 30% 99%;
+    --foreground: 219 45% 12%;
 
     --card: 0 0% 100%;
-    --card-foreground: 140 100% 8%;
+    --card-foreground: 219 45% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 140 100% 8%;
+    --popover-foreground: 219 45% 12%;
 
-
-    /* Primary - Vert profond du logo */
-    --primary: 140 100% 18%;
+    /* Primary - Bleu nuit */
+    --primary: 219 62% 16%;
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 140 80% 28%;
+    --primary-glow: 219 48% 30%;
 
-    /* Secondary - Rouge intense du logo */
-    --secondary: 0 100% 41%;
+    /* Secondary - Orange premium (CTA) */
+    --secondary: 26 92% 50%;
     --secondary-foreground: 0 0% 100%;
-    --secondary-glow: 0 90% 52%;
+    --secondary-glow: 26 96% 60%;
 
-    /* Accent - Or doré du logo */
-    --accent: 45 95% 53%;
-    --accent-foreground: 140 100% 12%;
-    --accent-glow: 45 100% 63%;
+    /* Accent - Doré */
+    --accent: 40 94% 52%;
+    --accent-foreground: 219 62% 12%;
+    --accent-glow: 40 96% 64%;
 
-    /* Tertiary - Vert très foncé */
-    --tertiary: 140 100% 12%;
+    /* Tertiary - Bleu nuit clair */
+    --tertiary: 219 40% 28%;
     --tertiary-foreground: 0 0% 100%;
-    --tertiary-glow: 140 80% 22%;
+    --tertiary-glow: 219 40% 40%;
 
+    --muted: 214 28% 96%;
+    --muted-foreground: 218 14% 42%;
 
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 40%;
-
-    --destructive: 0 100% 41%;
+    --destructive: 0 78% 48%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 92%;
-    --input: 0 0% 98%;
-    --input-foreground: 140 100% 12%;
-    --ring: 140 100% 18%;
+    --border: 216 22% 91%;
+    --input: 210 30% 99%;
+    --input-foreground: 219 45% 12%;
+    --ring: 26 92% 50%;
 
+    --radius: 0.875rem;
 
-    --radius: 1rem;
+    --gradient-hero: linear-gradient(135deg, hsl(219 62% 16%) 0%, hsl(219 52% 22%) 55%, hsl(219 40% 28%) 100%);
+    --gradient-cyber: linear-gradient(90deg, hsl(219 62% 16%) 0%, hsl(26 92% 50%) 60%, hsl(40 94% 52%) 100%);
+    --gradient-neon: linear-gradient(145deg, hsl(219 62% 16% / 0.06) 0%, hsl(26 92% 50% / 0.06) 100%);
+    --gradient-dark: linear-gradient(180deg, hsl(219 62% 16%) 0%, hsl(219 55% 11%) 100%);
+    --gradient-glow: radial-gradient(ellipse at center, hsl(26 92% 50% / 0.12) 0%, transparent 70%);
+    --gradient-holographic: linear-gradient(45deg, hsl(219 62% 16% / 0.05), hsl(26 92% 50% / 0.05), hsl(40 94% 52% / 0.05));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(214 30% 99%) 100%);
+    --gradient-mesh: radial-gradient(at 15% 15%, hsl(219 62% 16% / 0.07) 0px, transparent 55%), radial-gradient(at 85% 10%, hsl(26 92% 50% / 0.09) 0px, transparent 50%), radial-gradient(at 80% 85%, hsl(40 94% 52% / 0.07) 0px, transparent 55%);
 
-    --gradient-hero: linear-gradient(135deg, hsl(0 0% 100%) 0%, hsl(45 30% 98%) 50%, hsl(140 25% 97%) 100%);
-    --gradient-cyber: linear-gradient(90deg, hsl(140 100% 18%) 0%, hsl(45 95% 53%) 50%, hsl(0 100% 41%) 100%);
-    --gradient-neon: linear-gradient(145deg, hsl(140 100% 18% / 0.08) 0%, hsl(45 95% 53% / 0.08) 50%, hsl(0 100% 41% / 0.08) 100%);
-    --gradient-dark: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(0 0% 97%) 100%);
-    --gradient-glow: radial-gradient(ellipse at center, hsl(140 100% 18% / 0.1) 0%, transparent 70%);
-    --gradient-holographic: linear-gradient(45deg, hsl(140 100% 18% / 0.06), hsl(45 95% 53% / 0.06), hsl(0 100% 41% / 0.06));
-    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(45 20% 99%) 100%);
-    --gradient-mesh: radial-gradient(at 20% 20%, hsl(140 100% 18% / 0.12) 0px, transparent 50%), radial-gradient(at 80% 10%, hsl(45 95% 53% / 0.15) 0px, transparent 50%), radial-gradient(at 80% 80%, hsl(0 100% 41% / 0.1) 0px, transparent 50%);
+    --shadow-neon-cyan: 0 4px 20px hsl(219 62% 16% / 0.12);
+    --shadow-neon-violet: 0 4px 20px hsl(26 92% 50% / 0.16);
+    --shadow-neon-orange: 0 8px 24px hsl(26 92% 50% / 0.22);
+    --shadow-neon-magenta: 0 4px 20px hsl(40 94% 52% / 0.18);
+    --shadow-elevated: 0 24px 60px -20px hsl(219 62% 16% / 0.22);
+    --shadow-card: 0 1px 2px hsl(219 40% 12% / 0.04), 0 12px 28px -14px hsl(219 40% 12% / 0.16);
+    --shadow-soft: 0 2px 10px hsl(219 40% 12% / 0.06);
+    --shadow-logo: 0 18px 45px -18px hsl(219 62% 16% / 0.35);
 
-    --shadow-neon-cyan: 0 4px 20px hsl(140 100% 18% / 0.15), 0 0 40px hsl(140 100% 18% / 0.08);
-    --shadow-neon-violet: 0 4px 20px hsl(0 100% 41% / 0.15), 0 0 40px hsl(0 100% 41% / 0.08);
-    --shadow-neon-orange: 0 4px 20px hsl(45 95% 53% / 0.22), 0 0 40px hsl(45 95% 53% / 0.1);
-    --shadow-neon-magenta: 0 4px 20px hsl(0 100% 41% / 0.15), 0 0 40px hsl(0 100% 41% / 0.08);
-    --shadow-elevated: 0 20px 50px -12px hsl(140 100% 12% / 0.18), 0 0 30px hsl(140 100% 18% / 0.06);
-    --shadow-card: 0 4px 24px hsl(140 100% 12% / 0.08), 0 1px 2px hsl(0 0% 0% / 0.04);
-    --shadow-soft: 0 2px 10px hsl(140 100% 12% / 0.06);
-    --shadow-logo: 0 10px 40px -10px hsl(140 100% 18% / 0.25), 0 4px 20px hsl(45 95% 53% / 0.15);
-
-    --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-smooth: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-    --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    --transition-glow: all 0.4s ease-out;
+    --transition-base: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-smooth: all 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+    --transition-bounce: all 0.5s cubic-bezier(0.68, -0.4, 0.265, 1.45);
+    --transition-glow: all 0.3s ease-out;
 
     /* === DESIGN TOKENS - Bordures photos biens === */
     --property-image-border-color: hsl(var(--primary));
     --property-image-border-width: 0px;
     --property-image-border-radius: 1rem;
 
-    --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 140 100% 12%;
-    --sidebar-primary: 140 100% 18%;
+    --sidebar-background: 219 62% 16%;
+    --sidebar-foreground: 210 30% 96%;
+    --sidebar-primary: 26 92% 50%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 45 30% 96%;
-    --sidebar-accent-foreground: 140 100% 12%;
-    --sidebar-border: 0 0% 92%;
-    --sidebar-ring: 140 100% 18%;
+    --sidebar-accent: 219 45% 22%;
+    --sidebar-accent-foreground: 210 30% 96%;
+    --sidebar-border: 219 40% 24%;
+    --sidebar-ring: 26 92% 50%;
   }
 
   .dark {
-    /* Backgrounds - Vert très foncé du logo (légère teinte) */
-    --background: 140 30% 6%;
-    --foreground: 45 30% 96%;
+    --background: 219 45% 8%;
+    --foreground: 210 30% 96%;
 
-    --card: 140 25% 9%;
-    --card-foreground: 45 30% 96%;
+    --card: 219 42% 11%;
+    --card-foreground: 210 30% 96%;
 
-    --popover: 140 25% 9%;
-    --popover-foreground: 45 30% 96%;
+    --popover: 219 42% 11%;
+    --popover-foreground: 210 30% 96%;
 
-    /* Primary - Vert du logo éclairci pour rester lisible sur fond sombre */
-    --primary: 140 70% 50%;
-    --primary-foreground: 140 100% 8%;
-    --primary-glow: 140 80% 60%;
+    --primary: 214 80% 66%;
+    --primary-foreground: 219 62% 10%;
+    --primary-glow: 214 85% 74%;
 
-    /* Secondary - Rouge ajusté pour AA contre texte blanc en mode sombre */
-    --secondary: 0 80% 48%;
-    --secondary-foreground: 0 0% 100%;
-    --secondary-glow: 0 90% 62%;
+    --secondary: 26 92% 55%;
+    --secondary-foreground: 219 62% 10%;
+    --secondary-glow: 26 96% 65%;
 
-    /* Accent - Or doré (déjà vibrant, légèrement adouci) */
-    --accent: 45 95% 60%;
-    --accent-foreground: 140 100% 8%;
-    --accent-glow: 45 100% 70%;
+    --accent: 40 94% 58%;
+    --accent-foreground: 219 62% 10%;
+    --accent-glow: 40 96% 68%;
 
-    /* Tertiary */
-    --tertiary: 140 70% 45%;
+    --tertiary: 214 60% 55%;
     --tertiary-foreground: 0 0% 100%;
-    --tertiary-glow: 140 80% 55%;
+    --tertiary-glow: 214 70% 65%;
 
-    --muted: 140 15% 14%;
-    --muted-foreground: 45 15% 70%;
+    --muted: 219 30% 16%;
+    --muted-foreground: 214 18% 72%;
 
-    --destructive: 0 80% 48%;
+    --destructive: 0 74% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 140 20% 18%;
-    --input: 140 20% 14%;
-    --input-foreground: 45 30% 96%;
-    --ring: 140 70% 50%;
+    --border: 219 28% 20%;
+    --input: 219 30% 15%;
+    --input-foreground: 210 30% 96%;
+    --ring: 26 92% 55%;
 
-    /* Dark-mode gradients & shadows tuned for contrast */
-    --gradient-hero: linear-gradient(135deg, hsl(140 30% 6%) 0%, hsl(140 25% 9%) 50%, hsl(140 30% 8%) 100%);
-    --gradient-cyber: linear-gradient(90deg, hsl(140 70% 50%) 0%, hsl(45 95% 60%) 50%, hsl(0 85% 60%) 100%);
-    --gradient-neon: linear-gradient(145deg, hsl(140 70% 50% / 0.15) 0%, hsl(45 95% 60% / 0.15) 50%, hsl(0 85% 60% / 0.15) 100%);
-    --gradient-dark: linear-gradient(180deg, hsl(140 30% 6%) 0%, hsl(140 25% 4%) 100%);
-    --gradient-glow: radial-gradient(ellipse at center, hsl(140 70% 50% / 0.18) 0%, transparent 70%);
-    --gradient-holographic: linear-gradient(45deg, hsl(140 70% 50% / 0.1), hsl(45 95% 60% / 0.1), hsl(0 85% 60% / 0.1));
-    --gradient-card: linear-gradient(145deg, hsl(140 25% 10%) 0%, hsl(140 25% 8%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(219 45% 8%) 0%, hsl(219 42% 12%) 60%, hsl(219 40% 16%) 100%);
+    --gradient-cyber: linear-gradient(90deg, hsl(214 80% 66%) 0%, hsl(26 92% 55%) 60%, hsl(40 94% 58%) 100%);
+    --gradient-neon: linear-gradient(145deg, hsl(214 80% 66% / 0.12) 0%, hsl(26 92% 55% / 0.12) 100%);
+    --gradient-dark: linear-gradient(180deg, hsl(219 45% 8%) 0%, hsl(219 45% 5%) 100%);
+    --gradient-glow: radial-gradient(ellipse at center, hsl(26 92% 55% / 0.18) 0%, transparent 70%);
+    --gradient-holographic: linear-gradient(45deg, hsl(214 80% 66% / 0.1), hsl(26 92% 55% / 0.1), hsl(40 94% 58% / 0.1));
+    --gradient-card: linear-gradient(145deg, hsl(219 42% 12%) 0%, hsl(219 42% 10%) 100%);
     --gradient-mesh:
-      radial-gradient(at 20% 20%, hsl(140 70% 50% / 0.18) 0px, transparent 50%),
-      radial-gradient(at 80% 10%, hsl(45 95% 60% / 0.18) 0px, transparent 50%),
-      radial-gradient(at 80% 80%, hsl(0 85% 60% / 0.15) 0px, transparent 50%);
+      radial-gradient(at 15% 15%, hsl(214 80% 66% / 0.14) 0px, transparent 55%),
+      radial-gradient(at 85% 10%, hsl(26 92% 55% / 0.16) 0px, transparent 50%),
+      radial-gradient(at 80% 85%, hsl(40 94% 58% / 0.12) 0px, transparent 55%);
 
-    --shadow-neon-cyan: 0 4px 20px hsl(140 70% 50% / 0.25), 0 0 40px hsl(140 70% 50% / 0.15);
-    --shadow-neon-violet: 0 4px 20px hsl(0 85% 60% / 0.25), 0 0 40px hsl(0 85% 60% / 0.15);
-    --shadow-neon-orange: 0 4px 20px hsl(45 95% 60% / 0.3), 0 0 40px hsl(45 95% 60% / 0.15);
-    --shadow-neon-magenta: 0 4px 20px hsl(0 85% 60% / 0.25), 0 0 40px hsl(0 85% 60% / 0.15);
-    --shadow-elevated: 0 20px 50px -12px hsl(0 0% 0% / 0.6), 0 0 30px hsl(140 70% 50% / 0.1);
+    --shadow-neon-cyan: 0 4px 20px hsl(214 80% 66% / 0.22);
+    --shadow-neon-violet: 0 4px 20px hsl(26 92% 55% / 0.25);
+    --shadow-neon-orange: 0 8px 24px hsl(26 92% 55% / 0.3);
+    --shadow-neon-magenta: 0 4px 20px hsl(40 94% 58% / 0.25);
+    --shadow-elevated: 0 24px 60px -20px hsl(0 0% 0% / 0.6);
     --shadow-card: 0 4px 24px hsl(0 0% 0% / 0.4), 0 1px 2px hsl(0 0% 0% / 0.3);
     --shadow-soft: 0 2px 10px hsl(0 0% 0% / 0.35);
-    --shadow-logo: 0 10px 40px -10px hsl(140 70% 50% / 0.35), 0 4px 20px hsl(45 95% 60% / 0.2);
+    --shadow-logo: 0 18px 45px -18px hsl(0 0% 0% / 0.6);
 
     /* === DESIGN TOKENS - Bordures photos biens (dark mode) === */
     --property-image-border-color: hsl(var(--primary));
     --property-image-border-width: 0px;
     --property-image-border-radius: 1rem;
 
-    --sidebar-background: 140 25% 8%;
-    --sidebar-foreground: 45 30% 96%;
-    --sidebar-primary: 140 70% 50%;
-    --sidebar-primary-foreground: 140 100% 8%;
-    --sidebar-accent: 140 20% 14%;
-    --sidebar-accent-foreground: 45 30% 96%;
-    --sidebar-border: 140 20% 18%;
-    --sidebar-ring: 140 70% 50%;
+    --sidebar-background: 219 45% 7%;
+    --sidebar-foreground: 210 30% 96%;
+    --sidebar-primary: 26 92% 55%;
+    --sidebar-primary-foreground: 219 62% 10%;
+    --sidebar-accent: 219 30% 16%;
+    --sidebar-accent-foreground: 210 30% 96%;
+    --sidebar-border: 219 28% 20%;
+    --sidebar-ring: 26 92% 55%;
   }
+
 
 }
 
@@ -180,7 +171,7 @@
   }
 
   body {
-    font-family: 'Inter', 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     background: hsl(var(--background));
     background-attachment: fixed;
     color: hsl(var(--foreground));
@@ -189,8 +180,9 @@
   }
   
   h1, h2, h3, h4, h5, h6 {
-    font-weight: 700;
-    letter-spacing: -0.025em;
+    font-family: 'Manrope', 'Inter', sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.03em;
   }
 
   /* Scrollbar élégante (theme-aware) */

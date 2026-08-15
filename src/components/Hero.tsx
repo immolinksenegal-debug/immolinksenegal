@@ -1,201 +1,170 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, MapPin, Home, Sparkles, ArrowDown } from "lucide-react";
+import { Search, MapPin, Home, ShieldCheck } from "lucide-react";
 import heroImageDesktop from "@/assets/hero-senegal-futuriste.jpg";
 import heroImageMobile from "@/assets/hero-senegal-futuriste-mobile.jpg";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useIsMobile } from "@/hooks/use-mobile";
+
+const stats = [
+  { value: "+10 000", label: "biens immobiliers" },
+  { value: "+1 500", label: "propriétaires" },
+  { value: "+500", label: "professionnels" },
+];
 
 const Hero = () => {
   const navigate = useNavigate();
-  const isMobile = useIsMobile();
+  const [mode, setMode] = useState<"vente" | "location">("vente");
   const [propertyType, setPropertyType] = useState<string>("");
   const [city, setCity] = useState<string>("");
   const [maxPrice, setMaxPrice] = useState<string>("");
 
   const handleSearch = () => {
     const params = new URLSearchParams();
-    if (propertyType) params.set('type', propertyType);
-    if (city) params.set('city', city);
-    if (maxPrice) params.set('maxPrice', maxPrice);
+    params.set("transaction", mode);
+    if (propertyType) params.set("type", propertyType);
+    if (city) params.set("city", city);
+    if (maxPrice) params.set("maxPrice", maxPrice);
     navigate(`/properties?${params.toString()}`);
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Full Background Image - much more visible */}
+    <section className="relative min-h-[92vh] flex items-center overflow-hidden">
+      {/* Photographie immobilière plein écran */}
       <div className="absolute inset-0 z-0">
         <picture className="w-full h-full">
           <source media="(max-width: 768px)" srcSet={heroImageMobile} />
           <source media="(min-width: 769px)" srcSet={heroImageDesktop} />
-          <img 
-            src={heroImageDesktop} 
-            alt="Dakar futuriste - Immobilier moderne au Sénégal" 
-            className="w-full h-full object-cover object-[center_35%] sm:object-center" 
+          <img
+            src={heroImageDesktop}
+            alt="Villa contemporaine haut de gamme au Sénégal"
+            className="w-full h-full object-cover object-[center_40%]"
           />
         </picture>
-        {/* Color-tinted overlay: lighter so the image shows through, with brand color hints */}
-        {/* Stronger overlay for text readability on any background image */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/65 to-background/85 sm:from-background/70 sm:via-background/55 sm:to-background/80"></div>
-        <div className="absolute inset-0 bg-gradient-to-tr from-primary/15 via-transparent to-secondary/15"></div>
-        {/* Subtle color tints from logo */}
-        <div className="absolute inset-0 bg-mesh opacity-70"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,hsl(var(--primary)/0.15)_0%,transparent_60%)]"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,hsl(var(--secondary)/0.12)_0%,transparent_60%)]"></div>
-        {/* Central radial darkener to lift title contrast */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,hsl(var(--background)/0.5)_0%,transparent_70%)]"></div>
+        {/* Voile bleu nuit pour lisibilité premium */}
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/80 to-primary/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-transparent to-primary/40" />
       </div>
 
-      {/* Content */}
-      <div className="container mx-auto px-4 relative z-10 pt-24 pb-12">
-        <div className="max-w-5xl mx-auto text-center flex flex-col items-center">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-5 py-2.5 mb-8 rounded-full bg-background/80 backdrop-blur-md border border-primary/30">
-            <Sparkles className="w-4 h-4 text-primary animate-pulse" />
-            <span className="text-sm font-semibold text-primary">
-              Plateforme immobilière N°1 au Sénégal
+      <div className="container mx-auto px-4 sm:px-6 relative z-10 pt-28 pb-16">
+        <div className="max-w-3xl">
+          <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full bg-primary-foreground/10 backdrop-blur-md border border-primary-foreground/20">
+            <ShieldCheck className="w-4 h-4 text-accent" />
+            <span className="text-xs sm:text-sm font-semibold tracking-wide text-primary-foreground">
+              Plateforme immobilière sécurisée — Sénégal & Afrique de l'Ouest
             </span>
           </div>
 
-          <div className="mb-6 px-2">
-            <h1 className="text-3xl xs:text-4xl md:text-6xl lg:text-7xl font-black leading-[1.15] tracking-tight text-foreground [text-shadow:0_2px_20px_hsl(var(--background)/0.8),0_1px_3px_hsl(var(--background)/0.9)]">
-              Trouvez votre
-            </h1>
-            <h1 className="text-3xl xs:text-4xl md:text-6xl lg:text-7xl font-black leading-[1.15] tracking-tight text-secondary [text-shadow:0_2px_20px_hsl(var(--background)/0.9),0_0_30px_hsl(var(--secondary)/0.4),0_1px_3px_hsl(var(--background))]">
-              bien idéal
-            </h1>
-          </div>
-          
-          <p className="text-lg xs:text-xl md:text-2xl mb-10 max-w-2xl mx-auto px-4 text-foreground/90 font-semibold [text-shadow:0_1px_12px_hsl(var(--background)/0.85),0_1px_2px_hsl(var(--background)/0.9)]">
-            Gestion locative, vente et estimation — votre partenaire de confiance au Sénégal
+          <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] text-primary-foreground">
+            Trouvez le bien qui correspond à
+            <span className="text-accent"> votre projet.</span>
+          </h1>
+
+          <p className="mt-5 text-base sm:text-lg lg:text-xl text-primary-foreground/85 max-w-2xl leading-relaxed">
+            Achetez, louez, vendez ou publiez votre bien immobilier sur une plateforme simple,
+            moderne et sécurisée.
           </p>
+        </div>
 
-
-          {/* Search Bar - Modern floating card */}
-          <div className="w-full max-w-4xl mx-auto mb-12">
-            <div className="bg-gradient-to-br from-primary/[0.08] via-accent/[0.03] to-secondary/[0.06] backdrop-blur-2xl rounded-3xl p-4 xs:p-6 border border-primary/20 shadow-logo">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                <div className="sm:col-span-1">
-                  {isMobile ? (
-                    <div className="relative">
-                      <Home className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-primary flex-shrink-0 pointer-events-none z-10" />
-                      <select 
-                        value={propertyType} 
-                        onChange={e => setPropertyType(e.target.value)} 
-                        className="w-full bg-primary/[0.08] border border-primary/30 h-12 rounded-xl text-sm pl-10 pr-3 appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/60 focus:border-primary active:border-primary transition-all text-foreground font-medium"
-                        style={{
-                          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23005C00' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
-                          backgroundRepeat: 'no-repeat',
-                          backgroundPosition: 'right 0.5rem center',
-                          backgroundSize: '1.5em 1.5em'
-                        }}
-                      >
-                        <option value="">Type de bien</option>
-                        <option value="Appartement">Appartement</option>
-                        <option value="Maison">Maison</option>
-                        <option value="Villa">Villa</option>
-                        <option value="Terrain">Terrain</option>
-                        <option value="Bureau">Bureau</option>
-                      </select>
-                    </div>
-                  ) : (
-                    <Select value={propertyType} onValueChange={setPropertyType}>
-                      <SelectTrigger className="w-full bg-primary/[0.08] border-primary/30 h-12 rounded-xl text-sm hover:border-primary/60 focus:border-primary focus:ring-2 focus:ring-primary/60 transition-all text-foreground font-medium">
-                        <Home className="h-4 w-4 mr-2 text-primary flex-shrink-0" />
-                        <SelectValue placeholder="Type de bien" />
-                      </SelectTrigger>
-                      <SelectContent position="popper" sideOffset={4} align="start" className="glass-effect border-primary/30">
-                        <SelectItem value="Appartement">Appartement</SelectItem>
-                        <SelectItem value="Maison">Maison</SelectItem>
-                        <SelectItem value="Villa">Villa</SelectItem>
-                        <SelectItem value="Terrain">Terrain</SelectItem>
-                        <SelectItem value="Bureau">Bureau</SelectItem>
-                      </SelectContent>
-                    </Select>
+        {/* Barre de recherche flottante */}
+        <div className="mt-9 w-full max-w-5xl">
+          <div className="rounded-2xl bg-card shadow-[0_30px_70px_-30px_hsl(var(--primary)/0.6)] border border-border overflow-hidden">
+            {/* Onglets */}
+            <div className="flex border-b border-border">
+              {([
+                { key: "vente", label: "Acheter" },
+                { key: "location", label: "Louer" },
+              ] as const).map((tab) => (
+                <button
+                  key={tab.key}
+                  type="button"
+                  onClick={() => setMode(tab.key)}
+                  className={`relative px-6 sm:px-8 py-3.5 text-sm sm:text-base font-semibold transition-colors ${
+                    mode === tab.key
+                      ? "text-primary"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {tab.label}
+                  {mode === tab.key && (
+                    <span className="absolute bottom-0 left-4 right-4 h-[3px] rounded-full bg-secondary" />
                   )}
-                </div>
+                </button>
+              ))}
+            </div>
 
-                <div className="sm:col-span-1">
-                <div className="relative">
-                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-primary" />
-                    <Input 
-                      placeholder="Ville" 
-                      value={city} 
-                      onChange={e => setCity(e.target.value)} 
-                      className="pl-10 bg-primary/[0.08] border-primary/30 h-12 rounded-xl text-sm text-foreground font-medium placeholder:text-foreground/60 hover:border-primary/60 focus:border-primary focus-visible:ring-2 focus-visible:ring-primary/60 transition-all" 
-                    />
-                  </div>
-                </div>
+            <div className="p-4 sm:p-5 grid grid-cols-1 md:grid-cols-12 gap-3">
+              <div className="md:col-span-4 relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Que recherchez-vous ?"
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  className="h-12 pl-10 rounded-xl bg-background border-border text-foreground placeholder:text-muted-foreground"
+                />
+              </div>
 
-                <div className="sm:col-span-1">
-                <div className="relative">
-                    <Input 
-                      placeholder="Prix max (XOF)" 
-                      type="number" 
-                      value={maxPrice} 
-                      onChange={e => setMaxPrice(e.target.value)} 
-                      className="px-4 bg-primary/[0.08] border-primary/30 h-12 rounded-xl text-sm text-foreground font-medium placeholder:text-foreground/60 hover:border-secondary/60 focus:border-secondary focus-visible:ring-2 focus-visible:ring-secondary/60 transition-all" 
-                    />
-                  </div>
-                </div>
+              <div className="md:col-span-3 relative">
+                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground z-10" />
+                <Input
+                  placeholder="Localisation"
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  className="h-12 pl-10 rounded-xl bg-background border-border text-foreground placeholder:text-muted-foreground"
+                />
+              </div>
 
-                <div className="sm:col-span-2 lg:col-span-1">
-                  <Button 
-                    onClick={handleSearch} 
-                    className="w-full h-12 bg-gradient-to-r from-primary to-secondary !text-primary-foreground shadow-[0_10px_25px_hsl(var(--primary)/0.35)] hover:shadow-[0_0_30px_hsl(var(--secondary)/0.5)] transition-all duration-300 rounded-xl font-bold text-sm group"
-                  >
-                    <Search className="h-5 w-5 mr-2 group-hover:scale-110 transition-transform" />
-                    Rechercher
-                  </Button>
-                </div>
+              <div className="md:col-span-2">
+                <Select value={propertyType} onValueChange={setPropertyType}>
+                  <SelectTrigger className="h-12 rounded-xl bg-background border-border text-foreground">
+                    <Home className="h-4 w-4 mr-2 text-muted-foreground shrink-0" />
+                    <SelectValue placeholder="Type" />
+                  </SelectTrigger>
+                  <SelectContent position="popper" sideOffset={4} align="start">
+                    <SelectItem value="Appartement">Appartement</SelectItem>
+                    <SelectItem value="Villa">Villa</SelectItem>
+                    <SelectItem value="Maison">Maison</SelectItem>
+                    <SelectItem value="Terrain">Terrain</SelectItem>
+                    <SelectItem value="Bureau">Bureau</SelectItem>
+                    <SelectItem value="Commerce">Commerce</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="md:col-span-2">
+                <Input
+                  placeholder="Budget max"
+                  type="number"
+                  value={maxPrice}
+                  onChange={(e) => setMaxPrice(e.target.value)}
+                  className="h-12 rounded-xl bg-background border-border text-foreground placeholder:text-muted-foreground"
+                />
+              </div>
+
+              <div className="md:col-span-1">
+                <Button
+                  onClick={handleSearch}
+                  className="w-full h-12 rounded-xl bg-secondary text-secondary-foreground hover:bg-secondary/90 font-semibold shadow-[0_10px_24px_-10px_hsl(var(--secondary)/0.9)] transition-all"
+                >
+                  <Search className="h-4 w-4 md:mr-0 mr-2" />
+                  <span className="md:hidden">Rechercher</span>
+                </Button>
               </div>
             </div>
           </div>
 
-          {/* Stats - Modern bento grid */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 xs:gap-4 w-full max-w-4xl mx-auto px-2">
-            {[
-              { label: "Biens disponibles", value: "500+", color: "primary" as const },
-              { label: "Villes couvertes", value: "15+", color: "secondary" as const },
-              { label: "Clients satisfaits", value: "1000+", color: "primary" as const },
-              { label: "Agences partenaires", value: "50+", color: "secondary" as const },
-            ].map((stat, index) => (
-              <div
-                key={index}
-                className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/[0.08] to-secondary/[0.06] backdrop-blur-xl border border-primary/30 p-4 xs:p-5 hover:-translate-y-1 hover:border-primary/60 hover:shadow-card transition-all duration-500"
-                style={{ animationDelay: `${index * 80}ms` }}
-              >
-                <div className={`absolute -top-8 -right-8 w-24 h-24 rounded-full blur-2xl transition-all duration-500 ${
-                  stat.color === 'primary'
-                    ? 'bg-primary/20 group-hover:bg-primary/30'
-                    : 'bg-secondary/20 group-hover:bg-secondary/30'
-                }`} />
-                <div className="relative flex flex-col items-start">
-                  <span className={`text-3xl xs:text-4xl font-black leading-none drop-shadow-[0_2px_8px_hsl(var(--background)/0.6)] ${
-                    stat.color === 'primary' ? 'text-primary' : 'text-secondary'
-                  }`}>
-                    {stat.value}
-                  </span>
-                  <span className="mt-2 text-xs xs:text-sm font-semibold text-foreground text-left [text-shadow:0_1px_8px_hsl(var(--background)/0.7)]">
-                    {stat.label}
-                  </span>
-                </div>
+          {/* Chiffres clés */}
+          <div className="mt-6 flex flex-wrap items-center gap-x-10 gap-y-3">
+            {stats.map((s) => (
+              <div key={s.label} className="flex items-baseline gap-2">
+                <span className="font-display text-2xl sm:text-3xl font-extrabold text-accent">{s.value}</span>
+                <span className="text-sm text-primary-foreground/80">{s.label}</span>
               </div>
             ))}
           </div>
-
         </div>
       </div>
-
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce">
-        <ArrowDown className="w-6 h-6 text-primary/40" />
-      </div>
-
-      {/* Bottom gradient fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-primary/10 to-transparent pointer-events-none"></div>
     </section>
   );
 };

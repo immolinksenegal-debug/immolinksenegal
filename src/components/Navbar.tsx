@@ -80,10 +80,10 @@ const Navbar = () => {
   };
 
   const baseNavLinks = [
-    { to: "/", label: "Accueil", icon: Home },
-    { to: "/properties", label: "Biens", icon: Building2 },
-    { to: "/articles", label: "Actualités immobilières", icon: Newspaper },
-    { to: "/estimation-gratuite", label: "Estimation gratuite", icon: Calculator },
+    { to: "/properties?transaction=vente", label: "Acheter", icon: Building2 },
+    { to: "/properties?transaction=location", label: "Louer", icon: Home },
+    { to: "/estimation-gratuite", label: "Vendre", icon: Calculator },
+    { to: "/articles", label: "Actualités", icon: Newspaper },
   ];
 
   const navLinks = user
@@ -92,116 +92,136 @@ const Navbar = () => {
         { to: "/dashboard", label: isAdmin ? "Dashboard admin" : "Dashboard", icon: PlusCircle },
         ...(isAdmin ? [{ to: "/admin", label: "Admin", icon: Shield }] : []),
       ]
-    : [
-        ...baseNavLinks,
-        { to: "/auth", label: "Connexion", icon: User },
-      ];
+    : [...baseNavLinks, { to: "/auth", label: "Connexion", icon: User }];
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-      scrolled 
-        ? 'bg-background/80 backdrop-blur-xl shadow-[0_4px_30px_hsl(var(--primary)/0.15)] border-b border-primary/20' 
-        : 'bg-background/40 backdrop-blur-md border-b border-primary/10'
-    }`}>
-      {/* Neon top line */}
-      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-primary via-accent to-secondary opacity-90" />
-      
-      <div className="container mx-auto px-2 xs:px-4 sm:px-6">
-        <div className="flex items-center justify-between h-16 xs:h-18 md:h-20 lg:h-24">
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-background/95 backdrop-blur-xl border-b border-border shadow-soft"
+          : "bg-transparent border-b border-transparent"
+      }`}
+    >
+      <div className="container mx-auto px-4 sm:px-6">
+        <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-1 xs:space-x-2 group relative">
-            <div className="absolute -inset-2 bg-primary/10 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <img 
-              src={logo} 
-              alt="Immo Link Sénégal" 
-              className="h-14 w-14 xs:h-16 xs:w-16 md:h-20 md:w-20 lg:h-24 lg:w-24 object-contain transition-all duration-500 group-hover:scale-105 group-hover:drop-shadow-[0_0_15px_hsl(var(--primary)/0.5)]" 
+          <Link to="/" className="flex items-center gap-2.5 group">
+            <img
+              src={logo}
+              alt="Immo Link Sénégal"
+              className="h-11 w-11 md:h-14 md:w-14 object-contain transition-transform duration-300 group-hover:scale-105"
             />
+            <span
+              className={`font-display text-lg md:text-xl font-extrabold tracking-tight ${
+                scrolled ? "text-foreground" : "text-primary-foreground"
+              }`}
+            >
+              IMMO LINK
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1 lg:space-x-2">
+          <div className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
               <Link key={link.to} to={link.to}>
-                <Button 
-                  variant="ghost" 
-                  className="relative text-xs lg:text-sm text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all duration-300 group"
+                <Button
+                  variant="ghost"
+                  className={`text-sm font-medium rounded-lg transition-colors ${
+                    scrolled
+                      ? "text-foreground/80 hover:text-primary hover:bg-muted"
+                      : "text-primary-foreground/85 hover:text-primary-foreground hover:bg-primary-foreground/10"
+                  }`}
                 >
-                  <link.icon className="h-3 w-3 lg:h-4 lg:w-4 mr-1 lg:mr-2 transition-all duration-300 group-hover:drop-shadow-[0_0_6px_hsl(var(--primary)/0.6)]" />
-                  <span className="hidden lg:inline">{link.label}</span>
-                  <span className="lg:hidden">{link.label.split(' ')[0]}</span>
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-gradient-to-r from-primary to-secondary group-hover:w-3/4 transition-all duration-300 rounded-full" />
+                  {link.label}
                 </Button>
               </Link>
             ))}
+
             {user ? (
-              <Button 
+              <Button
                 onClick={handleLogout}
-                variant="ghost" 
-                className="text-xs lg:text-sm text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all duration-300"
+                variant="ghost"
+                className={`text-sm font-medium rounded-lg ${
+                  scrolled
+                    ? "text-foreground/80 hover:text-destructive hover:bg-muted"
+                    : "text-primary-foreground/85 hover:text-primary-foreground hover:bg-primary-foreground/10"
+                }`}
               >
-                <LogOut className="h-3 w-3 lg:h-4 lg:w-4 mr-1 lg:mr-2" />
-                <span className="hidden lg:inline">Déconnexion</span>
-                <span className="lg:hidden">Sortir</span>
+                <LogOut className="h-4 w-4 mr-2" />
+                Déconnexion
               </Button>
             ) : (
-              <Link to="/dashboard">
-                <Button className="relative overflow-hidden bg-gradient-to-r from-primary via-accent to-secondary text-primary-foreground font-semibold text-xs lg:text-sm px-3 lg:px-5 shadow-[0_0_20px_hsl(var(--accent)/0.3)] hover:shadow-[0_0_30px_hsl(var(--accent)/0.5)] transition-all duration-500 border border-accent/30">
-                  <Zap className="h-3 w-3 lg:h-4 lg:w-4 mr-1 lg:mr-2" />
-                  <span className="hidden xl:inline">Publier une annonce</span>
-                  <span className="xl:hidden">Publier</span>
-                  <span className="absolute inset-0 bg-gradient-to-r from-secondary to-primary opacity-0 hover:opacity-100 transition-opacity duration-500" />
+              <Link to="/auth">
+                <Button
+                  variant="ghost"
+                  className={`text-sm font-semibold rounded-lg ${
+                    scrolled
+                      ? "text-primary hover:bg-muted"
+                      : "text-primary-foreground hover:bg-primary-foreground/10"
+                  }`}
+                >
+                  Créer un compte
                 </Button>
               </Link>
             )}
+
+            <Link to="/dashboard" className="ml-2">
+              <Button className="h-10 px-5 rounded-xl bg-secondary text-secondary-foreground hover:bg-secondary/90 font-semibold text-sm shadow-[0_10px_24px_-12px_hsl(var(--secondary)/0.9)]">
+                Publier une annonce
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="md:hidden">
-              <Button variant="ghost" size="icon" className="text-primary hover:bg-primary/10 hover:text-primary transition-all duration-300">
-                <Menu className="h-6 w-6 drop-shadow-[0_0_6px_hsl(var(--primary)/0.4)]" />
+              <Button
+                variant="ghost"
+                size="icon"
+                className={scrolled ? "text-foreground" : "text-primary-foreground"}
+              >
+                <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-64 xs:w-72 bg-background/95 backdrop-blur-xl border-l border-primary/20">
-              {/* Neon accent in mobile drawer */}
-              <div className="absolute top-0 left-0 bottom-0 w-[1px] bg-gradient-to-b from-primary via-secondary to-transparent opacity-60" />
-              
-              <div className="flex flex-col space-y-2 xs:space-y-3 mt-8">
+            <SheetContent side="right" className="w-72 bg-background border-l border-border">
+              <div className="flex flex-col gap-2 mt-10">
                 {navLinks.map((link) => (
-                  <Link
-                    key={link.to}
-                    to={link.to}
-                    onClick={() => setIsOpen(false)}
-                  >
-                    <Button 
-                      variant="ghost" 
-                      className="w-full justify-start text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all duration-300 text-sm xs:text-base group"
+                  <Link key={link.to} to={link.to} onClick={() => setIsOpen(false)}>
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start text-base font-medium text-foreground/85 hover:text-primary hover:bg-muted rounded-lg"
                     >
-                      <link.icon className="h-4 w-4 mr-3 transition-all duration-300 group-hover:drop-shadow-[0_0_6px_hsl(var(--primary)/0.6)]" />
+                      <link.icon className="h-4 w-4 mr-3 text-secondary" />
                       {link.label}
                     </Button>
                   </Link>
                 ))}
-                
-                <div className="h-[1px] bg-gradient-to-r from-primary/30 via-secondary/20 to-transparent my-2" />
-                
+
+                <div className="h-px bg-border my-2" />
+
                 {user ? (
-                  <Button 
+                  <Button
                     onClick={handleLogout}
-                    variant="ghost" 
-                    className="w-full justify-start text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all duration-300 text-sm xs:text-base"
+                    variant="ghost"
+                    className="w-full justify-start text-base text-foreground/85 hover:text-destructive hover:bg-muted rounded-lg"
                   >
                     <LogOut className="h-4 w-4 mr-3" />
                     Déconnexion
                   </Button>
                 ) : (
-                  <Link to="/dashboard" onClick={() => setIsOpen(false)}>
-                    <Button className="w-full bg-gradient-to-r from-primary via-accent to-secondary text-primary-foreground font-semibold shadow-[0_0_20px_hsl(var(--accent)/0.3)] transition-all duration-500 text-sm xs:text-base border border-accent/30">
-                      <Zap className="h-4 w-4 mr-2" />
-                      Publier une annonce
+                  <Link to="/auth" onClick={() => setIsOpen(false)}>
+                    <Button variant="outline" className="w-full rounded-xl border-primary/25 text-primary font-semibold">
+                      Créer un compte
                     </Button>
                   </Link>
                 )}
+
+                <Link to="/dashboard" onClick={() => setIsOpen(false)}>
+                  <Button className="w-full rounded-xl bg-secondary text-secondary-foreground hover:bg-secondary/90 font-semibold">
+                    <Zap className="h-4 w-4 mr-2" />
+                    Publier une annonce
+                  </Button>
+                </Link>
               </div>
             </SheetContent>
           </Sheet>
@@ -210,5 +230,6 @@ const Navbar = () => {
     </nav>
   );
 };
+
 
 export default Navbar;
