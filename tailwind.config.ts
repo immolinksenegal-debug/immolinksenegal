@@ -72,12 +72,13 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        sans: ['Inter', 'Manrope', 'system-ui', 'sans-serif'],
-        display: ['Manrope', 'Inter', 'sans-serif'],
+        sans: ['Manrope', 'system-ui', 'sans-serif'],
+        display: ['Archivo', 'Manrope', 'sans-serif'],
+        archivo: ['Archivo', 'sans-serif'],
         manrope: ['Manrope', 'sans-serif'],
         inter: ['Inter', 'sans-serif'],
         poppins: ['Poppins', 'sans-serif'],
-        futuristic: ['Manrope', 'Inter', 'sans-serif'],
+        futuristic: ['Archivo', 'Manrope', 'sans-serif'],
       },
       keyframes: {
         "accordion-down": {
