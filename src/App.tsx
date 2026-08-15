@@ -43,7 +43,7 @@ const App = () => (
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/checkout" element={<PackCheckout />} />
           <Route path="/preferences-notifications" element={<NotificationPreferences />} />
-          <Route path="/estimation-gratuite" element={<FreeEstimation />} />న
+          <Route path="/estimation-gratuite" element={<FreeEstimation />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/estimations" element={<EstimationManagement />} />
           <Route path="/admin/users" element={<UserManagement />} />
