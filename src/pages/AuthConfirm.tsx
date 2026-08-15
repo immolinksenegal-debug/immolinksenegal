@@ -1,10 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Mail, AlertTriangle, CheckCircle2, Loader2 } from "lucide-react";
+import { Mail, AlertTriangle, CheckCircle2, Loader2, ArrowRight, Home } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
@@ -26,6 +26,9 @@ const MESSAGES: Record<Exclude<Status, "checking" | "valid">, { title: string; d
       "Le lien a peut-être déjà été utilisé, ou il a été tronqué par votre messagerie. Demandez un nouveau lien pour activer votre compte.",
   },
 };
+
+const REDIRECT_DELAY_MS = 5000;
+
 
 const AuthConfirm = () => {
   const { toast } = useToast();
