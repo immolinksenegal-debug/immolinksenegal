@@ -3,6 +3,8 @@ import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import { Loader2, ShieldCheck, AlertCircle, CheckCircle2, Clock, RefreshCw } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -37,6 +39,25 @@ const PackCheckout = () => {
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const started = useRef(false);
+  const autoRelaunched = useRef(false);
+
+  // Consentement à la relance automatique du lien (même pack, même facturation)
+  const autoKey = `pack_auto_relance_${packId}_${billing}`;
+  const [autoRelance, setAutoRelance] = useState(false);
+
+  useEffect(() => {
+    try {
+      setAutoRelance(localStorage.getItem(autoKey) === "1");
+    } catch { /* ignore */ }
+  }, [autoKey]);
+
+  const toggleAutoRelance = (value: boolean) => {
+    setAutoRelance(value);
+    try {
+      if (value) localStorage.setItem(autoKey, "1");
+      else localStorage.removeItem(autoKey);
+    } catch { /* ignore */ }
+  };
 
   const idemStorageKey = `pack_idem_${packId}_${billing}`;
 
@@ -175,6 +196,13 @@ const PackCheckout = () => {
     return () => window.clearInterval(id);
   }, [state, pendingSince]);
 
+  // Relance automatique dès l'expiration, uniquement si l'utilisateur y a consenti
+  useEffect(() => {
+    if (state !== "expired" || !autoRelance || busy || autoRelaunched.current) return;
+    autoRelaunched.current = true;
+    startPayment(true);
+  }, [state, autoRelance, busy, startPayment]);
+
   const formatRemaining = (ms: number) => {
     const total = Math.max(0, Math.floor(ms / 1000));
     const m = String(Math.floor(total / 60)).padStart(2, "0");
@@ -235,7 +263,9 @@ const PackCheckout = () => {
           ) : state === "expired" ? (
             <>
               <Clock className="h-10 w-10 mx-auto text-destructive mb-4" />
-              <h1 className="text-2xl font-bold mb-2">Lien de paiement expiré</h1>
+              <h1 className="text-2xl font-bold mb-2">
+                {autoRelance ? "Génération d'un nouveau lien…" : "Lien de paiement expiré"}
+              </h1>
               <p className="text-muted-foreground mb-6">
                 Votre précédent lien pour le pack {packLabel} ({billingLabel}) n'est plus valable.
                 Relancez un nouveau paiement, le pack et la facturation restent identiques.
@@ -253,6 +283,20 @@ const PackCheckout = () => {
                   Changer de pack
                 </Button>
               </Link>
+              <div className="mt-4 flex items-start gap-3 rounded-2xl border border-border bg-muted/30 p-4 text-left">
+                <Switch
+                  id="auto-relance"
+                  checked={autoRelance}
+                  onCheckedChange={toggleAutoRelance}
+                  className="mt-0.5"
+                />
+                <Label htmlFor="auto-relance" className="cursor-pointer text-sm font-medium leading-snug">
+                  Relancer automatiquement le paiement à l'expiration
+                  <span className="block text-xs font-normal text-muted-foreground">
+                    Un nouveau lien sera généré pour le même pack ({packLabel}) et la même facturation ({billingLabel}).
+                  </span>
+                </Label>
+              </div>
             </>
           ) : (
             state === "pending" && paymentUrl ? (
@@ -281,6 +325,20 @@ const PackCheckout = () => {
                 {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4 mr-2" />}
                 Générer un nouveau lien
               </Button>
+              <div className="mt-4 flex items-start gap-3 rounded-2xl border border-border bg-muted/30 p-4 text-left">
+                <Switch
+                  id="auto-relance"
+                  checked={autoRelance}
+                  onCheckedChange={toggleAutoRelance}
+                  className="mt-0.5"
+                />
+                <Label htmlFor="auto-relance" className="cursor-pointer text-sm font-medium leading-snug">
+                  Relancer automatiquement le paiement à l'expiration
+                  <span className="block text-xs font-normal text-muted-foreground">
+                    Un nouveau lien sera généré pour le même pack ({packLabel}) et la même facturation ({billingLabel}).
+                  </span>
+                </Label>
+              </div>
             </>
             ) : (
             <>
