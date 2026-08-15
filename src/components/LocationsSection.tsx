@@ -11,16 +11,17 @@ import thiesImg from "@/assets/loc-thies.jpg";
 import saintLouisImg from "@/assets/loc-saint-louis.jpg";
 
 const locations = [
-  { city: "Dakar", span: "md:col-span-2 md:row-span-2", image: dakarImg, alt: "Vue aérienne de Dakar au coucher du soleil" },
-  { city: "Almadies", span: "", image: almadiesImg, alt: "Villas modernes en bord de mer aux Almadies" },
-  { city: "Mermoz", span: "", image: mermozImg, alt: "Immeubles résidentiels du quartier Mermoz à Dakar" },
-  { city: "Ngor", span: "", image: ngorImg, alt: "Île de Ngor et eaux turquoise" },
-  { city: "Saly", span: "md:col-span-2", image: salyImg, alt: "Plage de Saly bordée de palmiers" },
-  { city: "Mbour", span: "", image: mbourImg, alt: "Pirogues colorées sur la plage de Mbour" },
-  { city: "Diamniadio", span: "", image: diamniadioImg, alt: "Nouvelle ville moderne de Diamniadio" },
-  { city: "Thiès", span: "", image: thiesImg, alt: "Rue arborée de la ville de Thiès" },
-  { city: "Saint-Louis", span: "", image: saintLouisImg, alt: "Architecture coloniale de Saint-Louis et pont Faidherbe" },
+  { city: "Dakar", span: "col-span-2 row-span-2 md:col-span-2 md:row-span-2", image: dakarImg, alt: "Vue aérienne de Dakar au coucher du soleil", focal: "object-center", sizes: "(min-width: 768px) 50vw, 100vw" },
+  { city: "Almadies", span: "", image: almadiesImg, alt: "Villas modernes en bord de mer aux Almadies", focal: "object-center", sizes: "(min-width: 768px) 25vw, 50vw" },
+  { city: "Mermoz", span: "", image: mermozImg, alt: "Immeubles résidentiels du quartier Mermoz à Dakar", focal: "object-center", sizes: "(min-width: 768px) 25vw, 50vw" },
+  { city: "Ngor", span: "", image: ngorImg, alt: "Île de Ngor et eaux turquoise", focal: "object-center", sizes: "(min-width: 768px) 25vw, 50vw" },
+  { city: "Saly", span: "col-span-2 md:col-span-2", image: salyImg, alt: "Plage de Saly bordée de palmiers", focal: "object-[center_60%]", sizes: "(min-width: 768px) 50vw, 100vw" },
+  { city: "Mbour", span: "", image: mbourImg, alt: "Pirogues colorées sur la plage de Mbour", focal: "object-[center_55%]", sizes: "(min-width: 768px) 25vw, 50vw" },
+  { city: "Diamniadio", span: "", image: diamniadioImg, alt: "Nouvelle ville moderne de Diamniadio", focal: "object-center", sizes: "(min-width: 768px) 25vw, 50vw" },
+  { city: "Thiès", span: "", image: thiesImg, alt: "Rue arborée de la ville de Thiès", focal: "object-center", sizes: "(min-width: 768px) 25vw, 50vw" },
+  { city: "Saint-Louis", span: "", image: saintLouisImg, alt: "Architecture coloniale de Saint-Louis et pont Faidherbe", focal: "object-[center_45%]", sizes: "(min-width: 768px) 25vw, 50vw" },
 ];
+
 
 const LocationsSection = () => {
   return (
@@ -38,8 +39,8 @@ const LocationsSection = () => {
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[130px] sm:auto-rows-[160px] gap-4">
-          {locations.map(({ city, span, image, alt }) => (
+        <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[40vw] sm:auto-rows-[170px] md:auto-rows-[180px] lg:auto-rows-[200px] gap-3 sm:gap-4">
+          {locations.map(({ city, span, image, alt, focal, sizes }) => (
             <Link
               key={city}
               to={`/properties?city=${encodeURIComponent(city)}`}
@@ -49,8 +50,13 @@ const LocationsSection = () => {
                 src={image}
                 alt={alt}
                 loading="lazy"
-                className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                decoding="async"
+                sizes={sizes}
+                width={800}
+                height={600}
+                className={`absolute inset-0 h-full w-full object-cover ${focal} transition-transform duration-500 group-hover:scale-105`}
               />
+
               <div className="absolute inset-0 bg-primary/45 group-hover:bg-primary/35 transition-colors duration-300" />
               <div className="absolute inset-x-0 bottom-0 h-2/3 bg-[linear-gradient(to_top,hsl(var(--primary)/0.9),transparent)]" />
               <div className="absolute inset-0 flex flex-col justify-end p-4 sm:p-5">
