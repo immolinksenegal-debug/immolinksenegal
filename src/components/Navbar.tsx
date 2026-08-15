@@ -166,7 +166,7 @@ const Navbar = () => {
             )}
 
             <Link to="/dashboard" className="ml-2">
-              <Button className="h-10 px-5 rounded-xl bg-secondary text-secondary-foreground hover:bg-secondary/90 font-semibold text-sm shadow-[0_10px_24px_-12px_hsl(var(--secondary)/0.9)]">
+              <Button className="h-10 px-5 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-sm shadow-[0_10px_24px_-12px_hsl(var(--primary)/0.9)]">
                 Publier une annonce
               </Button>
             </Link>
@@ -217,7 +217,7 @@ const Navbar = () => {
                 )}
 
                 <Link to="/dashboard" onClick={() => setIsOpen(false)}>
-                  <Button className="w-full rounded-xl bg-secondary text-secondary-foreground hover:bg-secondary/90 font-semibold">
+                  <Button className="w-full rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 font-semibold">
                     <Zap className="h-4 w-4 mr-2" />
                     Publier une annonce
                   </Button>

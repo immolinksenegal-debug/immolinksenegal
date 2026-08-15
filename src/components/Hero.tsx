@@ -145,7 +145,7 @@ const Hero = () => {
               <div className="md:col-span-1">
                 <Button
                   onClick={handleSearch}
-                  className="w-full h-12 rounded-xl bg-secondary text-secondary-foreground hover:bg-secondary/90 font-semibold shadow-[0_10px_24px_-10px_hsl(var(--secondary)/0.9)] transition-all"
+                  className="w-full h-12 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 font-semibold shadow-[0_10px_24px_-10px_hsl(var(--primary)/0.9)] transition-all"
                 >
                   <Search className="h-4 w-4 md:mr-0 mr-2" />
                   <span className="md:hidden">Rechercher</span>
