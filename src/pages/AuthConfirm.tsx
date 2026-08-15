@@ -96,7 +96,7 @@ const AuthConfirm = () => {
 
 
   useEffect(() => {
-    if (status !== "valid") return;
+    if (status !== "valid" && status !== "already_confirmed") return;
 
     setCountdown(Math.ceil(REDIRECT_DELAY_MS / 1000));
     let remaining = REDIRECT_DELAY_MS;
@@ -114,6 +114,7 @@ const AuthConfirm = () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
   }, [status, redirectTarget, navigate]);
+
 
   const cancelRedirect = () => {
     if (timerRef.current) clearInterval(timerRef.current);
