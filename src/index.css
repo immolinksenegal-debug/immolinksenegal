@@ -736,9 +736,6 @@
     transform: none !important;
   }
 
-  .btn-sheen::after {
-    display: none !important;
-  }
 
 
   .animate-float,
