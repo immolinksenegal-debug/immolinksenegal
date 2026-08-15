@@ -1,0 +1,1 @@
+REVOKE ALL ON FUNCTION public.protect_estimation_admin_fields() FROM PUBLIC, anon, authenticated;
