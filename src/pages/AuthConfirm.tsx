@@ -12,9 +12,9 @@ import logoAuth from "@/assets/logo-immo-link-main.png";
 
 const emailSchema = z.string().trim().email({ message: "Email invalide" });
 
-type Status = "checking" | "valid" | "expired" | "invalid";
+type Status = "checking" | "valid" | "already_confirmed" | "expired" | "invalid";
 
-const MESSAGES: Record<Exclude<Status, "checking" | "valid">, { title: string; description: string }> = {
+const MESSAGES: Record<Exclude<Status, "checking" | "valid" | "already_confirmed">, { title: string; description: string }> = {
   expired: {
     title: "Votre lien de validation a expiré",
     description:
@@ -26,6 +26,7 @@ const MESSAGES: Record<Exclude<Status, "checking" | "valid">, { title: string; d
       "Le lien a peut-être déjà été utilisé, ou il a été tronqué par votre messagerie. Demandez un nouveau lien pour activer votre compte.",
   },
 };
+
 
 const REDIRECT_DELAY_MS = 5000;
 
