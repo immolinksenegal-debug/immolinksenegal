@@ -253,7 +253,8 @@
   }
 
 }
-  
+
+@layer utilities {
   /* Ombres */
   .shadow-neon-cyan {
     box-shadow: var(--shadow-neon-cyan);
