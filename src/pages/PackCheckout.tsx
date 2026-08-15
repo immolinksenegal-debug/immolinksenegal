@@ -52,8 +52,19 @@ const PackCheckout = () => {
 
     const startPayment = async () => {
       try {
+        // Clé d'idempotence stable par intention d'achat (survit aux retours sur /checkout)
+        const idemStorageKey = `pack_idem_${packId}_${billing}`;
+        let idempotencyKey = "";
+        try {
+          idempotencyKey = sessionStorage.getItem(idemStorageKey) || "";
+          if (!idempotencyKey) {
+            idempotencyKey = crypto.randomUUID().replace(/-/g, "");
+            sessionStorage.setItem(idemStorageKey, idempotencyKey);
+          }
+        } catch { /* ignore */ }
+
         const { data, error: fnError } = await supabase.functions.invoke("initiate-pack-payment", {
-          body: { packId, billing, origin: window.location.origin },
+          body: { packId, billing, idempotencyKey, origin: window.location.origin },
         });
         if (fnError) throw fnError;
         if (data?.error) throw new Error(data.error);
