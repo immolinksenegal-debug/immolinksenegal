@@ -43,8 +43,8 @@ const Hero = () => {
           />
         </picture>
         {/* Voile bleu nuit pour lisibilité premium */}
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/80 to-primary/40" />
-        <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-transparent to-primary/40" />
+        <div className="absolute inset-0 bg-primary/80" />
+        <div className="absolute inset-0 bg-primary/60" />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 relative z-10 pt-28 pb-16">

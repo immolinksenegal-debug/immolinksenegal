@@ -205,7 +205,7 @@ const WhatsAppChat = ({ phoneNumber, propertyTitle, propertyId }: WhatsAppChatPr
             cursor: isDragging ? 'grabbing' : 'default',
           }}
         >
-          <CardHeader className="drag-handle bg-gradient-to-r from-[#075E54] to-[#128C7E] text-white rounded-t-xl p-3 sm:p-4 flex-row items-center justify-between space-y-0 cursor-grab active:cursor-grabbing">
+          <CardHeader className="drag-handle bg-[#075E54] text-white rounded-t-xl p-3 sm:p-4 flex-row items-center justify-between space-y-0 cursor-grab active:cursor-grabbing">
             <div className="flex items-center gap-2 sm:gap-3">
               <Avatar className="h-8 w-8 sm:h-10 sm:w-10 border-2 border-white bg-white/20 animate-pulse">
                 <AvatarFallback className="bg-[#128C7E] text-white">

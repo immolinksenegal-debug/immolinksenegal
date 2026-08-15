@@ -56,7 +56,7 @@ const SEOContent = () => {
         <div className="max-w-3xl mx-auto mb-16 text-center">
           <h2 className="text-3xl md:text-5xl font-bold mb-5 text-foreground">
             Immobilier au{" "}
-            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Sénégal</span>
+            <span className="text-primary">Sénégal</span>
           </h2>
           <p className="text-lg text-muted-foreground">
             <strong className="text-foreground">Immo Link Sénégal</strong> est votre plateforme immobilière intelligente pour acheter, 
@@ -83,7 +83,7 @@ const SEOContent = () => {
         {/* Services */}
         <div className="max-w-5xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-foreground">
-            Nos <span className="bg-gradient-to-r from-secondary to-primary bg-clip-text text-transparent">services</span>
+            Nos <span className="text-secondary">services</span>
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-14">

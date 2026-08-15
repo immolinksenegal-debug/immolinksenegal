@@ -34,7 +34,7 @@ const LocationsSection = () => {
             <Link
               key={city}
               to={`/properties?city=${encodeURIComponent(city)}`}
-              className={`group relative rounded-2xl overflow-hidden border border-border bg-gradient-to-br from-primary via-primary to-tertiary shadow-card hover:shadow-elevated transition-all duration-300 ${span}`}
+              className={`group relative rounded-2xl overflow-hidden border border-border bg-primary shadow-card hover:shadow-elevated transition-all duration-300 ${span}`}
             >
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,hsl(var(--accent)/0.35)_0%,transparent_60%)] opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
               <div className="absolute inset-0 flex flex-col justify-end p-4 sm:p-5">

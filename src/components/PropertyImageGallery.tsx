@@ -143,10 +143,10 @@ export const PropertyImageGallery = ({ images, title }: PropertyImageGalleryProp
         <DialogContent className="max-w-[100vw] sm:max-w-[95vw] w-full h-[100vh] sm:h-[95vh] p-0 bg-black/95 border-none rounded-none sm:rounded-lg">
           <div className="relative w-full h-full flex flex-col">
             {/* Header - solid gradient for guaranteed legibility */}
-            <div className="absolute top-0 left-0 right-0 z-50 flex items-start justify-between gap-3 p-3 sm:p-4 pt-[max(0.75rem,env(safe-area-inset-top))] bg-gradient-to-b from-black/90 via-black/60 to-transparent pb-8 sm:pb-10">
+            <div className="absolute top-0 left-0 right-0 z-50 flex items-start justify-between gap-3 p-3 sm:p-4 pt-[max(0.75rem,env(safe-area-inset-top))] bg-black/80 pb-8 sm:pb-10">
               <div className="text-white min-w-0 flex-1">
-                <h3 className="font-semibold text-sm sm:text-lg truncate [text-shadow:0_1px_4px_rgba(0,0,0,0.9)]">{title}</h3>
-                <p className="text-xs sm:text-sm text-white/80 [text-shadow:0_1px_3px_rgba(0,0,0,0.9)]">
+                <h3 className="font-semibold text-sm sm:text-lg truncate ">{title}</h3>
+                <p className="text-xs sm:text-sm text-white/80 ">
                   {currentIndex + 1} / {images.length}
                 </p>
               </div>
@@ -237,7 +237,7 @@ export const PropertyImageGallery = ({ images, title }: PropertyImageGalleryProp
             </div>
 
             {/* Thumbnail Strip - compact on mobile, safe-area padding */}
-            <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-4 pb-[max(0.5rem,env(safe-area-inset-bottom))] bg-gradient-to-t from-black/90 via-black/70 to-transparent pt-6 sm:pt-10">
+            <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-4 pb-[max(0.5rem,env(safe-area-inset-bottom))] bg-black/80 pt-6 sm:pt-10">
               <div className="flex gap-2 overflow-x-auto scrollbar-hide justify-start sm:justify-center">
                 {images.map((image, index) => (
                   <button

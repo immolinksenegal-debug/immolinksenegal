@@ -353,7 +353,7 @@ const FreeEstimation = () => {
               {lastSubmittedData && (
                 <Button 
                   onClick={() => generatePDF(lastSubmittedData)} 
-                  className="w-full bg-gradient-to-r from-primary to-secondary hover:opacity-90 h-11 md:h-12 text-sm md:text-base text-primary-foreground font-semibold rounded-xl transition-all duration-300 shadow-lg"
+                  className="w-full bg-primary hover:opacity-90 h-11 md:h-12 text-sm md:text-base text-primary-foreground font-semibold rounded-xl transition-all duration-300 shadow-lg"
                   disabled={isGeneratingPdf}
                 >
                   {isGeneratingPdf ? (
@@ -397,7 +397,7 @@ const FreeEstimation = () => {
             className="w-full h-full object-cover object-center"
             loading="eager"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-primary/50 via-primary/20 to-background/80">
+          <div className="absolute inset-0 bg-primary/30">
             <div className="container mx-auto px-4 h-full flex flex-col justify-center items-center text-center pt-16 sm:pt-20">
               <div className="inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16 bg-primary-foreground/20 backdrop-blur-sm rounded-full mb-2 sm:mb-3 md:mb-4 shadow-lg">
                 <Calculator className="w-6 h-6 md:w-8 md:h-8 text-primary-foreground" />
@@ -700,7 +700,7 @@ const FreeEstimation = () => {
 
                   <Button
                     type="submit"
-                    className="w-full sm:flex-1 bg-gradient-to-r from-primary via-accent to-secondary hover:shadow-[0_0_30px_hsl(var(--accent)/0.4)] text-primary-foreground py-4 md:py-6 text-base md:text-lg font-semibold rounded-xl transition-all duration-300"
+                    className="w-full sm:flex-1 bg-primary hover:shadow-[0_0_30px_hsl(var(--accent)/0.4)] text-primary-foreground py-4 md:py-6 text-base md:text-lg font-semibold rounded-xl transition-all duration-300"
                     disabled={isSubmitting || isGeneratingPdf}
                   >
                     {isSubmitting || isGeneratingPdf ? (

@@ -42,20 +42,20 @@ const PropertyCard = ({
   const [imageError, setImageError] = useState(false);
   return <Card className="group relative overflow-hidden property-card-3d bg-card shadow-card rounded-2xl">
       {/* Top brand gradient separator */}
-      <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-primary via-accent to-secondary opacity-80 z-10" />
+      <div className="absolute top-0 left-0 right-0 h-[3px] bg-primary opacity-80 z-10" />
       <div className="relative overflow-hidden aspect-[4/3] bg-muted property-image-shadow-top">
         <img src={imageError ? '/placeholder.svg' : image || '/placeholder.svg'} alt={title} className="w-full h-full object-cover transition-smooth group-hover:scale-110" onError={e => {
         setImageError(true);
         e.currentTarget.src = '/placeholder.svg';
       }} loading="lazy" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-smooth"></div>
+        <div className="absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-smooth"></div>
         
         {/* Badges */}
         <div className="absolute top-4 left-4 flex gap-2 flex-wrap">
           <Badge className="bg-primary text-primary-foreground font-semibold shadow-soft">
             {type}
           </Badge>
-          {isPremium && <Badge className="bg-gradient-to-r from-accent to-primary text-accent-foreground font-semibold shadow-glow-accent animate-pulse">
+          {isPremium && <Badge className="bg-accent text-accent-foreground font-semibold shadow-glow-accent animate-pulse">
               ⭐ Premium
             </Badge>}
           {featured && <Badge className="bg-accent text-accent-foreground font-semibold shadow-soft">
@@ -101,8 +101,8 @@ const PropertyCard = ({
           </div>
         </div>
 
-        {/* Brand gradient divider */}
-        <div className="h-px w-full bg-gradient-to-r from-transparent via-accent/40 to-transparent my-3" />
+        {/* Brand divider */}
+        <div className="h-px w-full bg-accent/30 my-3" />
 
         <div className="flex items-center gap-4 mb-3 text-xs text-muted-foreground">
           {views > 0 && <div className="flex items-center gap-1">
@@ -115,14 +115,14 @@ const PropertyCard = ({
             </div>}
         </div>
 
-        <div className="text-2xl font-bold bg-gradient-to-r from-secondary via-accent to-primary bg-clip-text text-transparent">
+        <div className="text-2xl font-bold text-secondary">
           {price} <span className="text-lg font-normal text-muted-foreground">FCFA</span>
         </div>
       </CardContent>
 
       <CardFooter className="p-5 pt-0">
         <Link to={`/property/${id}`} className="w-full">
-          <Button className="w-full bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-primary-foreground transition-smooth rounded-xl font-semibold shadow-[0_0_15px_hsl(var(--primary)/0.3)] hover:shadow-[0_0_25px_hsl(var(--secondary)/0.4)]">
+          <Button className="w-full bg-primary hover:opacity-90 text-primary-foreground transition-smooth rounded-xl font-semibold shadow-[0_0_15px_hsl(var(--primary)/0.3)] hover:shadow-[0_0_25px_hsl(var(--secondary)/0.4)]">
             Voir les détails
           </Button>
         </Link>

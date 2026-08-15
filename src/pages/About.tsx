@@ -22,7 +22,7 @@ const About = () => {
             className="w-full h-full object-cover"
             loading="eager"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-primary/50 via-primary/20 to-background/80">
+          <div className="absolute inset-0 bg-primary/30">
             <div className="container mx-auto px-4 h-full flex flex-col justify-center items-center text-center pt-16 sm:pt-20">
               <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 sm:mb-3 md:mb-4 px-2 text-primary-foreground drop-shadow-2xl">
                 À propos de <span className="text-secondary drop-shadow-lg">Immo Link Sénégal</span>
@@ -44,10 +44,10 @@ const About = () => {
               
               <div className="relative z-10">
                 <div className="flex items-center justify-center gap-3 mb-6">
-                  <div className="h-px flex-1 max-w-[80px] bg-gradient-to-r from-transparent to-primary/50" />
+                  <div className="h-px flex-1 max-w-[80px] bg-primary/30" />
                   <Globe className="h-8 w-8 text-primary drop-shadow-[0_0_10px_hsl(25_85%_55%/0.5)]" />
                   <h2 className="text-3xl md:text-4xl font-bold text-foreground">Notre Mission</h2>
-                  <div className="h-px flex-1 max-w-[80px] bg-gradient-to-l from-transparent to-primary/50" />
+                  <div className="h-px flex-1 max-w-[80px] bg-primary/30" />
                 </div>
                 <p className="text-lg text-muted-foreground text-center max-w-4xl mx-auto leading-relaxed">
                   Faciliter l'accès à l'immobilier au Sénégal en offrant une plateforme moderne, 
@@ -64,7 +64,7 @@ const About = () => {
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
                 Nos <span className="text-secondary">Valeurs</span>
               </h2>
-              <div className="h-1 w-20 mx-auto bg-gradient-to-r from-primary via-accent to-secondary rounded-full" />
+              <div className="h-1 w-20 mx-auto bg-primary rounded-full" />
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -126,7 +126,7 @@ const About = () => {
           {/* Why Choose Us */}
           <div className="mb-20">
             <div className="glass-effect rounded-3xl p-8 md:p-12 border border-secondary/15 relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-accent to-secondary" />
+              <div className="absolute top-0 left-0 w-full h-1 bg-primary" />
               
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-10 text-center">
                 Pourquoi <span className="text-accent">nous choisir</span> ?
@@ -165,8 +165,8 @@ const About = () => {
           {/* Stats */}
           <div className="relative glass-effect rounded-3xl p-8 md:p-12 border border-accent/15 overflow-hidden">
             {/* Animated background gradient */}
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5" />
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-secondary via-primary to-accent" />
+            <div className="absolute inset-0 bg-primary/5" />
+            <div className="absolute top-0 left-0 w-full h-1 bg-primary" />
             
             <div className="relative z-10">
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-10 text-center">

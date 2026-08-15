@@ -67,7 +67,7 @@ const OwnerSection = () => {
                     <div
                       key={i}
                       style={{ height: `${h}%` }}
-                      className="flex-1 rounded-t-md bg-gradient-to-t from-primary/20 to-secondary"
+                      className="flex-1 rounded-t-md bg-primary/20"
                     />
                   ))}
                 </div>

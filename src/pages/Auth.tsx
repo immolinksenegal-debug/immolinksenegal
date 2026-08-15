@@ -194,9 +194,9 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 gradient-hero relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-primary/20 relative overflow-hidden">
       {/* Decorative brand tints */}
-      <div className="absolute inset-0 bg-mesh opacity-90 pointer-events-none"></div>
+      <div className="absolute inset-0 bg-transparent opacity-90 pointer-events-none"></div>
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,hsl(var(--primary)/0.15),transparent_60%)] pointer-events-none"></div>
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,hsl(var(--accent)/0.12),transparent_55%)] pointer-events-none"></div>
 
@@ -211,20 +211,20 @@ const Auth = () => {
         </Link>
 
         {/* Brand gradient bar */}
-        <div className="mx-auto mb-6 h-1 w-24 rounded-full bg-gradient-to-r from-primary via-accent to-secondary" />
+        <div className="mx-auto mb-6 h-1 w-24 rounded-full bg-primary" />
 
         <div className="glass-card p-8 shadow-elevated">
           <Tabs defaultValue="login" className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-8 bg-muted/60 p-1 rounded-xl">
               <TabsTrigger
                 value="login"
-                className="rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-primary-glow data-[state=active]:text-primary-foreground data-[state=active]:shadow-md transition-smooth"
+                className="rounded-lg data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md transition-smooth"
               >
                 Connexion
               </TabsTrigger>
               <TabsTrigger
                 value="signup"
-                className="rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-secondary data-[state=active]:to-secondary-glow data-[state=active]:text-secondary-foreground data-[state=active]:shadow-md transition-smooth"
+                className="rounded-lg data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground data-[state=active]:shadow-md transition-smooth"
               >
                 Inscription
               </TabsTrigger>
@@ -280,7 +280,7 @@ const Auth = () => {
 
                 <Button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-primary to-primary-glow hover:opacity-90 text-primary-foreground shadow-[0_8px_24px_-8px_hsl(var(--primary)/0.5)] transition-smooth rounded-xl font-semibold h-12"
+                  className="w-full bg-primary hover:opacity-90 text-primary-foreground shadow-[0_8px_24px_-8px_hsl(var(--primary)/0.5)] transition-smooth rounded-xl font-semibold h-12"
                   disabled={isLoading}
                 >
                   {isLoading ? "Connexion..." : "Se connecter"}
@@ -361,7 +361,7 @@ const Auth = () => {
 
                 <Button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-secondary to-secondary-glow hover:opacity-90 text-secondary-foreground shadow-[0_8px_24px_-8px_hsl(var(--secondary)/0.5)] transition-smooth rounded-xl font-semibold h-12"
+                  className="w-full bg-secondary hover:opacity-90 text-secondary-foreground shadow-[0_8px_24px_-8px_hsl(var(--secondary)/0.5)] transition-smooth rounded-xl font-semibold h-12"
                   disabled={isLoading}
                 >
                   {isLoading ? "Inscription..." : "Créer un compte"}
