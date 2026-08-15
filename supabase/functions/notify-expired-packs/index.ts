@@ -1,5 +1,6 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.7.1'
 import { getUserEmail, sendPackExpiredEmail } from '../_shared/pack-emails.ts'
+import { shouldSendEmail } from '../_shared/email-prefs.ts'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -37,7 +38,8 @@ Deno.serve(async (req) => {
 
     let sent = 0
     for (const row of rows ?? []) {
-      const email = await getUserEmail(supabase, row.user_id)
+      const allowed = await shouldSendEmail(supabase, row.user_id, 'notification_pack_expiry')
+      const email = allowed ? await getUserEmail(supabase, row.user_id) : null
       const stamp = new Date().toISOString()
       if (email) {
         const ok = await sendPackExpiredEmail({
@@ -57,13 +59,16 @@ Deno.serve(async (req) => {
       await supabase.from('payment_webhook_logs').insert({
         provider: 'paytech',
         status: 'expired',
-        message: email
-          ? `Notification d'expiration envoyée (${row.pack_id}/${row.billing})`
-          : `Expiration détectée mais aucun email trouvé (${row.pack_id}/${row.billing})`,
+        message: !allowed
+          ? `Expiration détectée, email non envoyé (préférences utilisateur) (${row.pack_id}/${row.billing})`
+          : email
+            ? `Notification d'expiration envoyée (${row.pack_id}/${row.billing})`
+            : `Expiration détectée mais aucun email trouvé (${row.pack_id}/${row.billing})`,
         subscription_id: row.id,
         user_id: row.user_id,
       })
     }
+
 
     return json({ success: true, processed: rows?.length ?? 0, sent })
   } catch (err) {

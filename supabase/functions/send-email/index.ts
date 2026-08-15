@@ -1,13 +1,16 @@
 import { corsHeaders } from 'npm:@supabase/supabase-js@2/cors';
 import { createClient } from 'npm:@supabase/supabase-js@2';
 import { z } from 'npm:zod@3.23.8';
+import { shouldSendEmail, getUserIdByEmail, type EmailPreference } from '../_shared/email-prefs.ts';
 
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY');
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!;
 const SUPABASE_ANON_KEY = Deno.env.get('SUPABASE_ANON_KEY')!;
+const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 
 const ADMIN_EMAIL = 'immolinksenegal@gmail.com';
 const DEFAULT_FROM = 'Immo Link Sénégal <contact@immolinksenegal.com>';
+
 
 const esc = (v: unknown) =>
   String(v ?? '')
@@ -155,6 +158,23 @@ Deno.serve(async (req) => {
 
     const mail = compose(payload, user?.email ?? null);
     if (!mail) return json({ error: 'Unable to compose email' }, 400);
+
+    // Envoi conditionnel selon les préférences du destinataire (emails automatiques uniquement)
+    const PREF_BY_PURPOSE: Partial<Record<Parsed['purpose'], EmailPreference>> = {
+      listing_receipt: 'notification_property_updates',
+      contact_receipt: 'notification_account_emails',
+    };
+    const preference = PREF_BY_PURPOSE[payload.purpose];
+    if (preference) {
+      const admin = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+      const recipientId =
+        payload.purpose === 'listing_receipt'
+          ? user?.id ?? null
+          : await getUserIdByEmail(admin, mail.to);
+      const allowed = await shouldSendEmail(admin, recipientId, preference);
+      if (!allowed) return json({ success: true, skipped: 'user_preferences' });
+    }
+
 
     const response = await fetch('https://api.resend.com/emails', {
       method: 'POST',
