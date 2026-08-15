@@ -306,6 +306,13 @@ const Dashboard = () => {
                 Messages
               </TabsTrigger>
               <TabsTrigger
+                value="orders"
+                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
+              >
+                <CreditCard className="h-3 w-3 xs:h-4 xs:w-4 mr-1 xs:mr-2" />
+                Mes packs
+              </TabsTrigger>
+              <TabsTrigger
                 value="settings"
                 className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-smooth text-xs xs:text-sm px-2 xs:px-3 py-2"
               >
@@ -313,6 +320,10 @@ const Dashboard = () => {
                 Paramètres
               </TabsTrigger>
             </TabsList>
+
+            <TabsContent value="orders">
+              <PackOrdersHistory />
+            </TabsContent>
 
             <TabsContent value="properties">
               <Card className="shadow-card border-border/50">
