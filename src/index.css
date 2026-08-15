@@ -444,6 +444,98 @@
       0 1px 2px hsl(var(--primary) / 0.06),
       0 10px 24px -12px hsl(var(--primary) / 0.20);
   }
+
+  /* === MICRO-INTERACTIONS : cartes Biens & Packs === */
+
+  /* Ombre + élévation homogènes au survol de la carte bien */
+  .property-card-3d {
+    box-shadow:
+      0 1px 2px hsl(var(--primary) / 0.05),
+      0 10px 24px -14px hsl(var(--foreground) / 0.18);
+  }
+  @media (hover: hover) {
+    .property-card-3d:hover {
+      box-shadow:
+        0 2px 6px hsl(var(--primary) / 0.08),
+        0 22px 46px -18px hsl(var(--primary) / 0.30);
+    }
+  }
+
+  /* Révélation douce du contenu au survol (badges, CTA) */
+  .reveal-up {
+    transform: translateY(4px);
+    opacity: 0.92;
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.35s ease;
+  }
+  .group:hover .reveal-up,
+  .group:focus-within .reveal-up {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  /* Icône : léger rebond / rotation au survol du parent */
+  .icon-pop {
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .group:hover .icon-pop {
+    transform: translateY(-1px) scale(1.12) rotate(-4deg);
+  }
+
+  /* Carte Pack : élévation + bordure de marque */
+  .pack-card {
+    transition:
+      transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+      box-shadow 0.4s ease,
+      border-color 0.3s ease;
+    will-change: transform;
+  }
+  @media (hover: hover) {
+    .pack-card:hover {
+      transform: translateY(-8px);
+      border-color: hsl(var(--primary) / 0.5);
+      box-shadow: 0 28px 60px -24px hsl(var(--primary) / 0.35);
+    }
+    .pack-card-featured:hover {
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 34px 70px -22px hsl(var(--primary) / 0.5);
+    }
+  }
+  @media (hover: none) {
+    .pack-card:active {
+      transform: scale(0.99);
+    }
+  }
+
+  /* Bouton : reflet balayant au survol */
+  .btn-sheen {
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-sheen::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -60%;
+    width: 40%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      hsl(var(--primary-foreground) / 0.28),
+      transparent
+    );
+    transform: skewX(-20deg);
+    transition: left 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+    pointer-events: none;
+  }
+  .btn-sheen:hover::after {
+    left: 130%;
+  }
+  .btn-sheen:active {
+    transform: translateY(1px);
+  }
+
+
   
   /* Animations */
   @keyframes cyber-pulse {
