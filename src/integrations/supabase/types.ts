@@ -830,6 +830,7 @@ export type Database = {
     }
     Functions: {
       cleanup_old_rate_limits: { Args: never; Returns: undefined }
+      expire_old_pack_subscriptions: { Args: never; Returns: undefined }
       expire_old_subscriptions: { Args: never; Returns: undefined }
       generate_invoice_number: { Args: never; Returns: string }
       has_role: {

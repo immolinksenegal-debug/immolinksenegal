@@ -62,6 +62,9 @@ Deno.serve(async (req) => {
       })
     }
 
+    // Expire les paiements périmés / abonnements échus avant toute décision
+    await supabase.rpc('expire_old_pack_subscriptions')
+
     const amount = billing === 'yearly' ? pack.yearly : pack.monthly
 
     // IDEMPOTENCE: une même intention d'achat ne doit créer qu'une seule commande.

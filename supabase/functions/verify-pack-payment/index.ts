@@ -54,7 +54,7 @@ Deno.serve(async (req) => {
 
     const { data: sub } = await supabase
       .from('pack_subscriptions')
-      .select('id, amount, billing, status')
+      .select('id, user_id, pack_id, amount, billing, status')
       .eq('payment_ref', refCommand)
       .maybeSingle()
 
@@ -80,16 +80,42 @@ Deno.serve(async (req) => {
       })
     }
 
+    if (sub.status === 'active') {
+      // IPN rejoué : la durée de validité ne doit pas être prolongée deux fois
+      return new Response(JSON.stringify({ received: true, alreadyProcessed: true }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      })
+    }
+
     const now = new Date()
-    const expires = new Date(now)
+
+    // Renouvellement : on prolonge à partir de la fin de l'abonnement en cours
+    const { data: current } = await supabase
+      .from('pack_subscriptions')
+      .select('id, expires_at')
+      .eq('user_id', sub.user_id)
+      .eq('pack_id', sub.pack_id)
+      .eq('status', 'active')
+      .gt('expires_at', now.toISOString())
+      .order('expires_at', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+
+    const base = current?.expires_at ? new Date(current.expires_at) : now
+    const expires = new Date(base)
     if (sub.billing === 'yearly') expires.setFullYear(expires.getFullYear() + 1)
     else expires.setMonth(expires.getMonth() + 1)
+
+    if (current?.id) {
+      // L'ancien abonnement est remplacé par le nouveau (durée cumulée)
+      await supabase.from('pack_subscriptions').update({ status: 'expired' }).eq('id', current.id)
+    }
 
     await supabase
       .from('pack_subscriptions')
       .update({
         status: 'active',
-        starts_at: now.toISOString(),
+        starts_at: (current?.expires_at ? new Date(current.expires_at) : now).toISOString(),
         expires_at: expires.toISOString(),
       })
       .eq('id', sub.id)
