@@ -319,7 +319,7 @@ export const AdminSiteSettings = () => {
         <Button
           onClick={saveSettings}
           disabled={isSaving}
-          className="bg-secondary hover:bg-secondary/90 text-secondary-foreground"
+          className="bg-primary hover:bg-primary/90 text-primary-foreground"
         >
           <Save className="h-4 w-4 mr-2" />
           {isSaving ? 'Enregistrement...' : 'Enregistrer les modifications'}

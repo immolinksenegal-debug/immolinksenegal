@@ -192,7 +192,7 @@ const CommentSection = ({ propertyId, articleId }: CommentSectionProps) => {
               <Button
                 onClick={handleSubmitComment}
                 disabled={isSubmitting || !newComment.trim()}
-                className="bg-secondary hover:bg-secondary/90 text-secondary-foreground rounded-xl"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl"
               >
                 <Send className="h-4 w-4 mr-2" />
                 {isSubmitting ? 'Envoi...' : 'Publier'}
@@ -220,7 +220,7 @@ const CommentSection = ({ propertyId, articleId }: CommentSectionProps) => {
           </Card>
         ) : (
           comments.map((comment) => (
-            <Card key={comment.id} className="shadow-soft border-border/50 hover:shadow-glow-secondary transition-smooth">
+            <Card key={comment.id} className="shadow-soft border-border/50 hover:shadow-glow transition-smooth">
               <CardContent className="pt-6">
                 <div className="flex gap-4">
                   <Avatar className="h-10 w-10 border-2 border-secondary/20">

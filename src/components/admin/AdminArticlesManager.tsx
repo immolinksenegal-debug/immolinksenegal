@@ -228,7 +228,7 @@ export const AdminArticlesManager = ({ onStatsUpdate }: AdminArticlesManagerProp
               <Button
                 size="sm"
                 onClick={() => setShowGenerateDialog(true)}
-                className="bg-secondary hover:bg-secondary/90 text-secondary-foreground"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground"
               >
                 <Sparkles className="h-4 w-4 mr-2" />
                 Générer avec l'IA
@@ -361,7 +361,7 @@ export const AdminArticlesManager = ({ onStatsUpdate }: AdminArticlesManagerProp
             <Button
               onClick={handleGenerateArticle}
               disabled={isGenerating}
-              className="bg-secondary hover:bg-secondary/90 text-secondary-foreground"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground"
             >
               {isGenerating ? (
                 <>Génération en cours...</>

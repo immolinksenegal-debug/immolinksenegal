@@ -218,7 +218,7 @@ const ArticleDetail = () => {
         <div className="text-center">
           <p className="text-muted-foreground mb-4">Article introuvable</p>
           <Link to="/articles">
-            <Button className="bg-secondary hover:bg-secondary/90 text-secondary-foreground">
+            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
               Retour aux articles
             </Button>
           </Link>
@@ -240,7 +240,7 @@ const ArticleDetail = () => {
       />
       <div className="container mx-auto px-4">
         {/* Back Button */}
-        <Link to="/articles" className="inline-flex items-center gap-2 mb-6 hover:text-secondary transition-base">
+        <Link to="/articles" className="inline-flex items-center gap-2 mb-6 hover:text-primary transition-base">
           <ArrowLeft className="h-4 w-4" />
           Retour aux articles
         </Link>
@@ -330,7 +330,7 @@ const ArticleDetail = () => {
                   <Button 
                     type="submit" 
                     disabled={isSubmitting}
-                    className="bg-secondary hover:bg-secondary/90 text-secondary-foreground"
+                    className="bg-primary hover:bg-primary/90 text-primary-foreground"
                   >
                     <Send className="h-4 w-4 mr-2" />
                     {isSubmitting ? "Envoi..." : "Publier le commentaire"}

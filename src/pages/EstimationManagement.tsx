@@ -428,7 +428,7 @@ const EstimationManagement = () => {
                 <Button
                   onClick={handleSubmitResponse}
                   disabled={isSubmitting}
-                  className="bg-secondary hover:bg-secondary/90"
+                  className="bg-primary hover:bg-primary/90"
                 >
                   {isSubmitting ? (
                     <>

@@ -143,7 +143,7 @@ const PropertyDetail = () => {
                 </p>
                 <Button
                   onClick={() => navigate('/properties')}
-                  className="bg-secondary hover:bg-secondary/90 text-secondary-foreground"
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground"
                 >
                   Voir toutes les annonces
                 </Button>
@@ -384,7 +384,7 @@ const PropertyDetail = () => {
                   ) : (
                     // Show contact request button to visitors
                     <Button 
-                      className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground shadow-glow-secondary transition-smooth rounded-xl font-semibold h-10 xs:h-12 text-sm xs:text-base"
+                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-glow transition-smooth rounded-xl font-semibold h-10 xs:h-12 text-sm xs:text-base"
                       onClick={() => setShowContactDialog(true)}
                     >
                       <Phone className="mr-2 h-4 w-4 xs:h-5 xs:w-5" />

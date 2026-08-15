@@ -190,7 +190,7 @@ export const ProfileSettings = () => {
           <Button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground"
+            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
           >
             {isLoading ? (
               <>

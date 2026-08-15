@@ -241,7 +241,7 @@ const PacksSection = () => {
                     className={cn(
                       "w-full h-12 rounded-xl font-semibold transition-all",
                       pack.highlighted
-                        ? "bg-secondary text-secondary-foreground hover:bg-secondary/90 shadow-[0_12px_30px_-12px_hsl(var(--secondary)/0.9)]"
+                        ? "bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_12px_30px_-12px_hsl(var(--primary)/0.9)]"
                         : "bg-primary text-primary-foreground hover:bg-primary/90"
                     )}
                   >
@@ -260,7 +260,7 @@ const PacksSection = () => {
                       className={cn(
                         "w-full h-12 rounded-xl font-semibold transition-all",
                         pack.highlighted
-                          ? "bg-secondary text-secondary-foreground hover:bg-secondary/90 shadow-[0_12px_30px_-12px_hsl(var(--secondary)/0.9)]"
+                          ? "bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_12px_30px_-12px_hsl(var(--primary)/0.9)]"
                           : "bg-primary text-primary-foreground hover:bg-primary/90"
                       )}
                     >
