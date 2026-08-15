@@ -293,7 +293,17 @@ const Auth = () => {
             </TabsContent>
 
             <TabsContent value="signup">
+              {pendingConfirmationEmail && (
+                <div className="mb-5 rounded-xl border border-primary/30 bg-primary/10 p-4 text-sm text-foreground">
+                  <p className="font-semibold">Confirmez votre adresse email</p>
+                  <p className="mt-1 text-muted-foreground">
+                    Un lien de confirmation a été envoyé à <span className="font-medium text-foreground">{pendingConfirmationEmail}</span>.
+                    Cliquez dessus pour activer votre compte et accéder à la plateforme.
+                  </p>
+                </div>
+              )}
               <form onSubmit={handleSignup} className="space-y-5">
+
                 <div className="space-y-2">
                   <Label htmlFor="name" className="text-foreground font-medium">
                     Nom complet
