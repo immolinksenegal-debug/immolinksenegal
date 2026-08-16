@@ -112,13 +112,18 @@ const Navbar = () => {
       ]
     : [...baseNavLinks, { to: "/auth", label: "Connexion", icon: User }];
 
+  // Seule la page d'accueil a un hero sombre : ailleurs, barre toujours opaque
+  const isHome = location.pathname === "/";
+  const solid = scrolled || !isHome;
+
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
+        solid
           ? "bg-background/95 backdrop-blur-xl border-b border-border shadow-soft"
           : "bg-transparent border-b border-transparent"
       }`}
+      style={{ paddingTop: "env(safe-area-inset-top)" }}
     >
       <div className="container mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-16 md:h-20">
