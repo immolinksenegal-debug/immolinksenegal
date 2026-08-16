@@ -251,7 +251,7 @@ const Navbar = () => {
                         to={link.to}
                         onClick={() => setIsOpen(false)}
                         aria-current={active ? "page" : undefined}
-                        className="flex items-center gap-3 px-3 h-[52px] transition-colors active:bg-muted motion-safe:animate-fade-in opacity-0 [animation-fill-mode:forwards]"
+                        className="flex items-center gap-3 px-3 h-[52px] transition-colors active:bg-muted animate-fade-in"
                         style={{ animationDelay: `${100 + index * 40}ms` }}
                       >
                         <span
@@ -276,7 +276,7 @@ const Navbar = () => {
               </div>
 
               <div
-                className="shrink-0 px-4 pt-3 flex flex-col gap-2.5 bg-background/80 backdrop-blur-xl border-t border-border/60 motion-safe:animate-fade-in opacity-0 [animation-fill-mode:forwards] [animation-delay:220ms]"
+                className="shrink-0 px-4 pt-3 flex flex-col gap-2.5 bg-background/80 backdrop-blur-xl border-t border-border/60 animate-fade-in [animation-delay:220ms]"
                 style={{ paddingBottom: "calc(1rem + env(safe-area-inset-bottom))" }}
               >
                 <Link to="/dashboard" onClick={() => setIsOpen(false)}>
