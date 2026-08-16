@@ -272,8 +272,21 @@ const Navbar = () => {
             </SheetTrigger>
             <SheetContent
               side="right"
-              className="w-full sm:max-w-sm p-0 bg-muted/40 backdrop-blur-2xl border-l border-border flex flex-col [&>button]:hidden"
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+              onTouchCancel={handleTouchEnd}
+              style={{
+                transform: dragX !== 0 ? `translate3d(${dragX}px,0,0)` : undefined,
+                transition: dragging ? "none" : "transform 400ms cubic-bezier(0.22,1,0.36,1)",
+              }}
+              className="w-full sm:max-w-sm p-0 bg-muted/40 backdrop-blur-2xl border-l border-border flex flex-col [&>button]:hidden touch-pan-y will-change-transform"
             >
+              {/* Poignée de swipe iOS */}
+              <div className="absolute left-0 inset-y-0 w-6 flex items-center justify-center pointer-events-none">
+                <span className="h-10 w-1 rounded-full bg-foreground/15" />
+              </div>
+
               {/* Barre de navigation type iOS */}
               <div
                 className="flex items-center justify-between gap-2 px-4 h-14 border-b border-border/60 bg-background/80 backdrop-blur-xl shrink-0"
