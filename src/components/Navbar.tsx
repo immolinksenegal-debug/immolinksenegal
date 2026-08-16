@@ -2,7 +2,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Home, PlusCircle, User, Menu, LogOut, Building2, Calculator, Newspaper, Shield, Zap, X, ChevronRight } from "lucide-react";
 import logo from "@/assets/logo-immo-link-main.png";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Sheet,
   SheetContent,
@@ -13,6 +13,63 @@ import { useToast } from "@/hooks/use-toast";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [dragX, setDragX] = useState(0);
+  const [dragging, setDragging] = useState(false);
+  const touchStart = useRef<{ x: number; y: number; t: number } | null>(null);
+  const axisLocked = useRef<"h" | "v" | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    const t = e.touches[0];
+    touchStart.current = { x: t.clientX, y: t.clientY, t: Date.now() };
+    axisLocked.current = null;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!touchStart.current) return;
+    const t = e.touches[0];
+    const dx = t.clientX - touchStart.current.x;
+    const dy = t.clientY - touchStart.current.y;
+    if (!axisLocked.current) {
+      if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+      axisLocked.current = Math.abs(dx) > Math.abs(dy) ? "h" : "v";
+    }
+    if (axisLocked.current !== "h") return;
+    if (!dragging) setDragging(true);
+    // résistance élastique vers la gauche
+    setDragX(dx > 0 ? dx : dx / 6);
+  };
+
+  const handleTouchEnd = () => {
+    const start = touchStart.current;
+    touchStart.current = null;
+    if (axisLocked.current !== "h") {
+      setDragging(false);
+      setDragX(0);
+      return;
+    }
+    const elapsed = start ? Date.now() - start.t : 1;
+    const velocity = dragX / Math.max(elapsed, 1);
+    setDragging(false);
+    if (dragX > 90 || velocity > 0.5) {
+      setDragX(0);
+      setIsOpen(false);
+    } else {
+      setDragX(0);
+    }
+  };
+
+  // Fermeture via le bouton retour du téléphone/navigateur
+  useEffect(() => {
+    if (!isOpen) return;
+    window.history.pushState({ mobileMenu: true }, "");
+    const onPop = () => setIsOpen(false);
+    window.addEventListener("popstate", onPop);
+    return () => {
+      window.removeEventListener("popstate", onPop);
+      if (window.history.state?.mobileMenu) window.history.back();
+    };
+  }, [isOpen]);
+
   const [user, setUser] = useState<any>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -215,8 +272,21 @@ const Navbar = () => {
             </SheetTrigger>
             <SheetContent
               side="right"
-              className="w-full sm:max-w-sm p-0 bg-muted/40 backdrop-blur-2xl border-l border-border flex flex-col [&>button]:hidden"
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+              onTouchCancel={handleTouchEnd}
+              style={{
+                transform: dragX !== 0 ? `translate3d(${dragX}px,0,0)` : undefined,
+                transition: dragging ? "none" : "transform 400ms cubic-bezier(0.22,1,0.36,1)",
+              }}
+              className="w-full sm:max-w-sm p-0 bg-muted/40 backdrop-blur-2xl border-l border-border flex flex-col [&>button]:hidden touch-pan-y will-change-transform"
             >
+              {/* Poignée de swipe iOS */}
+              <div className="absolute left-0 inset-y-0 w-6 flex items-center justify-center pointer-events-none">
+                <span className="h-10 w-1 rounded-full bg-foreground/15" />
+              </div>
+
               {/* Barre de navigation type iOS */}
               <div
                 className="flex items-center justify-between gap-2 px-4 h-14 border-b border-border/60 bg-background/80 backdrop-blur-xl shrink-0"
