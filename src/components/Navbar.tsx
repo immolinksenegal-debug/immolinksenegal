@@ -136,7 +136,7 @@ const Navbar = () => {
             />
             <span
               className={`font-display text-lg md:text-xl font-extrabold tracking-tight ${
-                scrolled ? "text-foreground" : "text-primary-foreground"
+                solid ? "text-foreground" : "text-primary-foreground"
               }`}
             >
               IMMO LINK
@@ -152,8 +152,7 @@ const Navbar = () => {
                   <Button
                     variant="ghost"
                     className={`text-sm font-medium rounded-lg transition-colors ${
-                      scrolled
-                        ? active
+                      solid ? active
                           ? "text-primary bg-muted font-semibold"
                           : "text-foreground/80 hover:text-primary hover:bg-muted"
                         : active
@@ -172,8 +171,7 @@ const Navbar = () => {
                 onClick={handleLogout}
                 variant="ghost"
                 className={`text-sm font-medium rounded-lg ${
-                  scrolled
-                    ? "text-foreground/80 hover:text-destructive hover:bg-muted"
+                  solid ? "text-foreground/80 hover:text-destructive hover:bg-muted"
                     : "text-primary-foreground/85 hover:text-primary-foreground hover:bg-primary-foreground/10"
                 }`}
               >
@@ -185,8 +183,7 @@ const Navbar = () => {
                 <Button
                   variant="ghost"
                   className={`text-sm font-semibold rounded-lg ${
-                    scrolled
-                      ? "text-primary hover:bg-muted"
+                    solid ? "text-primary hover:bg-muted"
                       : "text-primary-foreground hover:bg-primary-foreground/10"
                   }`}
                 >
@@ -210,7 +207,7 @@ const Navbar = () => {
                 size="icon"
                 aria-label="Ouvrir le menu"
                 className={`h-11 w-11 transition-transform duration-300 active:scale-90 ${
-                  scrolled ? "text-foreground" : "text-primary-foreground"
+                  solid ? "text-foreground" : "text-primary-foreground"
                 } ${isOpen ? "rotate-90" : "rotate-0"}`}
               >
                 <Menu className="h-6 w-6" />
