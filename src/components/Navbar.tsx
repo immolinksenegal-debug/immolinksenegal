@@ -13,6 +13,63 @@ import { useToast } from "@/hooks/use-toast";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [dragX, setDragX] = useState(0);
+  const [dragging, setDragging] = useState(false);
+  const touchStart = useRef<{ x: number; y: number; t: number } | null>(null);
+  const axisLocked = useRef<"h" | "v" | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    const t = e.touches[0];
+    touchStart.current = { x: t.clientX, y: t.clientY, t: Date.now() };
+    axisLocked.current = null;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!touchStart.current) return;
+    const t = e.touches[0];
+    const dx = t.clientX - touchStart.current.x;
+    const dy = t.clientY - touchStart.current.y;
+    if (!axisLocked.current) {
+      if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+      axisLocked.current = Math.abs(dx) > Math.abs(dy) ? "h" : "v";
+    }
+    if (axisLocked.current !== "h") return;
+    if (!dragging) setDragging(true);
+    // résistance élastique vers la gauche
+    setDragX(dx > 0 ? dx : dx / 6);
+  };
+
+  const handleTouchEnd = () => {
+    const start = touchStart.current;
+    touchStart.current = null;
+    if (axisLocked.current !== "h") {
+      setDragging(false);
+      setDragX(0);
+      return;
+    }
+    const elapsed = start ? Date.now() - start.t : 1;
+    const velocity = dragX / Math.max(elapsed, 1);
+    setDragging(false);
+    if (dragX > 90 || velocity > 0.5) {
+      setDragX(0);
+      setIsOpen(false);
+    } else {
+      setDragX(0);
+    }
+  };
+
+  // Fermeture via le bouton retour du téléphone/navigateur
+  useEffect(() => {
+    if (!isOpen) return;
+    window.history.pushState({ mobileMenu: true }, "");
+    const onPop = () => setIsOpen(false);
+    window.addEventListener("popstate", onPop);
+    return () => {
+      window.removeEventListener("popstate", onPop);
+      if (window.history.state?.mobileMenu) window.history.back();
+    };
+  }, [isOpen]);
+
   const [user, setUser] = useState<any>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [scrolled, setScrolled] = useState(false);
