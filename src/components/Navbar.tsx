@@ -1,6 +1,6 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Home, PlusCircle, User, Menu, LogOut, Building2, Calculator, Newspaper, Shield, Zap } from "lucide-react";
+import { Home, PlusCircle, User, Menu, LogOut, Building2, Calculator, Newspaper, Shield, Zap, X, ChevronRight } from "lucide-react";
 import logo from "@/assets/logo-immo-link-main.png";
 import { useState, useEffect } from "react";
 import {
@@ -112,13 +112,18 @@ const Navbar = () => {
       ]
     : [...baseNavLinks, { to: "/auth", label: "Connexion", icon: User }];
 
+  // Seule la page d'accueil a un hero sombre : ailleurs, barre toujours opaque
+  const isHome = location.pathname === "/";
+  const solid = scrolled || !isHome;
+
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
+        solid
           ? "bg-background/95 backdrop-blur-xl border-b border-border shadow-soft"
           : "bg-transparent border-b border-transparent"
       }`}
+      style={{ paddingTop: "env(safe-area-inset-top)" }}
     >
       <div className="container mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-16 md:h-20">
@@ -131,7 +136,7 @@ const Navbar = () => {
             />
             <span
               className={`font-display text-lg md:text-xl font-extrabold tracking-tight ${
-                scrolled ? "text-foreground" : "text-primary-foreground"
+                solid ? "text-foreground" : "text-primary-foreground"
               }`}
             >
               IMMO LINK
@@ -147,8 +152,7 @@ const Navbar = () => {
                   <Button
                     variant="ghost"
                     className={`text-sm font-medium rounded-lg transition-colors ${
-                      scrolled
-                        ? active
+                      solid ? active
                           ? "text-primary bg-muted font-semibold"
                           : "text-foreground/80 hover:text-primary hover:bg-muted"
                         : active
@@ -167,8 +171,7 @@ const Navbar = () => {
                 onClick={handleLogout}
                 variant="ghost"
                 className={`text-sm font-medium rounded-lg ${
-                  scrolled
-                    ? "text-foreground/80 hover:text-destructive hover:bg-muted"
+                  solid ? "text-foreground/80 hover:text-destructive hover:bg-muted"
                     : "text-primary-foreground/85 hover:text-primary-foreground hover:bg-primary-foreground/10"
                 }`}
               >
@@ -180,8 +183,7 @@ const Navbar = () => {
                 <Button
                   variant="ghost"
                   className={`text-sm font-semibold rounded-lg ${
-                    scrolled
-                      ? "text-primary hover:bg-muted"
+                    solid ? "text-primary hover:bg-muted"
                       : "text-primary-foreground hover:bg-primary-foreground/10"
                   }`}
                 >
@@ -205,7 +207,7 @@ const Navbar = () => {
                 size="icon"
                 aria-label="Ouvrir le menu"
                 className={`h-11 w-11 transition-transform duration-300 active:scale-90 ${
-                  scrolled ? "text-foreground" : "text-primary-foreground"
+                  solid ? "text-foreground" : "text-primary-foreground"
                 } ${isOpen ? "rotate-90" : "rotate-0"}`}
               >
                 <Menu className="h-6 w-6" />
@@ -213,17 +215,34 @@ const Navbar = () => {
             </SheetTrigger>
             <SheetContent
               side="right"
-              className="w-[88vw] max-w-sm p-0 bg-background border-l border-border flex flex-col"
+              className="w-full sm:max-w-sm p-0 bg-muted/40 backdrop-blur-2xl border-l border-border flex flex-col [&>button]:hidden"
             >
-              <div className="flex items-center gap-2.5 px-4 h-16 border-b border-border shrink-0">
-                <img src={logo} alt="Immo Link Sénégal" className="h-9 w-9 object-contain" />
-                <span className="font-display text-base font-extrabold tracking-tight text-foreground">
-                  IMMO LINK
-                </span>
+              {/* Barre de navigation type iOS */}
+              <div
+                className="flex items-center justify-between gap-2 px-4 h-14 border-b border-border/60 bg-background/80 backdrop-blur-xl shrink-0"
+                style={{ paddingTop: "env(safe-area-inset-top)", height: "calc(3.5rem + env(safe-area-inset-top))" }}
+              >
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <img src={logo} alt="Immo Link Sénégal" className="h-9 w-9 object-contain shrink-0" />
+                  <span className="font-display text-base font-extrabold tracking-tight text-foreground truncate">
+                    IMMO LINK SÉNÉGAL
+                  </span>
+                </div>
+                <button
+                  onClick={() => setIsOpen(false)}
+                  aria-label="Fermer le menu"
+                  className="h-9 w-9 shrink-0 rounded-full bg-foreground/8 text-foreground/70 flex items-center justify-center transition-transform active:scale-90"
+                >
+                  <X className="h-5 w-5" />
+                </button>
               </div>
 
-              <div className="flex-1 overflow-y-auto overscroll-contain px-3 py-4">
-                <div className="flex flex-col gap-1.5">
+              {/* Liste groupée façon Réglages iOS */}
+              <div className="flex-1 overflow-y-auto overscroll-contain px-4 py-5">
+                <p className="px-3 pb-2 text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
+                  Navigation
+                </p>
+                <div className="rounded-2xl bg-background shadow-[0_1px_2px_hsl(var(--foreground)/0.06)] overflow-hidden divide-y divide-border/60">
                   {navLinks.map((link, index) => {
                     const active = isLinkActive(link.to);
                     return (
@@ -232,24 +251,24 @@ const Navbar = () => {
                         to={link.to}
                         onClick={() => setIsOpen(false)}
                         aria-current={active ? "page" : undefined}
-                        className="motion-safe:animate-fade-in opacity-0 [animation-fill-mode:forwards]"
-                        style={{ animationDelay: `${120 + index * 45}ms` }}
+                        className="flex items-center gap-3 px-3 h-[52px] transition-colors active:bg-muted animate-fade-in"
+                        style={{ animationDelay: `${100 + index * 40}ms` }}
                       >
-                        <Button
-                          variant="ghost"
-                          className={`group w-full justify-start h-12 text-base rounded-lg relative overflow-hidden transition-all duration-300 active:scale-[0.98] ${
-                            active
-                              ? "font-semibold text-primary bg-primary/10 before:absolute before:left-0 before:top-2 before:bottom-2 before:w-1 before:rounded-full before:bg-primary before:origin-center motion-safe:before:animate-scale-in"
-                              : "font-medium text-foreground/85 hover:text-primary hover:bg-muted hover:translate-x-1"
+                        <span
+                          className={`h-8 w-8 rounded-[9px] flex items-center justify-center shrink-0 ${
+                            active ? "bg-primary text-primary-foreground" : "bg-primary/12 text-primary"
                           }`}
                         >
-                          <link.icon
-                            className={`h-5 w-5 mr-3 text-primary shrink-0 transition-transform duration-300 ${
-                              active ? "scale-110" : "group-hover:scale-110"
-                            }`}
-                          />
+                          <link.icon className="h-[18px] w-[18px]" />
+                        </span>
+                        <span
+                          className={`flex-1 text-[17px] ${
+                            active ? "font-semibold text-primary" : "font-medium text-foreground"
+                          }`}
+                        >
                           {link.label}
-                        </Button>
+                        </span>
+                        <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
                       </Link>
                     );
                   })}
@@ -257,32 +276,32 @@ const Navbar = () => {
               </div>
 
               <div
-                className="shrink-0 border-t border-border px-3 py-4 flex flex-col gap-2 bg-background motion-safe:animate-fade-in opacity-0 [animation-fill-mode:forwards] [animation-delay:220ms]"
+                className="shrink-0 px-4 pt-3 flex flex-col gap-2.5 bg-background/80 backdrop-blur-xl border-t border-border/60 animate-fade-in [animation-delay:220ms]"
                 style={{ paddingBottom: "calc(1rem + env(safe-area-inset-bottom))" }}
               >
-                {user ? (
-                  <Button
-                    onClick={handleLogout}
-                    variant="ghost"
-                    className="w-full justify-start h-12 text-base text-foreground/85 hover:text-destructive hover:bg-muted rounded-lg transition-all duration-300 active:scale-[0.98]"
-                  >
-                    <LogOut className="h-5 w-5 mr-3" />
-                    Déconnexion
-                  </Button>
-                ) : (
-                  <Link to="/auth" onClick={() => setIsOpen(false)}>
-                    <Button variant="outline" className="w-full h-12 rounded-xl border-primary/25 text-primary font-semibold transition-all duration-300 hover:border-primary/50 active:scale-[0.98]">
-                      Créer un compte
-                    </Button>
-                  </Link>
-                )}
-
                 <Link to="/dashboard" onClick={() => setIsOpen(false)}>
-                  <Button className="group w-full h-12 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 font-semibold transition-all duration-300 hover:shadow-[0_12px_28px_-14px_hsl(var(--primary))] active:scale-[0.98]">
+                  <Button className="group w-full h-12 rounded-2xl bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-[17px] transition-all duration-300 active:scale-[0.98]">
                     <Zap className="h-4 w-4 mr-2 transition-transform duration-300 group-hover:scale-110" />
                     Publier une annonce
                   </Button>
                 </Link>
+
+                {user ? (
+                  <Button
+                    onClick={handleLogout}
+                    variant="ghost"
+                    className="w-full h-12 rounded-2xl text-[17px] text-destructive hover:text-destructive hover:bg-destructive/10 font-medium transition-all duration-300 active:scale-[0.98]"
+                  >
+                    <LogOut className="h-5 w-5 mr-2" />
+                    Déconnexion
+                  </Button>
+                ) : (
+                  <Link to="/auth" onClick={() => setIsOpen(false)}>
+                    <Button variant="outline" className="w-full h-12 rounded-2xl border-primary/25 text-primary font-semibold text-[17px] transition-all duration-300 active:scale-[0.98]">
+                      Créer un compte
+                    </Button>
+                  </Link>
+                )}
               </div>
             </SheetContent>
           </Sheet>
