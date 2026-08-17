@@ -57,7 +57,7 @@ const Footer = () => {
           <div className="col-span-2">
             <Link to="/" className="inline-flex items-center gap-3 mb-5">
               <div className="bg-white rounded-xl p-2 shadow-soft">
-                <img src={logo.url} alt="Immo Link Sénégal" className="h-12 w-auto object-contain" />
+                <img src="/logo-immolink-senegal.png" alt="Immo Link Sénégal" className="h-12 w-auto object-contain" />
               </div>
             </Link>
             <p className="text-sm text-primary-foreground/70 max-w-sm leading-relaxed mb-6">
