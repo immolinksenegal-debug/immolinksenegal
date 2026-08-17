@@ -170,7 +170,7 @@ const AuthConfirm = () => {
       </Helmet>
 
       <div className="w-full max-w-md rounded-2xl border border-border bg-card p-8 shadow-lg">
-        <img src={logoAuth} alt="Immo Link Sénégal" className="h-14 mx-auto mb-6" />
+        <img src={logoAuth.url} alt="Immo Link Sénégal" className="h-16 w-auto mx-auto mb-6" />
 
         {status === "checking" && (
           <div className="flex flex-col items-center gap-3 py-6 text-muted-foreground">
