@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Facebook, Instagram, Linkedin, Mail, Phone, MapPin } from "lucide-react";
-import logo from "@/assets/logo-immo-link-main.png";
+import logo from "@/assets/logo-immolink-senegal.png.asset.json";
 import ShareButtons from "@/components/ShareButtons";
 
 const Footer = () => {
