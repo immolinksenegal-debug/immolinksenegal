@@ -60,7 +60,7 @@ const packs = [
     name: "Agence",
     description: "Pour les professionnels de l’immobilier.",
     monthlyPrice: 25000,
-    yearlyPrice: 240000,
+    yearlyPrice: 250000,
     icon: Building2,
     cta: "Contacter l’équipe commerciale",
     to: "/contact",

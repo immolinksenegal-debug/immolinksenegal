@@ -9,7 +9,7 @@ const corsHeaders = {
 const PACKS: Record<string, { name: string; monthly: number; yearly: number }> = {
   boost: { name: 'Boost', monthly: 2500, yearly: 24000 },
   premium: { name: 'Premium', monthly: 7500, yearly: 72000 },
-  agence: { name: 'Agence', monthly: 25000, yearly: 240000 },
+  agence: { name: 'Agence', monthly: 25000, yearly: 250000 },
 }
 
 Deno.serve(async (req) => {
