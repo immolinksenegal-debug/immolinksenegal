@@ -202,12 +202,9 @@ const Navbar = () => {
                   <Button
                     variant="ghost"
                     className={`text-sm font-medium rounded-lg transition-colors ${
-                      solid ? active
-                          ? "text-primary bg-muted font-semibold"
-                          : "text-foreground/80 hover:text-primary hover:bg-muted"
-                        : active
-                          ? "text-primary-foreground bg-primary-foreground/15 font-semibold"
-                          : "text-primary-foreground/85 hover:text-primary-foreground hover:bg-primary-foreground/10"
+                      active
+                        ? "text-primary bg-muted font-semibold"
+                        : "text-foreground/80 hover:text-primary hover:bg-muted"
                     }`}
                   >
                     {link.label}
@@ -220,10 +217,7 @@ const Navbar = () => {
               <Button
                 onClick={handleLogout}
                 variant="ghost"
-                className={`text-sm font-medium rounded-lg ${
-                  solid ? "text-foreground/80 hover:text-destructive hover:bg-muted"
-                    : "text-primary-foreground/85 hover:text-primary-foreground hover:bg-primary-foreground/10"
-                }`}
+                className="text-sm font-medium rounded-lg text-foreground/80 hover:text-destructive hover:bg-muted"
               >
                 <LogOut className="h-4 w-4 mr-2" />
                 Déconnexion
@@ -232,10 +226,7 @@ const Navbar = () => {
               <Link to="/auth">
                 <Button
                   variant="ghost"
-                  className={`text-sm font-semibold rounded-lg ${
-                    solid ? "text-primary hover:bg-muted"
-                      : "text-primary-foreground hover:bg-primary-foreground/10"
-                  }`}
+                  className="text-sm font-semibold rounded-lg text-primary hover:bg-muted"
                 >
                   Créer un compte
                 </Button>
@@ -256,9 +247,7 @@ const Navbar = () => {
                 variant="ghost"
                 size="icon"
                 aria-label="Ouvrir le menu"
-                className={`h-11 w-11 transition-transform duration-300 active:scale-90 ${
-                  solid ? "text-foreground" : "text-primary-foreground"
-                } ${isOpen ? "rotate-90" : "rotate-0"}`}
+                className={`h-11 w-11 transition-transform duration-300 active:scale-90 text-foreground ${isOpen ? "rotate-90" : "rotate-0"}`}
               >
                 <Menu className="h-6 w-6" />
               </Button>
