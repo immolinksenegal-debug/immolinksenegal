@@ -158,8 +158,8 @@ const Hero = () => {
           <div className="mt-6 flex flex-wrap items-center gap-x-10 gap-y-3">
             {stats.map((s) => (
               <div key={s.label} className="flex items-baseline gap-2">
-                <span className="font-display text-2xl sm:text-3xl font-extrabold text-accent">{s.value}</span>
-                <span className="text-sm text-primary-foreground/80">{s.label}</span>
+                <span className="font-display text-2xl sm:text-3xl font-extrabold text-primary">{s.value}</span>
+                <span className="text-sm text-foreground/70">{s.label}</span>
               </div>
             ))}
           </div>
