@@ -8,7 +8,7 @@ import { Mail, AlertTriangle, CheckCircle2, Loader2, ArrowRight, Home, LogIn } f
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
-import logoAuth from "@/assets/logo-immo-link-main.png";
+import logoAuth from "@/assets/logo-immolink-senegal.png.asset.json";
 
 const emailSchema = z.string().trim().email({ message: "Email invalide" });
 
