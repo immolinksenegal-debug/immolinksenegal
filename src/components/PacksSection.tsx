@@ -46,7 +46,7 @@ const packs = [
     name: "Premium",
     description: "Le plus choisi par les propriétaires.",
     monthlyPrice: 7500,
-    yearlyPrice: 72000,
+    yearlyPrice: 25000,
     icon: Crown,
     cta: "Choisir Premium",
     to: "/dashboard",
