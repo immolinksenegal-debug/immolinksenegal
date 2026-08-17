@@ -187,17 +187,10 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5 group">
             <img
-              src={logo}
+              src={logo.url}
               alt="Immo Link Sénégal"
-              className="h-11 w-11 md:h-14 md:w-14 object-contain transition-transform duration-300 group-hover:scale-105"
+              className="h-10 md:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
             />
-            <span
-              className={`font-display text-lg md:text-xl font-extrabold tracking-tight ${
-                solid ? "text-foreground" : "text-primary-foreground"
-              }`}
-            >
-              IMMO LINK
-            </span>
           </Link>
 
           {/* Desktop Navigation */}
