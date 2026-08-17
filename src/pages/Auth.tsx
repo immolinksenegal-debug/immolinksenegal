@@ -211,7 +211,7 @@ const Auth = () => {
         {/* Logo */}
         <Link to="/" className="flex items-center justify-center mb-6 group">
           <img
-            src={logoAuth.url}
+            src="/logo-immolink-senegal.png"
             alt="Immo Link Sénégal"
             className="h-28 w-auto object-contain transition-smooth group-hover:scale-105 drop-shadow-xl"
           />
