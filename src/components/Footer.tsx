@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { Facebook, Instagram, Linkedin, Mail, Phone, MapPin } from "lucide-react";
-import logo from "@/assets/logo-immo-link-main.png";
 import ShareButtons from "@/components/ShareButtons";
 
 const Footer = () => {
@@ -57,8 +56,9 @@ const Footer = () => {
         <div className="grid grid-cols-2 lg:grid-cols-6 gap-8 lg:gap-10">
           <div className="col-span-2">
             <Link to="/" className="inline-flex items-center gap-3 mb-5">
-              <img src={logo} alt="Immo Link Sénégal" className="h-14 w-14 object-contain" />
-              <span className="font-display text-xl font-extrabold tracking-tight">IMMO LINK</span>
+              <div className="bg-white rounded-xl p-2 shadow-soft">
+                <img src="/logo-immolink-senegal.png" alt="Immo Link Sénégal" className="h-12 w-auto object-contain" />
+              </div>
             </Link>
             <p className="text-sm text-primary-foreground/70 max-w-sm leading-relaxed mb-6">
               La marketplace immobilière qui connecte acheteurs, locataires, propriétaires et

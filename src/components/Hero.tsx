@@ -30,8 +30,8 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative min-h-[92vh] flex items-center overflow-hidden">
-      {/* Photographie immobilière plein écran */}
+    <section className="relative min-h-[92vh] flex items-center overflow-hidden bg-background">
+      {/* Photographie immobilière discrète en arrière-plan */}
       <div className="absolute inset-0 z-0">
         <picture className="w-full h-full">
           <source media="(max-width: 768px)" srcSet={heroImageMobile} />
@@ -42,26 +42,26 @@ const Hero = () => {
             className="w-full h-full object-cover object-[center_40%]"
           />
         </picture>
-        {/* Voile bleu nuit pour lisibilité premium */}
-        <div className="absolute inset-0 bg-primary/80" />
-        <div className="absolute inset-0 bg-primary/60" />
+        {/* Voile blanc pour un fond clair et lisible */}
+        <div className="absolute inset-0 bg-white/80" />
+        <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/85 to-white/70" />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 relative z-10 pt-28 pb-16">
         <div className="max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full bg-primary-foreground/10 backdrop-blur-md border border-primary-foreground/20">
-            <ShieldCheck className="w-4 h-4 text-accent" />
-            <span className="text-xs sm:text-sm font-semibold tracking-wide text-primary-foreground">
+          <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full bg-primary/10 backdrop-blur-md border border-primary/20">
+            <ShieldCheck className="w-4 h-4 text-primary" />
+            <span className="text-xs sm:text-sm font-semibold tracking-wide text-primary">
               Plateforme immobilière sécurisée — Sénégal & Afrique de l'Ouest
             </span>
           </div>
 
-          <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] text-primary-foreground">
+          <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] text-foreground">
             Trouvez le bien qui correspond à
-            <span className="text-accent"> votre projet.</span>
+            <span className="text-primary"> votre projet.</span>
           </h1>
 
-          <p className="mt-5 text-base sm:text-lg lg:text-xl text-primary-foreground/85 max-w-2xl leading-relaxed">
+          <p className="mt-5 text-base sm:text-lg lg:text-xl text-foreground/80 max-w-2xl leading-relaxed">
             Achetez, louez, vendez ou publiez votre bien immobilier sur une plateforme simple,
             moderne et sécurisée.
           </p>
@@ -158,8 +158,8 @@ const Hero = () => {
           <div className="mt-6 flex flex-wrap items-center gap-x-10 gap-y-3">
             {stats.map((s) => (
               <div key={s.label} className="flex items-baseline gap-2">
-                <span className="font-display text-2xl sm:text-3xl font-extrabold text-accent">{s.value}</span>
-                <span className="text-sm text-primary-foreground/80">{s.label}</span>
+                <span className="font-display text-2xl sm:text-3xl font-extrabold text-primary">{s.value}</span>
+                <span className="text-sm text-foreground/70">{s.label}</span>
               </div>
             ))}
           </div>

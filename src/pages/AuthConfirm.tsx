@@ -8,7 +8,6 @@ import { Mail, AlertTriangle, CheckCircle2, Loader2, ArrowRight, Home, LogIn } f
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
-import logoAuth from "@/assets/logo-immo-link-main.png";
 
 const emailSchema = z.string().trim().email({ message: "Email invalide" });
 
@@ -170,7 +169,7 @@ const AuthConfirm = () => {
       </Helmet>
 
       <div className="w-full max-w-md rounded-2xl border border-border bg-card p-8 shadow-lg">
-        <img src={logoAuth} alt="Immo Link Sénégal" className="h-14 mx-auto mb-6" />
+        <img src="/logo-immolink-senegal.png" alt="Immo Link Sénégal" className="h-16 w-auto mx-auto mb-6" />
 
         {status === "checking" && (
           <div className="flex flex-col items-center gap-3 py-6 text-muted-foreground">

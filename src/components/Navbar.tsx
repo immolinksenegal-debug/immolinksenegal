@@ -1,7 +1,6 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Home, PlusCircle, User, Menu, LogOut, Building2, Calculator, Newspaper, Shield, Zap, X, ChevronRight } from "lucide-react";
-import logo from "@/assets/logo-immo-link-main.png";
 import { useState, useEffect, useRef } from "react";
 import {
   Sheet,
@@ -187,17 +186,10 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5 group">
             <img
-              src={logo}
+              src="/logo-immolink-senegal.png"
               alt="Immo Link Sénégal"
-              className="h-11 w-11 md:h-14 md:w-14 object-contain transition-transform duration-300 group-hover:scale-105"
+              className="h-10 md:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
             />
-            <span
-              className={`font-display text-lg md:text-xl font-extrabold tracking-tight ${
-                solid ? "text-foreground" : "text-primary-foreground"
-              }`}
-            >
-              IMMO LINK
-            </span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -209,12 +201,9 @@ const Navbar = () => {
                   <Button
                     variant="ghost"
                     className={`text-sm font-medium rounded-lg transition-colors ${
-                      solid ? active
-                          ? "text-primary bg-muted font-semibold"
-                          : "text-foreground/80 hover:text-primary hover:bg-muted"
-                        : active
-                          ? "text-primary-foreground bg-primary-foreground/15 font-semibold"
-                          : "text-primary-foreground/85 hover:text-primary-foreground hover:bg-primary-foreground/10"
+                      active
+                        ? "text-primary bg-muted font-semibold"
+                        : "text-foreground/80 hover:text-primary hover:bg-muted"
                     }`}
                   >
                     {link.label}
@@ -227,10 +216,7 @@ const Navbar = () => {
               <Button
                 onClick={handleLogout}
                 variant="ghost"
-                className={`text-sm font-medium rounded-lg ${
-                  solid ? "text-foreground/80 hover:text-destructive hover:bg-muted"
-                    : "text-primary-foreground/85 hover:text-primary-foreground hover:bg-primary-foreground/10"
-                }`}
+                className="text-sm font-medium rounded-lg text-foreground/80 hover:text-destructive hover:bg-muted"
               >
                 <LogOut className="h-4 w-4 mr-2" />
                 Déconnexion
@@ -239,10 +225,7 @@ const Navbar = () => {
               <Link to="/auth">
                 <Button
                   variant="ghost"
-                  className={`text-sm font-semibold rounded-lg ${
-                    solid ? "text-primary hover:bg-muted"
-                      : "text-primary-foreground hover:bg-primary-foreground/10"
-                  }`}
+                  className="text-sm font-semibold rounded-lg text-primary hover:bg-muted"
                 >
                   Créer un compte
                 </Button>
@@ -263,9 +246,7 @@ const Navbar = () => {
                 variant="ghost"
                 size="icon"
                 aria-label="Ouvrir le menu"
-                className={`h-11 w-11 transition-transform duration-300 active:scale-90 ${
-                  solid ? "text-foreground" : "text-primary-foreground"
-                } ${isOpen ? "rotate-90" : "rotate-0"}`}
+                className={`h-11 w-11 transition-transform duration-300 active:scale-90 text-foreground ${isOpen ? "rotate-90" : "rotate-0"}`}
               >
                 <Menu className="h-6 w-6" />
               </Button>
@@ -293,10 +274,7 @@ const Navbar = () => {
                 style={{ paddingTop: "env(safe-area-inset-top)", height: "calc(3.5rem + env(safe-area-inset-top))" }}
               >
                 <div className="flex items-center gap-2.5 min-w-0">
-                  <img src={logo} alt="Immo Link Sénégal" className="h-9 w-9 object-contain shrink-0" />
-                  <span className="font-display text-base font-extrabold tracking-tight text-foreground truncate">
-                    IMMO LINK SÉNÉGAL
-                  </span>
+                  <img src="/logo-immolink-senegal.png" alt="Immo Link Sénégal" className="h-9 w-auto object-contain shrink-0" />
                 </div>
                 <button
                   onClick={() => setIsOpen(false)}
