@@ -186,7 +186,7 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5 group">
             <img
-              src={logo.url}
+              src="/logo-immolink-senegal.png"
               alt="Immo Link Sénégal"
               className="h-10 md:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
             />
