@@ -286,10 +286,7 @@ const Navbar = () => {
                 style={{ paddingTop: "env(safe-area-inset-top)", height: "calc(3.5rem + env(safe-area-inset-top))" }}
               >
                 <div className="flex items-center gap-2.5 min-w-0">
-                  <img src={logo} alt="Immo Link Sénégal" className="h-9 w-9 object-contain shrink-0" />
-                  <span className="font-display text-base font-extrabold tracking-tight text-foreground truncate">
-                    IMMO LINK SÉNÉGAL
-                  </span>
+                  <img src={logo.url} alt="Immo Link Sénégal" className="h-9 w-auto object-contain shrink-0" />
                 </div>
                 <button
                   onClick={() => setIsOpen(false)}
