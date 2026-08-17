@@ -1,7 +1,6 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Home, PlusCircle, User, Menu, LogOut, Building2, Calculator, Newspaper, Shield, Zap, X, ChevronRight } from "lucide-react";
-import logo from "@/assets/logo-immolink-senegal.png.asset.json";
 import { useState, useEffect, useRef } from "react";
 import {
   Sheet,
