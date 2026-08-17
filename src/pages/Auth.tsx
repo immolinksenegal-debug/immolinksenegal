@@ -8,7 +8,6 @@ import { Mail, Lock, User } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
-import logoAuth from "@/assets/logo-immolink-senegal.png.asset.json";
 import SEOHead from "@/components/SEOHead";
 
 
