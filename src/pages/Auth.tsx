@@ -199,13 +199,12 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-primary/20 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-background relative overflow-hidden">
       <SEOHead title="Connexion et inscription" description="Connectez-vous ou créez votre compte Immo Link Sénégal." noindex />
 
-      {/* Decorative brand tints */}
-      <div className="absolute inset-0 bg-transparent opacity-90 pointer-events-none"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,hsl(var(--primary)/0.15),transparent_60%)] pointer-events-none"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,hsl(var(--accent)/0.12),transparent_55%)] pointer-events-none"></div>
+      {/* Subtle white background with soft brand accents */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,hsl(var(--primary)/0.05),transparent_60%)] pointer-events-none"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,hsl(var(--accent)/0.04),transparent_55%)] pointer-events-none"></div>
 
       <div className="w-full max-w-md relative z-10 animate-scale-in">
         {/* Logo */}
