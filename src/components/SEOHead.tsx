@@ -83,7 +83,7 @@ const SEOHead = ({
     "name": "Immo Link Sénégal",
     "description": truncatedDescription,
     "url": siteUrl,
-    "logo": `${siteUrl}/logo-immo-link-main.png`,
+    "logo": "https://immolinksenegal.com/__l5e/assets-v1/d4f25d71-a91f-4cb3-9b08-3e78fb4c0d83/logo-immolink-senegal.png",
     "image": fullImage,
     "priceRange": "$$",
     "telephone": "+221 XX XXX XX XX",
