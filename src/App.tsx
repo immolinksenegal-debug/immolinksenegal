@@ -12,6 +12,7 @@ import Auth from "./pages/Auth";
 import AuthConfirm from "./pages/AuthConfirm";
 import Dashboard from "./pages/Dashboard";
 import PackCheckout from "./pages/PackCheckout";
+import PremiumSpace from "./pages/PremiumSpace";
 import FreeEstimation from "./pages/FreeEstimation";
 import EstimationManagement from "./pages/EstimationManagement";
 import UserManagement from "./pages/UserManagement";
@@ -46,6 +47,7 @@ const App = () => (
           <Route path="/auth/confirm" element={<AuthConfirm />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/checkout" element={<PackCheckout />} />
+          <Route path="/premium" element={<PremiumSpace />} />
           <Route path="/preferences-notifications" element={<NotificationPreferences />} />
           <Route path="/estimation-gratuite" element={<FreeEstimation />} />
           <Route path="/admin" element={<AdminDashboard />} />
