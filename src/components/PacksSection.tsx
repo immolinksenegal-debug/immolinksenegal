@@ -32,7 +32,7 @@ const packs = [
     name: "Boost",
     description: "Pour vendre ou louer rapidement.",
     monthlyPrice: 12500,
-    yearlyPrice: 132000,
+    yearlyPrice: 250000,
     icon: Zap,
     cta: "Choisir Boost",
     to: "/dashboard",
