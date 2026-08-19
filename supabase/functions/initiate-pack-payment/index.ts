@@ -7,7 +7,7 @@ const corsHeaders = {
 
 // SECURITY: prices are defined server-side only
 const PACKS: Record<string, { name: string; monthly: number; yearly: number }> = {
-  boost: { name: 'Boost', monthly: 12500, yearly: 132000 },
+  boost: { name: 'Boost', monthly: 12500, yearly: 250000 },
   premium: { name: 'Premium', monthly: 25000, yearly: 250000 },
   agence: { name: 'Agence', monthly: 25000, yearly: 250000 },
 }
