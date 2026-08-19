@@ -32,7 +32,7 @@ const packs = [
     name: "Boost",
     description: "Pour vendre ou louer rapidement.",
     monthlyPrice: 12500,
-    yearlyPrice: 250000,
+    yearlyPrice: 132000,
     icon: Zap,
     cta: "Choisir Boost",
     to: "/dashboard",
@@ -143,11 +143,6 @@ const PacksSection = () => {
                 aria-pressed={billing === option.value}
               >
                 {option.label}
-                {option.value === "yearly" && (
-                  <span className="ml-2 hidden sm:inline-block text-[10px] uppercase tracking-wider bg-secondary/10 text-secondary px-2 py-0.5 rounded-full">
-                    -20%
-                  </span>
-                )}
               </button>
             ))}
           </div>
